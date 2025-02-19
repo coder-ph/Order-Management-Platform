@@ -1,8 +1,13 @@
 import { useContext } from "react"
-import { GlobalContext } from "./Context"
+import React from "react"
+import {BrowserRouter, Route, Routes, Navigate} from 'react-router-dom'
+import {useSelector} from 'react-redux'
+import { selectRole, selectisAuthenticated } from "./Redux/Auth/authsSelectors"
+import Login from './Pages/LoginPage'
+
 
 function App() {
-  const {data, setData} = useContext(GlobalContext)
+  
   
   return (
     <>
