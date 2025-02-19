@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+
 const initialState = {
   user: null,
   token: null,
@@ -7,6 +8,7 @@ const initialState = {
   role: null,
   error: null,
 };
+
 
 const authSlice = createSlice({
   name: "auth",
@@ -18,6 +20,7 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.role = action.payload.role;
       state.error = null;
+
     },
     logout: (state) => {
       user = null;
@@ -26,9 +29,9 @@ const authSlice = createSlice({
       role = null;
       error = null;
     },
-    updateProfile: (state, action) => {
-      state.user = { ...state.user, ...action.payload };
-    },
+    // updateProfile: (state, action) => {
+    //   state.user = { ...state.user, ...action.payload };
+    // },
     loginFailed: (state, action) => {
       state.error = action.payload;
     },

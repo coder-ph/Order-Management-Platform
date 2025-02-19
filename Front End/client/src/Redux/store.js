@@ -1,8 +1,17 @@
-import {configureStore} from '@reduxjs/toolkit'
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./Auth/authsSlice";
 
+const rootReducer = {
+  auth: authReducer,
+};
 export const store = configureStore({
-    reducer: {},
-})
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: false,
+  })
+});
 
-export const getRootState = store.getState
-export const appDispatch = store.dispatch
+if (process.env.NODE_ENV !== "production" && module.hot) {
+  module.hot.accept("./reducers", () => store.replaceReducer(rootReducer));
+}
+export default store

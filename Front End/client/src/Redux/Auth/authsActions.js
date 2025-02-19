@@ -1,9 +1,11 @@
 import { login, loginFailed } from "./authsSlice";
 
-// import {route} from '../../routes'
+// import {api} from '../../routes'
 export const loginUser = (credentials) => async (dispatch) => {
   try {
-    const res = await AudioParam.login(credentials);
+
+   
+    const res = await api.login(credentials);
 
     dispatch(login)({
       user: res.data.user,
@@ -11,12 +13,12 @@ export const loginUser = (credentials) => async (dispatch) => {
       role: res.data.role,
     });
 
-    localStorage.setItem("token", Response.data.token);
-    localStorage.setItem("token", Response.data.role);
+    localStorage.setItem("token", Response.data.token); 
+    localStorage.setItem("role", Response.data.role);
   } catch (error) {
     console.error("Login Failed", error);
 
-    if (error.response && error.response.data) {
+    if (error?.response && error?.response?.data) {
       dispatch(
         loginFailed(
           error.response.data.message || "Login failed, please try again"
