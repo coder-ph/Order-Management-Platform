@@ -99,7 +99,7 @@ const LoginForm = () => {
         </div>
 
         <div className="forgot-password-button">
-          <button type="button"><Link to ="/forgot-password">Forgot Password?</Link></button>
+          <Link to ="/forgot-password">Forgot Password?</Link>
         </div>
 
         <div className="login-button">
