@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom
 import {useSelector} from 'react-redux'
 import { selectRole, selectisAuthenticated } from "./Redux/Auth/authsSelectors"
 import Login from './Pages/LoginPage'
+import ForgotPassword from "./Pages/ForgotPassword"
 import AdminDashboard from "./Components/AdminDashboard"
 import UserDashboard from "./Components/UserDashboard"
 import DriverDashboard from "./Components/DriverDashboard"
@@ -17,6 +18,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />}/>
+        <Route path="/forgot-password" element={<ForgotPassword />}/>
 
         {isAuthenticated ? (
           <>
