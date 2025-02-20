@@ -5,5 +5,5 @@ def userTest():
     try:
         return {'message':'you reached the test user endpoint'}
     except:
-        return {'message': errorEnums.get('500')}
+        return {'message': errorEnums.get('400')}
     
