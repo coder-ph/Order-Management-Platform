@@ -85,7 +85,7 @@ const SetNewPassword = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          <button type="button" onClick={toggleConfirmPasswordVisibility}>
+          <button type="button" onClick={toggleConfirmPasswordVisibility} className="">
             {showConfirmPassword ? "👁️" : "👁️‍🗨️"}
           </button>
         </div>

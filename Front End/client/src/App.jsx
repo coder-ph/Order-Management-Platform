@@ -17,7 +17,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />}/>
+        <Route path="/login" element={<SetNewPassword />}/>
         <Route path="/forgot-password" element={<ForgotPassword />}/>
 
         {isAuthenticated ? (
