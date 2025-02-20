@@ -25,11 +25,11 @@ const authSlice = createSlice({
       state.error = null;
     },
     logout: (state) => {
-      user = null;
-      token = null;
-      isAuthenticated = false;
-      role = null;
-      error = null;
+      state.user = null;
+      state.token = null;
+      state.isAuthenticated = false;
+      state.role = null;
+      state.error = null;
     },
     updateProfile: (state, action) => {
       state.user = { ...state.user, ...action.payload };

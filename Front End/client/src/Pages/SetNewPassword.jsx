@@ -50,6 +50,11 @@ const SetNewPassword = () => {
 
   return (
     <div>
+        <div>
+            <h2>Set a New Password</h2>
+            <p>must be at least 8 characters</p>
+        </div>
+
       <form onSubmit={formik.handleSubmit}>
         <div>
           <label htmlFor="password">New Password</label>
@@ -93,6 +98,9 @@ const SetNewPassword = () => {
           </button>
         </div>
       </form>
+      <div>
+        <h4>Back to <button onClick={()=> navigate('login')}>Sign In</button></h4>
+      </div>
     </div>
   );
 };

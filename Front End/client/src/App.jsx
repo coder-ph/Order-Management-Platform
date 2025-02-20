@@ -7,48 +7,50 @@ import Login from './Pages/LoginPage'
 import AdminDashboard from "./Components/AdminDashboard"
 import UserDashboard from "./Components/UserDashboard"
 import DriverDashboard from "./Components/DriverDashboard"
+import SetNewPassword from "./Pages/SetNewPassword"
 
 function App() {
   
   const isAuthenticated = useSelector(selectisAuthenticated);
   const role = useSelector(selectRole);
   return (
-  
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />}/>
+        <Route path="/login" element={<SetNewPassword />} />
 
         {isAuthenticated ? (
           <>
-          {role === 'Admin' && (
-            <Route path="/admin/*" element={<AdminDashboard/>}/>
-          )}
-          {role === 'user' && (
-            <Route  path="/user/*" element= {<UserDashboard />}/>
-          )}
-          {role === 'driver' &&(
-            <Route path="/driver/*" element={<DriverDashboard/>}/>
-          )}
-          <Route path="*"
-          element = {
-            role === 'admin' ? (
-              <Navigate to= '/admin'/>
-            ) : role === 'user' ? (
-              <Navigate to='/user' />
-            ) : role === 'driver' ? (
-              <Navigate to='/driver' />
-            ) : (
-              <Navigate to= "/login" />
-            )
-          }
-          />
+            {role === "Admin" && (
+              <Route path="/admin/*" element={<AdminDashboard />} />
+            )}
+            {role === "user" && (
+              <Route path="/user/*" element={<UserDashboard />} />
+            )}
+            {role === "driver" && (
+              <Route path="/driver/*" element={<DriverDashboard />} />
+            )}
+            <Route
+              path="*"
+              element={
+                role === "admin" ? (
+                  <Navigate to="/admin" />
+                ) : role === "user" ? (
+                  <Navigate to="/user" />
+                ) : role === "driver" ? (
+                  <Navigate to="/driver" />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
           </>
-        ): (
-          <Route  path="*" element = {<Navigate to="/login" />}/>
+        ) : (
+          <Route path="*" element={<Navigate to="/login" />} />
         )}
       </Routes>
     </Router>
-  )
+  );
+  
 }
 
 export default App
