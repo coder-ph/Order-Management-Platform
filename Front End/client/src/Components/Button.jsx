@@ -15,12 +15,3 @@ export const GoogleButton = ({children, type = 'button', onClick,style}) => {
       </button>
   )
 }
-
-
-export const GButton = ({children, type = 'button', onClick,style}) => {
-  return (
-      <button type={type} onClick={onClick} style={style} className="google-button" >
-        {children}
-      </button>
-  )
-}
