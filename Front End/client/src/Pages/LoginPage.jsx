@@ -9,7 +9,7 @@ import {
   selectisAuthenticated,
   selectRole,
 } from "../Redux/Auth/authsSelectors";
-
+import coverImage from "../assets/Images/inventory-control.avif";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -32,11 +32,11 @@ const LoginForm = () => {
         .required("Password is required"),
     }),
     onSubmit: (values) => {
-      dispatch(loginUser(values)); // Dispatch login action with Formik values
+      dispatch(loginUser(values)); 
     },
   });
 
-  // Redirect based on role after successful login
+  
   useEffect(() => {
     if (isAuthenticated) {
       if (role === "admin") {
@@ -54,7 +54,7 @@ const LoginForm = () => {
   <div className="login-left-side">
     <h1>The Optimal Order Management System</h1>
     <p>Manage your orders with ease</p>
-    {/* <img src={coverImage} alt="cover illustration" /> */}
+    <img src={coverImage} alt="cover illustration" />
   </div>
   <div className="login-right-side">
     <h2>Welcome Back!</h2>
