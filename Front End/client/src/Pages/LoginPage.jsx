@@ -10,7 +10,11 @@ import {
   selectRole,
 } from "../Redux/Auth/authsSelectors";
 import coverImage from "../assets/Images/inventory-control.avif";
+
+import "../assets/styles/LoginPage.css"
+
 import { logout } from "../Redux/Auth/authsSlice";
+
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -56,7 +60,7 @@ const LoginForm = () => {
   <div className="login-left-side">
     <h1>The Optimal Order Management System</h1>
     <p>Manage your orders with ease</p>
-    <img src={coverImage} alt="cover illustration" />
+    <img src={coverImage} alt="cover illustration" className="cover-image" />
   </div>
   <div className="login-right-side">
     <h2>Welcome Back!</h2>
@@ -100,7 +104,7 @@ const LoginForm = () => {
         </div>
 
         <div className="forgot-password-button">
-          <button type="button"><Link to ="/forgot-password">Forgot Password?</Link></button>
+          <Link to ="/forgot-password">Forgot Password?</Link>
         </div>
 
         <div className="login-button">
