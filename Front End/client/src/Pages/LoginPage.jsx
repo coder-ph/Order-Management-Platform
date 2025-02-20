@@ -10,7 +10,6 @@ import {
   selectRole,
 } from "../Redux/Auth/authsSelectors";
 import coverImage from "../assets/Images/inventory-control.avif";
-
 import "../assets/styles/LoginPage.css"
 
 import { logout } from "../Redux/Auth/authsSlice";
