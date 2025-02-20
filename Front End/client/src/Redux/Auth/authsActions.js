@@ -1,4 +1,4 @@
-import { login, loginFailed } from "./authsSlice";
+import { login, loginFailed, updatePasswordSuccess, updatePasswordFailure } from "./authsSlice";
 
 // import {api} from '../../routes'
 export const loginUser = (credentials) => async (dispatch) => {
@@ -30,3 +30,11 @@ export const loginUser = (credentials) => async (dispatch) => {
     }
   }
 };
+
+export const updatePassword = (newPassword) => async (dispatch) => {
+  try {
+    const res = await api.updatePassword(newPassword)
+
+    dispatch(upda)
+  }
+}

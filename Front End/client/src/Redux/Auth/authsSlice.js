@@ -7,6 +7,11 @@ const initialState = {
   isAuthenticated: false,
   role: null,
   error: null,
+  passwordUpdate: {
+    loading: false,
+    success: false,
+    message: false,
+  }
 };
 
 
@@ -29,12 +34,17 @@ const authSlice = createSlice({
       role = null;
       error = null;
     },
-    // updateProfile: (state, action) => {
-    //   state.user = { ...state.user, ...action.payload };
-    // },
+    updateProfile: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+    },
     loginFailed: (state, action) => {
       state.error = action.payload;
     },
+    updatePasswordSuccess:((action, action)=>{
+      state.passwordUpdate.loading = false,
+      state.passwordUpdate.success = true,
+      state.passwordUpdate.message = action.payload;
+    })
   },
 });
 

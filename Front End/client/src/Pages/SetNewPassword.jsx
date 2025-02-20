@@ -10,7 +10,7 @@ const SetNewPassword = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuthenticated = useSelector(selectisAuthenticated);
-  const [password, setShowPassword] = useState(fasle);
+  const [showPassword, setShowPassword] = useState(fasle);
 
   const [showConfirmPassword, setShowConfirmPassword] = useState(fasle);
 
@@ -27,8 +27,65 @@ const SetNewPassword = () => {
         .oneOf([Yup.ref("password"), null], "password must match")
         .required("Confirm password is required"),
     }),
+    onSubmit: (values) => {
+      dispatch(updatePassword(values.password));
+      navigate("/login"); //we'll decide on which page should a user be directed to
+    },
   });
-  return <div></div>;
+  const togglePasswordVisibility = () => {
+    setShowPassword(showPassword);
+  };
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(showConfirmPassword);
+  };
+
+  return (
+    <div>
+      <form onSubmit={formik.handleSubmit}>
+        <div>
+          <label htmlFor="password">New Password</label>
+          <input
+            type={showPassword ? "text" : "password"}
+            id="password"
+            name="password"
+            placeholder="Enter new password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          <button type="button" onClick={togglePasswordVisibility}>
+            {showPassword ? "👁️" : "👁️‍🗨️"}
+          </button>
+        </div>
+        {formik.touched.password && formik.errors.password ? (
+          <div>{formik.errors.password}</div>
+        ) : null}
+        <div>
+          <label htmlFor="confirmPassword"> Confirm Password</label>
+          <input
+            type={showConfirmPassword ? "text" : "password"}
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={formik.values.confirmPassword}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          <button type="button" onClick={toggleConfirmPasswordVisibility}>
+            {showConfirmPassword ? "👁️" : "👁️‍🗨️"}
+          </button>
+        </div>
+        {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+          <div style={{ color: "red" }}>{formik.errors.confirmPassword}</div>
+        ) : null}
+        <div>
+          <button type="submit" disabled={formik.isSubmitting}>
+            Change Password
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 };
 
 export default SetNewPassword;
