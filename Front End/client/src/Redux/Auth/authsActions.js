@@ -1,4 +1,4 @@
-import { login, loginFailed, updatePasswordSuccess, updatePasswordFailure } from "./authsSlice";
+import { login, loginFailed, updatePasswordSuccess, updatePasswordFailure, resetPasswordUpdateState } from "./authsSlice";
 
 // import {api} from '../../routes'
 export const loginUser = (credentials) => async (dispatch) => {
@@ -33,8 +33,26 @@ export const loginUser = (credentials) => async (dispatch) => {
 
 export const updatePassword = (newPassword) => async (dispatch) => {
   try {
+    dispatch(resetPasswordUpdateState())
     const res = await api.updatePassword(newPassword)
 
-    dispatch(upda)
+    dispatch(updatePasswordSuccess({
+      message: res.data.message
+    }))
+    localStorage.setItem('token', res.data.token)
+  } catch (error){
+    console.error('password update failed', error);
+
+    if(error?.response && error?.response?.data) {
+      dispatch(updatePasswordFailure(
+        error.response.data.message  || 'password update failed, Please try again'
+      ))
+    } else {
+      dispatch(
+        updatePasswordFailure(
+          "An unexpected error occurred while updating the password. Please try again"
+        )
+      );
+    }
   }
 }

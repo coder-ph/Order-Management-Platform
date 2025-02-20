@@ -10,6 +10,7 @@ import {
   selectRole,
 } from "../Redux/Auth/authsSelectors";
 import coverImage from "../assets/Images/inventory-control.avif";
+import { logout } from "../Redux/Auth/authsSlice";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ const LoginForm = () => {
         navigate("/driver");
       }
     }
+    dispatch(logout())
   }, [isAuthenticated, role, navigate]);
 
   return (

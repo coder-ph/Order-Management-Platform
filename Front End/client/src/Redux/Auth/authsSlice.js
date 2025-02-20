@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const initialState = {
   user: null,
   token: null,
@@ -11,9 +10,8 @@ const initialState = {
     loading: false,
     success: false,
     message: false,
-  }
+  },
 };
-
 
 const authSlice = createSlice({
   name: "auth",
@@ -25,7 +23,6 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.role = action.payload.role;
       state.error = null;
-
     },
     logout: (state) => {
       user = null;
@@ -40,14 +37,31 @@ const authSlice = createSlice({
     loginFailed: (state, action) => {
       state.error = action.payload;
     },
-    updatePasswordSuccess:((action, action)=>{
-      state.passwordUpdate.loading = false,
-      state.passwordUpdate.success = true,
+    updatePasswordSuccess: (state, action) => {
+      state.passwordUpdate.loading = false;
+      state.passwordUpdate.success = true;
       state.passwordUpdate.message = action.payload;
-    })
+    },
+    updatePasswordFailure: (state, action) => {
+      state.passwordUpdate.loading = false;
+      state.passwordUpdate.success = false;
+      state.passwordUpdate.message = action.payload;
+    },
+    resetPasswordUpdateState: (state) => {
+      state.passwordUpdate.loading = false;
+      state.passwordUpdate.success = true;
+      state.passwordUpdate.message = action.payload;
+    },
   },
 });
 
-
-export const { login, logout, updateProfile, loginFailed } = authSlice.actions;
+export const {
+  login,
+  logout,
+  updateProfile,
+  loginFailed,
+  updatePasswordFailure,
+  updatePasswordSuccess,
+  resetPasswordUpdateState,
+} = authSlice.actions;
 export default authSlice.reducer;
