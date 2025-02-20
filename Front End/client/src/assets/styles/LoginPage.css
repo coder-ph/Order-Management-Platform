@@ -1,0 +1,127 @@
+.login-container {
+    display: flex;
+    height: 100vh;
+}
+.login-left-section {
+    width: 33%;
+    background-color: #79796A;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.login-left-section h1 {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px; 
+}
+.login-left-section p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+.cover-image {
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.login-right-side {
+    width: 67%;
+    background-color: #DAD7CD;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.login-right-side h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.login-divider {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+    color: #C3C3C3;
+}
+.login-divider hr {
+    flex-grow: 1;
+    border: 0.5px solid #C3C3C3;
+}
+.login-divider span {
+    margin: 0 0.5rem;
+}
+
+.login-form-container {
+    width: 100%;
+}
+
+.email,
+.password {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: small;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #C3C3C3;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: white;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.forgot-password-button {
+    color: transparent;
+    margin-bottom: 10px;
+}
+.forgot-password-button button a {
+    color:#79796A;
+    text-decoration: none;
+    background-color: transparent;
+}
+.forgot-password-button button a:hover {
+    text-decoration: underline;
+}
+
+.login-button button {
+    width: 100%;
+    background-color: #79796A;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.login-button button :hover {
+    background-color: #79796A;
+    color: white;
+}
+.alternative-text {
+    text-align: center;
+    margin-top: 10px;
+}
+.alternative-text a {
+    color: black;
+    text-decoration: underline;
+}
+.alternative-text a:hover {
+    text-decoration: none;
+}
