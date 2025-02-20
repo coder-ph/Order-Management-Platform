@@ -46,7 +46,7 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="Signup-container">
+    <div className="signup-container">
       <div className="signup-header">
         <h2>Create your Account</h2>
       </div>
