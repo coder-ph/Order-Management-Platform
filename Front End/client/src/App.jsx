@@ -9,6 +9,7 @@ import AdminDashboard from "./Components/AdminDashboard"
 import UserDashboard from "./Components/UserDashboard"
 import DriverDashboard from "./Components/DriverDashboard"
 import SetNewPassword from "./Pages/SetNewPassword"
+import AdminMap from "./Pages/AdminMap"
 
 function App() {
   
@@ -17,7 +18,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<SetNewPassword />}/>
+        <Route path="/login" element={<AdminMap />}/>
         <Route path="/forgot-password" element={<ForgotPassword />}/>
 
         {isAuthenticated ? (

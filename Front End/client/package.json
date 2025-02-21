@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reach/combobox": "^0.18.0",
+    "@react-google-maps/api": "^2.20.6",
     "@reduxjs/toolkit": "^2.5.1",
     "@tailwindcss/vite": "^4.0.7",
     "formik": "^2.4.6",
@@ -18,6 +20,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.2.0",
     "tailwindcss": "^4.0.7",
+    "use-places-autocomplete": "^4.0.1",
     "yup": "^1.6.1"
   },
   "devDependencies": {
