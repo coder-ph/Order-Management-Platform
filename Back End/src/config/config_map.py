@@ -8,6 +8,9 @@ class appEnvs:
 class daraja:
     DARAJA_SECRET = config('DARAJA_SECRET')
     DARAJA_TOKEN = config('DARAJA_TOKEN')
+class jwt:
+    JWT_SECRET = config("JWT_SECRET")
 class appConfig: 
     app = appEnvs
     daraja = daraja
+    jwt = jwt

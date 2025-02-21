@@ -1,0 +1,26 @@
+{
+    "super_admin":{
+        "GET":["analytics"],
+        "POST":["users/delete"],
+        "PUT":[],
+        "inherit":["admin","user", "guest"]
+    },
+    "admin":{
+        "GET":["payments/vendor"],
+        "POST":["users/delete"],
+        "PUT":[],
+        "inherit":["user", "guest"]
+    },
+    
+    "user":{
+        "GET":["orders/create"],
+        "POST":["products", "users"],
+        "inherit":["guest"]
+
+    },
+    "guest":{
+        "GET":["products", "users", "liveprobe"],
+        "inherit":[]
+
+    }
+}
