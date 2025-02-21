@@ -5,7 +5,6 @@ from src.handlers.middlewares.index import *
 from src.routers.user_routes import userRoutes
 from src.services_layer.auth.auth import *
 
-
 class LiveProbe(Resource):
     @auth_middleware
     @acl_middleware
@@ -15,7 +14,6 @@ class LiveProbe(Resource):
         except Exception as e:
             print(str(e))
             return {"error": errorEnums["500"]}, 500
-
 
 def routerSetup(api):
     api.add_resource(LiveProbe, f'{appConfig.app.BASE_URL}/liveprobe')

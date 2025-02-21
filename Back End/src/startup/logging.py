@@ -1,6 +1,7 @@
 # structure, date/time, log type, file source, log level
 import datetime
 import sys
+
 class Logger:
     def __init__(self, file = 'system'):
         self.file = file
