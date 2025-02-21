@@ -49,7 +49,7 @@ const SetNewPassword = () => {
   };
 
   return (
-    <div>
+    <div >
         <div>
             <h2>Set a New Password</h2>
             <p>must be at least 8 characters</p>
