@@ -37,13 +37,16 @@ body {
     align-items: center;
     padding: 20px;
 }
-.login-left-section h1 {
-    font-size: 24px;
+.login-left-side h1 {
+    margin-top: 0;
+    font-size: 45px;
     font-weight: bold;
-    text-align: center;
-    margin-bottom: 10px; 
+    /* text-align: center; */
+    margin-bottom: 10px;
+    padding-left: 20px; 
+    padding-top: 10px;
 }
-.login-left-section p {
+.login-left-side p {
     font-size: 16px;
     margin-bottom: 20px;
 }

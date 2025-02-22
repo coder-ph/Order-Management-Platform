@@ -60,7 +60,7 @@ const LoginForm = () => {
   return (
     <div className="login-container">
   <div className="login-left-side">
-    <h1>The Optimal Order Management System</h1>
+    <h1>The Optimal <br></br>Order <br></br>Management System</h1>
     <p>Manage your orders with ease</p>
     <img src={coverImage} alt="cover illustration" className="cover-image" />
   </div>
