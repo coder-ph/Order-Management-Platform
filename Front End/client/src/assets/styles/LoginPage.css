@@ -74,22 +74,23 @@ body {
     border-radius: 5px;
     padding: 5px 50px;
     font-family: 'Alata';
-}
+} 
 
 .google-icon {
     font-size: 16px;
-    /* margin-right: ; */
+    margin-right: 4.5px;
 }
 
 .login-divider {
     display: flex;
     align-items: center;
     margin: 1rem 0;
-    color: #C3C3C3;
+    color: black;
+    font-size: 10px;
 }
 .login-divider hr {
     flex-grow: 1;
-    border: 0.5px solid #C3C3C3;
+    border: 0.5px solid black;
 }
 .login-divider span {
     margin: 0 0.5rem;
@@ -119,6 +120,12 @@ input {
     font-size: 16px;
     background-color: white;
     /* border: #a31621; */
+}
+input::placeholder {
+    color: gray;
+    font-size: 10px;
+    font-family: 'Alata';
+    opacity: 0.9;  
 }
 
 .error-message {

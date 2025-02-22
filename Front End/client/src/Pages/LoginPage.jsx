@@ -10,7 +10,7 @@ import {
   selectRole,
 } from "../Redux/Auth/authsSelectors";
 import coverImage from "../assets/Images/delivery-man.jpg";
-import { GoogleButton } from "../Components/Buttons/Button"
+import { GoogleButton } from "../Components/Buttons/Buttons"
 import { FaGoogle } from "react-icons/fa";
 import "../assets/styles/LoginPage.css"
 
