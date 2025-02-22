@@ -15,6 +15,29 @@ class AnotherUserTest(Resource):
 
 class Authenticate(Resource):
     def get(self):
+        try:
+            data= request.json() 
+            if not data or "email" not in data or "password" not in data:
+                return jsonify({"error"})
+            
+            email = data.get("email")
+            password= data.get("password")
+
+            logger.info(f"Authentication attempt for {email}")
+            response = authenticate_user(email, password)
+
+            if "error" in response:
+                logger.warning(f"Authentication failed for {email}")
+                return jsonify(response), 401
+            
+            logger.info(f"Welcome to order management for{email}")
+            jsonify(response), 200
+            
+        except Exception as e:
+            logger.error(f"Error during authentication: {str(e)}")
+            return jsonify({"error": "Internal server error"}), 500
+
+
         ##run a login function
         #check if payload has email, has password else return 400 error
         #check if user email is valid if not valid send 400 error
