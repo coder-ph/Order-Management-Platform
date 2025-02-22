@@ -10,9 +10,10 @@ import {
   selectRole,
 } from "../Redux/Auth/authsSelectors";
 import coverImage from "../assets/Images/delivery-man.jpg";
-import { GoogleButton } from "../Components/Buttons"
+import { GoogleButton } from "../Components/Buttons/Button"
 import { FaGoogle } from "react-icons/fa";
 import "../assets/styles/LoginPage.css"
+
 
 import { logout } from "../Redux/Auth/authsSlice";
 
@@ -66,7 +67,7 @@ const LoginForm = () => {
   <div className="login-right-side">
     <h2>Welcome Back!</h2>
     <div className="google-button">
-      <GoogleButton> <FaGoogle className="google-icon"/> Sign in with Google </GoogleButton>
+      <GoogleButton className="google-press"> <FaGoogle className="google-icon"/> Sign in with Google </GoogleButton>
     </div>
     <div className="login-divider">
       <hr />
