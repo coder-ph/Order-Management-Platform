@@ -9,7 +9,9 @@ import {
   selectisAuthenticated,
   selectRole,
 } from "../Redux/Auth/authsSelectors";
-import coverImage from "../assets/Images/inventory-control.avif";
+import coverImage from "../assets/Images/delivery-man.jpg";
+import { GoogleButton } from "../Components/Buttons"
+import { FaGoogle } from "react-icons/fa";
 import "../assets/styles/LoginPage.css"
 
 import { logout } from "../Redux/Auth/authsSlice";
@@ -63,9 +65,13 @@ const LoginForm = () => {
   </div>
   <div className="login-right-side">
     <h2>Welcome Back!</h2>
+    <div className="google-button">
+      <GoogleButton> <FaGoogle className="google-icon"/> Sign in with Google </GoogleButton>
+    </div>
     <div className="login-divider">
       <hr />
         <span>or use email</span>
+      <hr />
       
     </div>
     <div className="login-form-container">
@@ -102,13 +108,13 @@ const LoginForm = () => {
           ) : null}
         </div>
 
-        <div className="forgot-password-button">
+        <div className="forgot-password">
           <Link to ="/forgot-password">Forgot Password?</Link>
         </div>
 
         <div className="login-button">
           <button type="submit">
-            {/* {isSubmitting ? "Logging in..." : "Login"} */}
+            Sign in
           </button>
         </div>
       </form>
