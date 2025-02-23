@@ -1,4 +1,4 @@
-from models.store import Store
+from models import store_model
 from client import db
 
 def create_store(storename, user_id, location_id=None):

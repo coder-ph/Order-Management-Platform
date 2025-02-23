@@ -12,6 +12,7 @@ class StoreTest(Resource):
 class Store(Resource):
     def get(self):
 
+
         ## run a store function
         # check if there is an existing store details
         # return the store details
