@@ -6,6 +6,7 @@ import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import carShipping from "../assets/icons/local_shipping_20dp_EA3323_FILL0_wght400_GRAD0_opsz20.svg";
+import AdminSidebar from "../Components/AdminSidebar";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -22,7 +23,7 @@ const vehicleIcon = new L.Icon({
   popupAnchor: [0, -40],
 });
 
-const MapComponent = () => {
+const AdminMap= () => {
   const [vehicles, setVehicles] = useState([
     {
       id: 1,
@@ -56,28 +57,40 @@ const MapComponent = () => {
   const center = vehicles.length > 0 ? vehicles[0].position : [1.2921, 36.8219];
 
   return (
-    <MapContainer
-      center={center}
-      zoom={7}
-      style={{ height: "80vh", width: "100%" }}
-    >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      {vehicles.map((vehicle) => (
-        <Marker key={vehicle.id} position={vehicle.position} icon={vehicleIcon}>
-          <Popup>
-            <div>
-              <strong>Driver Information</strong>
-              <p>Name: {vehicle.driver.name}</p>
-              <p>Phone: {vehicle.driver.phone}</p>
-            </div>
-          </Popup>
-        </Marker>
-      ))}
-    </MapContainer>
+    <div className="flex h-screen w-screen">
+      <div>
+        <AdminSidebar />
+      </div>
+      <div className="h-scren w-screen">
+        
+        <MapContainer
+          center={center}
+          zoom={7}
+          style={{ height: "100vh", width: "100%" }}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          {vehicles.map((vehicle) => (
+            <Marker
+              key={vehicle.id}
+              position={vehicle.position}
+              icon={vehicleIcon}
+            >
+              <Popup>
+                <div>
+                  <strong>Driver Information</strong>
+                  <p>Name: {vehicle.driver.name}</p>
+                  <p>Phone: {vehicle.driver.phone}</p>
+                </div>
+              </Popup>
+            </Marker>
+          ))}
+        </MapContainer>
+      </div>
+    </div>
   );
 };
 
-export default MapComponent;
+export default AdminMap;

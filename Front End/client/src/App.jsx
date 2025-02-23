@@ -10,7 +10,8 @@ import UserDashboard from "./Components/UserDashboard"
 import DriverDashboard from "./Components/DriverDashboard"
 import SetNewPassword from "./Pages/SetNewPassword"
 import AdminMap from "./Pages/AdminMap"
-import MapComponent from "./Pages/AdminMap"
+import AdminSidebar from "./Components/AdminSidebar"
+import LoginForm from "./Pages/LoginPage"
 
 function App() {
   
@@ -19,7 +20,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />}/>
+        <Route path  ='/' element={<AdminMap />}/>
+        <Route path="/login" element={<LoginForm/>}/>
         <Route path="/forgot-password" element={<ForgotPassword />}/>
         <Route path="/reset-password" element={<SetNewPassword />}/>
 

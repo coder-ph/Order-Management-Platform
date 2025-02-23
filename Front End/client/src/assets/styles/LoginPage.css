@@ -5,13 +5,15 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     height: 100vh; 
+    width: 100%;
     background-color: #fcf7f8;
-    background-image: url('../Images/fabric-background.png');
+    /* background-image: url('../Images/fabric-background.png'); */
     background-size: cover;
     font-family: 'Alata';
+    height: 100%;
 } 
 
  /* container */
