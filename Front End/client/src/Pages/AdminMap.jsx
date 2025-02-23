@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
@@ -23,24 +23,23 @@ const vehicleIcon = new L.Icon({
   popupAnchor: [0, -40],
 });
 
-const AdminMap= () => {
-  const [vehicles, setVehicles] = useState([
-    {
-      id: 1,
-      position: [0.2921, 36.8219],
-      driver: { name: "John Doe", phone: "123-456-7890" },
-    },
-    {
-      id: 2,
-      position: [1.3, 36.81],
-      driver: { name: "Jane Smith", phone: "987-654-3210" },
-    },
-  ]);
+const AdminMap = () => {
+  const [vehicles, setVehicles] = useState([]);
+  const [userLocation, setUserLocation] = useState(null);
 
-  
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation([position.coords.latitude, position.coords.longitude]);
+      },
+      (error) => {
+        console.error("Error fetching user location:", error);
+      }
+    );
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      // API call to fetch live vehicle data
       fetch("/api/vehicle-positions")
         .then((res) => res.json())
         .then((data) => {
@@ -49,20 +48,19 @@ const AdminMap= () => {
         .catch((error) =>
           console.error("Error fetching vehicle positions:", error)
         );
-    }, 10000); // update every 10 seconds
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const center = vehicles.length > 0 ? vehicles[0].position : [1.2921, 36.8219];
+  const center = userLocation || [1.2921, 36.8219];
 
   return (
     <div className="flex h-screen w-screen">
       <div>
         <AdminSidebar />
       </div>
-      <div className="h-scren w-screen">
-        
+      <div className="h-screen w-screen">
         <MapContainer
           center={center}
           zoom={7}
@@ -72,6 +70,11 @@ const AdminMap= () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
+          {userLocation && (
+            <Marker position={userLocation}>
+              <Popup>You are here</Popup>
+            </Marker>
+          )}
           {vehicles.map((vehicle) => (
             <Marker
               key={vehicle.id}

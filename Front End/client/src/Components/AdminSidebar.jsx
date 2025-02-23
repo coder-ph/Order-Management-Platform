@@ -123,7 +123,7 @@ const AdminSidebar = () => {
               className="flex items-center w-full"
             >
               <MessageCircle size={20} className="mr-2" />
-              {isExpanded && "Chat Support"}
+              {isExpanded && "Chat"}
             </Link>
           </li>
         </ul>
