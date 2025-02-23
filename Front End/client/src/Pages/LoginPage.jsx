@@ -58,6 +58,8 @@ const LoginForm = () => {
   }, [isAuthenticated, role, navigate]);
 
   return (
+    <div className="login-page"> 
+    {/* the css styling that was originally for the body will only be for the body */}
     <div className="login-container">
   <div className="login-left-side">
     <h1>The Optimal <br></br>Order <br></br>Management System</h1>
@@ -126,7 +128,9 @@ const LoginForm = () => {
       </div>
     </div>
   </div>
-</div>)
+</div>
+</div>
+)
 };
 export default  LoginForm
 
