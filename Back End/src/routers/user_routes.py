@@ -16,12 +16,12 @@ class AnotherUserTest(Resource):
 class Authenticate(Resource):
     def get(self):
         try:
-            data= request.json() 
-            if not data or "email" not in data or "password" not in data:
+            payload= request.json() 
+            if not payload or "email" not in data or "password" not in payload:
                 return jsonify({"error"})
             
-            email = data.get("email")
-            password= data.get("password")
+            email = payload.get("email")
+            password= payload.get("password")
 
             logger.info(f"Authentication attempt for {email}")
             response = authenticate_user(email, password)
