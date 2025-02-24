@@ -14,6 +14,7 @@ import AdminMap from "./Pages/AdminMap"
 import AdminSidebar from "./Components/AdminSidebar"
 import LoginForm from "./Pages/LoginPage"
 import UserSidebar from "./Components/UserSidebar"
+import ProductManagement from "./Pages/ProductManagementPage"
 
 function App() {
   

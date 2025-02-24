@@ -1,28 +1,61 @@
+/* Sidebar container */
 .sidebar {
     width: 260px;
     height: 100vh;
-    background-color: #313f2f;
+    background-color: #313f2f; 
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    position: relative;
+    position: static;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    transition: width 0.3s ease;
+}
+.sidebar.minimized {
+    width: 0px; 
+}
+.sidebar-header, .sidebar-nav, .sidebar-footer {
+    display: none; 
+}
+.toggle-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    transition: color 0.2s ease;
+}
+.toggle-btn:hover {
+    color: #a3b18a; 
+}
+show only when expanded */
+.sidebar.expanded .sidebar-header,
+.sidebar.expanded .sidebar-nav,
+.sidebar.expanded .sidebar-footer {
+    display: block; /* Show stuff when expanded */
 }
 .sidebar-header {
     padding: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 .user-profile-top {
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
 }
+
 .avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
 }
-.user.info {
+.user-info {
     margin-left: 0.75rem;
 }
 .user-name {
@@ -38,6 +71,7 @@
     font-size: 1.25rem;
     font-weight: 600;
     color: #ffffff;
+    margin-top: 1rem;
 }
 .sidebar-nav {
     padding: 1rem;
@@ -68,11 +102,11 @@
     transition: all 0.2s ease;
     color: #ffffff;
 }
-.nav-item-hover {
+.nav-item:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 .nav-item-active {
-    background-color: a3b18a;
+    background-color: #a3b18a; 
     color: #ffffff;
 }
 .nav-icon {
@@ -80,6 +114,8 @@
 }
 .nav-text {
     font-size: 0.875rem;
+    display: inline-block;
+    transition: opacity 0.3s ease;
 }
 .sidebar-footer {
     padding: 1rem;
@@ -99,8 +135,9 @@
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
-    transition: background-color o.2s ease;
+    transition: background-color 0.2s ease;
 }
-.logout-button-hover {
+
+.logout-button:hover {
     background-color: rgba(255, 255, 255, 0.2);
 }

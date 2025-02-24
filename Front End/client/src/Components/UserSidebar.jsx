@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {MainButton} from '../Components/Buttons/Buttons'
 import "../assets/styles/UserSidebar.css"
 
 const Sidebar = ({activePage, userData, onLogout}) => {
+    const [minimized, setMinimized] = useState(false)
     const navigate = useNavigate()
 
     const handleNavigate = (path) => {
@@ -15,6 +16,10 @@ const Sidebar = ({activePage, userData, onLogout}) => {
             onLogout()
         }
         navigate('/login')
+    }
+
+    const toggleSidebar = () => {
+        setMinimized(prevState => !prevState)
     }
 
     const menuItems = {
@@ -33,7 +38,10 @@ const Sidebar = ({activePage, userData, onLogout}) => {
     }
 
     return (
-        <div className="sidebar">
+        <div className={`sidebar ${minimized ? 'minimised' : 'expanded'}`}>
+            <button className="toggle-btn" onClick={toggleSidebar}>
+                {minimized ? '>' : '<'}
+            </button>
             <div className="sidebar-header">
                 <div className="user-profile-top">
                     <img
@@ -49,39 +57,42 @@ const Sidebar = ({activePage, userData, onLogout}) => {
                 <h2 className="sidebar-title">My Account</h2>
             </div>
 
-            <nav className="sidebar-nav">
-                <div className="nanv-section">
-                    <h3 className="nav-title">Account Overview</h3>
-                    <ul className="nav-list">
-                        {menuItems.dashboard.map(item => (
-                            <li
-                                key={item.id}
-                                onClick={() => handleNavigate(item.id)}
-                                className={`nav-item ${activePage === item.id ? 'active' : ''}`}
-                            >
-                                <span className="nav-icon">{item.icon}</span>
-                                <span className="nav-text">{item.text}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+            {!minimized && (
+                <nav className="sidebar-nav">
+                    <div className="nav-section">
+                        <h3 className="nav-title">Account Overview</h3>
+                        <ul className="nav-list">
+                            {menuItems.dashboard.map(item => (
+                                <li
+                                    key={item.id}
+                                    onClick={() => handleNavigate(item.id)}
+                                    className={`nav-item ${activePage === item.id ? 'active' : ''}`}
+                                >
+                                    <span className="nav-icon">{item.icon}</span>
+                                    <span className="nav-text">{item.text}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
 
-                <div className="nav-section">
-                    <h3 className="nav-title">Profile Settings</h3>
-                    <ul className="nav-list">
-                        {menuItems.settings.map(item => (
-                            <li
-                                key={item.id}
-                                onClick={() => handleNavigate(item.id)}
-                                className={`nav-item ${activePage === item.id ? 'active' : ''}`}
-                            >
-                                <span className="nav-icon">{item.icon}</span>
-                                <span className="nav-text">{item.text}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </nav>
+                    <div className="nav-section">
+                        <h3 className="nav-title">Profile Settings</h3>
+                        <ul className="nav-list">
+                            {menuItems.settings.map(item => (
+                                <li
+                                    key={item.id}
+                                    onClick={() => handleNavigate(item.id)}
+                                    className={`nav-item ${activePage === item.id ? 'active' : ''}`}
+                                >
+                                    <span className="nav-icon">{item.icon}</span>
+                                    <span className="nav-text">{item.text}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </nav>
+            )}
+
             <div className="sidebar-footer">
                 <MainButton onClick={handleLogout}>
                     <span className="logout-icon">🚪</span>
