@@ -1,6 +1,8 @@
 import React from "react";
 import { MainButton, GoogleButton } from "../Components/Buttons/Buttons";
 import { useFormik } from "formik";
+import coverImage from "../assets/Images/delivery-man.jpg"
+import '../assets/styles/SignupPage.css'
 
 const SignupPage = () => {
   // Use Formik hook for form management
@@ -46,20 +48,36 @@ const SignupPage = () => {
   };
 
   return (
+    <div className="signup-page">
     <div className="signup-container">
-      <div className="signup-header">
-        <h2>Create your Account</h2>
+      <div className="signup-left-section">
+        <h1>The Optimal <br></br> Order <br></br> Management System</h1>
+        <p>Manage your orders with ease</p>
+        <img src={coverImage} alt="cover image" className="cover-image" />
       </div>
+      <div className="signup-right-section">
+        <h2>Create your Account</h2>
+        <div className="google-button">
+            <GoogleButton onClick={handleGoogleSignin}className="google-icon">
+              Sign up with Google
+            </GoogleButton>
+          </div>
 
+        <div className="signup-divider">
+          <hr />
+          <span>or use email</span>
+          <hr />
+        </div>
       <div className="signup-form-container">
         <div className="form-wrapper">
           <form onSubmit={formik.handleSubmit}>
-            <div className="input">
+            <div className="username">
               <label htmlFor="username">Username</label>
               <input
                 id="username"
                 name="username"
                 type="text"
+                placeholder="Enter username"
                 value={formik.values.username}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -70,12 +88,13 @@ const SignupPage = () => {
               )}
             </div>
 
-            <div className="input-group">
+            <div className="email">
               <label htmlFor="email">Email Address</label>
               <input
                 id="email"
                 name="email"
                 type="email"
+                placeholder="Enter your email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -86,12 +105,13 @@ const SignupPage = () => {
               )}
             </div>
 
-            <div className="input-group">
-              <label htmlFor="password"></label>
+            <div className="password">
+              <label htmlFor="password">Password</label>
               <input
                 id="password"
                 name="password"
                 type="password"
+                placeholder="Enter password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -105,18 +125,12 @@ const SignupPage = () => {
             <MainButton type="submit">Sign up</MainButton>
           </form>
 
-          <div className="divider">
-            <span>Or continue with</span>
-          </div>
-
-          <div className="google-button">
-            <GoogleButton onClick={handleGoogleSignin}className="google-icon">
-              Sign up with Google
-            </GoogleButton>
           </div>
         </div>
       </div>
+      </div>
     </div>
+    // </div>
   );
 };
 
