@@ -9,7 +9,10 @@ import {
   selectPasswordUpdateSuccess,
   selectPasswordUpdateMessage,
 } from "../Redux/Auth/authsSelectors";
+import coverImage from "../assets/Images/delivery-man.jpg"
+import '../assets/styles/SetNewPassword.css'
 import { logout } from "../Redux/Auth/authsSlice";
+import { MainButton } from "../Components/Buttons/Buttons";
 
 const SetNewPassword = () => {
   const dispatch = useDispatch();
@@ -49,14 +52,21 @@ const SetNewPassword = () => {
   };
 
   return (
-    <div >
-        <div>
+    <div className="set-new-password-page">
+    <div className="set-new-password-container">
+      <div className="set-new-left-section">
+        <h1>The Optimal<br /> Order<br /> Management System</h1>
+        <p>Manage your orders with ease</p>
+        <img src={coverImage} alt="cover image" className="cover-image" />
+      </div>
+
+        <div className="set-new-right-section">
             <h2>Set a New Password</h2>
-            <p>must be at least 8 characters</p>
-        </div>
+            <p>Must be at least 8 characters</p>
+        
 
       <form onSubmit={formik.handleSubmit}>
-        <div>
+        <div className="set-new-form">
           <label htmlFor="password">New Password</label>
           <input
             type={showPassword ? "text" : "password"}
@@ -67,14 +77,14 @@ const SetNewPassword = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          <button type="button" onClick={togglePasswordVisibility}>
+          <button type="button" onClick={togglePasswordVisibility} className="eye-button">
             {showPassword ? "👁️" : "👁️‍🗨️"}
           </button>
         </div>
         {formik.touched.password && formik.errors.password ? (
-          <div>{formik.errors.password}</div>
+          <p className="error-msg">{formik.errors.password}</p>
         ) : null}
-        <div>
+        <div className="set-new-form-pass">
           <label htmlFor="confirmPassword"> Confirm Password</label>
           <input
             type={showConfirmPassword ? "text" : "password"}
@@ -85,22 +95,24 @@ const SetNewPassword = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          <button type="button" onClick={toggleConfirmPasswordVisibility} className="">
+          <button type="button" onClick={toggleConfirmPasswordVisibility} className="eye-button">
             {showConfirmPassword ? "👁️" : "👁️‍🗨️"}
           </button>
         </div>
         {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-          <div style={{ color: "red" }}>{formik.errors.confirmPassword}</div>
+          <p className="error-msg">{formik.errors.confirmPassword}</p>
         ) : null}
         <div>
-          <button type="submit" disabled={formik.isSubmitting}>
+          <MainButton type="submit" disabled={formik.isSubmitting} style={{ marginTop:"20px"}}>
             Change Password
-          </button>
+          </MainButton>
         </div>
       </form>
-      <div>
-        <h4>Back to <button onClick={()=> navigate('login')}>Sign In</button></h4>
+      <div className="set-new-footer">
+        <h4>Back to <span onClick={()=> navigate('login')}>Sign In</span></h4>
       </div>
+      </div>
+    </div>
     </div>
   );
 };
