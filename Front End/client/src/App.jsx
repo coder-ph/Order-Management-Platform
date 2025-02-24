@@ -12,6 +12,7 @@ import SetNewPassword from "./Pages/SetNewPassword"
 import AdminMap from "./Pages/AdminMap"
 import AdminSidebar from "./Components/AdminSidebar"
 import LoginForm from "./Pages/LoginPage"
+import UserSidebar from "./Components/UserSidebar"
 
 function App() {
   
@@ -20,7 +21,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path  ='/' element={<AdminMap />}/>
+        <Route path  ='/' element={<UserSidebar />}/>
         <Route path="/login" element={<LoginForm/>}/>
         <Route path="/forgot-password" element={<ForgotPassword />}/>
         <Route path="/reset-password" element={<SetNewPassword />}/>
