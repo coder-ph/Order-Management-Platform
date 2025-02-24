@@ -9,6 +9,7 @@ import AdminDashboard from "./Components/AdminDashboard"
 import UserDashboard from "./Components/UserDashboard"
 import DriverDashboard from "./Components/DriverDashboard"
 import SetNewPassword from "./Pages/SetNewPassword"
+import SignupPage from './Pages/SignupPage'
 import AdminMap from "./Pages/AdminMap"
 import AdminSidebar from "./Components/AdminSidebar"
 import LoginForm from "./Pages/LoginPage"

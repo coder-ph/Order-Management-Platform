@@ -1,5 +1,5 @@
 import React from "react";
-import { MainButton, GoogleButton } from "../assets";
+import { MainButton, GoogleButton } from "../Components/Buttons/Buttons";
 import { useFormik } from "formik";
 
 const SignupPage = () => {
