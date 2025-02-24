@@ -1,6 +1,6 @@
-import React, {useState, useRef, useEffect} from "react";
-import {useNavigate, useLocation} from "react-router-dom"
-import { MainButton} from "../assets";
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { MainButton } from "../Components/Buttons/Buttons";
 
 const ResetPasswordPage = () => {
     const [code, setCode] = useState(['', '', '', ''])
@@ -20,7 +20,7 @@ const ResetPasswordPage = () => {
         }
 
         startResendTimer()
-    }, [location])
+    }, []) //runs only when the component mounts
 
     const startResendTimer = () => {
         setResendDisabled(true)
@@ -54,22 +54,23 @@ const ResetPasswordPage = () => {
     
     const handleChange = (e, index) => {
         const value = e.target.value
-        if (value && !/^\d{4}$/.test(value)) return
+        if (value && !/^\d{1}$/.test(value)) return //restricts input to 1 digit at a time
 
         const newCode = [...code]
+        newCode[index] = value //updates the code correctly
         setCode(newCode)
         setError('')
 
         // go to next input after typing
         if (value !== '' && index < 3) {
-            inputs.current[index + 1].focus()
+            inputs.current[index + 1]?.focus()
         }
     }
 
     const handleBackspace = (e, index) => {
         // move back after pressing backspace
         if (e.key === 'Backspace' && !code[index] && index > 0) {
-            inputs.current[index -1].focus()
+            inputs.current[index -1]?.focus()
         }
     }
 
@@ -122,7 +123,7 @@ const ResetPasswordPage = () => {
             startResendTimer()
             setCode(['', '', '', ''])
             setError('')
-            inputs.current[o].focus()
+            inputs.current[0]?.focus()
         } catch (error) {
             setError('Failed to resend the code. Please try again.')
             console.error('Resend failed:', error)
@@ -131,11 +132,13 @@ const ResetPasswordPage = () => {
         }
     }
 
-    const handleBackToSignIn = () => {
-        navigate('/resendpassword')
-    }
+    // const handleBackToSignIn = () => {
+    //     navigate('/resendpassword')
+    // } 
+    // used link instead
 
     return (
+        <div className="reset-pass-page">
         <div className="reset-pass-continer">
             <div className="reset-pass-card">
                 <div className="reset-pass-header">
@@ -146,7 +149,7 @@ const ResetPasswordPage = () => {
                     {code.map((digit, index) => (
                         <input
                           key={index}
-                          ref={el = inputs.current[index] = el}
+                          ref={(el) => (inputs.current[index] = el)} 
                           type="text"
                           maxLength={1}
                           value={digit}
@@ -176,20 +179,14 @@ const ResetPasswordPage = () => {
                   disabled={resendDisabled || submitting}
                   className={`reset-pass-resend-button ${resendDisabled || submitting ? 'disabled' : ''}`}
                 >
-                    {resendDisabled ? `Resend code in ${timer}` : 'Resend code'}
+                    {resendDisabled ? `Resend code in ${timer}s` : 'Resend code'}
                 </MainButton>
 
-                <div className="reset-pass-footer">
-                    <MainButton
-                      onClick={handleBackToSignIn}
-                      className='reset-pass-back-button'
-                      disabled={submitting}
-                    >
-                        <span>Back to</span>
-                        <span>Sign In</span>
-                    </MainButton>
+                <div className="reset-pass-footer">     
+                        <span>Back to <Link to="/signin">Sign in</Link> </span>
                 </div>
             </div>
+        </div>
         </div>
     )
 }
