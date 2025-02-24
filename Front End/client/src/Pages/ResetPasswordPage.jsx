@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { MainButton } from "../Components/Buttons/Buttons";
+import coverImage from "../assets/Images/delivery-man.jpg";
+import '../assets/styles/ResetPasswordPage.css'
 
 const ResetPasswordPage = () => {
     const [code, setCode] = useState(['', '', '', ''])
@@ -139,15 +141,20 @@ const ResetPasswordPage = () => {
 
     return (
         <div className="reset-pass-page">
-        <div className="reset-pass-continer">
-            <div className="reset-pass-card">
+        <div className="reset-pass-container">
+            <div className="reset-pass-left">
+                <h1>The Optimal<br></br> Order<br></br> Management System</h1>
+                <p>Manage your orders with ease</p>
+                <img src={coverImage} alt="cover image" className="cover-image" />
+            </div>
+            <div className="reset-pass-right">
                 <div className="reset-pass-header">
-                    <h2 className="reset-pass-subtitle">Enter Code</h2>
-                    <p className="reset-pass-subtitle">We sent a code to {email}</p>
+                    <h2>Enter Code</h2>
+                    <p className="reset-pass-subtitle">We sent a code to <span>{email}</span></p>
                 </div>
                 <div className="reset-pass-code-container">
                     {code.map((digit, index) => (
-                        <input
+                        <input 
                           key={index}
                           ref={(el) => (inputs.current[index] = el)} 
                           type="text"
@@ -169,6 +176,7 @@ const ResetPasswordPage = () => {
                   onClick={handleGetResetPassword}
                   disabled={submitting}
                   className='reset-pass-button'
+                  style={{ margin: "10px auto" }}
                 >
                     {submitting ? 'Verifying...' : 'Get Reset Password'}
                 </MainButton>
@@ -178,12 +186,13 @@ const ResetPasswordPage = () => {
                   onClick={handleResend}
                   disabled={resendDisabled || submitting}
                   className={`reset-pass-resend-button ${resendDisabled || submitting ? 'disabled' : ''}`}
+                  style={{ backgroundColor: "transparent", color: "#7e0404", border: "1px solid #7e0404" }}
                 >
                     {resendDisabled ? `Resend code in ${timer}s` : 'Resend code'}
                 </MainButton>
 
                 <div className="reset-pass-footer">     
-                        <span>Back to <Link to="/signin">Sign in</Link> </span>
+                    <Link to="/login">Back to <span>Sign in</span></Link>
                 </div>
             </div>
         </div>
