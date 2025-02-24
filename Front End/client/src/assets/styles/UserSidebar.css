@@ -1,0 +1,106 @@
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background-color: #313f2f;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.sidebar-header {
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.user-profile-top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.user.info {
+    margin-left: 0.75rem;
+}
+.user-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #ffffff;
+}
+.user-username {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+.sidebar-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+.sidebar-nav {
+    padding: 1rem;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+.nav-section {
+    margin-bottom: 1.5rem;
+}
+.nav-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 0.75rem;
+}
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    margin: 0.25rem 0;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #ffffff;
+}
+.nav-item-hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.nav-item-active {
+    background-color: a3b18a;
+    color: #ffffff;
+}
+.nav-icon {
+    margin-right: 0.75rem;
+}
+.nav-text {
+    font-size: 0.875rem;
+}
+.sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.logout-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color o.2s ease;
+}
+.logout-button-hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
