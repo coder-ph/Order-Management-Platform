@@ -1,19 +1,34 @@
 import React from "react";
-import {mainButton} from '../assets'
+import { useNavigate } from "react-router-dom";
+import {MainButton} from '../Components/Buttons/Buttons'
+import "../assets/styles/UserSidebar.css"
 
-const Sidebar = ({activePage, onNavigate, userData, onLogout}) => {
+const Sidebar = ({activePage, userData, onLogout}) => {
+    const navigate = useNavigate()
+
+    const handleNavigate = (path) => {
+        navigate(`/${path}`)
+    }
+
+    const handleLogout = () => {
+        if (onLogout) {
+            onLogout()
+        }
+        navigate('/login')
+    }
+
     const menuItems = {
         dashboard: [
-            {icon: 'home', text: 'Home', id: 'dashboard'},
-            {icon: 'cart', text: 'My Orders', id: 'my-orders'},
-            {icon: 'heart', text: 'Wishlist', id: 'wishlist'},
-            {icon: 'star', text: 'My Reviews', id: 'reviews'}
+            { icon: '🏠', text: 'Home', id: 'dashboard' },
+            { icon: '📦', text: 'My Orders', id: 'my-orders' },
+            { icon: '❤️', text: 'Wishlist', id: 'wishlist' },
+            { icon: '⭐', text: 'My Reviews', id: 'reviews' }
         ],
         settings: [
-            {icon: 'mtu', text: 'Personal Information', id: 'personal-info'},
-            {icon: 'pin', text: 'Address Management', id: 'address-management'},
-            {icon: 'card', text: 'Payment Methods', id: 'payment-methods'},
-            {icon: 'bell', text: 'Notifications', id: 'notificatios'},
+            { icon: '👤', text: 'Personal Info', id: 'personal-info' },
+            { icon: '📍', text: 'Addresses', id: 'addresses' },
+            { icon: '💳', text: 'Payment Methods', id: 'payment-methods' },
+            { icon: '🔔', text: 'Notifications', id: 'notifications' }
         ]
     }
 
@@ -27,7 +42,7 @@ const Sidebar = ({activePage, onNavigate, userData, onLogout}) => {
                         className="avatar"
                     />
                     <div className="user-info">
-                        <div className="user-name">{userData.name || 'User Name'}</div>
+                        <div className="user-name">username</div>
                         {/*<div className="user-username">{userData.username || '@username'}</div>*/}
                     </div>
                 </div>
@@ -41,7 +56,7 @@ const Sidebar = ({activePage, onNavigate, userData, onLogout}) => {
                         {menuItems.dashboard.map(item => (
                             <li
                                 key={item.id}
-                                onClick={() => onNavigate(item.id)}
+                                onClick={() => handleNavigate(item.id)}
                                 className={`nav-item ${activePage === item.id ? 'active' : ''}`}
                             >
                                 <span className="nav-icon">{item.icon}</span>
@@ -57,7 +72,7 @@ const Sidebar = ({activePage, onNavigate, userData, onLogout}) => {
                         {menuItems.settings.map(item => (
                             <li
                                 key={item.id}
-                                onClick={() => onNavigate(item.id)}
+                                onClick={() => handleNavigate(item.id)}
                                 className={`nav-item ${activePage === item.id ? 'active' : ''}`}
                             >
                                 <span className="nav-icon">{item.icon}</span>
@@ -68,10 +83,10 @@ const Sidebar = ({activePage, onNavigate, userData, onLogout}) => {
                 </div>
             </nav>
             <div className="sidebar-footer">
-                <mainButton onClick={onLogout}>
-                    <span className="logout-icon">mlango</span>
+                <MainButton onClick={handleLogout}>
+                    <span className="logout-icon">🚪</span>
                     <span>Logout</span>
-                </mainButton>
+                </MainButton>
             </div>
         </div>
     )
