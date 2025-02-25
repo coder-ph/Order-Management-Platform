@@ -29,7 +29,7 @@ function App() {
     <Router>
       <Routes>
         {/* The dashboard layout is rendered for any route starting with /dashboard */}
-        <Route path="/" element={<Sidebar />} />
+        <Route path="/dashboard/*" element={<Ap />} />
         <Route path="/" element={<Sidebar />} />
 
         {/* Other public routes */}
