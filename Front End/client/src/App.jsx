@@ -13,8 +13,7 @@ import SignupPage from './Pages/SignupPage'
 import AdminMap from "./Pages/AdminMap"
 import AdminSidebar from "./Components/AdminSidebar"
 import LoginForm from "./Pages/LoginPage"
-
-import Sidebar from "./Components/UserSidebar"
+// import UserSidebar from "./Components/UserSidebar"
 import ResetPasswordPage from "./Pages/ResetPasswordPage"
 
 import ProductManagement from "./Pages/ProductManagementPage"
@@ -33,9 +32,10 @@ function App() {
         <Route path="/" element={<ProductManagement/>} />
 
         {/* Other public routes */}
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<LoginForm />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<AdminMap />} />
+        <Route path="/reset-password" element={<SetNewPassword />} />
+        <Route path="/signup" element={<SignupPage />} />
 
         {/* Role-based private routes */}
         {isAuthenticated ? (
