@@ -30,7 +30,7 @@ function App() {
       <Routes>
         {/* The dashboard layout is rendered for any route starting with /dashboard */}
         <Route path="/dashboard/*" element={<Ap />} />
-        <Route path="/" element={<Sidebar />} />
+        <Route path="/" element={<ProductManagement/>} />
 
         {/* Other public routes */}
         <Route path="/login" element={<Login />} />
