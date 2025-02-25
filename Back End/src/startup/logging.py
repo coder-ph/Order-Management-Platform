@@ -8,7 +8,9 @@ class Logger:
         sys.excepthook = self.uncoughtExceptionsCallback
     def uncoughtExceptionsCallback(self, exe_type, exe_value, exe_traceback):
         self.error(exe_value)
-        
+        print(exe_type)
+        print(exe_traceback)
+        print(self)        
     def getDate(self):
         now = str(datetime.datetime.now()).split(".")
         return now[0]

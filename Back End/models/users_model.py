@@ -1,30 +1,38 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
-
-app = Flask(__name__)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'  
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app) 
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Integer
+from models.client import db, bcrypt  # Import Base from your async db setup
+from src.services_layer.utilities.index import hash_string, check_hash
 
 class User(db.Model):
-    __tablename__ = 'users'
-    
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True, nullable=False)
-    phonemo = db.Column(db.String(15), nullable=True)  
-    email = db.Column(db.String(100), unique=True, nullable=False)
-    password_hash = db.Column(db.String(255), nullable=False)
+    __tablename__ = "users"
 
-    def set_password(self, password):
-        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    username: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
+    phonemo: Mapped[str] = mapped_column(String(15), nullable=True)
+    email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
+    _password: Mapped[str] = mapped_column("password", String(255), nullable=False)
 
+    @property
+    def password(self):
+        raise AttributeError("Password is not readable")
+
+    @password.setter
+    def password(self, raw_password: str):
+        self._password = hash_string(raw_password)
+        
     def check_password(self, password):
-        return bcrypt.check_password_hash(self.password_hash, password)
+        print('############### reached here')
+
+        return check_hash(self._password, password)
+
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+            "phonemo": self.phonemo
+        }
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}')"
-
