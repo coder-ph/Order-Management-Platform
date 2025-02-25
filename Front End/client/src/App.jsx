@@ -28,7 +28,7 @@ function App() {
     <Router>
       <Routes>
         {/* The dashboard layout is rendered for any route starting with /dashboard */}
-        <Route path="/" element={<ProductManagement />} />
+        <Route path="/" element={<Sidebar />} />
 
         {/* Other public routes */}
         <Route path="/login" element={<Login />} />
