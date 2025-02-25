@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { MainButton } from "../assets"
+import { MainButton } from "../Components/Buttons/Buttons"
 
 const ProductManagement = () => {
     const [products, setProducts] = useState([])
@@ -40,7 +40,7 @@ const ProductManagement = () => {
                 formData.append(key, value)
             })
 
-            const res = await fetch('api/products', { method: 'POST', body: formData })//add api
+            const res = await fetch('api/products', { method: 'POST', body: formData }) //add api
 
             if (!res.ok) throw new Error('Failed to add product')
 
