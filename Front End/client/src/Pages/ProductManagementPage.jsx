@@ -56,25 +56,23 @@ const ProductManagement = () => {
                 product.id === productId ? { ...product, status: newStatus } : product
             ));
         } catch (err) {
-            setError(err.message);
+            setError(err.message)
         }
-    };
+    }
 
     const filteredProducts = products.filter(product => {
-        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesCategory = !filters.category || product.category === filters.category;
-        const matchesStatus = filters.status === '' ? true : 
-                             filters.status === 'active' ? product.status : 
-                             !product.status;
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        const matchesCategory = !filters.category || product.category === filters.category
+        const matchesStatus = filters.status === '' || product.status === filters.status
         const matchesPriceRange = !filters.priceRange || (() => {
-            const [min, max] = filters.priceRange.split('-').map(Number);
-            return product.price >= min && product.price <= max;
-        })();
+            const [min, max] = filters.priceRange.split('-').map(Number)
+            return product.price >= min && product.price <= max
+        })()
         return matchesSearch && matchesCategory && matchesStatus && matchesPriceRange;
-    });
+    })
 
     // Get unique categories for filters and dropdowns
-    const categories = [...new Set(products.map(p => p.category))];
+    const categories = [...new Set(products.map(p => p.category))]
 
     return (
         <div className="main-content">
