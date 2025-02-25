@@ -1,106 +1,121 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { MainButton } from '../Components/Buttons/Buttons'
-import "../assets/styles/UserSidebar.css"
+import React, { useState, useEffect } from "react";
+import ProductList from "../Components/ProductList";
+import ProductHeader from "../Components/ProductHeader";
+import ProductDialog from "../Components/ProductDialog";
+import FilterPopup from "../Components/ProductFilter";
+import { fetchProductsApi, addProductApi, updateProductStatusApi } from "../Components/ProductApi";
+import "../Components/Buttons/Buttons/styles/ProductManagement.css"
 
-const Sidebar = ({ activePage, userData, onLogout }) => {
-    const [minimized, setMinimized] = useState(false)
-    const navigate = useNavigate()
 
-    const handleNavigate = (path) => {
-        navigate(`/${path}`)
-    }
+const ProductManagement = () => {
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filters, setFilters] = useState({ category: '', priceRange: '', status: '' });
+    const [newProduct, setNewProduct] = useState({ name: '', category: '', price: '', stock: '', image: null })
+    // dialog and popups
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [filterOpen, setFilterOpen] = useState(false);
 
-    const handleLogout = () => {
-        if (onLogout) {
-            onLogout()
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
+    const fetchProducts = async () => {
+        try {
+            setLoading(true);
+            const data = await fetchProductsApi();
+            setProducts(data);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
         }
-        navigate('/login')
-    }
+    };
 
-    const toggleSidebar = () => {
-        setMinimized(prevState => !prevState)
-    }
+    const handleAddProduct = async (e) => {
+        e.preventDefault();
+        try {
+            setLoading(true);
+            const addedProduct = await addProductApi(newProduct);
+            setProducts([...products, addedProduct]);
+            setDialogOpen(false);
+            setNewProduct({ name: '', category: '', price: '', stock: '', image: null });
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    const menuItems = {
-        dashboard: [
-            { icon: '🏠', text: 'Home', id: 'dashboard' },
-            { icon: '📦', text: 'My Orders', id: 'my-orders' },
-            { icon: '❤️', text: 'Wishlist', id: 'wishlist' },
-            { icon: '⭐', text: 'My Reviews', id: 'reviews' }
-        ],
-        settings: [
-            { icon: '👤', text: 'Personal Info', id: 'personal-info' },
-            { icon: '📍', text: 'Addresses', id: 'addresses' },
-            { icon: '💳', text: 'Payment Methods', id: 'payment-methods' },
-            { icon: '🔔', text: 'Notifications', id: 'notifications' }
-        ]
-    }
+    const handleStatusChange = async (productId, newStatus) => {
+        try {
+            await updateProductStatusApi(productId, newStatus);
+            setProducts(products.map(product =>
+                product.id === productId ? { ...product, status: newStatus } : product
+            ));
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+    const filteredProducts = products.filter(product => {
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesCategory = !filters.category || product.category === filters.category;
+        const matchesStatus = filters.status === '' ? true : 
+                             filters.status === 'active' ? product.status : 
+                             !product.status;
+        const matchesPriceRange = !filters.priceRange || (() => {
+            const [min, max] = filters.priceRange.split('-').map(Number);
+            return product.price >= min && product.price <= max;
+        })();
+        return matchesSearch && matchesCategory && matchesStatus && matchesPriceRange;
+    });
+
+    // Get unique categories for filters and dropdowns
+    const categories = [...new Set(products.map(p => p.category))];
 
     return (
-        <div className={`sidebar ${minimized ? 'minimized' : ''}`}>
-            <button className="toggle-btn" onClick={toggleSidebar}>
-                {minimized ? '▶' : '◁'} 
-            </button>
-
-            <div className="sidebar-header">
-                <div className="user-profile-top">
-                    <img
-                        src="/api/placeholder/32/32"
-                        alt="Profile picture"
-                        className="avatar"
-                    />
-                    <div className="user-info">
-                        <div className="user-name">username</div>
-                    </div>
-                </div>
-                <h2 className="sidebar-title">My Account</h2>
-            </div>
-
-            {!minimized && (
-                <nav className="sidebar-nav">
-                    <div className="nav-section">
-                        <h3 className="nav-title">Account Overview</h3>
-                        <ul className="nav-list">
-                            {menuItems.dashboard.map(item => (
-                                <li
-                                    key={item.id}
-                                    onClick={() => handleNavigate(item.id)}
-                                    className={`nav-item ${activePage === item.id ? 'active' : ''}`}
-                                >
-                                    <span className="nav-icon">{item.icon}</span>
-                                    <span className="nav-text">{item.text}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div className="nav-section">
-                        <h3 className="nav-title">Profile Settings</h3>
-                        <ul className="nav-list">
-                            {menuItems.settings.map(item => (
-                                <li
-                                    key={item.id}
-                                    onClick={() => handleNavigate(item.id)}
-                                    className={`nav-item ${activePage === item.id ? 'active' : ''}`}
-                                >
-                                    <span className="nav-icon">{item.icon}</span>
-                                    <span className="nav-text">{item.text}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </nav>
+        <div className="main-content">
+            <ProductHeader
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                setFilterOpen={setFilterOpen}
+                filterOpen={filterOpen}
+                setDialogOpen={setDialogOpen}
+            />
+            
+            {filterOpen && (
+                <FilterPopup
+                    filters={filters}
+                    setFilters={setFilters}
+                    categories={categories}
+                />
             )}
 
-            <div className="sidebar-footer">
-                <MainButton onClick={handleLogout}>
-                    <span className="logout-icon">🚪</span>
-                    <span>Logout</span>
-                </MainButton>
-            </div>
+            {loading ? (
+                <div className="loading">Loading...</div>
+            ) : error ? (
+                <div className="error">{error}</div>
+            ) : (
+                <ProductList
+                    products={filteredProducts}
+                    handleStatusChange={handleStatusChange}
+                />
+            )}
+
+            {dialogOpen && (
+                <ProductDialog
+                    newProduct={newProduct}
+                    setNewProduct={setNewProduct}
+                    handleAddProduct={handleAddProduct}
+                    setDialogOpen={setDialogOpen}
+                    categories={categories}
+                />
+            )}
         </div>
     )
 }
 
-export default Sidebar
+export default ProductManagement;
