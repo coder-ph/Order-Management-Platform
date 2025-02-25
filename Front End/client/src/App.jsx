@@ -13,7 +13,7 @@ import SignupPage from './Pages/SignupPage'
 import AdminMap from "./Pages/AdminMap"
 import AdminSidebar from "./Components/AdminSidebar"
 import LoginForm from "./Pages/LoginPage"
-import UserSidebar from "./Components/UserSidebar"
+
 import ResetPasswordPage from "./Pages/ResetPasswordPage"
 
 import ProductManagement from "./Pages/ProductManagementPage"
@@ -33,7 +33,7 @@ function App() {
         {/* Other public routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<SetNewPassword />} />
+        <Route path="/reset-password" element={<AdminMap />} />
 
         {/* Role-based private routes */}
         {isAuthenticated ? (

@@ -94,7 +94,7 @@ const AdminSidebar = () => {
                 <img
                   alt="profile-user"
                   width="100px"
-                  height="100px"
+                  height="100%"
                   src={user}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
@@ -172,7 +172,7 @@ const AdminSidebar = () => {
             />
             <Item
               title="FAQ Page"
-              to="/faq"
+              to="dashboard/faq"
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

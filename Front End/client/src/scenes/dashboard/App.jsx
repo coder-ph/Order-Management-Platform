@@ -10,6 +10,7 @@ import Contacts from "../../scenes/contacts/Contacts";
 import AddDriver from "../../scenes/DriverForm/AddDriver";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Calender from "../Calender/Calender";
+import Faqs from "../faqs/Faqs";
 
 const Ap = () => {
   const [theme, colorMode] = useMode();
@@ -18,16 +19,16 @@ const Ap = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="h-screen w-screen bg-[#141b2d] text-white flex">
-          {/* Sidebar */}
+         
           <div className="flex flex-col">
             <AdminSidebar />
           </div>
-          {/* Main Content */}
+          
           <div className="flex-1 flex flex-col">
             <TopBar />
             <div className="flex-1 overflow-auto">
               <Routes>
-                {/* Default redirect for /dashboard */}
+               
                 <Route
                   path="/"
                   element={<Navigate to="/dashboard" replace />}
@@ -38,7 +39,7 @@ const Ap = () => {
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/form" element={<AddDriver />} />
                 <Route path="/calender" element={<Calender />}/>
-                {/* Add additional nested routes here as needed */}
+                <Route path="/faq" element={<Faqs />}/>
               </Routes>
             </div>
           </div>
