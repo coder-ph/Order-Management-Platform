@@ -20,6 +20,7 @@ import ResetPasswordPage from "./Pages/ResetPasswordPage"
 import ProductManagement from "./Pages/ProductManagementPage"
 import UserSidebar from "./Components/UserSidebar"
 import Ap from "./scenes/dashboard/App"
+import AdDashboard from "./scenes/dashboard/AdDashboard"
 
 function App() {
   const isAuthenticated = useSelector(selectisAuthenticated);

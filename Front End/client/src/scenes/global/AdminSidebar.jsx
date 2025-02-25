@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
-
+import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
@@ -19,20 +18,20 @@ import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import React from "react";
 import user from "../../../src/assets/icons/person_57dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg";
 
-
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
-    <MenuItem
-      active={selected === title}
-      style={{ color: colors.primary[400] }}
-      onClick={() => setSelected(title)}
-      icon={icon}
-    >
-      <Typography>{title}</Typography>
-      <Link to={to} />
-    </MenuItem>
+    <Link to={to} style={{ textDecoration: "none", color: "inherit" }}>
+      <MenuItem
+        active={selected === title}
+        style={{ color: colors.primary[400] }}
+        onClick={() => setSelected(title)}
+        icon={icon}
+      >
+        <Typography>{title}</Typography>
+      </MenuItem>
+    </Link>
   );
 };
 
@@ -77,10 +76,9 @@ const AdminSidebar = () => {
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                ml="15px"
               >
                 <Typography variant="h3" color={colors.primary[400]}>
-                  ADMIN
+                  LOGO
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -101,9 +99,9 @@ const AdminSidebar = () => {
               </Box>
               <Box textAlign="center">
                 <Typography
-                  variant="h2"
+                  variant="h4"
                   color={colors.primary[400]}
-                  fontWeight="bold"
+                  fontWeight="semi-bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
                   Phyl
@@ -165,14 +163,14 @@ const AdminSidebar = () => {
             />
             <Item
               title="Calendar"
-              to="dashboard/calendar"
+              to="/dashboard/calender"
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="FAQ Page"
-              to="dashboard/faq"
+              to="/dashboard/faq"
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -187,28 +185,28 @@ const AdminSidebar = () => {
             </Typography>
             <Item
               title="Bar Chart"
-              to="/bar"
+              to="/dashboard/bar"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Pie Chart"
-              to="/pie"
+              to="/dashboard/pie"
               icon={<PieChartOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Line Chart"
-              to="/line"
+              to="/dashboard/line"
               icon={<TimelineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Geography Chart"
-              to="/geography"
+              to="/dashboard/geography"
               icon={<MapOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
