@@ -130,7 +130,7 @@ const SignupPage = () => {
       </div>
       </div>
     </div>
-    // </div>
+    //</div>
   );
 };
 
