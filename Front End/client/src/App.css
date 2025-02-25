@@ -1,8 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
 #root {
   max-width:100vh;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+.content {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+::-webkit-scrollbar{
+  width: 10px;
+}
+
+::-webkit-scrollbar-track{
+  background: #e0e0e0 ;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background: #555;
 }
 
 .logo {

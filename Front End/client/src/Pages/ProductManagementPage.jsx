@@ -4,7 +4,7 @@ import ProductHeader from "../Components/ProductHeader";
 import ProductDialog from "../Components/ProductDialog";
 import FilterPopup from "../Components/ProductFilter";
 import { fetchProductsApi, addProductApi, updateProductStatusApi } from "../Components/ProductApi";
-import "../assets/styles/ProductManagement.css"
+import "../Components/Buttons/Buttons/styles/ProductManagement.css"
 
 
 const ProductManagement = () => {
