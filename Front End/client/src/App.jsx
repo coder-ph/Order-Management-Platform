@@ -17,7 +17,7 @@ import LoginForm from "./Pages/LoginPage"
 import ResetPasswordPage from "./Pages/ResetPasswordPage"
 
 import ProductManagement from "./Pages/ProductManagementPage"
-import UserSidebar from "./Components/UserSidebar"
+import sidebar from "./Components/UserSidebar"
 import Ap from "./scenes/dashboard/App"
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
     <Router>
       <Routes>
         {/* The dashboard layout is rendered for any route starting with /dashboard */}
-        <Route path="/dashboard/*" element={<Ap />} />
+        <Route path="/" element={<Sidebar />} />
 
         {/* Other public routes */}
         <Route path="/login" element={<Login />} />

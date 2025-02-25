@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-// import ProductList from "../Components/ProductList";
-// import ProductHeader from "../Components/ProductHeader";  this file is empty
-// import ProductDialog from "../Components/ProductDialog";
-// import FilterPopup from "../Components/ProductFilter";
-// import { fetchProductsApi, addProductApi, updateProductStatusApi } from "../Components/ProductApi"; this file is empty
-// import "../Components/Buttons/Buttons/styles/ProductManagement.css" confirm importation for this
+import ProductList from "../Components/ProductList";
+import ProductHeader from "../Components/ProductHeader";
+import ProductDialog from "../Components/ProductDialog";
+import FilterPopup from "../Components/ProductFilter";
+import { fetchProductsApi, addProductApi, updateProductStatusApi } from "../Components/ProductApi";
+import "../assets/styles/ProductManagement.css"
 
 
 const ProductManagement = () => {
