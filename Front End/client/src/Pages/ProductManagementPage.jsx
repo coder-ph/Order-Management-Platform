@@ -4,19 +4,32 @@ import ProductHeader from "../Components/ProductHeader";
 import ProductDialog from "../Components/ProductDialog";
 import FilterPopup from "../Components/ProductFilter";
 import { fetchProductsApi, addProductApi, updateProductStatusApi } from "../Components/ProductApi";
-import "../assets/styles/ProductManagement.css"
-
+import "../assets/styles/ProductManagement.css";
+import Sidebar from "../Components/UserSidebar"; 
 
 const ProductManagement = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [filters, setFilters] = useState({ category: '', priceRange: '', status: '' });
+    const [filters, setFilters] = useState({ category: '', priceRange: '', status: '' })
     const [newProduct, setNewProduct] = useState({ name: '', category: '', price: '', stock: '', image: null })
-    // dialog and popups
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const [filterOpen, setFilterOpen] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false)
+    const [filterOpen, setFilterOpen] = useState(false)
+    const [activePage, setActivePage] = useState("dashboard")
+
+    const userData = {
+        username: "HIM",
+        email: "him@example.com",
+        profilePicture: "him"
+    }
+
+    const handleLogout = () => {
+        // Implement your logout logic here (e.g., clear session, redirect to login)
+        console.log("Logging out...");
+        // Redirect to the login page after logging out
+        window.location.href = "/login"; // You can also use `navigate('/login')` if you're using `react-router-dom`
+    };
 
     useEffect(() => {
         fetchProducts();
@@ -56,64 +69,72 @@ const ProductManagement = () => {
                 product.id === productId ? { ...product, status: newStatus } : product
             ));
         } catch (err) {
-            setError(err.message)
+            setError(err.message);
         }
-    }
+    };
 
     const filteredProducts = products.filter(product => {
-        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase())
-        const matchesCategory = !filters.category || product.category === filters.category
-        const matchesStatus = filters.status === '' || product.status === filters.status
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesCategory = !filters.category || product.category === filters.category;
+        const matchesStatus = filters.status === '' || product.status === filters.status;
         const matchesPriceRange = !filters.priceRange || (() => {
-            const [min, max] = filters.priceRange.split('-').map(Number)
-            return product.price >= min && product.price <= max
-        })()
+            const [min, max] = filters.priceRange.split('-').map(Number);
+            return product.price >= min && product.price <= max;
+        })();
         return matchesSearch && matchesCategory && matchesStatus && matchesPriceRange;
-    })
+    });
 
-    // Get unique categories for filters and dropdowns
-    const categories = [...new Set(products.map(p => p.category))]
+    const categories = [...new Set(products.map(p => p.category))];
 
     return (
-        <div className="main-content">
-            <ProductHeader
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-                setFilterOpen={setFilterOpen}
-                filterOpen={filterOpen}
-                setDialogOpen={setDialogOpen}
+        <div className="flex">
+            {/* Sidebar Component with handleLogout passed as prop */}
+            <Sidebar
+                activePage={activePage}
+                userData={userData}
+                onLogout={handleLogout}
             />
-            
-            {filterOpen && (
-                <FilterPopup
-                    filters={filters}
-                    setFilters={setFilters}
-                    categories={categories}
-                />
-            )}
 
-            {loading ? (
-                <div className="loading">Loading...</div>
-            ) : error ? (
-                <div className="error">{error}</div>
-            ) : (
-                <ProductList
-                    products={filteredProducts}
-                    handleStatusChange={handleStatusChange}
-                />
-            )}
-
-            {dialogOpen && (
-                <ProductDialog
-                    newProduct={newProduct}
-                    setNewProduct={setNewProduct}
-                    handleAddProduct={handleAddProduct}
+            <div className="main-content flex-1 p-6">
+                <ProductHeader
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    setFilterOpen={setFilterOpen}
+                    filterOpen={filterOpen}
                     setDialogOpen={setDialogOpen}
-                    categories={categories}
                 />
-            )}
+
+                {filterOpen && (
+                    <FilterPopup
+                        filters={filters}
+                        setFilters={setFilters}
+                        categories={categories}
+                    />
+                )}
+
+                {loading ? (
+                    <div className="loading">Loading...</div>
+                ) : error ? (
+                    <div className="error">{error}</div>
+                ) : (
+                    <ProductList
+                        products={filteredProducts}
+                        handleStatusChange={handleStatusChange}
+                    />
+                )}
+
+                {dialogOpen && (
+                    <ProductDialog
+                        newProduct={newProduct}
+                        setNewProduct={setNewProduct}
+                        handleAddProduct={handleAddProduct}
+                        setDialogOpen={setDialogOpen}
+                        categories={categories}
+                    />
+                )}
+            </div>
         </div>
-    )
-}
+    );
+};
 
 export default ProductManagement;
