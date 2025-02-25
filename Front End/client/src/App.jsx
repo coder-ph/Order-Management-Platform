@@ -14,10 +14,11 @@ import AdminMap from "./Pages/AdminMap"
 import AdminSidebar from "./Components/AdminSidebar"
 import LoginForm from "./Pages/LoginPage"
 
+import Sidebar from "./Components/UserSidebar"
 import ResetPasswordPage from "./Pages/ResetPasswordPage"
 
 import ProductManagement from "./Pages/ProductManagementPage"
-import sidebar from "./Components/UserSidebar"
+import UserSidebar from "./Components/UserSidebar"
 import Ap from "./scenes/dashboard/App"
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
     <Router>
       <Routes>
         {/* The dashboard layout is rendered for any route starting with /dashboard */}
+        <Route path="/" element={<Sidebar />} />
         <Route path="/" element={<Sidebar />} />
 
         {/* Other public routes */}
