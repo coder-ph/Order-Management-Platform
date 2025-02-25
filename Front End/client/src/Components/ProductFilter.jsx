@@ -2,6 +2,8 @@ import React from "react";
 import { MainButton } from "../Components/Buttons/Button";
 
 const FilterPopup = ({ filters, setFilters, categories }) => {
+    const orderStatus = ['pending', 'accepted','rejected', 'canceled', 'assigned', 'delivered']
+
     return (
         <div className="filter-pop">
             <div className="filter-content">
@@ -40,8 +42,11 @@ const FilterPopup = ({ filters, setFilters, categories }) => {
                         onChange={(e) => setFilters({ ...filters, status: e.target.value })}
                     >
                         <option value=''>All status</option>
-                        <option value='in-review'>In-Review</option>
-                        <option value='delivered'>Delivered</option>
+                        {orderStatus.map((status) => (
+                            <option key={status} value={status}>
+                                {status.charAt(0).toUpperCase() + status.slice(1)}
+                            </option>
+                        ))}
                     </select>
                 </div>
                 <MainButton onClick={() => setFilters({ category: '', priceRange: '', status: '' })}>
