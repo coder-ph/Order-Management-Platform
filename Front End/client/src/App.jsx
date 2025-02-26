@@ -16,7 +16,7 @@ import LoginForm from "./Pages/LoginPage"
 // import UserSidebar from "./Components/UserSidebar"
 import ResetPasswordPage from "./Pages/ResetPasswordPage"
 
-import InventoryManagement from "./Pages/InventoryManagementPage"
+import ProductManagement from "./Pages/InventoryManagementPage"
 import UserSidebar from "./Components/UserSidebar"
 import LandingPage from "./Pages/LandingPage"
 import Ap from "./scenes/dashboard/App"
@@ -30,7 +30,7 @@ function App() {
     <Router>
       <Routes>
         {/* The dashboard layout is rendered for any route starting with /dashboard */}
-        <Route path="/" element={<InventoryManagement />} />
+        <Route path="/dashboard/*" element={<Ap />} />
         <Route path="/" element={<LandingPage />} />
 
         {/* Other public routes */}

@@ -8,7 +8,7 @@ import { fetchProductsApi, addProductApi, updateProductStatusApi } from "../Comp
 import "../assets/styles/ProductManagement.css";
 import Sidebar from "../Components/UserSidebar"; 
 
-const InventoryManagement = () => {
+const ProductManagement = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -137,7 +137,7 @@ const InventoryManagement = () => {
                 )}
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default InventoryManagement;
+export default ProductManagement;
