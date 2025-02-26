@@ -8,6 +8,10 @@ from src.handlers.repository.index import user_repository
 from src.startup.logging import Logger
 from src.error.index import is_bad_request, InternalServerErrors, DBSessionErrors, compile_error
 from src.services_layer.utilities.index import hash_string
+from src.services_layer.validators.index import validate_object, request_has_json
+from .artifacts import user_creation_art, user_login_art
+from src.services_layer.auth.index import authLayer
+
 logger = Logger('user controller file')
 
 def testCreation():
@@ -18,22 +22,32 @@ def testCreation():
         print(isinstance(e, DBSessionErrors))
         return compile_error(e)
         
-        
-def authenticate_user():
-    # payload = request.get_json()
-    payload = {
-        'username':'Sheasdflasdfdddldtond',
-        'email':'m.o.shdddasdfedasdflltodn@gmail.com',
-    }
-
-    # if(not payload.get("email") or not payload.get('password')):return {"error":"payload missing email or password"}, 400
-    email_is_valid = validate_email(payload['email'])
-    if not email_is_valid: return {"error":"email provided is invalid"}, 400
+@request_has_params(user_login_art)
+def authenticate_user(payload):
+    payload_is_valid, missing = validate_object(user_login_art, payload)
+    if not payload_is_valid :return {"error":"payload missing objects", "data":f"missing params: {missing}"}, 400
     try:
-        token = userService.authenticate_user(payload)
-        return {"message":"user authenticated", "data":{"token":token}}, 200
+        user = userService.authenticate_user(payload)
+        token = authLayer.signToken(user)
+        return {"message":"user authenticated", "data":{"token":token}}
     except Exception as e:
         return compile_error(e)
+
+@request_has_json(user_creation_art)
+def sign_up_user(payload):
+    payload_is_valid, missing = validate_object(user_creation_art, payload)
+    if not payload_is_valid :return {"error":"payload missing objects", "data":f"missing params: {missing}"}, 400
+    email_is_valid = validate_email(payload['email'])
+    print(payload)
+    if not email_is_valid: return {"error":"email provided is invalid"}, 400
+    try:
+        location = payload.pop('location')
+        user = userService.create_user(payload, location)
+        token = authLayer.signToken(user)
+        return {"message":"user created", "data":{"token":token}}, 200
+    except Exception as e:
+        return compile_error(e)
+    
 def get_all_users():
     try:
         
