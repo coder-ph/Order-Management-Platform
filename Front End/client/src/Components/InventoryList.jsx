@@ -22,6 +22,10 @@ const ProductList = ({ products, handleStatusChange }) => {
                 return '#9E9E9E'; // Default Gray
         }
     }
+
+    function viewproduct(){
+
+    }
     // const filteredProducts = products.filter(product => {
     //     if (!filters || !filters.status) {
     //         return true
@@ -82,7 +86,7 @@ const ProductList = ({ products, handleStatusChange }) => {
                                     </select>
                                 </td>
                                 <td>
-                                    <MainButton onClick={() => {}}>⋮</MainButton>
+                                    <MainButton onClick={() => {viewproduct}}>⋮</MainButton>
                                 </td>
                             </tr>
                         ))}
