@@ -169,7 +169,7 @@ const ResetPasswordPage = () => {
                     ))}
                 </div>
 
-                {erroSidebarr && <div className="reset-pass-error">{error}</div>}
+                {/* {erroSidebarr && <div className="reset-pass-error">{error}</div>} -causing issues with rendering*/} 
                 
                 {/*get reset password button*/}
                 <MainButton

@@ -2,9 +2,12 @@ import React from "react";
 import Navbar from "../Components/NavBar";
 import { Link } from "react-router-dom";
 import { FaFacebookF } from "react-icons/fa";
-
+import { FaInstagram } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import landingIllustration from "../assets/Images/delivery-illustration.png"
 import { MainButton } from "../Components/Buttons/Buttons";
-
+import '../assets/styles/LandingPage.css'
 
 function LandingPage () {
    return (
@@ -19,19 +22,19 @@ function LandingPage () {
                 </p>
             </div>
             <div className="button-container">
-                <MainButton>
+                <MainButton style={{padding:"10px 20px", border:"none", borderRadius:"5px", fontSize:"16px"}}>
                     <Link to="/login">LOGIN</Link>
                 </MainButton>
-                <MainButton>
+                <MainButton style={{padding:"10px 20px", border:"none", borderRadius:"30%", fontSize:"16px", letterSpacing:"1px"}}>
                     <Link to="/signup">SIGN UP</Link>
                 </MainButton>
             </div>
             <div className="image-section">
-                <img src="https://via.placeholder.com/500" alt="landing page illustration" className="landing-image" />
+                <img src={landingIllustration} alt="landing page illustration" className="landing-image" />
             </div>
 
             {/*The about section*/}
-            <section className="about-section">
+            {/* <section className="about-section">
                 <div className="about container">
                     <div className="about-content">
                         <h2>What is Order Management System?</h2>
@@ -56,10 +59,10 @@ function LandingPage () {
                         </p>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             {/*The Services section */}
-            <section className="services-section">
+            {/* <section className="services-section">
                 <div className="services container">
                     <h2>Our services</h2>
                     <p>At [Your Company Name], we provide a seamless Order Management System designed to optimize your business operations, streamline workflows, and enhance customer satisfaction. Our platform offers a range of services to help you manage orders efficiently from start to finish.</p>
@@ -81,10 +84,10 @@ function LandingPage () {
                         </div> 
                     </div>  
                 </div>
-            </section>
+            </section> */}
 
             {/*The Contacts Section*/}
-            <section className="contacts-section">
+            {/* <section className="contacts-section">
                 <div className="contacts container">
                    <h2>CONTACT US</h2>
                    <p>Let's get in touch</p>
@@ -102,10 +105,10 @@ function LandingPage () {
                     <MainButton>Send Message</MainButton>
                     </form> 
                 </div>
-            </section>
+            </section> */}
 
             {/*The Footer Section */}
-            <footer>
+            {/* <footer>
                 <div className="footer-links">
                     <div className="footer-column">
                         <a href="#">About Us</a>
@@ -118,15 +121,15 @@ function LandingPage () {
                         <a href="#">FAQs</a>
                     </div>
                     <div className="footer-column-icons">
-                        <a href="#">facebook</a>
-                        <a href="#">twitter</a>
-                        <a href="#">Linkedin</a>
-                        <a href="#">instagram</a>
+                        <a href="#"><FaFacebookF /></a>
+                        <a href="#"><FaInstagram /></a>
+                        <a href="#"><FaLinkedin /></a>
+                        <a href="#"><FaXTwitter /></a>
                     </div>
 
                 </div>
                 <p> 2025 &copy; All rights reserved</p>
-            </footer>
+            </footer> */}
         </div>
     </div>
    )
