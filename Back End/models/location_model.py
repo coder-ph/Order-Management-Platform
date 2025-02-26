@@ -1,23 +1,27 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from datetime import datetime
-
-db = SQLAlchemy()
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.sql import func
+from models.client import db
+import uuid
 
 class Location(db.Model):
     __tablename__ = 'locations'
     
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    longitude = Column(String, nullable=False)
-    latitude = Column(String, nullable=False)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=True)
-    store_id = Column(Integer, ForeignKey('stores.id'), nullable=True)
-    order_id = Column(Integer, ForeignKey('order_items.id'), nullable=True)
-    
-    user = relationship("User", back_populates="location")
-    store = relationship("Store", back_populates="location")
-    order_item = relationship("OrderItem", back_populates="location")
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
+    longitude: Mapped[str] = mapped_column(String(50),  nullable=False)
+    lattitude: Mapped[str] = mapped_column(String(50), nullable=False)
+   
+    user = relationship("User", back_populates="location", uselist=False)
   
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now())
+    updated_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
+
+    def to_dict(self):
+        return {
+            "id": str(self.id),
+            "longitude": self.longitude,
+            "lattitude": self.lattitude,
+        }

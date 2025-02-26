@@ -31,7 +31,8 @@ def commit_session(model_name=None):
         def wrapper(*args, **kwargs):
             session = db.session 
             try:
-                result = func(*args, session=session, **kwargs) 
+                result = func(*args,**kwargs) 
+                session.add(result)
                 session.commit()
                 
                 if isinstance(result, db.Model):  
@@ -55,5 +56,3 @@ def list_getter(func):
         list = func(*args, **kwargs)
         return [item.to_dict() for item in list]
     return wrapper
-
-
