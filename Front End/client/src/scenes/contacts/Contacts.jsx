@@ -42,7 +42,7 @@ const Contacts = () => {
   ];
   return (
     <Box m="20px">
-      <DasshboardHeader title="CONTACTS" subtitle="List of COntacts" />
+      <DasshboardHeader title="CONTACTS" subtitle="List of Contacts" />
       <Box
         m="40px 0 0 0"
         height="75vh"
