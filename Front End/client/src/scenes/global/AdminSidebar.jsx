@@ -15,12 +15,14 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import React from "react";
+import AddLocationAltOutlinedIcon from "@mui/icons-material/AddLocationAltOutlined";
+import LogoutIcon from "@mui/icons-material/Logout";
 import user from "../../../src/assets/icons/person_57dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   return (
     <Link to={to} style={{ textDecoration: "none", color: "inherit" }}>
       <MenuItem
@@ -42,34 +44,14 @@ const AdminSidebar = () => {
   const [selected, setSelected] = useState("Dashboard");
 
   return (
-    <Box
-      sx={{
-        "& .ps-sidebar-inner": {
-          background: `${colors.primary[400]} !important`,
-        },
-        "& .pro-icon-wrapper": {
-          backgroundColor: `${colors.primary[400]} !important`,
-        },
-        "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
-        },
-        "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#868dfb !important",
-        },
-      }}
-    >
-      <Sidebar collapsed={isCollapsed}>
+    <Box sx={{ height: "100vh", display: "flex" }}>
+      <Sidebar collapsed={isCollapsed} style={{ height: "100vh" }}>
         <Menu iconShape="square">
+          {/* Sidebar Toggle Button */}
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-            style={{
-              margin: "10px 0 20px 0 ",
-              color: colors.primary[400],
-            }}
+            style={{ margin: "5px 0 10px 0", color: colors.primary[400] }}
           >
             {!isCollapsed && (
               <Box
@@ -77,7 +59,7 @@ const AdminSidebar = () => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography variant="h3" color={colors.primary[400]}>
+                <Typography variant="h4" color={colors.primary[400]}>
                   LOGO
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
@@ -86,13 +68,15 @@ const AdminSidebar = () => {
               </Box>
             )}
           </MenuItem>
+
+          {/* User Profile */}
           {!isCollapsed && (
-            <Box mb="25px">
+            <Box mb="10px">
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
                   alt="profile-user"
                   width="100px"
-                  height="100%"
+                  height="100px"
                   src={user}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
@@ -109,7 +93,16 @@ const AdminSidebar = () => {
               </Box>
             </Box>
           )}
+
+          {/* Sidebar Menu */}
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <Item
+              title="Map"
+              to="/dashboard/map"
+              icon={<AddLocationAltOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
             <Item
               title="Dashboard"
               to="/dashboard/main"
@@ -117,6 +110,7 @@ const AdminSidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+
             <Typography
               variant="h6"
               color={colors.primary[400]}
@@ -146,6 +140,7 @@ const AdminSidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+
             <Typography
               variant="h6"
               color={colors.primary[400]}
@@ -163,7 +158,7 @@ const AdminSidebar = () => {
             />
             <Item
               title="Calendar"
-              to="/dashboard/calender"
+              to="/dashboard/calendar"
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -175,6 +170,7 @@ const AdminSidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+
             <Typography
               variant="h6"
               color={colors.primary[400]}
@@ -205,15 +201,22 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="Geography Chart"
-              to="/dashboard/geography"
-              icon={<MapOutlinedIcon />}
+              title="Log Out"
+              icon={<LogoutIcon />}
               selected={selected}
               setSelected={setSelected}
             />
           </Box>
         </Menu>
       </Sidebar>
+      <Box
+        sx={{
+          flexGrow: 1,
+          height: "100vh",
+          overflow: "auto",
+          backgroundColor: "#f4f4f4",
+        }}
+      ></Box>
     </Box>
   );
 };

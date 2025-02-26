@@ -16,6 +16,7 @@ import Pie from "../Pie";
 import Line from "../Line";
 import Geog from "../Geo";
 import AdDashboard from "./AdDashboard";
+import AdminMap from "../../Pages/AdminMap";
 
 const Ap = () => {
   const [theme, colorMode] = useMode();
@@ -47,7 +48,7 @@ const Ap = () => {
                 <Route path="/bar" element={<Bar />} />
                 <Route path="/pie" element={<Pie />} />
                 <Route path="/line" element={<Line />} />
-                <Route path="/geography" element={<Geog />} />
+                <Route path="/map" element={<AdminMap />} />
                 <Route path="/main" element={<AdDashboard />} />
               </Routes>
             </div>
