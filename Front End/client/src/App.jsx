@@ -22,6 +22,7 @@ import UserSidebar from "./Components/UserSidebar"
 import LandingPage from "./Pages/LandingPage"
 import Ap from "./scenes/dashboard/App"
 import AdDashboard from "./scenes/dashboard/AdDashboard"
+import CategorySection from "./Components/CategorySection"
 
 
 function App() {
@@ -32,7 +33,7 @@ function App() {
     <Router>
       <Routes>
         {/* The dashboard layout is rendered for any route starting with /dashboard */}
-        <Route path="/dashboard/*" element={<Ap />} />
+        <Route path="/" element={<ProductManagement />} />
         <Route path="/" element={<LandingPage />} />
        
 
