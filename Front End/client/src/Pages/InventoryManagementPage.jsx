@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ProductList from "../Components/ProductList";
 import ProductHeader from "../Components/ProductHeader";
 import ProductDialog from "../Components/ProductDialog";
@@ -7,7 +8,7 @@ import { fetchProductsApi, addProductApi, updateProductStatusApi } from "../Comp
 import "../assets/styles/ProductManagement.css";
 import Sidebar from "../Components/UserSidebar"; 
 
-const ProductManagement = () => {
+const InventoryManagement = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -21,19 +22,21 @@ const ProductManagement = () => {
     const userData = {
         username: "HIM",
         email: "him@example.com",
-        profilePicture: "him"
+        profilePicture: "pic"
     }
 
     const handleLogout = () => {
-        // Implement your logout logic here (e.g., clear session, redirect to login)
+        // Implement your logout logic here (e.g., clear session, cookies, etc.)
         console.log("Logging out...");
-        // Redirect to the login page after logging out
-        window.location.href = "/login"; // You can also use `navigate('/login')` if you're using `react-router-dom`
-    };
+
+        // Clear session or token if you're using localStorage or sessionStorage
+        localStorage.removeItem("userToken");
+        navigate("/login")
+    }
 
     useEffect(() => {
-        fetchProducts();
-    }, []);
+        fetchProducts()
+    }, [])
 
     const fetchProducts = async () => {
         try {
@@ -41,11 +44,11 @@ const ProductManagement = () => {
             const data = await fetchProductsApi();
             setProducts(data);
         } catch (err) {
-            setError(err.message);
+            setError(err.message)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
     const handleAddProduct = async (e) => {
         e.preventDefault();
@@ -54,35 +57,35 @@ const ProductManagement = () => {
             const addedProduct = await addProductApi(newProduct);
             setProducts([...products, addedProduct]);
             setDialogOpen(false);
-            setNewProduct({ name: '', category: '', price: '', stock: '', image: null });
+            setNewProduct({ name: '', category: '', price: '', stock: '', image: null })
         } catch (err) {
-            setError(err.message);
+            setError(err.message)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
     const handleStatusChange = async (productId, newStatus) => {
         try {
-            await updateProductStatusApi(productId, newStatus);
+            await updateProductStatusApi(productId, newStatus)
             setProducts(products.map(product =>
                 product.id === productId ? { ...product, status: newStatus } : product
-            ));
+            ))
         } catch (err) {
-            setError(err.message);
+            setError(err.message)
         }
-    };
+    }
 
     const filteredProducts = products.filter(product => {
-        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesCategory = !filters.category || product.category === filters.category;
-        const matchesStatus = filters.status === '' || product.status === filters.status;
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        const matchesCategory = !filters.category || product.category === filters.category
+        const matchesStatus = filters.status === '' || product.status === filters.status
         const matchesPriceRange = !filters.priceRange || (() => {
-            const [min, max] = filters.priceRange.split('-').map(Number);
-            return product.price >= min && product.price <= max;
+            const [min, max] = filters.priceRange.split('-').map(Number)
+            return product.price >= min && product.price <= max
         })();
-        return matchesSearch && matchesCategory && matchesStatus && matchesPriceRange;
-    });
+        return matchesSearch && matchesCategory && matchesStatus && matchesPriceRange
+    })
 
     const categories = [...new Set(products.map(p => p.category))];
 
@@ -137,4 +140,4 @@ const ProductManagement = () => {
     );
 };
 
-export default ProductManagement;
+export default InventoryManagement;
