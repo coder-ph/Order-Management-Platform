@@ -1,5 +1,5 @@
 import React from "react";
-import { MainButton } from "../Components/Buttons/Button";
+import { MainButton } from "./Buttons/Button";
 
 const FilterPopup = ({ filters, setFilters, categories }) => {
     const orderStatus = ['pending', 'accepted','rejected', 'canceled', 'assigned', 'delivered']

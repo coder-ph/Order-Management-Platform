@@ -15,6 +15,7 @@ import AdminSidebar from "./Components/AdminSidebar"
 import LoginForm from "./Pages/LoginPage"
 // import UserSidebar from "./Components/UserSidebar"
 import ResetPasswordPage from "./Pages/ResetPasswordPage"
+import ProductPage from "./Pages/ProductPage"
 
 import ProductManagement from "./Pages/InventoryManagementPage"
 import UserSidebar from "./Components/UserSidebar"

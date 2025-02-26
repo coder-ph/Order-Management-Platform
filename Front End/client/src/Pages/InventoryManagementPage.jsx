@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ProductList from "../Components/ProductList";
-import ProductHeader from "../Components/ProductHeader";
-import ProductDialog from "../Components/ProductDialog";
-import FilterPopup from "../Components/ProductFilter";
-import { ProductServiceAPI } from "../Components/ProductApi";
+import ProductList from "../Components/InventoryList";
+import ProductHeader from "../Components/InventoryHeader";
+import ProductDialog from "../Components/InventoryDialog";
+import FilterPopup from "../Components/InventoryFilter";
+import { ProductServiceAPI } from "../Components/InventoryApi";
 import "../assets/styles/ProductManagement.css";
 import Sidebar from "../Components/UserSidebar"; 
 
