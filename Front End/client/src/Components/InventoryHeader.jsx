@@ -1,5 +1,5 @@
 import React from "react";
-import { MainButton } from "./Buttons/Button";
+import { MainButton } from "../Components/Buttons/Button";
 import {Bell} from "lucide-react"
 
 const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen, setDialogOpen }) => {
