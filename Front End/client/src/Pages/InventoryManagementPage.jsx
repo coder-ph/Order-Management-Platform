@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import ProductList from "../Components/ProductList";
-import ProductHeader from "../Components/ProductHeader";
-import ProductDialog from "../Components/ProductDialog";
-import FilterPopup from "../Components/ProductFilter";
-import { fetchProductsApi, addProductApi, updateProductStatusApi } from "../Components/ProductApi";
+import { useNavigate } from "react-router-dom";
+import ProductList from "../Components/InventoryList";
+import ProductHeader from "../Components/InventoryHeader";
+import ProductDialog from "../Components/InventoryDialog";
+import FilterPopup from "../Components/InventoryFilter";
+import { ProductServiceAPI } from "../Components/InventoryApi";
 import "../assets/styles/ProductManagement.css";
 import Sidebar from "../Components/UserSidebar"; 
 
@@ -21,68 +22,70 @@ const ProductManagement = () => {
     const userData = {
         username: "HIM",
         email: "him@example.com",
-        profilePicture: "him"
+        profilePicture: "pic"
     }
 
     const handleLogout = () => {
-        // Implement your logout logic here (e.g., clear session, redirect to login)
+        // Implement your logout logic here (e.g., clear session, cookies, etc.)
         console.log("Logging out...");
-        // Redirect to the login page after logging out
-        window.location.href = "/login"; // You can also use `navigate('/login')` if you're using `react-router-dom`
-    };
+
+        // Clear session or token if you're using localStorage or sessionStorage
+        localStorage.removeItem("userToken");
+        navigate("/login")
+    }
 
     useEffect(() => {
-        fetchProducts();
-    }, []);
+        fetchProducts()
+    }, [])
 
     const fetchProducts = async () => {
         try {
             setLoading(true);
-            const data = await fetchProductsApi();
+            const data = await ProductServiceAPI.fetchProducts();
             setProducts(data);
         } catch (err) {
-            setError(err.message);
+            setError(err.message)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
     const handleAddProduct = async (e) => {
         e.preventDefault();
         try {
             setLoading(true);
-            const addedProduct = await addProductApi(newProduct);
+            const addedProduct = await ProductServiceAPI.addProduct(newProduct);
             setProducts([...products, addedProduct]);
             setDialogOpen(false);
-            setNewProduct({ name: '', category: '', price: '', stock: '', image: null });
+            setNewProduct({ name: '', category: '', price: '', stock: '', image: null })
         } catch (err) {
-            setError(err.message);
+            setError(err.message)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
     const handleStatusChange = async (productId, newStatus) => {
         try {
-            await updateProductStatusApi(productId, newStatus);
+            await ProductServiceAPI.updateProductStatus(productId, newStatus)
             setProducts(products.map(product =>
                 product.id === productId ? { ...product, status: newStatus } : product
-            ));
+            ))
         } catch (err) {
-            setError(err.message);
+            setError(err.message)
         }
-    };
+    }
 
     const filteredProducts = products.filter(product => {
-        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesCategory = !filters.category || product.category === filters.category;
-        const matchesStatus = filters.status === '' || product.status === filters.status;
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        const matchesCategory = !filters.category || product.category === filters.category
+        const matchesStatus = filters.status === '' || product.status === filters.status
         const matchesPriceRange = !filters.priceRange || (() => {
-            const [min, max] = filters.priceRange.split('-').map(Number);
-            return product.price >= min && product.price <= max;
+            const [min, max] = filters.priceRange.split('-').map(Number)
+            return product.price >= min && product.price <= max
         })();
-        return matchesSearch && matchesCategory && matchesStatus && matchesPriceRange;
-    });
+        return matchesSearch && matchesCategory && matchesStatus && matchesPriceRange
+    })
 
     const categories = [...new Set(products.map(p => p.category))];
 
@@ -134,7 +137,7 @@ const ProductManagement = () => {
                 )}
             </div>
         </div>
-    );
-};
+    )
+}
 
 export default ProductManagement;

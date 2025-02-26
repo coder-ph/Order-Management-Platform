@@ -1,5 +1,5 @@
 import React from "react";
-import { MainButton } from "../Components/Buttons/Button";
+import { MainButton } from "./Buttons/Button";
 
 const ProductList = ({ products, handleStatusChange }) => {
     const getStatusColor = (status) => {

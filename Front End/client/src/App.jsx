@@ -15,9 +15,11 @@ import AdminSidebar from "./Components/AdminSidebar"
 import LoginForm from "./Pages/LoginPage"
 // import UserSidebar from "./Components/UserSidebar"
 import ResetPasswordPage from "./Pages/ResetPasswordPage"
+import ProductPage from "./Pages/ProductPage"
 
-import ProductManagement from "./Pages/ProductManagementPage"
+import ProductManagement from "./Pages/InventoryManagementPage"
 import UserSidebar from "./Components/UserSidebar"
+import LandingPage from "./Pages/LandingPage"
 import Ap from "./scenes/dashboard/App"
 import AdDashboard from "./scenes/dashboard/AdDashboard"
 
@@ -30,13 +32,15 @@ function App() {
       <Routes>
         {/* The dashboard layout is rendered for any route starting with /dashboard */}
         <Route path="/dashboard/*" element={<Ap />} />
-        <Route path="/" element={<ProductManagement/>} />
+        <Route path="/" element={<LandingPage />} />
 
         {/* Other public routes */}
         <Route path="/login" element={<LoginForm />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<SetNewPassword />} />
+        <Route path="/reset-code" element={<ResetPasswordPage />} />
         <Route path="/signup" element={<SignupPage />} />
+
 
         {/* Role-based private routes */}
         {isAuthenticated ? (
