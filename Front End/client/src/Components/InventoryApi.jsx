@@ -1,4 +1,4 @@
-import { mockProducts } from '../assets/MockData';
+import { mockCategories , mockProducts} from "../assets/UserMockData";
 
 // Initial state
 let products = [...mockProducts];

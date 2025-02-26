@@ -1,5 +1,5 @@
 import React from "react";
-import { MainButton } from "./Buttons/Button";
+import { MainButton } from "../Components/Buttons/Button";
 
 const ProductList = ({ products, handleStatusChange }) => {
     const getStatusColor = (status) => {
@@ -21,6 +21,10 @@ const ProductList = ({ products, handleStatusChange }) => {
             default:
                 return '#9E9E9E'; // Default Gray
         }
+    }
+
+    function viewproduct(){
+
     }
     // const filteredProducts = products.filter(product => {
     //     if (!filters || !filters.status) {
@@ -82,7 +86,7 @@ const ProductList = ({ products, handleStatusChange }) => {
                                     </select>
                                 </td>
                                 <td>
-                                    <MainButton onClick={() => {}}>⋮</MainButton>
+                                    <MainButton onClick={() => {viewproduct}}>⋮</MainButton>
                                 </td>
                             </tr>
                         ))}

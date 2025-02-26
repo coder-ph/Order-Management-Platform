@@ -6,7 +6,8 @@ import ProductDialog from "../Components/InventoryDialog";
 import FilterPopup from "../Components/InventoryFilter";
 import { ProductServiceAPI } from "../Components/InventoryApi";
 import "../assets/styles/ProductManagement.css";
-import Sidebar from "../Components/UserSidebar"; 
+import AdminSidebar from "../Components/AdminSidebar"; 
+import CategorySection from "../Components/CategorySection";
 
 const ProductManagement = () => {
     const [products, setProducts] = useState([]);
@@ -17,22 +18,7 @@ const ProductManagement = () => {
     const [newProduct, setNewProduct] = useState({ name: '', category: '', price: '', stock: '', image: null })
     const [dialogOpen, setDialogOpen] = useState(false)
     const [filterOpen, setFilterOpen] = useState(false)
-    const [activePage, setActivePage] = useState("dashboard")
-
-    const userData = {
-        username: "HIM",
-        email: "him@example.com",
-        profilePicture: "pic"
-    }
-
-    const handleLogout = () => {
-        // Implement your logout logic here (e.g., clear session, cookies, etc.)
-        console.log("Logging out...");
-
-        // Clear session or token if you're using localStorage or sessionStorage
-        localStorage.removeItem("userToken");
-        navigate("/login")
-    }
+    const navigate = useNavigate
 
     useEffect(() => {
         fetchProducts()
@@ -91,12 +77,8 @@ const ProductManagement = () => {
 
     return (
         <div className="flex">
-            {/* Sidebar Component with handleLogout passed as prop */}
-            <Sidebar
-                activePage={activePage}
-                userData={userData}
-                onLogout={handleLogout}
-            />
+            {/* AdminSidebar Component */}
+            <AdminSidebar/>
 
             <div className="main-content flex-1 p-6">
                 <ProductHeader
@@ -114,6 +96,8 @@ const ProductManagement = () => {
                         categories={categories}
                     />
                 )}
+
+                <CategorySection/>
 
                 {loading ? (
                     <div className="loading">Loading...</div>
