@@ -4,7 +4,7 @@ import ProductList from "../Components/ProductList";
 import ProductHeader from "../Components/ProductHeader";
 import ProductDialog from "../Components/ProductDialog";
 import FilterPopup from "../Components/ProductFilter";
-import { fetchProductsApi, addProductApi, updateProductStatusApi } from "../Components/ProductApi";
+import { ProductServiceAPI } from "../Components/ProductApi";
 import "../assets/styles/ProductManagement.css";
 import Sidebar from "../Components/UserSidebar"; 
 
@@ -41,7 +41,7 @@ const ProductManagement = () => {
     const fetchProducts = async () => {
         try {
             setLoading(true);
-            const data = await fetchProductsApi();
+            const data = await ProductServiceAPI.fetchProducts();
             setProducts(data);
         } catch (err) {
             setError(err.message)
@@ -54,7 +54,7 @@ const ProductManagement = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const addedProduct = await addProductApi(newProduct);
+            const addedProduct = await ProductServiceAPI.addProduct(newProduct);
             setProducts([...products, addedProduct]);
             setDialogOpen(false);
             setNewProduct({ name: '', category: '', price: '', stock: '', image: null })
@@ -67,7 +67,7 @@ const ProductManagement = () => {
 
     const handleStatusChange = async (productId, newStatus) => {
         try {
-            await updateProductStatusApi(productId, newStatus)
+            await ProductServiceAPI.updateProductStatus(productId, newStatus)
             setProducts(products.map(product =>
                 product.id === productId ? { ...product, status: newStatus } : product
             ))
