@@ -1,13 +1,14 @@
 .landing-page {
-   background-image: url('../Images/red-waves.png');
+   background-image: url('../Images/grey-dark-blue.png');
    background-size: cover;
    height: 100vh;
    display: flex;
    flex-direction: column;
    align-items: center;
-   justify-content: center; 
+   justify-content: flex-start;
    color: white;
    font-family: 'Alata', sans-serif;
+   overflow-y: auto;
 }
 
 .landing-page-content {
@@ -16,16 +17,46 @@
    justify-content: space-between;
    width: 80%;
    max-width: 1200px;
+   margin: 100px 0;
 }
 .text-content {
    max-width: 500px;
-   color: black;
+   color: white;
+   text-align: left;
+}
+.text-content h1 {
+   font-size: 36px;
+   font-weight: bolder;
+   margin-bottom: 15px;
+}
+.text-content p {
+   font-size: 16px;
+   margin-bottom: 30px;
 }
 .button-container {
-   margin-top: 20px;
    display: flex;
-   gap: 10px;
+   /* justify-content: center; */
+   padding: 10px;
+   background-color: transparent;
+   position: absolute;
+   top: 0px; /* Adjust for better alignment */
+   left: 87%; /* Centering */
+   transform: translateX(-50%);
+   gap: 20px;
+   font-family: 'Alata', sans-serif;
 }
 .image-section {
    flex: 1;
+}
+.landing-image {
+   max-width: 100%;
+   height: auto;
+   object-fit: cover;
+}
+.section-wrapper {
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   margin-top: 80px;
+   /* height: 10px; */
 }
