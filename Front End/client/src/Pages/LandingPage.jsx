@@ -8,6 +8,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import landingIllustration from "../assets/Images/delivery-illustration.png"
 import { MainButton } from "../Components/Buttons/Buttons";
 import '../assets/styles/LandingPage.css'
+import User from "./User/User";
 
 function LandingPage () {
    return (
@@ -130,6 +131,7 @@ function LandingPage () {
                 </div>
                 <p> 2025 &copy; All rights reserved</p>
             </footer> */}
+            <User />
         </div>
     </div>
    )
