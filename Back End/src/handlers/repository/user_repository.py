@@ -1,4 +1,4 @@
-from models.client import  commit_session
+from models.client import  commit_session, update_session
 from models.index import User, session, list_getter
 from .location_repository import LocationRepository
 import uuid
@@ -20,9 +20,14 @@ class UserRepository():
         print(letp)
 
         return raw_users
-    def get_user_by_email(self, user:dict):
-        email = user['email']
+    def get_user_by_email(self, email):
         user = session.query(User).filter_by(email=email).first()
         return user
+    @update_session('user')
+    def update_user_password(self, user:User, password:str)->User:
+        user.password = password
+        return user
+
+        
         
         

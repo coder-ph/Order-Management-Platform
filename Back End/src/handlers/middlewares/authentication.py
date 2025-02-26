@@ -3,7 +3,6 @@ from flask import g, request
 from src.services_layer.utilities.constants import errorEnums
 from src.services_layer.auth.auth import authLayer
 
-# logic to get user role based on authorisation/authentication
 def auth_middleware(f):
     @wraps(f)
     def decorated_function(*args, **kwrags):

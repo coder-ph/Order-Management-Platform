@@ -50,6 +50,30 @@ def commit_session(model_name=None):
         return wrapper
     return decorator
 
+def update_session(model_name=None):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            session = db.session 
+            try:
+                result = func(*args,**kwargs) 
+                session.commit()
+                
+                if isinstance(result, db.Model):  
+                    session.refresh(result) 
+                
+                logger.info("Transaction complete")
+                return result.to_dict()
+            except Exception as e:
+                session.rollback() 
+                is_handled = handle_sqlalchemy_error(model_name,e, 'update')
+                if is_handled:
+                    raise DBSessionErrors(is_handled)
+            finally:
+                session.close()
+        return wrapper
+    return decorator
+
 def list_getter(func):
     @wraps(func)
     def wrapper(*args, **kwargs):

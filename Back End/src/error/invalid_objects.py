@@ -4,4 +4,4 @@ class ObjectNotFound(Exception):
         super().__init__(message)
 class InvalidObjectValue(Exception):
     def __init__(self, query_type, key, key_id=None):
-        super().__init__(f"{query_type} failed: the provided {key} for {key_id if key_id else 'value'} was invalid")
+        super().__init__(f"{query_type} failed: {key} for {key_id if key_id else 'value'} was invalid")

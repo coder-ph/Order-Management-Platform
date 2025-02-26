@@ -5,6 +5,7 @@ from functools import wraps
 from flask import request, g, jsonify
 from pathlib import Path
 from src.services_layer.utilities.constants import errorEnums
+
 def acl_middleware(f):
     @wraps(f)
     def decorated_function(*args, **kwrags):
