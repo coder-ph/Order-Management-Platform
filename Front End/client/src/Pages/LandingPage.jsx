@@ -131,7 +131,7 @@ function LandingPage () {
                 </div>
                 <p> 2025 &copy; All rights reserved</p>
             </footer> */}
-          
+          <User />
         </div>
     </div>
    )

@@ -85,7 +85,7 @@ export  const companyInfo = `{
   // Testimonials
   testimonials: [
     {
-      name: "Sarah Johnson",
+      name: "Christopher",
       role: "CEO, QuickCart E-commerce",
       quote:
         "OrderEase has transformed our order management process. Highly recommended!",
