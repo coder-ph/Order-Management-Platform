@@ -8,6 +8,7 @@ import Contact from "../Components/Contact"
 import Services from "../Components/Services"
 import Footer from "../Components/Footer";
 import '../assets/styles/LandingPage.css'
+import User from "./User/User";
 
 function LandingPage () {
    return (

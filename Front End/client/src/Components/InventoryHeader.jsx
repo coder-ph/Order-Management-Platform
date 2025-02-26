@@ -1,5 +1,6 @@
 import React from "react";
-import { MainButton } from "../Components/Buttons/Button";
+import { MainButton } from "./Buttons/Button";
+import {Bell} from "lucide-react"
 
 const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen, setDialogOpen }) => {
     return (
@@ -8,14 +9,14 @@ const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen,
                 <div className="page-path">
                     <span>Home</span>
                     <span>/</span>
-                    <span>Products</span>
+                    <span>Inventory Management</span>
                     <span>/</span>
                     <span>Product List</span>
                 </div>
-                <h1>Products</h1>
+                <h1>INVENTORY MANAGEMENT</h1>
                 <div className="notifications">
                     <MainButton onClick={() => {}} style={{ position: 'relative' }}>
-                        <span className="notification-icon">🔔</span>
+                        <span className="notification-icon"><Bell size={24} /></span>
                         <span className="notification-badge"></span>
                     </MainButton>
                 </div>
