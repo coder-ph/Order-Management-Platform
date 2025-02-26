@@ -1,10 +1,15 @@
-from flask import Blueprint
-from handlers.controllers.product_controller import ProductController
+from src.config.config_map import appConfig
+from flask_restful import Resource, Api
+from src.services_layer.utilities.constants import errorEnums
 
-product_bp = Blueprint("product", __name__, url_prefix="/products")
+class CreateProduct(Resource):
+    def post(self):
+        try:
+            return {'message':"products"}
+        except Exception as e:
+            return {"error":errorEnums['500']}
+        
+def productsRoutes(api:Api):
+    base = f"{appConfig.app.BASE_URL}/products"
 
-product_bp.route("/", methods=["GET"])(ProductController.get_all_products)
-product_bp.route("/<int:product_id>", methods=["GET"])(ProductController.get_product)
-product_bp.route("/", methods=["POST"])(ProductController.create_product)
-product_bp.route("/<int:product_id>", methods=["PUT"])(ProductController.update_product)
-product_bp.route("/<int:product_id>", methods=["DELETE"])(ProductController.delete_product)
+    api.add_resource(CreateProduct, f"{base}")
