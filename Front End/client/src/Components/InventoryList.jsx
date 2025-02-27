@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { MainButton } from "../Components/Buttons/Button";
 
-const ProductList = ({ products, handleStatusChange }) => {
+const ProductList = ({ products, handleStatusChange, onEdit, onDelete }) => {
+    const [activeDropdown, setActiveDropdown] = useState(null);
+
     const getStatusColor = (status) => {
         const statusStr = String(status)
 
@@ -23,9 +25,19 @@ const ProductList = ({ products, handleStatusChange }) => {
         }
     }
 
-    function viewproduct(){
+    const toggleDropdown = (productId) => {
+        if (activeDropdown === productId) {
+            setActiveDropdown(null);
+        } else {
+            setActiveDropdown(productId);
+        }
+    };
 
-    }
+    // Close dropdown when clicking outside
+    const handleClickOutside = () => {
+        setActiveDropdown(null);
+    };
+
     // const filteredProducts = products.filter(product => {
     //     if (!filters || !filters.status) {
     //         return true
@@ -34,7 +46,7 @@ const ProductList = ({ products, handleStatusChange }) => {
     //})
 
     return (
-        <div className="card">
+        <div className="card" onClick={handleClickOutside}>
             <div className="card-content">
                 <table className="Products-table">
                     <thead>
@@ -86,7 +98,61 @@ const ProductList = ({ products, handleStatusChange }) => {
                                     </select>
                                 </td>
                                 <td>
-                                    <MainButton onClick={() => {viewproduct}}>⋮</MainButton>
+                                    <div className="action-dropdown" style={{ position: 'relative' }}>
+                                        <MainButton 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                toggleDropdown(product.id);
+                                            }}
+                                        >
+                                            ⋮
+                                        </MainButton>
+                                        
+                                        {activeDropdown === product.id && (
+                                            <div 
+                                                className="dropdown-menu" 
+                                                style={{
+                                                    position: 'absolute',
+                                                    right: 0,
+                                                    top: '100%',
+                                                    backgroundColor: 'white',
+                                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.1)',
+                                                    borderRadius: '4px',
+                                                    zIndex: 10,
+                                                    minWidth: '120px'
+                                                }}
+                                            >
+                                                <div 
+                                                    className="dropdown-item"
+                                                    onClick={() => {
+                                                        onEdit && onEdit(product);
+                                                        setActiveDropdown(null);
+                                                    }}
+                                                    style={{
+                                                        padding: '8px 16px',
+                                                        cursor: 'pointer',
+                                                        borderBottom: '1px solid #eee'
+                                                    }}
+                                                >
+                                                    Edit
+                                                </div>
+                                                <div 
+                                                    className="dropdown-item"
+                                                    onClick={() => {
+                                                        onDelete && onDelete(product.id);
+                                                        setActiveDropdown(null);
+                                                    }}
+                                                    style={{
+                                                        padding: '8px 16px',
+                                                        cursor: 'pointer',
+                                                        color: '#F44336'
+                                                    }}
+                                                >
+                                                    Delete
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                 </td>
                             </tr>
                         ))}

@@ -8,13 +8,6 @@ const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen,
     return (
         <>
             <div className="header">
-                <div className="page-path">
-                    <span>Home</span>
-                    <span>/</span>
-                    <span>Inventory Management</span>
-                    <span>/</span>
-                    <span>Product List</span>
-                </div>
                 <h1>INVENTORY MANAGEMENT</h1>
                 <div className="notifications">
                     <MainButton onClick={() => {}} style={{ position: 'relative', backgroundColor:"transparent", border: "none", padding: "0" }}>
