@@ -122,7 +122,7 @@ const SignupPage = () => {
               )}
             </div>
 
-            <MainButton type="submit">Sign up</MainButton>
+            <MainButton type="submit" >Sign up</MainButton>
           </form>
 
           </div>
