@@ -2,9 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: null,
-  token: null,
-  isAuthenticated: false,
-  role: null,
+  token: localStorage.getItem("token") ||null,
+  isAuthenticated: !!localStorage.getItem('token'),
+  role: localStorage.getItem('role') || null,
   error: null,
   passwordUpdate: {
     loading: false,
@@ -30,10 +30,11 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.role = null;
       state.error = null;
+      localStorage.removeItem("token");
     },
-    updateProfile: (state, action) => {
-      state.user = { ...state.user, ...action.payload };
-    },
+    // updateProfile: (state, action) => {
+    //   state.user = { ...state.user, ...action.payload };
+    // },
     loginFailed: (state, action) => {
       state.error = action.payload;
     },

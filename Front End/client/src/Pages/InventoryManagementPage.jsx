@@ -76,58 +76,59 @@ const ProductManagement = () => {
     })
 
     const categories = [...new Set(products.map(p => p.category))];
-
+ {/* AdminSidebar Component */}
+ 
     return (
-        <div className="flex">
-            {/* AdminSidebar Component */}
-            <AdminSidebar />
+      <div className="flex">
+        {/* AdminSidebar Component */}
+        <div id="admn">
+          <AdminSidebar />
+        </div>
 
-            {/* <div className="category-section">
+        {/* <div className="category-section">
             <CategorySection />
             </div> */}
 
-            <div className="main-content flex-1 p-6">
-                <ProductHeader
-                    searchQuery={searchQuery}
-                    setSearchQuery={setSearchQuery}
-                    setFilterOpen={setFilterOpen}
-                    filterOpen={filterOpen}
-                    setDialogOpen={setDialogOpen}
-                />
+        <div className="main-content flex-1 p-6">
+          <ProductHeader
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            setFilterOpen={setFilterOpen}
+            filterOpen={filterOpen}
+            setDialogOpen={setDialogOpen}
+          />
 
-                {filterOpen && (
-                    <FilterPopup
-                        filters={filters}
-                        setFilters={setFilters}
-                        categories={categories}
-                    />
-                )}
+          {filterOpen && (
+            <FilterPopup
+              filters={filters}
+              setFilters={setFilters}
+              categories={categories}
+            />
+          )}
 
-                
+          {loading ? (
+            <div className="loading">Loading...</div>
+          ) : error ? (
+            <div className="error">{error}</div>
+          ) : (
+            <ProductList
+              products={filteredProducts}
+              handleStatusChange={handleStatusChange}
+            />
+          )}
 
-                {loading ? (
-                    <div className="loading">Loading...</div>
-                ) : error ? (
-                    <div className="error">{error}</div>
-                ) : (
-                    <ProductList
-                        products={filteredProducts}
-                        handleStatusChange={handleStatusChange}
-                    />
-                )}
-
-                {dialogOpen && (
-                    <ProductDialog
-                        newProduct={newProduct}
-                        setNewProduct={setNewProduct}
-                        handleAddProduct={handleAddProduct}
-                        setDialogOpen={setDialogOpen}
-                        categories={categories}
-                    />
-                )}
-            </div>
+          {dialogOpen && (
+            <ProductDialog
+              newProduct={newProduct}
+              setNewProduct={setNewProduct}
+              handleAddProduct={handleAddProduct}
+              setDialogOpen={setDialogOpen}
+              categories={categories}
+            />
+          )}
         </div>
-    )
+      </div>
+    );
 }
 
 export default ProductManagement;

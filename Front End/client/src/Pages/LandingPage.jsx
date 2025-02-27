@@ -49,6 +49,7 @@ function LandingPage () {
         </div>
         {/* The Footer section */}
         <div className="section-wrapper">
+            <User/>
         <Footer />
         </div>
     </div>

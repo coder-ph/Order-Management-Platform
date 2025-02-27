@@ -3,13 +3,13 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "../../theme";
 import TopBar from "../global/TopBar";
 import AdminSidebar from "../global/AdminSidebar";
-
+import Calender from "../../scenes/Calender/Calender"
 import Team from "../../scenes/team/Team";
 import Invoices from "../../scenes/Invoices/Invoices";
 import Contacts from "../../scenes/contacts/Contacts";
 import AddDriver from "../../scenes/DriverForm/AddDriver";
 import { Navigate, Route, Routes } from "react-router-dom";
-import Calender from "../Calender/Calender";
+
 import Faqs from "../faqs/Faqs";
 import Bar from "../Bar";
 import Pie from "../Pie";
@@ -43,7 +43,7 @@ const Ap = () => {
                 <Route path="/invoices" element={<Invoices />} />
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/form" element={<AddDriver />} />
-                <Route path="/calender" element={<Calender />} />
+                <Route path="/calender" element={<Calender/>} />
                 <Route path="/faq" element={<Faqs />} />
                 <Route path="/bar" element={<Bar />} />
                 <Route path="/pie" element={<Pie />} />
