@@ -36,6 +36,7 @@ function App() {
         {/* The dashboard layout is rendered for any route starting with /dashboard */}
         {/* <Route path="/" element={<ProductManagement />} /> */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/dashboard/*" element={<Ap />} />
        
 
         {/* Other public routes */}
