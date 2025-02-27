@@ -9,7 +9,7 @@
     align-items: center;
     height: 100vh; 
     background-color: #fcf7f8;
-    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShxE7M6947iBppk9j-dxI8t1ivGXfUFm_5t6p08ImyGhn2mZ-8NUqIvrf1nd8QGqCI3pM&usqp=CAU');
+    background-image: url('./src/assets/Images/images.jpeg');
     background-size: cover;
     font-family: 'Alata';
 } 
