@@ -8,18 +8,18 @@ from models.client import  commit_session
 
 
 logger = Logger("user routes file")
-class SingUpUser(Resource):
+class BaseUserMethods(Resource):
     def post(self):
         return sign_up_user()
+    def get(self):
+        return authenticate_user()
 class GetAllUsers(Resource):
     def get(self):
         return get_all_users()
 class AnotherUserTest(Resource):
     def get(self):
         pass
-class Authenticate(Resource):
-    def get(self):
-        return authenticate_user()
+    
 class ResetPassWord(Resource):
     def put(self):
         return update_user_password()
@@ -30,8 +30,7 @@ def userRoutes(api):
     base = f"{appConfig.app.BASE_URL}/users"
     
     ## Authentication
-    api.add_resource(SingUpUser, f'{base}')
-    api.add_resource(Authenticate, f"{base}")
+    api.add_resource(BaseUserMethods, f'{base}')
     api.add_resource(ResetPassWord, f"{base}/reset-password")
     
     api.add_resource(GetAllUsers, f'{base}/users/all')
