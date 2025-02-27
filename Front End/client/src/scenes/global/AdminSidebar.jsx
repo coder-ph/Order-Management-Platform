@@ -51,7 +51,11 @@ const AdminSidebar = () => {
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
+
+            style={{ margin: "10px 0 20px 0", color: colors.primary[400] }}
+
             style={{ margin: "5px 0 10px 0", color: colors.primary[400] }}
+
           >
             {!isCollapsed && (
               <Box
@@ -202,6 +206,7 @@ const AdminSidebar = () => {
             />
             <Item
               title="Log Out"
+
               icon={<LogoutIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -209,6 +214,7 @@ const AdminSidebar = () => {
           </Box>
         </Menu>
       </Sidebar>
+
       <Box
         sx={{
           flexGrow: 1,
@@ -216,7 +222,13 @@ const AdminSidebar = () => {
           overflow: "auto",
           backgroundColor: "#f4f4f4",
         }}
+
+      >
+        {/* This is where the main dashboard content will go */}
+      </Box>
+
       ></Box>
+
     </Box>
   );
 };
