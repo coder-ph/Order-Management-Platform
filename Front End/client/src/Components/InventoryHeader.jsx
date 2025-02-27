@@ -45,7 +45,7 @@ const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen,
                             Add Product
                         </MainButton>
                     </div>
-                    <div className="category-section" style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap" }}>
+                    <div className="category-section">
                             <CategorySection />
                     </div>
                 </div>
