@@ -1,5 +1,7 @@
 import React from "react";
 import { MainButton } from "../Components/Buttons/Button";
+import { backdropClasses } from "@mui/material";
+import { FaRegEdit } from "react-icons/fa";
 
 const ProductList = ({ products, handleStatusChange }) => {
     const getStatusColor = (status) => {
@@ -86,7 +88,7 @@ const ProductList = ({ products, handleStatusChange }) => {
                                     </select>
                                 </td>
                                 <td>
-                                    <MainButton onClick={() => {viewproduct}}>⋮</MainButton>
+                                    <MainButton onClick={() => {viewproduct}}  style={{backgroundColor:'transparent', textAlign:'center', marginRight:'5px', color:'#4cceac'}}><FaRegEdit /></MainButton>
                                 </td>
                             </tr>
                         ))}

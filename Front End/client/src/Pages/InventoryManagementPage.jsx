@@ -7,7 +7,7 @@ import FilterPopup from "../Components/InventoryFilter";
 import { ProductServiceAPI } from "../Components/InventoryApi";
 import "../assets/styles/ProductManagement.css";
 
-import CategorySection from "../Components/CategorySection";
+// import CategorySection from "../Components/CategorySection";
 import AdminSidebar from "../scenes/global/AdminSidebar";
 
 
@@ -76,15 +76,17 @@ const ProductManagement = () => {
     })
 
     const categories = [...new Set(products.map(p => p.category))];
- {/* AdminSidebar Component */}
- <AdminSidebar />
+ 
     return (
+        
         <div className="flex">
-           
+            <div className="admin-sidebar">
+           <AdminSidebar />
+           </div>
 
-            {/* <div className="category-section">
+           {/* <div className="category-section">
             <CategorySection />
-            </div> */}
+            </div>  */}
 
             <div className="main-content flex-1 p-6">
                 <ProductHeader
