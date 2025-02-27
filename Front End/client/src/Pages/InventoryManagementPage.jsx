@@ -6,8 +6,10 @@ import ProductDialog from "../Components/InventoryDialog";
 import FilterPopup from "../Components/InventoryFilter";
 import { ProductServiceAPI } from "../Components/InventoryApi";
 import "../assets/styles/ProductManagement.css";
-import AdminSidebar from "../Components/AdminSidebar"; 
+
 import CategorySection from "../Components/CategorySection";
+import AdminSidebar from "../scenes/global/AdminSidebar";
+
 
 const ProductManagement = () => {
     const [products, setProducts] = useState([]);
@@ -78,7 +80,11 @@ const ProductManagement = () => {
     return (
         <div className="flex">
             {/* AdminSidebar Component */}
-            <AdminSidebar/>
+            <AdminSidebar />
+
+            {/* <div className="category-section">
+            <CategorySection />
+            </div> */}
 
             <div className="main-content flex-1 p-6">
                 <ProductHeader
@@ -97,7 +103,7 @@ const ProductManagement = () => {
                     />
                 )}
 
-                <CategorySection/>
+                
 
                 {loading ? (
                     <div className="loading">Loading...</div>

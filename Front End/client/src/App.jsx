@@ -23,6 +23,7 @@ import LandingPage from "./Pages/LandingPage"
 import Ap from "./scenes/dashboard/App"
 import AdDashboard from "./scenes/dashboard/AdDashboard"
 import CategorySection from "./Components/CategorySection"
+import './App.css'
 
 
 function App() {
@@ -33,7 +34,7 @@ function App() {
     <Router>
       <Routes>
         {/* The dashboard layout is rendered for any route starting with /dashboard */}
-        <Route path="/" element={<ProductManagement />} />
+        {/* <Route path="/" element={<ProductManagement />} /> */}
         <Route path="/" element={<LandingPage />} />
        
 
@@ -43,6 +44,7 @@ function App() {
         <Route path="/reset-password" element={<SetNewPassword />} />
         <Route path="/reset-code" element={<ResetPasswordPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/products" element={<ProductManagement />} />
 
         {/* Role-based private routes */}
         {isAuthenticated ? (

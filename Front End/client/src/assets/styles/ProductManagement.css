@@ -1,7 +1,11 @@
 /* Main content layout */
+.flex {
+    background-color: #141b2d;
+}
 .main-content {
     padding: 20px;
     width: 100%;
+    font-family: 'Alata', sans-serif;
 }
 .header {
     display: flex;
@@ -28,9 +32,13 @@
     height: 10px;
     border-radius: 50%;
 }
+
+.category-section {
+    display: flex;
+}
 /* Card styles */
 .card {
-    background-color: white;
+    background-color: #1f2945;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
@@ -53,14 +61,17 @@
 }
 .search-icon {
     position: absolute;
+    font-size: 10px;
     left: 10px;
     top: 50%;
+    color: white;
     transform: translateY(-50%);
 }
 .search-input {
     padding: 8px 8px 8px 35px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    background-color: #1f2945;
 }
 .filter-container {
     position: relative;
@@ -100,14 +111,17 @@
     width: 100%;
     border-collapse: collapse;
 }
+
 .Products-table th,
 .Products-table td {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #eee;
+    color: white;
 }
 .Products-table th {
-    background-color: #f9f9f9;
+    border-radius: 5px;
+    background-color: #3c4a75;
     font-weight: 600;
 }
 .product-info {
@@ -168,6 +182,7 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(20px);
 }
+/* InventoryDialog */
 .dg-overlay {
     position: fixed;
     top: 0;
@@ -181,7 +196,7 @@ input:checked + .slider:before {
     z-index: 1000;
 }
 .dialog {
-    background-color: white;
+    background-color: #1f2945;
     border-radius: 8px;
     width: 100%;
     max-width: 500px;
@@ -198,6 +213,8 @@ input:checked + .slider:before {
 .dg-header h2 {
     margin: 0;
     font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
 }
 .dg-content {
     padding: 20px;
@@ -205,17 +222,32 @@ input:checked + .slider:before {
 .form-group {
     margin-bottom: 15px;
 }
+
 .form-group label {
     display: block;
+    color: white;
     margin-bottom: 5px;
-    font-weight: 500;
+    font-weight: 300;
+}
+.form-group input {
+    background-color: #3c4a75;
 }
 .form-group input,
 .form-group select {
     width: 100%;
     padding: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid white;
     border-radius: 4px;
+}
+.form-group select {
+    background-color: #3c4a75;
+    color: white;
+}
+.form-group option {
+    color: white;
+}
+.help-text {
+    color: white;
 }
 .dg-actions {
     display: flex;

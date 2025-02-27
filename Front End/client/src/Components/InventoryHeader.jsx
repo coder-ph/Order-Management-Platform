@@ -1,6 +1,8 @@
 import React from "react";
 import { MainButton } from "../Components/Buttons/Button";
-import {Bell} from "lucide-react"
+import { Bell } from "lucide-react"
+import { IoMdSearch } from "react-icons/io";
+import { CiFilter } from "react-icons/ci";
 
 const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen, setDialogOpen }) => {
     return (
@@ -15,7 +17,7 @@ const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen,
                 </div>
                 <h1>INVENTORY MANAGEMENT</h1>
                 <div className="notifications">
-                    <MainButton onClick={() => {}} style={{ position: 'relative' }}>
+                    <MainButton onClick={() => {}} style={{ position: 'relative', backgroundColor:"transparent", border: "none", padding: "0" }}>
                         <span className="notification-icon"><Bell size={24} /></span>
                         <span className="notification-badge"></span>
                     </MainButton>
@@ -26,7 +28,7 @@ const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen,
                     <div className="toolbar">
                         <div className="search-filter">
                             <div className="search-container">
-                                <span className="search-icon">🔍</span>
+                                <span className="search-icon"><IoMdSearch style={{fontSize:"16px"}}/></span>
                                 <input
                                     type="text"
                                     placeholder="Search"
@@ -37,12 +39,12 @@ const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen,
                             </div>
 
                             <div className="filter-container">
-                                <MainButton onClick={() => setFilterOpen(!filterOpen)}>
-                                    Filter
+                                <MainButton onClick={() => setFilterOpen(!filterOpen)} style={{ backgroundColor: "transparent", border: "1px solid white", padding: "9px", marginTop:"4px", position:"relative" }}>
+                                    <CiFilter />
                                 </MainButton>
                             </div>
                         </div>
-                        <MainButton onClick={() => setDialogOpen(true)}>
+                        <MainButton onClick={() => setDialogOpen(true)} style={{ backgroundColor:"transparent", border: "1px solid white", padding: "8px", position:"relative", width:"50%", marginRight:"50px" }}>
                             Add Product
                         </MainButton>
                     </div>

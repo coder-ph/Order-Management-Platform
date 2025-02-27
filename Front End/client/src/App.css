@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
 #root {
   max-width:100vh;
   margin: 0 auto;
@@ -7,25 +7,39 @@
 }
 .content {
   font-family: 'Source Sans Pro', sans-serif;
+} */
+
+/* WebKit Browsers (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 10px; /* Adjust width */
+  border-radius: 10px;
 }
 
-::-webkit-scrollbar{
-  width: 10px;
+/* Track (background) */
+::-webkit-scrollbar-track {
+  background: #e0e5f2; /* Light hazy background */
+  border-radius: 10px;
 }
 
-::-webkit-scrollbar-track{
-  background: #e0e0e0 ;
-}
-
+/* Handle (scrollbar itself) */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: linear-gradient(180deg, #4c5c88, #1f2945); /* Gradient */
+  border-radius: 10px;
+  border: 2px solid #e0e5f2; /* Adds an inset effect */
 }
 
-::-webkit-scrollbar-thumb:hover{
-  background: #555;
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #6576a5, #2a365c);
 }
 
-.logo {
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #4c5c88 #e0e5f2; /* Thumb color | Track color */
+}
+
+/* .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
@@ -59,7 +73,7 @@
 
 .read-the-docs {
   color: #888;
-}
+} */
 /* .section {
   padding: 80px 20px;
 } */

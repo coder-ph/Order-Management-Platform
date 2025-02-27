@@ -54,7 +54,7 @@ const AdminSidebar = () => {
 
             style={{ margin: "10px 0 20px 0", color: colors.primary[400] }}
 
-            style={{ margin: "5px 0 10px 0", color: colors.primary[400] }}
+            
 
           >
             {!isCollapsed && (
@@ -227,9 +227,9 @@ const AdminSidebar = () => {
         {/* This is where the main dashboard content will go */}
       </Box>
 
-      ></Box>
+      </Box>
 
-    </Box>
+  
   );
 };
 

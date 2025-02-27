@@ -1,5 +1,6 @@
 import React from "react";
 import { MainButton } from "./Buttons/Button";
+import { IoCloseSharp } from "react-icons/io5";
 
 const ProductDialog = ({ newProduct, setNewProduct, handleAddProduct, setDialogOpen, categories }) => {
     return (
@@ -7,8 +8,8 @@ const ProductDialog = ({ newProduct, setNewProduct, handleAddProduct, setDialogO
             <div className="dialog">
                 <div className="dg-header">
                     <h2>Add Product</h2>
-                    <MainButton onClick={() => setDialogOpen(false)}>
-                        ×
+                    <MainButton onClick={() => setDialogOpen(false)} style={{ backgroundColor: "transparent", border:"none", padding: "0", color:"white", marginLeft:"350px"}}>
+                        <IoCloseSharp />
                     </MainButton>
                 </div>
                 <form onSubmit={handleAddProduct} className="dg-content">
@@ -86,10 +87,10 @@ const ProductDialog = ({ newProduct, setNewProduct, handleAddProduct, setDialogO
                         )}
                     </div>
                     <div className="dg-actions">
-                        <MainButton type="button" onClick={() => setDialogOpen(false)}>
+                        <MainButton type="button" onClick={() => setDialogOpen(false)} style={{ backgroundColor:"transparent"}}>
                             Cancel
                         </MainButton>
-                        <MainButton type='submit'>
+                        <MainButton type='submit' style={{ backgroundColor:"#4cceac"}}>
                             Add Product
                         </MainButton>
                     </div>
