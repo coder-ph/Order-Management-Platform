@@ -9,8 +9,8 @@ import {
   updatePasswordFailure,
   resetPasswordUpdateState,
 } from "./authsSlice";
-import api from "../routes";
-import jwtDecode from "jwt-decode";
+// import api from "../routes";
+// import jwtDecode from "jwt-decode";
 
 export const loginUser = (credentials) => async (dispatch) => {
   try {

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { MainButton } from "../Components/Buttons/Button";
+import { FaRegEdit } from "react-icons/fa";
 
 const ProductList = ({ products, handleStatusChange }) => {
     const getStatusColor = (status) => {
@@ -22,6 +23,9 @@ const ProductList = ({ products, handleStatusChange }) => {
                 return '#9E9E9E'; // Default Gray
         }
     }
+    const [activeDropdown, setActiveDropdown] = useState(null);
+
+
 
     const toggleDropdown = (productId) => {
         if (activeDropdown === productId) {
@@ -46,6 +50,7 @@ const ProductList = ({ products, handleStatusChange }) => {
     return (
         <div className="card" onClick={handleClickOutside}>
             <div className="card-content">
+                <div className="table-container">
                 <table className="Products-table">
                     <thead>
                         <tr>
@@ -102,8 +107,15 @@ const ProductList = ({ products, handleStatusChange }) => {
                                                 e.stopPropagation();
                                                 toggleDropdown(product.id);
                                             }}
+                                            style={{
+                                                backgroundColor:'transparent', 
+                                                textAlign:'center', 
+                                                marginRight:'5px', 
+                                                color:'#4cceac'
+                                            }}
+                                                
                                         >
-                                            ⋮
+                                            <FaRegEdit />
                                         </MainButton>
                                         
                                         {activeDropdown === product.id && (
@@ -113,7 +125,7 @@ const ProductList = ({ products, handleStatusChange }) => {
                                                     position: 'absolute',
                                                     right: 0,
                                                     top: '100%',
-                                                    backgroundColor: 'white',
+                                                    backgroundColor: '#1f2945',
                                                     boxShadow: '0px 0px 10px rgba(0,0,0,0.1)',
                                                     borderRadius: '4px',
                                                     zIndex: 10,
@@ -129,7 +141,8 @@ const ProductList = ({ products, handleStatusChange }) => {
                                                     style={{
                                                         padding: '8px 16px',
                                                         cursor: 'pointer',
-                                                        borderBottom: '1px solid #eee'
+                                                        borderBottom: '1px solid #eee',
+                                                        color: 'white'
                                                     }}
                                                 >
                                                     Edit
@@ -151,12 +164,13 @@ const ProductList = ({ products, handleStatusChange }) => {
                                             </div>
                                         )}
                                     </div>
-                                    <MainButton onClick={() => {viewproduct}}  style={{backgroundColor:'transparent', textAlign:'center', marginRight:'5px', color:'#4cceac'}}><FaRegEdit /></MainButton>
+                                    {/* <MainButton onClick={() => {viewproduct}}  style={{backgroundColor:'transparent', textAlign:'center', marginRight:'5px', color:'#4cceac'}}><FaRegEdit /></MainButton> */}
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     )
