@@ -7,7 +7,7 @@ import FilterPopup from "../Components/InventoryFilter";
 import { ProductServiceAPI } from "../Components/InventoryApi";
 import "../assets/styles/ProductManagement.css";
 
-import CategorySection from "../Components/CategorySection";
+// import CategorySection from "../Components/CategorySection";
 import AdminSidebar from "../scenes/global/AdminSidebar";
 
 
@@ -87,7 +87,7 @@ const ProductManagement = () => {
 
         {/* <div className="category-section">
             <CategorySection />
-            </div> */}
+            </div>  */}
 
         <div className="main-content flex-1 p-6">
           <ProductHeader

@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { MainButton } from "../Components/Buttons/Button";
 
-const ProductList = ({ products, handleStatusChange, onEdit, onDelete }) => {
-    const [activeDropdown, setActiveDropdown] = useState(null);
-
+const ProductList = ({ products, handleStatusChange }) => {
     const getStatusColor = (status) => {
         const statusStr = String(status)
 
@@ -153,6 +151,7 @@ const ProductList = ({ products, handleStatusChange, onEdit, onDelete }) => {
                                             </div>
                                         )}
                                     </div>
+                                    <MainButton onClick={() => {viewproduct}}  style={{backgroundColor:'transparent', textAlign:'center', marginRight:'5px', color:'#4cceac'}}><FaRegEdit /></MainButton>
                                 </td>
                             </tr>
                         ))}

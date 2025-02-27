@@ -3,6 +3,8 @@ import { MainButton } from "../Components/Buttons/Button";
 import { Bell } from "lucide-react"
 import { IoMdSearch } from "react-icons/io";
 import { CiFilter } from "react-icons/ci";
+import CategorySection from "./CategorySection";
+import FilterPopup from "./InventoryFilter";
 
 const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen, setDialogOpen }) => {
     return (
@@ -16,6 +18,7 @@ const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen,
                     </MainButton>
                 </div>
             </div>
+            
             <div className="card">
                 <div className="card-content">
                     <div className="toolbar">
@@ -37,9 +40,13 @@ const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen,
                                 </MainButton>
                             </div>
                         </div>
-                        <MainButton onClick={() => setDialogOpen(true)} style={{ backgroundColor:"transparent", border: "1px solid white", padding: "8px", position:"relative", width:"50%", marginRight:"50px" }}>
+                        
+                        <MainButton onClick={() => setDialogOpen(true)} style={{ backgroundColor:"transparent", border: "1px solid white", padding: "8px", position:"relative", width:"20%", marginLeft:"100px" }}>
                             Add Product
                         </MainButton>
+                    </div>
+                    <div className="category-section" style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap" }}>
+                            <CategorySection />
                     </div>
                 </div>
             </div>
