@@ -20,7 +20,6 @@ def acl_middleware(f):
             acl_data = json.load(file)
         
         access_controls = acl_data.get(user_role).get(method)
-        print('acl data : ',acl_data[user_role])
         for role in acl_data[user_role]['inherit']:
             ac = acl_data[role][method]
             access_controls = access_controls + ac

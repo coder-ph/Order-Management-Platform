@@ -1,9 +1,10 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, Integer, ForeignKey, DateTime
+from sqlalchemy import String, Integer, ForeignKey, DateTime, Enum
 from models.client import db, bcrypt
 from src.services_layer.utilities.index import hash_string, check_hash
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
+from .model_enums import UserRoles
 import datetime
 import uuid
 
@@ -15,6 +16,7 @@ class User(db.Model):
     last_name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     phone_no: Mapped[str] = mapped_column(String(15), nullable=True)
     email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
+    role: Mapped[str] = mapped_column(Enum(UserRoles),default=UserRoles.user)
     created_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now())
     updated_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
 
@@ -22,6 +24,8 @@ class User(db.Model):
     
     location_id:Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('locations.id', ondelete="SET NULL"),unique=True, nullable=True)
     location = relationship("Location", back_populates="user", uselist=False)
+
+    stores = relationship("Store", back_populates="owner")
 
     @property
     def password(self):
@@ -42,6 +46,7 @@ class User(db.Model):
             "last_name": self.last_name,
             "email": self.email,
             "phone_no": self.phone_no,
+            "role":self.role.value,
             "location":self.location.to_dict() if self.location else None
         }
 

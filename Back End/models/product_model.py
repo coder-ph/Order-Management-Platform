@@ -11,11 +11,11 @@ class Category(db.Model):
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     
-    products = relationship("Product", back_populates="categories")
-
+    products = relationship("Product", back_populates='category')
+    
     def to_dict(self):
         return {
-            "id":self.id,
+            "id":str(self.id),
             "name":self.name
         }
     def __repr__(self):
@@ -35,12 +35,12 @@ class Product(db.Model):
     category_id:Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('categories.id', ondelete="SET NULL"), nullable=True)
     store_id:Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('stores.id', ondelete="SET NULL"), nullable=False)
 
-    category = relationship("Category", back_populates="products")
     store = relationship("Store", back_populates="products")
+    category = relationship("Category", back_populates='products')
     
     def to_dict(self):
         return {
-            "id":self.id, 
+            "id":str(self.id), 
             "name":self.name,
             "quantity":self.quantity,
             "description":self.description,

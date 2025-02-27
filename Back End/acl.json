@@ -3,23 +3,30 @@
         "GET":["analytics"],
         "POST":["users/delete"],
         "PUT":[],
+        "DELETE":[],
         "inherit":["admin","user", "guest"]
     },
     "admin":{
         "GET":["payments/vendor"],
         "POST":["users/delete"],
         "PUT":[],
+        "DELETE":[],
         "inherit":["user", "guest"]
     },
     
     "user":{
         "GET":["orders/create"],
-        "POST":["products", "users"],
+        "POST":["products", "users", "store"],
+        "PUT":[],
+        "DELETE":[],
         "inherit":["guest"]
 
     },
     "guest":{
         "GET":["products", "users", "liveprobe"],
+        "POST":[],
+        "PUT":[],
+        "DELETE":[],
         "inherit":[]
 
     }
