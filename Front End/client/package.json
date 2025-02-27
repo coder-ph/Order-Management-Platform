@@ -29,6 +29,7 @@
     "@reduxjs/toolkit": "^2.5.1",
     "@tailwindcss/vite": "^4.0.7",
     "formik": "^2.4.6",
+    "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.475.0",
     "react": "^19.0.0",

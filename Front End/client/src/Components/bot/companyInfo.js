@@ -1,12 +1,12 @@
 export  const companyInfo = `{
   // Basic Company Information
-  name: "OrderEase Solutions",
+  name: "QUANTUM LI",
   tagline: "Simplifying Order Management for Businesses",
   founded: 2018,
   headquarters: {
-    address: "456 Commerce Street, New York, NY, USA",
+    address: "456 Commerce Street, Nairoi - Kenya",
     phone: "+1 (555) 987-6543",
-    email: "info@orderease.com",
+    email: "info@quantumli.com",
   },
 
   // About the Company
@@ -84,6 +84,13 @@ export  const companyInfo = `{
 
   // Testimonials
   testimonials: [
+  {
+  founder - Ike
+  },
+  {
+  Debrah Muinde - Marketing Director,
+  Phelix COO
+  }
     {
       name: "Christopher",
       role: "CEO, QuickCart E-commerce",

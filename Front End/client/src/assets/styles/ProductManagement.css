@@ -2,6 +2,9 @@
 .flex {
     background-color: #141b2d;
 }
+.flex #admn {
+    background-color: #141b2d;
+}
 .main-content {
     padding: 20px;
     width: 100%;
@@ -61,6 +64,7 @@
 }
 .search-icon {
     position: absolute;
+    border-radius: 2px;
     font-size: 10px;
     left: 10px;
     top: 50%;
