@@ -51,7 +51,11 @@ const AdminSidebar = () => {
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
+
             style={{ margin: "10px 0 20px 0", color: colors.primary[400] }}
+
+            style={{ margin: "5px 0 10px 0", color: colors.primary[400] }}
+
           >
             {!isCollapsed && (
               <Box
@@ -59,7 +63,7 @@ const AdminSidebar = () => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography variant="h3" color={colors.primary[400]}>
+                <Typography variant="h4" color={colors.primary[400]}>
                   LOGO
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
@@ -71,7 +75,7 @@ const AdminSidebar = () => {
 
           {/* User Profile */}
           {!isCollapsed && (
-            <Box mb="25px">
+            <Box mb="10px">
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
                   alt="profile-user"
@@ -202,7 +206,7 @@ const AdminSidebar = () => {
             />
             <Item
               title="Log Out"
-              
+
               icon={<LogoutIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -211,7 +215,6 @@ const AdminSidebar = () => {
         </Menu>
       </Sidebar>
 
-      {/* Main Content Wrapper */}
       <Box
         sx={{
           flexGrow: 1,
@@ -219,9 +222,13 @@ const AdminSidebar = () => {
           overflow: "auto",
           backgroundColor: "#f4f4f4",
         }}
+
       >
         {/* This is where the main dashboard content will go */}
       </Box>
+
+      ></Box>
+
     </Box>
   );
 };

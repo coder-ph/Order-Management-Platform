@@ -1,29 +1,52 @@
-from sqlalchemy.orm import relationship
-from sqlalchemy import ForeignKey
-from client import db  
-
-class Product(db.Model):
-    __tablename__ = 'products'
-    
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    product_name = db.Column(db.String(100), nullable=False)
-    quantity = db.Column(db.Integer, nullable=False)
-    description = db.Column(db.String(255), nullable=True)
-    category_id = db.Column(db.Integer, ForeignKey('categories.id', ondelete="CASCADE"), nullable=False)
-    
-    category = relationship("Category", back_populates="products")
-    order_items = relationship("OrderItem", back_populates="product") 
-
-    def __repr__(self):
-        return f"Product('{self.product_name}', Quantity: {self.quantity}, Category ID: {self.category_id})"
+from sqlalchemy.orm import relationship, Mapped, mapped_column
+from sqlalchemy import ForeignKey, DateTime, String, Integer
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.sql import func
+from models.client import db
+import uuid
 
 class Category(db.Model):
     __tablename__ = 'categories'
     
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(100), nullable=False, unique=True)
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
+    name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     
-    products = relationship("Product", back_populates="category")
+    products = relationship("Product", back_populates="categories")
 
+    def to_dict(self):
+        return {
+            "id":self.id,
+            "name":self.name
+        }
     def __repr__(self):
         return f"Category('{self.name}')"
+
+class Product(db.Model):
+    __tablename__ = 'products'
+    
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
+    name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
+    quantity: Mapped[int] = mapped_column(Integer, default=0)
+    description: Mapped[str] = mapped_column(String(15), nullable=True)
+    
+    created_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now())
+    updated_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
+
+    category_id:Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('categories.id', ondelete="SET NULL"), nullable=True)
+    store_id:Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('stores.id', ondelete="SET NULL"), nullable=False)
+
+    category = relationship("Category", back_populates="products")
+    store = relationship("Store", back_populates="products")
+    
+    def to_dict(self):
+        return {
+            "id":self.id, 
+            "name":self.name,
+            "quantity":self.quantity,
+            "description":self.description,
+            "category":self.category.to_dict() if self.category else None,
+            "store_id":self.store_id
+        }
+
+    def __repr__(self):
+        return f"Product('{self.name}', Quantity: {self.quantity}, Category ID: {self.category_id})"

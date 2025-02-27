@@ -17,8 +17,13 @@
 }
 .nav-list li {
     font-size: 14px;
+    
 }
 .nav-list li a {
     text-decoration: none;
-    color: black;
+    color: white;
+}
+.nav-list li a:hover {
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid white;
 }
