@@ -1,5 +1,5 @@
 from models.client import  commit_session, list_getter
-from models.index import Store
+from models.index import Store, session
 from .location_repository import LocationRepository
 import uuid
 
@@ -15,4 +15,6 @@ class StoreRepository():
     def get_stores(self):
         return Store.query.all()
         
-        
+    def get_store_by_id(self, id):
+        return session.query(Store).filter_by(id=uuid.UUID(id)).first()
+       
