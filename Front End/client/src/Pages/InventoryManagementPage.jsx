@@ -76,11 +76,11 @@ const ProductManagement = () => {
     })
 
     const categories = [...new Set(products.map(p => p.category))];
-
+ {/* AdminSidebar Component */}
+ <AdminSidebar />
     return (
         <div className="flex">
-            {/* AdminSidebar Component */}
-            <AdminSidebar />
+           
 
             {/* <div className="category-section">
             <CategorySection />
