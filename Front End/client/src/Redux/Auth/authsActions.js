@@ -1,5 +1,7 @@
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
+// import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+// import { auth } from "../../firebaseConfig";
+// firebase configuration to be done later 
+
 import {
   login,
   loginFailed,
