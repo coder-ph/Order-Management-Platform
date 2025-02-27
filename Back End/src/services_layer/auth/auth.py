@@ -10,6 +10,6 @@ class AuthLayer:
         return token
     def decodeToken(self, token):
         result = jwt.decode(token, appConfig.jwt.JWT_SECRET, algorithms=["HS256"])
-        print('here is the resutl : ',result)
+        return result
 
 authLayer = AuthLayer()

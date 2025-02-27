@@ -1,33 +1,23 @@
-from models import store_model
-from client import db
+from src.services_layer.auth.auth import *
+from src.handlers.repository.index import UserRepository, LocationRepository, StoreRepository
+from src.error.index import ObjectNotFound
+from models.client import commit_session
+import uuid
+class StoreService():
+    def __init__(self, store_repository:StoreRepository,  user_repository:UserRepository, location_repository:LocationRepository):
+        self.user_repo = user_repository
+        self.location_repo = location_repository
+        self.store_repo = store_repository
+        
+    def create_store(self, store, location):
+        owner_id = store['owner']
+        owner = self.user_repo.get_user_by_id(owner_id)
+        if not owner: raise ObjectNotFound('user', owner_id, 'id')
+        location = self.location_repo.create_location(location)
+        newStore = self.store_repo.create_store(store, location)
+        return newStore
+    
+    def get_stores(self):
+        return self.store_repo.get_stores()
 
-def create_store(storename, user_id, location_id=None):
-    new_store = Store(storename=storename, user_id=user_id, location_id=location_id)
-    db.session.add(new_store)
-    db.session.commit()
-    return new_store
-
-def get_store_by_id(store_id):
-    return Store.query.get(store_id)
-
-def get_all_stores():
-    return Store.query.all()
-
-def update_store(store_id, storename=None, location_id=None):
-    store = Store.query.get(store_id)
-    if store:
-        if storename:
-            store.storename = storename
-        if location_id:
-            store.location_id = location_id
-        db.session.commit()
-        return store
-    return None
-
-def delete_store(store_id):
-    store = Store.query.get(store_id)
-    if store:
-        db.session.delete(store)
-        db.session.commit()
-        return True
-    return False
+        

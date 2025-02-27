@@ -15,7 +15,8 @@ def auth_middleware(f):
                 try:
                     user = authLayer.decodeToken(token)
                     #TODO: verify model users has role for user_role
-                    g.user_role = user.role
+                    g.user_role = user['role']
+                    g.user = user
                 except Exception as e:
                     return {"error":errorEnums['403']}
             else:

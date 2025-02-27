@@ -1,47 +1,39 @@
-from flask import jsonify, request
-from services.product_service import ProductService
+from src.services_layer.utilities.constants import *
+from src.services_layer.validators.index import *
+from src.services_layer.utilities.constants import *
+from src.startup.logging import Logger
+from src.error.index import is_bad_request, InternalServerErrors, DBSessionErrors, compile_error
+from src.services_layer.utilities.index import hash_string
+from src.services_layer.validators.index import validate_object, request_has_json
+from .artifacts import category_creation_art
+from src.services_layer.auth.index import authLayer
+from src.handlers.services.index import productsService
 
-class ProductController:
-    @staticmethod
-    def get_all_products():
-        products = ProductService.get_all_products()
-        return jsonify([{
-            "id": p.id, 
-            "product_name": p.product_name,
-            "quantity": p.quantity,
-            "description": p.description,
-            "category_id": p.category_id
-        } for p in products]), 200
+logger = Logger('products controller file')
 
-    @staticmethod
-    def get_product(product_id):
-        product = ProductService.get_product_by_id(product_id)
-        if product:
-            return jsonify({
-                "id": product.id, 
-                "product_name": product.product_name,
-                "quantity": product.quantity,
-                "description": product.description,
-                "category_id": product.category_id
-            }), 200
-        return jsonify({"error": "Product not found"}), 404
+@request_has_json(category_creation_art)
+def create_category(payload):
+    payload_is_valid, missing = validate_object(category_creation_art, payload)
+    if not payload_is_valid :return {"error":"payload missing objects", "data":f"missing params: {missing}"}, 400
+    try:
+        category = productsService.create_category(payload)
+        return {'message':'category created', 'data':category}
+    except Exception as e:
+        return compile_error(e)
 
-    @staticmethod
-    def create_product():
-        data = request.get_json()
-        product = ProductService.create_product(data)
-        return jsonify({"message": "Product created", "id": product.id}), 201
-
-    @staticmethod
-    def update_product(product_id):
-        data = request.get_json()
-        product = ProductService.update_product(product_id, data)
-        if product:
-            return jsonify({"message": "Product updated"}), 200
-        return jsonify({"error": "Product not found"}), 404
-
-    @staticmethod
-    def delete_product(product_id):
-        if ProductService.delete_product(product_id):
-            return jsonify({"message": "Product deleted"}), 200
-        return jsonify({"error": "Product not found"}), 404
+@request_has_json(category_creation_art)
+def create_category(payload):
+    payload_is_valid, missing = validate_object(category_creation_art, payload)
+    if not payload_is_valid :return {"error":"payload missing objects", "data":f"missing params: {missing}"}, 400
+    try:
+        category = productsService.create_category(payload)
+        return {'message':'category created', 'data':category}
+    except Exception as e:
+        return compile_error(e)
+def get_categories():
+    try:
+        categories = productsService.get_categories()
+        return {'message':'categories', 'data':categories}
+    except Exception as e:
+        return compile_error(e)
+    

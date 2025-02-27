@@ -18,4 +18,5 @@ def routerSetup(api:Api):
     api.add_resource(LiveProbe, f'{appConfig.app.BASE_URL}/liveprobe')
     userRoutes(api)
     productsRoutes(api)
+    storeRoutes(api)
     

@@ -1,18 +1,27 @@
-from flask_restful import resource
+from flask_restful import Resource
 from src.config.config_map import appConfig
 from src.handlers.controllers.index import *
 from src.startup.logging import Logger
+from src.handlers.middlewares.index import auth_middleware, acl_middleware
 
 logger = Logger("store routes file")
 
+class BaseStoreMethods(Resource):
+    @auth_middleware
+    @acl_middleware
+    def post(self):
+        try:
+            return create_store()
+        except Exception as e:
+            return {"error":errorEnums['500']}
+    def get(self):
+        try:
+            return get_stores()
+        except Exception as e:
+            return {"error":errorEnums['500']}
 
-
-
-
-        
-def StoreRoutes(api):
-    api.add_resource(StoreTest, f'{appConfig.app.BASE_URL}/stores')
-   
-    api.add_resource(Stores, f"{appConfig.app.BASE_URL}/user/storesfetch")
+def storeRoutes(api):
+    base = f"{appConfig.app.BASE_URL}/store"
+    api.add_resource(BaseStoreMethods, f"{base}")
 
 

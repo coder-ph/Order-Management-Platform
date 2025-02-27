@@ -7,6 +7,9 @@ def initial_setup(init_app):
     @init_app.route("/")
     def route_home():
         return {'message':'Welcome to Group 4 APIs'},200
+    @init_app.route("/api/v1")
+    def route_home_api():
+        return {'message':'Welcome to Group 4 APIs'},200
     @init_app.errorhandler(404)
     def handle_404(error):
         print()

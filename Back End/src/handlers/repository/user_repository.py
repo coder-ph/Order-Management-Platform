@@ -23,6 +23,9 @@ class UserRepository():
     def get_user_by_email(self, email):
         user = session.query(User).filter_by(email=email).first()
         return user
+    def get_user_by_id(self, id):
+        
+        return session.query(User).filter_by(id=uuid.UUID(id)).first()
     @update_session('user')
     def update_user_password(self, user:User, password:str)->User:
         user.password = password
