@@ -9,7 +9,7 @@
     align-items: center;
     height: 100vh; 
     background-color: #fcf7f8;
-    background-image: url('../Images/fabric-background.png');
+    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShxE7M6947iBppk9j-dxI8t1ivGXfUFm_5t6p08ImyGhn2mZ-8NUqIvrf1nd8QGqCI3pM&usqp=CAU');
     background-size: cover;
     font-family: 'Alata';
 } 
@@ -18,10 +18,10 @@
 .login-container {
     display: flex;
     width: 100%;
-    height: 90vh;
+    height: 70vh;
     justify-content: center;
     max-width: 900px;
-    background: #7e0404;
+    background: #1F2A40;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -29,7 +29,7 @@
 .login-left-side {
     flex: 1;
     width: 50%;
-    background-color: #7e0404;
+    background-color: #141b2d;
     color: white;
     display: flex;
     flex-direction: column;
@@ -53,6 +53,7 @@
     width: 12rem;
     height: 12rem;
     border-radius: 20%;
+    color: #102542;
     object-fit: cover;
 }
 
@@ -71,7 +72,7 @@
 }
 
 .google-button {
-    background-color: #7e0404;
+    background-color:#1F2A40;
     color: white;
     border-radius: 5px;
     padding: 5px;
@@ -152,7 +153,7 @@ input::placeholder {
 
 .login-button button {
     width: 100%;
-    background-color: #7e0404;
+    background-color: #1F2A40;
     color: white;
     padding: 10px;
     border: none;
