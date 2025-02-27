@@ -13,7 +13,7 @@ import coverImage from "../assets/Images/delivery-man.jpg";
 import { GoogleButton } from "../Components/Buttons/Buttons";
 import { FaGoogle } from "react-icons/fa";
 import "../assets/styles/LoginPage.css";
-
+import { loginWithGoogle } from "../Redux/Auth/authsActions";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -25,22 +25,20 @@ const LoginForm = () => {
     dispatch(loginWithGoogle())
   }
   useEffect(() => {
-    if(isAuthenticated) {
-    switch (role) {
-      case "admin":
-        navigate("/dashboard/map");
-        break;
-      case "user":
-        navigate("/user");
-        break;
-      case "driver":
-        navigate("/driver");
-        break;
-      default:
-        navigate("/");
-    }
+    if (isAuthenticated && role) {
+      const roleRoutes = {
+        admin: "/dashboard/map",
+        user: "/user",
+        driver: "/driver",
+      };
+     if (isAuthenticated && role && roleRoutes[role]) {
+       navigate(roleRoutes[role]);
+     } else {
+       navigate("/");
+     }
     }
   }, [isAuthenticated, role, navigate]);
+
 
   // Formik setup
   const formik = useFormik({
