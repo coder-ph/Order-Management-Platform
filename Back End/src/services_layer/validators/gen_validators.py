@@ -1,6 +1,6 @@
 from functools import wraps
 from flask import request
-
+import uuid
 def validate_object(params: list, payload: dict, parent_key=""):
     missing = []
     print(params)
@@ -18,6 +18,18 @@ def validate_object(params: list, payload: dict, parent_key=""):
 
     return (False, missing) if missing else (True, [])
 
+def validate_ids(ids:list):
+    not_valid = []
+    for id in ids:
+        try:
+            uuid.UUID(id)
+        except Exception as e:
+            not_valid.append(id)
+    if len(not_valid)>0:
+        return False, not_valid
+    else:
+        return True, not_valid
+    
 def request_has_json(payload_objects=[]):
     def decorator(func):
         @wraps(func)

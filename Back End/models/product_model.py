@@ -11,7 +11,7 @@ class Category(db.Model):
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     
-    products = relationship("Product", back_populates='category')
+    Products = relationship("Product", back_populates='Category')
     
     def to_dict(self):
         return {
@@ -32,11 +32,11 @@ class Product(db.Model):
     created_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now())
     updated_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
 
-    category_id:Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('categories.id', ondelete="SET NULL"), nullable=True)
-    store_id:Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('stores.id', ondelete="SET NULL"), nullable=False)
+    category:Mapped[String] = mapped_column(String[50], ForeignKey('categories.name', ondelete="SET NULL"), nullable=False)
+    store:Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('stores.id', ondelete="SET NULL"), nullable=False)
 
-    store = relationship("Store", back_populates="products")
-    category = relationship("Category", back_populates='products')
+    Store = relationship("Store", back_populates="Products")
+    Category = relationship("Category", back_populates='Products')
     
     def to_dict(self):
         return {
@@ -44,8 +44,8 @@ class Product(db.Model):
             "name":self.name,
             "quantity":self.quantity,
             "description":self.description,
-            "category":self.category.to_dict() if self.category else None,
-            "store_id":self.store_id
+            "category":self.category,
+            "store":str(self.store)
         }
 
     def __repr__(self):

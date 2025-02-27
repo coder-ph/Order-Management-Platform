@@ -18,6 +18,6 @@ class StoreService():
         return newStore
     
     def get_stores(self):
-        return self.store_repo.get_stores()
+        return self.store_repo.get_stores
 
         
