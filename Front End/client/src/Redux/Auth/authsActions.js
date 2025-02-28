@@ -4,9 +4,9 @@ import {
   updatePasswordFailure,
   resetPasswordUpdateState,
 } from "./authsSlice";
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+// import axios from "axios";
+// import { jwtDecode } from "jwt-decode";
+// import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
