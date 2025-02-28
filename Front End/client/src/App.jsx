@@ -47,6 +47,7 @@ function App() {
         <Route path="/reset-code" element={<ResetPasswordPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/products" element={<ProductManagement />} />
+        <Route path="/user-products" element={<ProductPage />} />
 
         {/* Role-based private routes */}
         {isAuthenticated ? (

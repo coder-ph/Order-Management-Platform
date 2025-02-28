@@ -1,55 +1,62 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { mockCategories, mockProducts } from "../assets/UserMockData";
-// import Navbar from "../Components/UserNavBar";
-import { Category } from "@mui/icons-material";
+import Navbar from "../Components/ProductNavbar";
+import UserCategorySection from "../Components/UCategorySection";
+import ProductGrid from "../Components/ProductGrid";
+import CartModal from "../Components/CartModal";
+import '../assets/styles/ProductPage.css';
 
 function ProductPage() {
-    const [products, setProducts] = useState(mockProducts)
-    const [categories] = useState(mockCategories)
-    const [cart, setCart] = useState([])
-    const [searchTerm, setSearchTerm] = useState('')
-    const [showCart, setShowCart] = useState(false)
-    const [selectedCategory, SetSelectedCategory] = useState(null)
-
-    const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0)
-
+    const [products, setProducts] = useState(mockProducts);
+    const [categories] = useState(mockCategories);
+    const [cart, setCart] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [showCart, setShowCart] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    
+    const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
+    
     const filteredProducts = products.filter(product => {
-        const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase())
-        const matchesCategory = selectedCategory? product.category === selectedCategory : true
-        return matchesSearch && matchesCategory
-    })
-
+        const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesCategory = selectedCategory ? product.category === selectedCategory : true;
+        return matchesSearch && matchesCategory;
+    });
+    
     const addToCart = (product) => {
-        const existingProduct = cart.find(item => item.id === product.id)
+        const existingProduct = cart.find(item => item.id === product.id);
         if (existingProduct) {
-            setCart(cart.map(item => item.id === product.id ? {...item, quantity: item.quantity + 1} : item))
+            setCart(cart.map(item => item.id === product.id ? {...item, quantity: item.quantity + 1} : item));
         } else {
-            setCart([...cart, {...product, quantity: 1}])
+            setCart([...cart, {...product, quantity: 1}]);
         }
-    }
-
+    };
+    
     const handleCategorySelect = (categoryName) => {
-        SetSelectedCategory(categoryName === selectedCategory ? null : categoryName)
-    }
-
+        setSelectedCategory(categoryName === selectedCategory ? null : categoryName);
+    };
+    
     const handleSearch = (term) => {
-        setSearchTerm(term)
-    }
-
+        setSearchTerm(term);
+    };
+    
+    const toggleCart = () => {
+        setShowCart(!showCart);
+    };
+    
     useEffect(() => {
+        // This would be replaced with actual API call in production
         // const fetchProducts = async () => {
         //     try {
-        //         const res = await fetch('/api/products')
-        //         const data = await res.json()
-        //         setProducts(data)
+        //         const res = await fetch('/api/products');
+        //         const data = await res.json();
+        //         setProducts(data);
         //     } catch (error) {
-        //         console.error('Error fetching products:', error)
+        //         console.error('Error fetching products:', error);
         //     }
-        // }
-        // fetchProducts()
-    }, [])
-
+        // };
+        // fetchProducts();
+    }, []);
+    
     return (
         <div className="product-page">
             <Navbar
@@ -58,7 +65,7 @@ function ProductPage() {
                 onCartClick={toggleCart}
             />
             <div className="main-content">
-                <CategorySection
+                <UserCategorySection
                     categories={categories}
                     selectedCategory={selectedCategory}
                     onCategorySelect={handleCategorySelect}
@@ -71,7 +78,7 @@ function ProductPage() {
                     />
                 </div>
             </div>
-
+            
             {showCart && (
                 <CartModal
                     cart={cart}
@@ -80,7 +87,7 @@ function ProductPage() {
                 />
             )}
         </div>
-    )
+    );
 }
 
-export default ProductPage
+export default ProductPage;
