@@ -15,7 +15,8 @@
 .signup-container {
     display: flex;
     width: 100%;
-    height: 70vh;
+    height: auto;
+    max-height: 90vh;
     justify-content: center;
     max-width: 900px;
     background: #1F2A40;
@@ -42,29 +43,29 @@
     padding-left: 10px;
     padding-top: 10px;
 }
-
 .signup-left-section p {
     font-size: 16px;
     margin-bottom: 20px;
 }
-
 .signup-right-section {
     width: 50%;
     background-color: #fcf7f8;
-    padding: 40px;
+    padding: 20px 30px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     color: black;
+    overflow-y: auto;
 }
 .signup-right-section h2 {
     font-size: 22px;
     margin-bottom: 15px;
+    text-align: center;
 }
 .signup-divider {
     display: flex;
     align-items: center;
-    margin: 1rem 0;
+    margin: 0.8rem 0;
     color: black;
     font-size: 10px;
 }
@@ -78,18 +79,107 @@
 .signup-form-container {
     width: 100%;
 }
-.username,
-.email,
-.password {
+.form-field {
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    position: relative;
+}
+.username,
+.email,
+.password,
+.phone,
+.address {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.form-field label,
+.username label,
+.email label,
+.password label,
+.phone label,
+.address label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+.error-text {
+    color: red;
+    font-size: 13px;
+    margin-top: 2px;
+    line-height: 1.2;
+    font-weight: 500;
 }
 .error {
     color: red;
-    font-size: 14px;
-    margin-top: 5px;
+    font-size: 13px;
+    margin-top: 2px;
+    line-height: 1.2;
+    font-weight: 500;
 }
-.sbmt{
+.sbmt {
     background-color: #141b2d;
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 5px;
+    font-family: 'Alata', sans-serif;
+}
+.form-field input,
+.form-field textarea,
+.username input,
+.email input,
+.password input,
+.phone input,
+.address input,
+.address textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Alata', sans-serif;
+    box-sizing: border-box;
+    height: 40px;
+}
+.input-error {
+    border-color: red !important;
+    border-width: 2px !important;
+}
+.password-toggle {
+    display: flex;
+    align-items: center;
+    margin-top: 2px;
+    margin-bottom: 6px;
+}
+.password-toggle input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+    cursor: pointer;
+    height: auto;
+}
+.checkbox-label {
+    font-size: 14px;
+    margin-bottom: 0 !important;
+    cursor: pointer;
+    user-select: none;
+}
+.google-signup-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #1F2A40;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Alata', sans-serif;
 }
