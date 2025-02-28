@@ -17,6 +17,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import AddLocationAltOutlinedIcon from "@mui/icons-material/AddLocationAltOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import user from "../../../src/assets/icons/person_57dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -129,6 +130,13 @@ const AdminSidebar = () => {
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+            />
+            <Item
+            title="Manage Orders"
+            to="/dashboard/orders"
+            icon={<LocalShippingOutlinedIcon />}
+            selected={selected}
+            setSelected={setSelected}
             />
             <Item
               title="Contacts Information"
