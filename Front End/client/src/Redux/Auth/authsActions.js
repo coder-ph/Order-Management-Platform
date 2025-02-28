@@ -10,6 +10,10 @@ import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT = "LOGOUT";
+export const SIGNUP_REQUEST = "SIGNUP_REQUEST";
+export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
+export const SIGNUP_FAILURE = "SIGNUP_FAILURE";
+
 
 const API_URL = import.meta.env.VITE_APP_USER_URL;
 
@@ -128,3 +132,28 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// Signup imppp
+
+export const signupUser = (userData) => async (dispatch) => {
+  dispatch({ type: SIGNUP_REQUEST });
+
+  try {
+    const response = await axios.post(`${API_URL}/api/signup`, userData, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    });
+
+    dispatch({
+      type: SIGNUP_SUCCESS,
+      payload: response.data, // e.g., user data, success message
+    });
+    window.location.href = '/login'
+  } catch (error) {
+    dispatch({
+      type: SIGNUP_FAILURE,
+      payload:
+        error.response?.data?.message || "Sign-up failed. Please try again!",
+    });
+  }
+};

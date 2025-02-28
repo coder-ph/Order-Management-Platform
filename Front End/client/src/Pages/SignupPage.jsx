@@ -3,8 +3,14 @@ import { MainButton, GoogleButton } from "../Components/Buttons/Buttons";
 import { useFormik } from "formik";
 import coverImage from "../assets/Images/delivery-man.jpg"
 import '../assets/styles/SignupPage.css'
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { signupUser } from "../Redux/Auth/authsActions";
 
 const SignupPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, error, signupSuccess } = useSelector((state) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   // show password
   const togglePasswordVisibility = () => {
@@ -45,17 +51,19 @@ const SignupPage = () => {
       }
 
       // phone (optional validation, adjust as needed)
-      if (values.phone && !/^\d{10}$/.test(values.phone.replace(/\D/g, ''))) {
+      if (values.phone && !/^\d{10}$/.test(values.phone.replace(/\D/g, ""))) {
         errors.phone = "Please enter a valid phone number";
       }
 
       return errors;
     },
     onSubmit: (values) => {
-      console.log("Form submitted:", values);
+      dispatch(signupUser(values));
     },
   });
-
+   if (signupSuccess) {
+     navigate("/login"); // Redirect to login after successful sign-up
+   }
   const handleGoogleSignin = () => {
     console.log("Google Sign In Clicked");
   };
@@ -64,7 +72,9 @@ const SignupPage = () => {
     <div className="signup-page">
       <div className="signup-container">
         <div className="signup-left-section">
-          <h1>The Optimal <br></br> Order <br></br> Management System</h1>
+          <h1>
+            The Optimal <br></br> Order <br></br> Management System
+          </h1>
           <p>Manage your orders with ease</p>
           <img src={coverImage} alt="cover image" className="cover-image" />
         </div>
@@ -95,10 +105,16 @@ const SignupPage = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     required
-                    className={formik.touched.username && formik.errors.username ? "input-error" : ""}
+                    className={
+                      formik.touched.username && formik.errors.username
+                        ? "input-error"
+                        : ""
+                    }
                   />
                   {formik.touched.username && formik.errors.username && (
-                    <small className="error-text">{formik.errors.username}</small>
+                    <small className="error-text">
+                      {formik.errors.username}
+                    </small>
                   )}
                 </div>
 
@@ -113,7 +129,11 @@ const SignupPage = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     required
-                    className={formik.touched.email && formik.errors.email ? "input-error" : ""}
+                    className={
+                      formik.touched.email && formik.errors.email
+                        ? "input-error"
+                        : ""
+                    }
                   />
                   {formik.touched.email && formik.errors.email && (
                     <small className="error-text">{formik.errors.email}</small>
@@ -131,10 +151,16 @@ const SignupPage = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     required
-                    className={formik.touched.password && formik.errors.password ? "input-error" : ""}
+                    className={
+                      formik.touched.password && formik.errors.password
+                        ? "input-error"
+                        : ""
+                    }
                   />
                   {formik.touched.password && formik.errors.password && (
-                    <small className="error-text">{formik.errors.password}</small>
+                    <small className="error-text">
+                      {formik.errors.password}
+                    </small>
                   )}
                   <div className="password-toggle">
                     <input
@@ -143,7 +169,9 @@ const SignupPage = () => {
                       checked={showPassword}
                       onChange={togglePasswordVisibility}
                     />
-                    <label htmlFor="showPassword" className="checkbox-label">Show password</label>
+                    <label htmlFor="showPassword" className="checkbox-label">
+                      Show password
+                    </label>
                   </div>
                 </div>
 
@@ -157,7 +185,11 @@ const SignupPage = () => {
                     value={formik.values.phone}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    className={formik.touched.phone && formik.errors.phone ? "input-error" : ""}
+                    className={
+                      formik.touched.phone && formik.errors.phone
+                        ? "input-error"
+                        : ""
+                    }
                   />
                   {formik.touched.phone && formik.errors.phone && (
                     <small className="error-text">{formik.errors.phone}</small>
@@ -177,8 +209,11 @@ const SignupPage = () => {
                   />
                 </div>
 
-                <MainButton type="submit">Sign up</MainButton>
+                <MainButton type="submit" disabled={loading}>
+                  {loading ? "Signing Up..." : "Sign up"}
+                </MainButton>
               </form>
+              {error && <p style={{ color: "red" }}>{error}</p>}
             </div>
           </div>
         </div>
