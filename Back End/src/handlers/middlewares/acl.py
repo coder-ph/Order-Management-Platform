@@ -13,6 +13,11 @@ def acl_middleware(f):
         path_split = request_url.split('/api/v1/')
         path = path_split[len(path_split)-1]
         method = request.method
+        split_path = path.split("/")
+        if len(split_path[len(split_path)-1]) > 24 :
+            split_path.pop()
+            path = "/".join(split_path)
+        print(split_path)
         user_role = g.user_role
         BASE_DIR = Path(__file__).resolve().parents[3]
         acl_file_path = BASE_DIR / "acl.json"

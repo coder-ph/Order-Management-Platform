@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, Integer, ForeignKey, DateTime, Enum
 from models.client import db, bcrypt
-from src.services_layer.utilities.index import hash_string, check_hash
+from src.services_layer.utilities.index import hash_string, check_hash, generate_otp
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 from .model_enums import UserRoles
@@ -52,3 +52,31 @@ class User(db.Model):
 
     def __repr__(self):
         return f"User('{self.first_name}', '{self.email}')"
+
+class Token(db.Model):
+    __tablename__ = 'tokens'
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
+    key: Mapped[str] = mapped_column(String(50),nullable=False)
+    _token: Mapped[str] = mapped_column(String(50), unique=True,  nullable=False)
+
+    @property
+    def token(self):
+        return self._token
+    
+    @token.setter
+    def token(self, token):
+        token_exists = self.query.filter_by(token=token).first()
+        if token_exists:
+            self.token = token
+        self._token = generate_otp()
+    def to_dict(self):
+        return {
+            'key':self.key,
+            'token':self.token
+        }
+        
+
+    
+
+    
+    

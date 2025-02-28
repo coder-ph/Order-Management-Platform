@@ -1,5 +1,5 @@
 from models.client import  commit_session, update_session
-from models.index import User, session, list_getter
+from models.index import User, Token, session, list_getter
 from .location_repository import LocationRepository
 import uuid
 class UserRepository():
@@ -8,7 +8,6 @@ class UserRepository():
     @commit_session("user")
     def create_user(self, user, location):
         location = self.location_repo.create_location(location)
-        print(location)
         newUser = User(first_name=user['first_name'],last_name=user['last_name'], phone_no=user['phone_no'], email=user['email'], password=user['password'], location_id=uuid.UUID(location['id']))
         return newUser
     @list_getter
@@ -31,7 +30,10 @@ class UserRepository():
     def update_user_password(self, user:User, password:str)->User:
         user.password = password
         return user
-
-        
-        
-        
+    
+    @commit_session('token')
+    def store_token(self,key):
+        return Token(key=key, token='123456')
+    @update_session('token')
+    def update_token(self, key):
+        return Token()

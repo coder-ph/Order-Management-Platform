@@ -5,12 +5,14 @@ from src.handlers.middlewares.index import *
 from src.routers.index import *
 from src.services_layer.auth.auth import *
 
+
 class LiveProbe(Resource):
     def get(self):
         try:
             return {"messgae":f"server running on port : {appConfig.app.PORT}"}, 200
         except Exception as e:
             print(str(e))
+            print(e)
             return {"error": errorEnums["500"]}, 500
 
 

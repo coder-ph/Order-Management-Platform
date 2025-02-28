@@ -23,6 +23,9 @@ class AnotherUserTest(Resource):
 class ResetPassWord(Resource):
     def put(self):
         return update_user_password()
+class RequestOTP(Resource):
+    def get(self):
+        return request_token()
     
     
 def userRoutes(api):
@@ -32,6 +35,6 @@ def userRoutes(api):
     ## Authentication
     api.add_resource(BaseUserMethods, f'{base}')
     api.add_resource(ResetPassWord, f"{base}/reset-password")
+    api.add_resource(RequestOTP, f"{base}/otp")
     
     api.add_resource(GetAllUsers, f'{base}/users/all')
-    api.add_resource(AnotherUserTest, f'{base}/users/test2')

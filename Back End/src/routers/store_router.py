@@ -19,9 +19,19 @@ class BaseStoreMethods(Resource):
             return get_stores()
         except Exception as e:
             return {"error":errorEnums['500']}
+        
+class ChangeStoreStatus(Resource):
+    @auth_middleware
+    @acl_middleware
+    def put(self):
+        try:
+            return change_store_status()
+        except Exception as e:
+            return {"error":errorEnums['500']}
 
 def storeRoutes(api):
     base = f"{appConfig.app.BASE_URL}/store"
     api.add_resource(BaseStoreMethods, f"{base}")
+    api.add_resource(ChangeStoreStatus, f"{base}/status")
 
 

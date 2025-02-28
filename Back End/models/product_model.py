@@ -1,5 +1,5 @@
 from sqlalchemy.orm import relationship, Mapped, mapped_column
-from sqlalchemy import ForeignKey, DateTime, String, Integer
+from sqlalchemy import ForeignKey, DateTime, String, Integer, Float
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 from models.client import db
@@ -27,7 +27,9 @@ class Product(db.Model):
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     quantity: Mapped[int] = mapped_column(Integer, default=0)
+    # price:Mapped[float] = mapped_column(Float, default=0.0, nullabe=True)
     description: Mapped[str] = mapped_column(String(15), nullable=True)
+    price: Mapped[float] = mapped_column(Float, default=0.0, nullable=False)
     
     created_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now())
     updated_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
@@ -42,6 +44,7 @@ class Product(db.Model):
         return {
             "id":str(self.id), 
             "name":self.name,
+            "price":self.price,
             "quantity":self.quantity,
             "description":self.description,
             "category":self.category,
@@ -49,4 +52,4 @@ class Product(db.Model):
         }
 
     def __repr__(self):
-        return f"Product('{self.name}', Quantity: {self.quantity}, Category ID: {self.category_id})"
+        return f"Product('{self.name}', Quantity: {self.quantity}, Category ID: {self.category})"

@@ -1,8 +1,13 @@
 from flask_cors import CORS
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask_restful import Api
+import os
+from flask import Flask
 
-init_app = Flask(__name__)
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../services_layer/pings"))
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
+
+init_app = Flask(__name__, template_folder=TEMPLATES_DIR)
 def initial_setup(init_app):
     @init_app.route("/")
     def route_home():

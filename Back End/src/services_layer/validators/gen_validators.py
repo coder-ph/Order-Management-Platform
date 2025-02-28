@@ -1,6 +1,8 @@
 from functools import wraps
 from flask import request
+from src.handlers.controllers.artifacts import product_creation_art, product_updates_art
 import uuid
+
 def validate_object(params: list, payload: dict, parent_key=""):
     missing = []
     print(params)
@@ -30,6 +32,14 @@ def validate_ids(ids:list):
     else:
         return True, not_valid
     
+def check_extra_fields(payload):
+    extra_fields = []
+    print(product_updates_art)
+    for p in payload:
+        if not p in product_updates_art: extra_fields.append(p)
+    if len(extra_fields)>0: return True, extra_fields
+    return False, extra_fields
+
 def request_has_json(payload_objects=[]):
     def decorator(func):
         @wraps(func)

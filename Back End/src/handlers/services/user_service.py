@@ -3,6 +3,7 @@ from src.services_layer.auth.auth import *
 from src.handlers.repository.index import user_repository
 from models.index import User
 from src.error.index import ObjectNotFound, InvalidObjectValue
+from src.services_layer.pings.index import send_reset_password_mail
 import json
 
 class UserService():
@@ -31,6 +32,13 @@ class UserService():
         if not password_is_valid: raise InvalidObjectValue('credentials reset', 'password', email)
         newUser = user_repository.update_user_password(user, payload['new_password'])
         return newUser
+    
+    def request_token(self, key):
+        token = user_repository.store_token(key)
+        send_reset_password_mail({'email':key, 'token':token['token']})
+
+        
+    
         
 
         

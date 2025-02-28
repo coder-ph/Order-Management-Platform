@@ -51,3 +51,38 @@ def create_product(payload):
         return compile_error(e)
 
 
+def update_product(product_id):
+    payload = request.get_json()
+    if not payload:return {"error":"no payload was provided"}
+
+    has_extra_fields, extra_fields = check_extra_fields(payload)
+    ids_are_valid, invalid_ids = validate_ids([product_id])
+
+    if has_extra_fields :return {"error":"payload has extra objects", "data":f"extra params: {extra_fields}"}, 400
+    if not ids_are_valid :return {"error":"one or more ids provided invalid", "data":f"invalid ids: {invalid_ids}"}, 400
+    try:
+        user_id = g.user['id']
+        payload['id'] = product_id
+        product = productsService.update_product(payload, user_id)
+        return {'message':'product updated', 'data':product}
+    except Exception as e:
+        return compile_error(e)
+
+
+def delete_product(product_id):
+    ids_are_valid, invalid_ids = validate_ids([product_id])
+    if not ids_are_valid :return {"error":"one or more ids provided invalid", "data":f"invalid ids: {invalid_ids}"}, 400
+
+    try:
+        user_id = g.user['id']
+        product = productsService.delete_product(product_id, user_id)
+        return {'message':'product deleted', 'data':product}
+    except Exception as e:
+        return compile_error(e)
+
+def get_all_products():
+    try:
+        products = productsService.get_all_products()
+        return {'message':'all products', 'data':products}
+    except Exception as e:
+        return compile_error(e)

@@ -13,6 +13,29 @@ class BaseProductsMethods(Resource):
             return create_product()
         except Exception as e:
             return {"error":errorEnums['500']}
+    def get(self):
+        try:
+            return get_all_products()
+        except Exception as e:
+            return {"error":errorEnums['500']}
+    
+class UpdateProductMethod(Resource):
+    @auth_middleware
+    @acl_middleware
+    def put(self, product_id):
+        try:
+            return update_product(product_id=product_id)
+        except Exception as e:
+            return {"error":errorEnums['500']}
+    @auth_middleware
+    @acl_middleware
+    def delete(self, product_id):
+        try:
+            return delete_product(product_id)
+            return {"message":"something"}
+        except Exception as e:
+            print('exeption here :A: ',e)
+            return {"error":errorEnums['500']}
 
 class BaseCategoryMethods(Resource):
     @auth_middleware
@@ -32,4 +55,5 @@ def productsRoutes(api:Api):
     base = f"{appConfig.app.BASE_URL}/products"
 
     api.add_resource(BaseProductsMethods, f"{base}")
+    api.add_resource(UpdateProductMethod, f"{base}/<product_id>")
     api.add_resource(BaseCategoryMethods, f'{base}/categories')
