@@ -24,6 +24,7 @@ import Ap from "./scenes/dashboard/App"
 import AdDashboard from "./scenes/dashboard/AdDashboard"
 import CategorySection from "./Components/CategorySection"
 import './App.css'
+import Orders from "./scenes/ManageOrders/ManageOrders"
 
 
 function App() {
