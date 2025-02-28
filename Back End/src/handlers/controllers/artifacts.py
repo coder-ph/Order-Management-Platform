@@ -5,7 +5,7 @@ user_password_update_art = ['email', 'password', 'new_password']
 
 ## Products artifacts
 category_creation_art = ['name']
-product_creation_art = ['name', 'description', 'quantity', 'category', 'store']
+product_creation_art = ['name', 'description','category', 'store']
 
 ## Store artifacts
 store_creation_art = ['name', 'description',  'location.lattitude', 'location.longitude']

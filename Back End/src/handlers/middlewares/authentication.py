@@ -22,7 +22,7 @@ def auth_middleware(f):
             else:
                 return {"error":errorEnums['403']}
         else:
-            g.user_role = 'super_admin'
+            g.user_role = 'guest'
         return f(*args, **kwrags)
         
     return decorated_function

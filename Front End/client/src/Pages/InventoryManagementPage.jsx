@@ -7,7 +7,7 @@ import FilterPopup from "../Components/InventoryFilter";
 import { ProductServiceAPI } from "../Components/InventoryApi";
 import "../assets/styles/ProductManagement.css";
 
-import CategorySection from "../Components/CategorySection";
+// import CategorySection from "../Components/CategorySection";
 import AdminSidebar from "../scenes/global/AdminSidebar";
 
 
@@ -79,17 +79,16 @@ const ProductManagement = () => {
  {/* AdminSidebar Component */}
  
     return (
-      <div className="flex">
+      <div className="flex min-h-screen">
         {/* AdminSidebar Component */}
-        <div id="admn">
-          <AdminSidebar />
+        <div className="w-64 bg-gray-800 text-white fixed h-screen">
+            <AdminSidebar />
         </div>
-
         {/* <div className="category-section">
             <CategorySection />
-            </div> */}
+            </div>  */}
 
-        <div className="main-content flex-1 p-6">
+        <div className="flex-1 ml-64 p-6">
           <ProductHeader
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}

@@ -4,7 +4,7 @@ from .product_service import *
 from .store_service import *
 
 userService = UserService()
-productsService = ProductsService(product_repository)
+productsService = ProductsService(product_repository, store_repository, user_repository)
 storeService = StoreService(store_repository, user_repository,location_repository)
 
 

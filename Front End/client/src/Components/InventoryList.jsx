@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { MainButton } from "../Components/Buttons/Button";
+import { FaRegEdit } from "react-icons/fa";
 
 const ProductList = ({ products, handleStatusChange }) => {
     const getStatusColor = (status) => {
@@ -22,10 +23,23 @@ const ProductList = ({ products, handleStatusChange }) => {
                 return '#9E9E9E'; // Default Gray
         }
     }
+    const [activeDropdown, setActiveDropdown] = useState(null);
 
-    function viewproduct(){
 
-    }
+
+    const toggleDropdown = (productId) => {
+        if (activeDropdown === productId) {
+            setActiveDropdown(null);
+        } else {
+            setActiveDropdown(productId);
+        }
+    };
+
+    // Close dropdown when clicking outside
+    const handleClickOutside = () => {
+        setActiveDropdown(null);
+    };
+
     // const filteredProducts = products.filter(product => {
     //     if (!filters || !filters.status) {
     //         return true
@@ -34,8 +48,9 @@ const ProductList = ({ products, handleStatusChange }) => {
     //})
 
     return (
-        <div className="card">
+        <div className="card" onClick={handleClickOutside}>
             <div className="card-content">
+                <div className="table-container">
                 <table className="Products-table">
                     <thead>
                         <tr>
@@ -86,12 +101,76 @@ const ProductList = ({ products, handleStatusChange }) => {
                                     </select>
                                 </td>
                                 <td>
-                                    <MainButton onClick={() => {viewproduct}}>⋮</MainButton>
+                                    <div className="action-dropdown" style={{ position: 'relative' }}>
+                                        <MainButton 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                toggleDropdown(product.id);
+                                            }}
+                                            style={{
+                                                backgroundColor:'transparent', 
+                                                textAlign:'center', 
+                                                marginRight:'5px', 
+                                                color:'#4cceac'
+                                            }}
+                                                
+                                        >
+                                            <FaRegEdit />
+                                        </MainButton>
+                                        
+                                        {activeDropdown === product.id && (
+                                            <div 
+                                                className="dropdown-menu" 
+                                                style={{
+                                                    position: 'absolute',
+                                                    right: 0,
+                                                    top: '100%',
+                                                    backgroundColor: '#1f2945',
+                                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.1)',
+                                                    borderRadius: '4px',
+                                                    zIndex: 10,
+                                                    minWidth: '120px'
+                                                }}
+                                            >
+                                                <div 
+                                                    className="dropdown-item"
+                                                    onClick={() => {
+                                                        onEdit && onEdit(product);
+                                                        setActiveDropdown(null);
+                                                    }}
+                                                    style={{
+                                                        padding: '8px 16px',
+                                                        cursor: 'pointer',
+                                                        borderBottom: '1px solid #eee',
+                                                        color: 'white'
+                                                    }}
+                                                >
+                                                    Edit
+                                                </div>
+                                                <div 
+                                                    className="dropdown-item"
+                                                    onClick={() => {
+                                                        onDelete && onDelete(product.id);
+                                                        setActiveDropdown(null);
+                                                    }}
+                                                    style={{
+                                                        padding: '8px 16px',
+                                                        cursor: 'pointer',
+                                                        color: '#F44336'
+                                                    }}
+                                                >
+                                                    Delete
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                    {/* <MainButton onClick={() => {viewproduct}}  style={{backgroundColor:'transparent', textAlign:'center', marginRight:'5px', color:'#4cceac'}}><FaRegEdit /></MainButton> */}
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     )

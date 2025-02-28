@@ -21,7 +21,7 @@ class Store(db.Model):
 
     location = relationship("Location", back_populates="store")
     owner = relationship("User", back_populates="stores")
-    products = relationship("Product", back_populates='store')
+    Products = relationship("Product", back_populates='Store')
     
     def to_dict(self):
         return {
