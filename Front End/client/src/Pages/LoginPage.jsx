@@ -30,7 +30,7 @@ const LoginForm = () => {
     if (isAuthenticated && role) {
       const roleRoutes = {
         admin: "/dashboard/map",
-        user: "/user",
+        user: "/user-products",
         driver: "/driver",
       };
      if (isAuthenticated && role && roleRoutes[role]) {
