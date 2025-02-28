@@ -55,7 +55,7 @@ export const loginUser = (credentials) => async (dispatch) => {
 // 🔹 Check Auth Token (Handles Page Reloads & Auto Refresh)
 export const checkAuthToken = () => async (dispatch) => {
   try {
-    await axios.get(`${API_URL}/api/refresh`, { withCredentials: true });
+    const response = await axios.get(`${API_URL}/api/refresh`, { withCredentials: true });
     dispatch({
       type: LOGIN_SUCCESS,
       payload: {
@@ -122,6 +122,7 @@ axios.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
+      originalRequest._retry = true;
       try {
         await axios.get(`${API_URL}/api/refresh`, { withCredentials: true });
         return axios(error.config); // Retry the failed request
