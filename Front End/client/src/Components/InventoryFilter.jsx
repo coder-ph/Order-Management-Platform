@@ -49,7 +49,7 @@ const FilterPopup = ({ filters, setFilters, categories }) => {
                         ))}
                     </select>
                 </div>
-                <MainButton onClick={() => setFilters({ category: '', priceRange: '', status: '' })}>
+                <MainButton onClick={() => setFilters({ category: '', priceRange: '', status: '' })} style={{ backgroundColor:"#4cceac"}}>
                     Clear Filters
                 </MainButton>
             </div>
