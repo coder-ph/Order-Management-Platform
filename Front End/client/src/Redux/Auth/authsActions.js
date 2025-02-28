@@ -5,14 +5,13 @@ import {
   resetPasswordUpdateState,
 } from "./authsSlice";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT = "LOGOUT";
 
-const API_URL = import.meta.env.REACT_APP_USER_URL;
+const API_URL = import.meta.env.VITE_APP_USER_URL;
 
 const authRequest = async (url, data, method = "POST") => {
   try {
@@ -21,7 +20,7 @@ const authRequest = async (url, data, method = "POST") => {
       url: `${API_URL}${url}`,
       data,
       headers: { "Content-Type": "application/json" },
-      withCredentials: true,
+      withCredentials: true, // Sends cookies automatically
     });
   } catch (error) {
     console.error("API request failed:", error);
@@ -29,21 +28,17 @@ const authRequest = async (url, data, method = "POST") => {
   }
 };
 
-// Login User
+// 🔹 Login User (Token is stored in HTTP-only cookies)
 export const loginUser = (credentials) => async (dispatch) => {
+  
   try {
-    const res = await authRequest("/auth/login", credentials);
-    const { token } = res.data;
-
-    const decodedToken = jwtDecode(token);
-    console.log("Decoded Token:", decodedToken);
-
-    const expTime = decodedToken.exp * 1000;
-
-    dispatch({ type: LOGIN_SUCCESS, payload: { role: decodedToken.role } });
-
-    localStorage.setItem("token", token); // Store token
-    localStorage.setItem("tokenExpiry", expTime);
+    const response = await authRequest("/api/login", credentials);
+    const {role} = response.data
+    dispatch({ type: LOGIN_SUCCESS ,
+      payload: {
+        user: response.data.user, 
+        token: response.data.token, 
+        role: role,}});
   } catch (error) {
     dispatch({
       type: LOGIN_FAILURE,
@@ -53,51 +48,37 @@ export const loginUser = (credentials) => async (dispatch) => {
   }
 };
 
-// Check Auth Token (For Page Reloads)
+// 🔹 Check Auth Token (Handles Page Reloads & Auto Refresh)
 export const checkAuthToken = () => async (dispatch) => {
-  const expiry = Number(localStorage.getItem("tokenExpiry"));
-  const token = localStorage.getItem("token");
-
-  if (!token || !expiry || Date.now() > expiry) {
-    dispatch(logoutUser());
-    return;
-  }
-
   try {
-    const decodedToken = jwtDecode(token);
-    console.log("Decoded Token on Reload:", decodedToken);
-
-    dispatch({ type: LOGIN_SUCCESS, payload: { role: decodedToken.role } });
+    await axios.get(`${API_URL}/api/refresh`, { withCredentials: true });
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: {
+        user: response.data.user, 
+        token: response.data.token,
+        role: response.data.role,
+      },
+    });
   } catch (error) {
     dispatch(logoutUser());
   }
 };
 
-// Google Authentication
+// 🔹 will handle after working on firebase thingy
 export const loginWithGoogle = () => async (dispatch) => {
   const provider = new GoogleAuthProvider();
-
   try {
     const result = await signInWithPopup(auth, provider);
     const token = await result.user.getIdToken();
 
-    const res = await axios.post(
-      `${API_URL}/auth/google-login`,
+    await axios.post(
+      `${API_URL}/api/google-login`,
       { token },
       { withCredentials: true }
     );
 
-    const { token: serverToken } = res.data;
-    const decodedToken = jwtDecode(serverToken);
-
-    console.log("Decoded Google Token:", decodedToken);
-
-    const expTime = decodedToken.exp * 1000;
-
-    dispatch({ type: LOGIN_SUCCESS, payload: { role: decodedToken.role } });
-
-    localStorage.setItem("token", serverToken);
-    localStorage.setItem("tokenExpiry", expTime);
+    dispatch({ type: LOGIN_SUCCESS });
   } catch (error) {
     dispatch({
       type: LOGIN_FAILURE,
@@ -106,11 +87,11 @@ export const loginWithGoogle = () => async (dispatch) => {
   }
 };
 
-// Update Password
+// 🔹 Update Password
 export const updatePassword = (newPassword) => async (dispatch) => {
   try {
     dispatch(resetPasswordUpdateState());
-    const res = await authRequest("/auth/update-password", { newPassword });
+    const res = await authRequest("/api/update-password", { newPassword });
 
     dispatch(updatePasswordSuccess({ message: res.data.message }));
   } catch (error) {
@@ -122,16 +103,28 @@ export const updatePassword = (newPassword) => async (dispatch) => {
   }
 };
 
-// Logout User
+// 🔹 Logout User (Revokes Refresh Token)
 export const logoutUser = () => async (dispatch) => {
   try {
-    await axios.post(`${API_URL}/auth/logout`, {}, { withCredentials: true });
-
-    localStorage.removeItem("token");
-    localStorage.removeItem("tokenExpiry");
-
+    await axios.post(`${API_URL}/api/logout`, {}, { withCredentials: true });
     dispatch({ type: LOGOUT });
   } catch (error) {
     console.error("Logout failed:", error);
   }
 };
+
+// 🔹 Axios Interceptor for Auto Token Refresh
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      try {
+        await axios.get(`${API_URL}/api/refresh`, { withCredentials: true });
+        return axios(error.config); // Retry the failed request
+      } catch (refreshError) {
+        dispatch(logoutUser());
+      }
+    }
+    return Promise.reject(error);
+  }
+);
