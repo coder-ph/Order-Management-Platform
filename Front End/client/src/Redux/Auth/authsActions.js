@@ -1,30 +1,27 @@
-
-
 import {
-  login,
   loginFailed,
   updatePasswordSuccess,
   updatePasswordFailure,
   resetPasswordUpdateState,
 } from "./authsSlice";
-// import api from "../routes";
 import axios from "axios";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-// import { auth } from "../../firebaseConfig"; // Firebase config to be added later ttt
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT = "LOGOUT";
 
+const API_URL = import.meta.env.REACT_APP_USER_URL;
 
 const authRequest = async (url, data, method = "POST") => {
   try {
     return await axios({
       method,
-      url,
+      url: `${API_URL}${url}`,
       data,
       headers: { "Content-Type": "application/json" },
+      withCredentials: true,
     });
   } catch (error) {
     console.error("API request failed:", error);
@@ -32,20 +29,20 @@ const authRequest = async (url, data, method = "POST") => {
   }
 };
 
-
-
+// Login User
 export const loginUser = (credentials) => async (dispatch) => {
   try {
-    const res = await authRequest("api", credentials);
-    const { token, user, role } = res.data;
+    const res = await authRequest("/auth/login", credentials);
+    const { token } = res.data;
 
     const decodedToken = jwtDecode(token);
+    console.log("Decoded Token:", decodedToken);
+
     const expTime = decodedToken.exp * 1000;
 
-    dispatch({ type: LOGIN_SUCCESS, payload: { user, token, role } });
+    dispatch({ type: LOGIN_SUCCESS, payload: { role: decodedToken.role } });
 
-    localStorage.setItem("token", token);
-    localStorage.setItem("role", role);
+    localStorage.setItem("token", token); // Store token
     localStorage.setItem("tokenExpiry", expTime);
   } catch (error) {
     dispatch({
@@ -56,27 +53,51 @@ export const loginUser = (credentials) => async (dispatch) => {
   }
 };
 
-
-export const checkAuthToken = () => (dispatch) => {
-  const token = localStorage.getItem("token");
+// Check Auth Token (For Page Reloads)
+export const checkAuthToken = () => async (dispatch) => {
   const expiry = Number(localStorage.getItem("tokenExpiry"));
+  const token = localStorage.getItem("token");
 
   if (!token || !expiry || Date.now() > expiry) {
+    dispatch(logoutUser());
+    return;
+  }
+
+  try {
+    const decodedToken = jwtDecode(token);
+    console.log("Decoded Token on Reload:", decodedToken);
+
+    dispatch({ type: LOGIN_SUCCESS, payload: { role: decodedToken.role } });
+  } catch (error) {
     dispatch(logoutUser());
   }
 };
 
-
+// Google Authentication
 export const loginWithGoogle = () => async (dispatch) => {
   const provider = new GoogleAuthProvider();
 
   try {
     const result = await signInWithPopup(auth, provider);
-    const { user } = result;
-    const token = await user.getIdToken();
+    const token = await result.user.getIdToken();
 
-    dispatch({ type: LOGIN_SUCCESS, payload: { user, token } });
-    localStorage.setItem("token", token);
+    const res = await axios.post(
+      `${API_URL}/auth/google-login`,
+      { token },
+      { withCredentials: true }
+    );
+
+    const { token: serverToken } = res.data;
+    const decodedToken = jwtDecode(serverToken);
+
+    console.log("Decoded Google Token:", decodedToken);
+
+    const expTime = decodedToken.exp * 1000;
+
+    dispatch({ type: LOGIN_SUCCESS, payload: { role: decodedToken.role } });
+
+    localStorage.setItem("token", serverToken);
+    localStorage.setItem("tokenExpiry", expTime);
   } catch (error) {
     dispatch({
       type: LOGIN_FAILURE,
@@ -85,30 +106,32 @@ export const loginWithGoogle = () => async (dispatch) => {
   }
 };
 
-
+// Update Password
 export const updatePassword = (newPassword) => async (dispatch) => {
   try {
     dispatch(resetPasswordUpdateState());
-    const res = await api.updatePassword(newPassword);
+    const res = await authRequest("/auth/update-password", { newPassword });
 
     dispatch(updatePasswordSuccess({ message: res.data.message }));
-    localStorage.setItem("token", res.data.token);
   } catch (error) {
-    console.error("Password update failed:", error);
     dispatch(
       updatePasswordFailure(
-        error?.response?.data?.message ||
-          "An error occurred while updating the password. Please try again."
+        error?.response?.data?.message || "Password update failed."
       )
     );
   }
 };
 
+// Logout User
+export const logoutUser = () => async (dispatch) => {
+  try {
+    await axios.post(`${API_URL}/auth/logout`, {}, { withCredentials: true });
 
-export const logoutUser = () => (dispatch) => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("role");
-  localStorage.removeItem("tokenExpiry");
+    localStorage.removeItem("token");
+    localStorage.removeItem("tokenExpiry");
 
-  dispatch({ type: LOGOUT });
+    dispatch({ type: LOGOUT });
+  } catch (error) {
+    console.error("Logout failed:", error);
+  }
 };
