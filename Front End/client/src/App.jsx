@@ -24,6 +24,7 @@ import Ap from "./scenes/dashboard/App"
 import AdDashboard from "./scenes/dashboard/AdDashboard"
 import CategorySection from "./Components/CategorySection"
 import './App.css'
+import Orders from "./scenes/ManageOrders/ManageOrders"
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
         <Route path="/reset-code" element={<ResetPasswordPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/products" element={<ProductManagement />} />
+        <Route path="/user-products" element={<ProductPage />} />
 
         {/* Role-based private routes */}
         {isAuthenticated ? (
