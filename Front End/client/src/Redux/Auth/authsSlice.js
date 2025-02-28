@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { LOGIN_SUCCESS, LOGOUT } from "./authsActions"; // Import action types
+import { LOGIN_SUCCESS, LOGOUT, SIGNUP_REQUEST, SIGNUP_SUCCESS,SIGNUP_FAILURE } from "./authsActions"; // Import action types
 
 const initialState = {
   user: null,
@@ -7,6 +7,7 @@ const initialState = {
   isAuthenticated: false,
   role: localStorage.getItem("role") || null,
   error: null,
+  signupSuccess: false,
   passwordUpdate: {
     loading: false,
     success: false,
@@ -76,6 +77,26 @@ const authSlice = createSlice({
       localStorage.removeItem("role");
       localStorage.removeItem("tokenExpiry");
     });
+    
+      builder
+        .addCase(SIGNUP_REQUEST, (state, action) => {
+          state.loading = true;
+          state.error = null;
+          state.signupSuccess = false;
+        })
+        .addCase(SIGNUP_SUCCESS, (state, action) => {
+          state.loading = false;
+          state.signupSuccess = true;
+          state.error = null;
+          state.user = action.payload.user;
+          state.role = action.payload.role;
+          
+        })
+        .addCase(SIGNUP_FAILURE, (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+          state.signupSuccess = false;
+        });
   },
 });
 
