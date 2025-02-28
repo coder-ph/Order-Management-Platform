@@ -9,6 +9,7 @@ import "../assets/styles/ProductManagement.css";
 
 // import CategorySection from "../Components/CategorySection";
 import AdminSidebar from "../scenes/global/AdminSidebar";
+import Topbar from "../scenes/global/TopBar";
 
 
 const ProductManagement = () => {
@@ -76,19 +77,20 @@ const ProductManagement = () => {
     })
 
     const categories = [...new Set(products.map(p => p.category))];
- {/* AdminSidebar Component */}
+    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
  
     return (
       <div className="flex min-h-screen">
         {/* AdminSidebar Component */}
-        <div className="w-64 bg-gray-800 text-white fixed h-screen">
-            <AdminSidebar />
+        <div className="sticky h-full top-0 left-0">
+            <AdminSidebar isCollapsed={isSidebarCollapsed} setIsCollapsed={setIsSidebarCollapsed}/>
         </div>
         {/* <div className="category-section">
             <CategorySection />
             </div>  */}
 
-        <div className="flex-1 ml-64 p-6">
+        <div className="content" style={{ flex:"1", marginLeft: isSidebarCollapsed ? '80px' : '80px', transition:"margin 0.3s ease-in-out, width 0.3s ease-in-out", padding:"50px", paddingLeft:"0px", width:"100%", minHeight: "100vh"}}>
+           
           <ProductHeader
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
