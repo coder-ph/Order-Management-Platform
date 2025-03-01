@@ -1,11 +1,13 @@
 // store.js
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./Auth/authsSlice";
-import orderReducer from "./Order/orderSlice"; // Import the orderSlice
+import orderReducer from "./Order/orderSlice"; 
+import paymentReducer from './Payment/paymentSlice'
 
 const rootReducer = {
   auth: authReducer,
-  order: orderReducer, // Use "order" as the key
+  order: orderReducer,
+  payment: paymentReducer,
 };
 
 export const store = configureStore({

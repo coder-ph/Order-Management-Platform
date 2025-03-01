@@ -28,6 +28,10 @@ import Orders from "./scenes/ManageOrders/ManageOrders"
 import ProductDetails from "./Components/ProductDetails"
 import { mockProducts } from "./assets/UserMockData";
 import PaymentPage from "./Pages/paymentPage"
+import CheckoutPage from "./Components/Checkout/Checkout"
+import ChangeDeliveryPage from "./Components/Checkout/ChangeDeliveryPage"
+import ChangeAddressPage from "./Components/Checkout/ChangeAddressPage"
+import Tracking from "./Components/tracking/Tracking"
 
 
 function App() {
@@ -48,7 +52,12 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/products" element={<ProductManagement />} />
         <Route path="/user-products" element={<ProductPage />} />
-        <Route path="/payment" element={<PaymentPage/>} />
+        <Route path="/payment" element={<PaymentPage />} />
+
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/change-address" element={<ChangeAddressPage />} />
+        <Route path="/change-delivery" element={<ChangeDeliveryPage />} />
+        <Route path="/track-order" element={<Tracking />} />
         <Route
           path="/product/:id"
           element={<ProductDetails products={mockProducts} />}
