@@ -1,18 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removeFromCart } from "../Redux/Order/orderActions";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../Redux/Order/orderActions";
 import "../assets/styles/ProductGrid.css";
 
 const ProductGrid = ({ products }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.order.cart); 
-
-  // Check if a product is in the cart
-  const isProductInCart = (productId) => {
-    return cart.some((item) => item.id === productId);
-  };
 
   return (
     <div className="product-grid">
@@ -31,7 +25,7 @@ const ProductGrid = ({ products }) => {
             />
             <div className="product-details">
               <h3 className="product-name">{product.name}</h3>
-              <p className="product-price">ksh {Number(product.price)}</p>
+              <p className="product-price">ksh {product.price}</p>
               <p className="product-description">
                 {product.description.length > 50
                   ? `${product.description.substring(0, 50)}...`
@@ -39,19 +33,13 @@ const ProductGrid = ({ products }) => {
               </p>
             </div>
             <button
-              className={`add-to-cart-btn ${
-                isProductInCart(product.id) ? "remove-from-cart" : ""
-              }`}
+              className="add-to-cart-btn"
               onClick={(e) => {
                 e.stopPropagation();
-                if (isProductInCart(product.id)) {
-                  dispatch(removeFromCart(product.id)); // Remove from cart
-                } else {
-                  dispatch(addToCart(product)); // Add to cart
-                }
+                dispatch(addToCart({ ...product, quantity: 1 })); // Include quantity
               }}
             >
-              {isProductInCart(product.id) ? "Remove from Cart" : "Add to Cart"}
+              Add to Cart
             </button>
           </div>
         ))
