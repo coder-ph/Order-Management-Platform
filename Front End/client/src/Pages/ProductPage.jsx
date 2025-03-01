@@ -16,6 +16,7 @@ import {
 } from "../Redux/Order/orderActions";
 
 function ProductPage() {
+    
   const dispatch = useDispatch();
   const { cart, selectedCategory, searchTerm, showCart, products } =
     useSelector((state) => ({
