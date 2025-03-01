@@ -1,42 +1,25 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import SearchIcon from '@mui/icons-material/Search';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import '../assets/styles/ProductNavbar.css';
+import React from "react";
+import { useSelector } from "react-redux";
+import { selectCartItemCount } from "../Redux/Order/orderSelectors";
+import "../assets/styles/NavBar.css";
 
 const Navbar = ({ cartItemCount, onSearch, onCartClick }) => {
-  const handleSearchChange = (e) => {
-    onSearch(e.target.value);
-  };
+  const totalItems = useSelector(selectCartItemCount); // Get total items in cart
 
   return (
     <div className="navbar">
-      <div className="nav-left">
-        <Link to="/" className="nav-logo">
-          <span className="home-icon">⌂</span>
-        </Link>
-        <Link to="/products" className="nav-products">
-          <span className="products-icon">☰</span>
-        </Link>
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Search products..."
+          onChange={(e) => onSearch(e.target.value)}
+        />
       </div>
-      <div className="nav-right">
-        <div className="search-bar">
-          <input 
-            type="text" 
-            placeholder="search" 
-            onChange={handleSearchChange}
-          />
-          <button className="search-button"> <SearchIcon /> </button>
-        </div>
-        <button className="cart-button" onClick={onCartClick}>
-          <div className="cart-icon">
-            <ShoppingCartIcon />
-            {cartItemCount > 0 && (
-              <span className="cart-badge">{cartItemCount}</span>
-            )}
-          </div>
-          <span>Cart</span>
-        </button>
+      <div className="cart-icon" onClick={onCartClick}>
+        <span role="img" aria-label="cart">
+          🛒
+        </span>
+        {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
       </div>
     </div>
   );

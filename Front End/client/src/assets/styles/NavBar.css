@@ -1,29 +1,70 @@
-.nav-bar {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    background-color: transparent;
-    position: absolute;
-    width: 100%;
-    top: 0;
-    right: 390px;
-    font-family: 'Alata';
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Alata', sans-serif;
 }
-.nav-list {
-    display: flex;
-    list-style: none;
-    gap: 50px;
-    letter-spacing: 1px;
+
+.search-bar {
+  flex: 1;
+  margin-right: 20px;
 }
-.nav-list li {
-    font-size: 14px;
-    
+
+.search-bar input {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  outline: none;
+  transition: border-color 0.3s ease;
 }
-.nav-list li a {
-    text-decoration: none;
-    color: white;
+
+.search-bar input:focus {
+  border-color: #f7f4f400;
 }
-.nav-list li a:hover {
-    padding-bottom: 0.3rem;
-    border-bottom: 2px solid white;
+
+.cart-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+  width: 40px;
+  height: 40px;
+}
+
+.cart-icon:hover {
+  background-color: #45a049;
+}
+
+.cart-icon span[role="img"] {
+  font-size: 24px;
+  color: white;
+}
+
+.cart-count {
+  position: absolute;
+  top: -10px; /* Move the count above the cart icon */
+  right: -10px; /* Adjust horizontal position */
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  background-color: #ff5722;
+  padding: 4px 8px;
+  border-radius: 50%;
+  min-width: 20px;
+  text-align: center;
+  line-height: 1;
 }
