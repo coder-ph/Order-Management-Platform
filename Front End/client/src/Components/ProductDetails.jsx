@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addToCart,
-  removeFromCart,
-  setShowCart,
-} from "../Redux/Order/orderActions";
+import { addToCart, removeFromCart } from "../Redux/Order/orderActions";
 import { selectProductById } from "../Redux/Order/orderSelectors";
 import Navbar from "./ProductNavbar";
 import "../../src/assets/styles/ProductDetails.css";
@@ -13,6 +9,7 @@ import "../../src/assets/styles/ProductDetails.css";
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Initialize useNavigate
   const product = useSelector((state) => selectProductById(state, Number(id)));
   const cart = useSelector((state) => state.order.cart);
   const [quantity, setQuantity] = useState(1);
@@ -31,9 +28,9 @@ const ProductDetails = () => {
     }
   };
 
-  // Handle opening the cart modal
-  const handleOpenCart = () => {
-    dispatch(setShowCart(true));
+  // Handle proceeding to checkout
+  const handleCheckout = () => {
+    navigate("/payment"); // Redirect to payment page
   };
 
   if (!product) {
@@ -42,8 +39,7 @@ const ProductDetails = () => {
 
   return (
     <div className="product-details-container">
-      {/* Pass handleOpenCart to Navbar */}
-      <Navbar onCartClick={handleOpenCart} />
+      <Navbar />
       <div className="product-image-section">
         <img
           src={product.image}
@@ -76,6 +72,11 @@ const ProductDetails = () => {
           onClick={handleCartAction}
         >
           {isProductInCart(product.id) ? "Remove from Cart" : "Add to Cart"}
+        </button>
+
+        {/* Proceed to Checkout Button */}
+        <button className="checkout-btn" onClick={handleCheckout}>
+          Proceed to Checkout
         </button>
       </div>
     </div>

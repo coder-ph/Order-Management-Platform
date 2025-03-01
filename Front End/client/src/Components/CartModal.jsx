@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
@@ -9,36 +10,36 @@ import "../assets/styles/Cart.css";
 
 const CartModal = ({ onClose }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Initialize useNavigate
   const cart = useSelector((state) => state.order.cart);
 
-  
   const handleRemoveFromCart = (productId) => {
     dispatch(removeFromCart(productId));
   };
 
-  
   const handleUpdateQuantity = (productId, newQuantity) => {
     if (newQuantity <= 0) {
-      handleRemoveFromCart(productId); 
+      handleRemoveFromCart(productId);
     } else {
       dispatch(updateCartItem({ id: productId, quantity: newQuantity }));
     }
   };
 
-  
   const calculateTotal = () => {
     return cart.reduce((total, item) => {
-      const price = Number(item.price); 
-      const quantity = Number(item.quantity); 
-
-      
+      const price = Number(item.price);
+      const quantity = Number(item.quantity);
       if (!isNaN(price) && !isNaN(quantity) && price >= 0 && quantity >= 0) {
         return total + price * quantity;
       } else {
         console.error(`Invalid price or quantity for item: ${item.name}`);
-        return total; 
+        return total;
       }
     }, 0);
+  };
+
+  const handleCheckout = () => {
+    navigate("/payment"); // Redirect to payment page
   };
 
   return (
@@ -106,7 +107,9 @@ const CartModal = ({ onClose }) => {
                     : "0.00"}
                 </span>
               </div>
-              <button className="checkout-btn">Proceed to Checkout</button>
+              <button className="checkout-btn" onClick={handleCheckout}>
+                Proceed to Checkout
+              </button>
             </div>
           </>
         )}

@@ -4,7 +4,7 @@ import { selectCartItemCount } from "../Redux/Order/orderSelectors";
 import "../assets/styles/NavBar.css";
 
 const Navbar = ({ cartItemCount, onSearch, onCartClick }) => {
-  const totalItems = useSelector(selectCartItemCount); // Get total items in cart
+  const totalItems = useSelector(selectCartItemCount);
 
   return (
     <div className="navbar">

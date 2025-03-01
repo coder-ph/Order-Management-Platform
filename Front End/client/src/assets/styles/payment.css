@@ -1,0 +1,187 @@
+/* General Styles */
+.payment-page {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fafafa; /* Light cream background */
+  min-height: 100vh;
+}
+
+/* Left Side: Cart Items */
+.cart-items-container {
+  flex: 1;
+  background-color: #ffffff; /* White background */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cart-items-container h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.delivery-slot {
+  background-color: #f5f5f5; /* Light gray background */
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.delivery-slot p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff; /* White background */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-details h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.item-details p {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-btn {
+  background-color: transparent;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.quantity-btn:hover {
+  background-color: #f5f5f5; /* Light gray on hover */
+}
+
+.delete-btn {
+  background-color: transparent;
+  color: #f44336; /* Red color */
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.delete-btn:hover {
+  color: #e53935; /* Darker red on hover */
+}
+
+/* Right Side: Order Summary (Sticky) */
+.order-summary {
+  width: 350px;
+  background-color: #ffffff; /* White background */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+}
+
+.order-summary h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.subtotal,
+.total {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.subtotal p,
+.total p {
+  font-size: 16px;
+  margin: 0;
+}
+
+.total {
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+  font-weight: bold;
+}
+
+.checkout-btn {
+  width: 100%;
+  background-color:#1156d6; /* Green background */
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.checkout-btn:hover {
+  background-color: #051b44; 
+}
+
+.payment-methods {
+  margin-bottom: 20px;
+}
+
+.payment-methods h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.back-btn {
+  width: 100%;
+  background-color: #1156d6; 
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+  background-color: #e53935; 
+}

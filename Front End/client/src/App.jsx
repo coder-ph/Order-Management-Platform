@@ -27,6 +27,7 @@ import './App.css'
 import Orders from "./scenes/ManageOrders/ManageOrders"
 import ProductDetails from "./Components/ProductDetails"
 import { mockProducts } from "./assets/UserMockData";
+import PaymentPage from "./Pages/paymentPage"
 
 
 function App() {
@@ -36,7 +37,6 @@ function App() {
   return (
     <Router>
       <Routes>
-      
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard/*" element={<Ap />} />
 
@@ -48,6 +48,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/products" element={<ProductManagement />} />
         <Route path="/user-products" element={<ProductPage />} />
+        <Route path="/payment" element={<PaymentPage/>} />
         <Route
           path="/product/:id"
           element={<ProductDetails products={mockProducts} />}
