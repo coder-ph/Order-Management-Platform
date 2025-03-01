@@ -12,9 +12,11 @@ def auth_middleware(f):
             split_bearer = bearer.split(" ")
             if(len(split_bearer) > 1):
                 token = split_bearer[1]
+                
                 try:
                     user = authLayer.decodeToken(token)
                     #TODO: verify model users has role for user_role
+
                     g.user_role = user['role']
                     g.user = user
                 except Exception as e:
@@ -22,6 +24,7 @@ def auth_middleware(f):
             else:
                 return {"error":errorEnums['403']}
         else:
+            
             g.user_role = 'guest'
         return f(*args, **kwrags)
         

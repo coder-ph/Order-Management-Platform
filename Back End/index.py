@@ -12,5 +12,4 @@ if __name__ == '__main__':
     setup_db()
     with app.app_context():
         logger.info(f"server started on port : {appConfig.app.PORT}")
-    app.run(debug=True,port=appConfig.app.PORT)
-    
+    app.run(host="0.0.0.0",debug=True,port=appConfig.app.PORT)

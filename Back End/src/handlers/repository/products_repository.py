@@ -32,6 +32,5 @@ class ProductRepository():
         return Product.query.all()
     @commit_delete_session('product')
     def delete_product(self, product):
-        print("we entered here : : : ")
         return product
         
