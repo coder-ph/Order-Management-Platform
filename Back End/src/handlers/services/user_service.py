@@ -23,19 +23,51 @@ class UserService():
     def get_all_users(self):
         return user_repository.get_all_users()
     
-    def reset_password(self, payload):
+    def reset_password(self, payload, check_password=None):
+        email = payload['email']
+        
+        user:User = user_repository.get_user_by_email(email)
+        if not user: raise ObjectNotFound('user', email, 'email')
+
+        if check_password:
+            password_is_valid = user.check_password(payload['password'])
+            if not password_is_valid: raise InvalidObjectValue('credentials reset', 'password', email)
+
+        newUser = user_repository.update_user_password(user, payload['new_password'])
+        return newUser
+
+    def reset_password_with_otp(self, payload):
         email = payload['email']
         user:User = user_repository.get_user_by_email(email)
         if not user: raise ObjectNotFound('user', email, 'email')
-        password_is_valid = user.check_password(payload['password'])
+        
+    def verify_token(self, key,token_no):
+        token = user_repository.get_token_by_key(key)
+        user = user_repository.get_user_by_email(key)
+        print(user.to_dict())
+        if not token: raise ObjectNotFound('token', key, 'key')
+        if not str(token.token) == token_no: raise InvalidObjectValue('token validation', 'token', key)
 
-        if not password_is_valid: raise InvalidObjectValue('credentials reset', 'password', email)
-        newUser = user_repository.update_user_password(user, payload['new_password'])
-        return newUser
+        token_dict = token.to_dict()
+        if user:
+            print("went to ehre : ", user)
+            user:dict = user.to_dict()
+            user['token'] = token_dict
+            user_repository.drop_token(token)
+
+            return user
+        user_repository.drop_token(token)
+        return {'token',token_dict}
+        
+        
     
     def request_token(self, key):
+        ex_token = user_repository.get_token_by_key(key)
+        if ex_token:
+            token = user_repository.update_token(ex_token)
+            return send_reset_password_mail({'email':key, 'token':token['token']})
         token = user_repository.store_token(key)
-        send_reset_password_mail({'email':key, 'token':token['token']})
+        return send_reset_password_mail({'email':key, 'token':token['token']})
 
         
     

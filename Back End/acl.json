@@ -17,7 +17,7 @@
     "user":{
         "GET":["orders/create"],
         "POST":["products", "users", "store"],
-        "PUT":["store/status", "products"],
+        "PUT":["store/status", "products", "users/update-password"],
         "DELETE":["products"],
         "inherit":["guest"]
 

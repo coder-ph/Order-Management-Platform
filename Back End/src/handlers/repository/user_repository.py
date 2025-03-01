@@ -1,4 +1,4 @@
-from models.client import  commit_session, update_session
+from models.client import  commit_session, update_session, commit_delete_session
 from models.index import User, Token, session, list_getter
 from .location_repository import LocationRepository
 import uuid
@@ -20,11 +20,11 @@ class UserRepository():
 
         return raw_users
     def get_user_by_email(self, email):
-        user = session.query(User).filter_by(email=email).first()
+        user = User.query.filter_by(email=email).first()
         return user
     
     def get_user_by_id(self, id):
-        return session.query(User).filter_by(id=uuid.UUID(id)).first()
+        return User.query.filter_by(id=uuid.UUID(id)).first()
 
     @update_session('user')
     def update_user_password(self, user:User, password:str)->User:
@@ -34,6 +34,16 @@ class UserRepository():
     @commit_session('token')
     def store_token(self,key):
         return Token(key=key, token='123456')
+
     @update_session('token')
-    def update_token(self, key):
-        return Token()
+    def update_token(self,token:Token):
+        token.token = '098765'
+        return token
+    def get_token_by_key(self, key):
+        return Token.query.filter_by(key=key).first()
+
+    @commit_delete_session('token')
+    def drop_token(self, product):
+        return product
+        
+    

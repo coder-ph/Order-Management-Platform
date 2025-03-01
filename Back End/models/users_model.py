@@ -56,7 +56,7 @@ class User(db.Model):
 class Token(db.Model):
     __tablename__ = 'tokens'
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
-    key: Mapped[str] = mapped_column(String(50),nullable=False)
+    key: Mapped[str] = mapped_column(String(50),unique=True,nullable=False)
     _token: Mapped[str] = mapped_column(String(50), unique=True,  nullable=False)
 
     @property

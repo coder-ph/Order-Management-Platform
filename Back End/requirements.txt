@@ -1,0 +1,14 @@
+alembic
+Flask
+Flask_Bcrypt
+Flask_Cors
+flask_mail
+Flask_Migrate
+Flask_RESTful
+flask_sqlalchemy
+PyJWT
+PyJWT
+python-dotenv
+SQLAlchemy
+gunicorn
+psycopg2

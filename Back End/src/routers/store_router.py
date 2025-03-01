@@ -29,6 +29,7 @@ class ChangeStoreStatus(Resource):
         except Exception as e:
             return {"error":errorEnums['500']}
 
+
 def storeRoutes(api):
     base = f"{appConfig.app.BASE_URL}/store"
     api.add_resource(BaseStoreMethods, f"{base}")
