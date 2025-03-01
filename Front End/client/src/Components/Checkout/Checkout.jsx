@@ -79,7 +79,7 @@ const CheckoutPage = () => {
     setShowPaymentModal(false);
   };
 
-  const isFormValid = paymentMethod; // Add address validation if needed
+  const isFormValid = paymentMethod; 
 
   return (
     <div className="checkout-page">
