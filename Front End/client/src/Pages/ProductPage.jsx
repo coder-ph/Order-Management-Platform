@@ -1,86 +1,91 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+// ProductPage.js
+import React, { useMemo, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { mockCategories, mockProducts } from "../assets/UserMockData";
-// import Navbar from "../Components/UserNavBar";
-import { Category } from "@mui/icons-material";
+import Navbar from "../Components/ProductNavbar";
+import UserCategorySection from "../Components/UCategorySection";
+import ProductGrid from "../Components/ProductGrid";
+import CartModal from "../Components/CartModal";
+import "../assets/styles/ProductPage.css";
+import {
+  addToCart,
+  setSelectedCategory,
+  setSearchTerm,
+  setShowCart,
+  setProducts, 
+} from "../Redux/Order/orderActions";
 
 function ProductPage() {
-    const [products, setProducts] = useState(mockProducts)
-    const [categories] = useState(mockCategories)
-    const [cart, setCart] = useState([])
-    const [searchTerm, setSearchTerm] = useState('')
-    const [showCart, setShowCart] = useState(false)
-    const [selectedCategory, SetSelectedCategory] = useState(null)
+    
+  const dispatch = useDispatch();
+  const { cart, selectedCategory, searchTerm, showCart, products } =
+    useSelector((state) => ({
+      cart: state.order.cart,
+      selectedCategory: state.order.selectedCategory,
+      searchTerm: state.order.searchTerm,
+      showCart: state.order.showCart,
+      products: state.order.products, 
+    }));
 
-    const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0)
+  
+  useEffect(() => {
+    dispatch(setProducts(mockProducts));
+  }, [dispatch]);
 
-    const filteredProducts = products.filter(product => {
-        const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase())
-        const matchesCategory = selectedCategory? product.category === selectedCategory : true
-        return matchesSearch && matchesCategory
-    })
+  const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
-    const addToCart = (product) => {
-        const existingProduct = cart.find(item => item.id === product.id)
-        if (existingProduct) {
-            setCart(cart.map(item => item.id === product.id ? {...item, quantity: item.quantity + 1} : item))
-        } else {
-            setCart([...cart, {...product, quantity: 1}])
-        }
-    }
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
+      const matchesSearch = product.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesCategory = selectedCategory
+        ? product.category === selectedCategory
+        : true;
+      return matchesSearch && matchesCategory;
+    });
+  }, [products, searchTerm, selectedCategory]);
 
-    const handleCategorySelect = (categoryName) => {
-        SetSelectedCategory(categoryName === selectedCategory ? null : categoryName)
-    }
+  const handleCategorySelect = (categoryName) => {
+    dispatch(
+      setSelectedCategory(
+        categoryName === selectedCategory ? null : categoryName
+      )
+    );
+  };
 
-    const handleSearch = (term) => {
-        setSearchTerm(term)
-    }
+  const handleSearch = (term) => {
+    dispatch(setSearchTerm(term));
+  };
 
-    useEffect(() => {
-        // const fetchProducts = async () => {
-        //     try {
-        //         const res = await fetch('/api/products')
-        //         const data = await res.json()
-        //         setProducts(data)
-        //     } catch (error) {
-        //         console.error('Error fetching products:', error)
-        //     }
-        // }
-        // fetchProducts()
-    }, [])
+  const toggleCart = () => {
+    dispatch(setShowCart(!showCart));
+  };
 
-    return (
-        <div className="product-page">
-            <Navbar
-                cartItemCount={cartItemCount}
-                onSearch={handleSearch}
-                onCartClick={toggleCart}
-            />
-            <div className="main-content">
-                <CategorySection
-                    categories={categories}
-                    selectedCategory={selectedCategory}
-                    onCategorySelect={handleCategorySelect}
-                />
-                <div className="prods-container">
-                    <h2 className="prods-title">Products List</h2>
-                    <ProductGrid
-                        products={filteredProducts}
-                        addToCart={addToCart}
-                    />
-                </div>
-            </div>
-
-            {showCart && (
-                <CartModal
-                    cart={cart}
-                    setCart={setCart}
-                    onClose={toggleCart}
-                />
-            )}
+  return (
+    <div className="product-page">
+      <Navbar
+        cartItemCount={cartItemCount}
+        onSearch={handleSearch}
+        onCartClick={toggleCart}
+      />
+      <div className="main-content">
+        <UserCategorySection
+          categories={mockCategories}
+          selectedCategory={selectedCategory}
+          onCategorySelect={handleCategorySelect}
+        />
+        <div className="prods-container">
+          <h2 className="prods-title">Products List</h2>
+          <ProductGrid
+            products={filteredProducts}
+            addToCart={(product) => dispatch(addToCart(product))}
+          />
         </div>
-    )
+      </div>
+      {showCart && <CartModal cart={cart} onClose={toggleCart} />}
+    </div>
+  );
 }
 
-export default ProductPage
+export default ProductPage;

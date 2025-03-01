@@ -42,6 +42,7 @@
     /* border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
     margin-bottom: 20px;
+    
 }
 .card-content {
     padding: 20px;
@@ -51,6 +52,12 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+}
+.header h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: white;
+    font-weight: bold;
 }
 .search-filter {
     display: flex;
@@ -115,7 +122,7 @@
 .table-container {
     max-height: 400px;
     overflow-y: auto;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 .Products-table {
     width: 100%;
@@ -131,8 +138,12 @@
 }
 .Products-table th {
     /* border-radius: 5px; */
-    background-color: #3c4a75;
+    background-color: #3e4396;
     font-weight: 600;
+    padding: 15px;
+}
+.Products-table tr {
+    scroll-snap-align: start;
 }
 .Products-table thead {
     position: sticky;

@@ -24,6 +24,14 @@ import Ap from "./scenes/dashboard/App"
 import AdDashboard from "./scenes/dashboard/AdDashboard"
 import CategorySection from "./Components/CategorySection"
 import './App.css'
+import Orders from "./scenes/ManageOrders/ManageOrders"
+import ProductDetails from "./Components/ProductDetails"
+import { mockProducts } from "./assets/UserMockData";
+import PaymentPage from "./Pages/paymentPage"
+import CheckoutPage from "./Components/Checkout/Checkout"
+import ChangeDeliveryPage from "./Components/Checkout/ChangeDeliveryPage"
+import ChangeAddressPage from "./Components/Checkout/ChangeAddressPage"
+import Tracking from "./Components/tracking/Tracking"
 
 
 function App() {
@@ -33,11 +41,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* The dashboard layout is rendered for any route starting with /dashboard */}
-        {/* <Route path="/" element={<ProductManagement />} /> */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard/*" element={<Ap />} />
-       
 
         {/* Other public routes */}
         <Route path="/login" element={<LoginForm />} />
@@ -46,6 +51,17 @@ function App() {
         <Route path="/reset-code" element={<ResetPasswordPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/products" element={<ProductManagement />} />
+        <Route path="/user-products" element={<ProductPage />} />
+        <Route path="/payment" element={<PaymentPage />} />
+
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/change-address" element={<ChangeAddressPage />} />
+        <Route path="/change-delivery" element={<ChangeDeliveryPage />} />
+        <Route path="/track-order" element={<Tracking />} />
+        <Route
+          path="/product/:id"
+          element={<ProductDetails products={mockProducts} />}
+        />
 
         {/* Role-based private routes */}
         {isAuthenticated ? (

@@ -1,0 +1,38 @@
+.product-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  .prods-container {
+    padding: 1rem 2rem;
+  }
+  
+  .prods-title {
+    margin-bottom: 3rem;
+    padding-top: 4rem;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  @media (min-width: 768px) {
+    .main-content {
+      flex-direction: row;
+    }
+    
+    .ctg-section {
+      min-width: 250px;
+      max-width: 300px;
+    }
+    
+    .prods-container {
+      flex-grow: 1;
+    
+    }
+  }

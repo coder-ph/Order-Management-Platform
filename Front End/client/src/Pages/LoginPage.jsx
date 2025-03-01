@@ -25,10 +25,12 @@ const LoginForm = () => {
     dispatch(loginWithGoogle())
   }
   useEffect(() => {
+    console.log("Auth Status:", isAuthenticated);
+    console.log("User Role:", role);
     if (isAuthenticated && role) {
       const roleRoutes = {
         admin: "/dashboard/map",
-        user: "/user",
+        user: "/user-products",
         driver: "/driver",
       };
      if (isAuthenticated && role && roleRoutes[role]) {

@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../Components/NavBar";
 import { Link } from "react-router-dom";
 import landingIllustration from "../assets/Images/delivery-illustration.png";
-import { MainButton } from "../Components/Buttons/Buttons";
+import { MainButton } from "../Components/Buttons/Button";
 import About from "../Components/About"
 import Contact from "../Components/Contact"
 import Services from "../Components/Services"

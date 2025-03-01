@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { LOGIN_SUCCESS, LOGOUT, SIGNUP_REQUEST, SIGNUP_SUCCESS,SIGNUP_FAILURE } from "./authsActions"; // Import action types
 
 const initialState = {
   user: null,
-  token: localStorage.getItem("token") || null,
-  isAuthenticated: !!localStorage.getItem("token"),
+  token: null,
+  isAuthenticated: false,
   role: localStorage.getItem("role") || null,
   error: null,
+  signupSuccess: false,
   passwordUpdate: {
     loading: false,
     success: false,
@@ -23,6 +25,7 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.role = action.payload.role;
       state.error = null;
+      localStorage.setItem("role", action.payload.role);
     },
     logout: (state) => {
       state.user = null;
@@ -54,6 +57,46 @@ const authSlice = createSlice({
         message: null,
       };
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(LOGIN_SUCCESS, (state, action) => {
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+      state.isAuthenticated = true;
+      state.role = action.payload.role;
+      state.error = null;
+      localStorage.setItem("role", action.payload.role);
+    });
+    builder.addCase(LOGOUT, (state) => {
+      state.user = null;
+      state.token = null;
+      state.isAuthenticated = false;
+      state.role = null;
+      state.error = null;
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      localStorage.removeItem("tokenExpiry");
+    });
+    
+      builder
+        .addCase(SIGNUP_REQUEST, (state, action) => {
+          state.loading = true;
+          state.error = null;
+          state.signupSuccess = false;
+        })
+        .addCase(SIGNUP_SUCCESS, (state, action) => {
+          state.loading = false;
+          state.signupSuccess = true;
+          state.error = null;
+          state.user = action.payload.user;
+          state.role = action.payload.role;
+          
+        })
+        .addCase(SIGNUP_FAILURE, (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+          state.signupSuccess = false;
+        });
   },
 });
 
