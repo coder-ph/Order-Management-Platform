@@ -33,6 +33,7 @@ import ChangeDeliveryPage from "./Components/Checkout/ChangeDeliveryPage"
 import ChangeAddressPage from "./Components/Checkout/ChangeAddressPage"
 import Tracking from "./Components/tracking/Tracking"
 import UserProfile from "./Components/UserProfile"
+import OrderDetails from "./scenes/ManageOrders/OrderDetails"
 
 
 function App() {
@@ -42,7 +43,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<OrderDetails />} />
         <Route path="/dashboard/*" element={<Ap />} />
 
         {/* Other public routes */}
