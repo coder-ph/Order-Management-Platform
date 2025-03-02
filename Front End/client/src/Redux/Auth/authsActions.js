@@ -122,7 +122,7 @@ axios.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
-      originalRequest._retry = true;
+      error.config._retry = true;
       try {
         await axios.get(`${API_URL}/api/refresh`, { withCredentials: true });
         return axios(error.config); // Retry the failed request
