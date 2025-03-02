@@ -2,7 +2,7 @@ from src.services_layer.utilities.constants import *
 from src.services_layer.validators.index import *
 from src.services_layer.utilities.constants import *
 from src.startup.logging import Logger
-from src.error.index import is_bad_request, InternalServerErrors, DBSessionErrors, compile_error
+from src.error.index import  compile_error
 from src.services_layer.utilities.index import hash_string
 from src.services_layer.validators.index import validate_object, request_has_json
 from .artifacts import category_creation_art
