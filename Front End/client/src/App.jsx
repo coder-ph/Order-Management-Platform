@@ -65,8 +65,13 @@ function App() {
           path="/product/:id"
           element={<ProductDetails products={mockProducts} />}
         />
+        
         <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/edit-profile" element={<EditUserProfile />} />
+
+        
+        <Route path="/dashboard/orders/:id" element={<OrderDetails />} /> 
+        {/* this is Debrah's Route!! Dont touch */}
 
         {/* Role-based private routes */}
         {isAuthenticated ? (

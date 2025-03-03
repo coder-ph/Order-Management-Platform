@@ -26,15 +26,18 @@ const Orders = () => {
     }
 
     const handleRowClick = (params) => {
+          console.log(params)
+          console.log(params.id)
         setSelectedOrder(params.row);
         setIsModalOpen(true);
+        navigate(`/dashboard/orders/${params.id}`)
     }
     const handleModalClose = () => {
         setIsModalOpen(false);
         setSelectedOrder(null)
     }
     const handleIdClick = (orderId) => {
-        navigate(`/dashboard/orders/${orderId}`);
+        // navigate(`/dashboard/orders/${orderId}`);
     
     }
 
@@ -59,7 +62,7 @@ const Orders = () => {
             flex: 0.5, 
             valueGetter: (params) => {
                 console.log("Row Data:", params.row);  // Debugging check
-                console.log("Order Items in DataGrid:", params.row?.order_items);
+                
                 return params.row?.order_items?.reduce((sum, item) => sum + (item.quantity || 0), 0) || 0;
             }
 
