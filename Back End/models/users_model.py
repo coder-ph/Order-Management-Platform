@@ -26,6 +26,7 @@ class User(db.Model):
     location = relationship("Location", back_populates="user", uselist=False)
 
     stores = relationship("Store", back_populates="owner")
+    orders = relationship("Order", back_populates="user")
 
     @property
     def password(self):

@@ -16,6 +16,7 @@ class Location(db.Model):
    
     user = relationship("User", back_populates="location", uselist=False)
     store = relationship("Store", back_populates="location", uselist=False)
+    order = relationship("Order", back_populates="destination", uselist=False)
   
     created_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now())
     updated_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())

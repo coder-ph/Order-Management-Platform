@@ -1,5 +1,5 @@
 from models.client import  commit_session, list_getter, update_session, commit_delete_session
-from models.index import Store, session
+from models.index import Store
 from .location_repository import LocationRepository
 import uuid
 
@@ -16,9 +16,14 @@ class StoreRepository():
         return Store.query.all()
         
     def get_store_by_id(self, id):
-        return session.query(Store).filter_by(id=uuid.UUID(id)).first()
+        return Store.query.filter_by(id=uuid.UUID(id)).first()
 
     @update_session("store")
     def change_store_status(self, store:Store, status:bool)->Store:
         store.status = True if status == 'True' else False
         return store
+    
+    @list_getter
+    def get_stores_by_owner(self, owner_id):
+        stores =  Store.query.filter_by(owner_id = owner_id)
+        return stores
