@@ -13,7 +13,7 @@
 .page-content {
   display: flex;
   flex-grow: 1;
-  height: calc(100vh - 60px); /* Adjust based on your navbar height */
+  height: calc(100vh - 60px); 
 }
 
 /* Sidebar styling */
@@ -24,7 +24,7 @@
   background-color: #1e293b;
   color: white;
   position: fixed;
-  top: 60px; /* Adjust based on your navbar height */
+  top: 60px; 
   left: 0;
   bottom: 0;
   overflow-y: auto;
@@ -36,15 +36,15 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  margin-left: 250px; /* Same as sidebar width */
+  /* Same as sidebar width */
   overflow-y: auto;
   height: 100%;
 }
 
 /* Horizontal category section */
 .horizontal-category-section {
-  padding: 1rem 2rem;
-  background-color: white;
+  /* padding: 1rem 2rem; */
+  background-color: transparent;
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -101,7 +101,7 @@
 
 /* Products container */
 .prods-container {
-  padding: 1rem 2rem;
+  padding: 2rem 2rem;
   flex-grow: 1;
 }
 

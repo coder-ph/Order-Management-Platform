@@ -1,13 +1,15 @@
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 0.3rem;
+    gap: 0.7rem;
     padding: 1rem;
     margin-top: 30px;
   }
   
   .product-item {
     background-color: white;
+   
+    height: 300px;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -23,12 +25,14 @@
   
   .product-image {
     width: 100%;
-    height: 90px;
+    height: 0px;
     object-fit: cover;
   }
   
   .product-detailss{
     padding-top: 0.8rem;
+    margin-top: 80px;
+    padding-left: 10px;
     flex-grow: 1;
     
   }
@@ -46,11 +50,16 @@ padding-bottom: 12px;
    
 
   }
-  
+  .price-product{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 10px;
+  }
   .product-prices {
     color:black;
     font-weight: 600;
     margin-bottom: 0.5rem;
+    
   }
   
   .add-to-cart-btn {

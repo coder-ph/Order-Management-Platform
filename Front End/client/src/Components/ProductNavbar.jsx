@@ -8,11 +8,16 @@ const Navbar = ({ cartItemCount, onSearch, onCartClick }) => {
   const totalItems = useSelector(selectCartItemCount);
 
   return (
-    <div className="navbar ">
+    <div className="navbar  ">
+      <div className="pl-35 text-amber-50">
+        Logo
+      </div>
       <div className="search-bar">
         <input
           type="text"
           placeholder="Search products..."
+          label = 'search'
+
           onChange={(e) => onSearch(e.target.value)}
         />
       </div>
@@ -22,6 +27,9 @@ const Navbar = ({ cartItemCount, onSearch, onCartClick }) => {
           🛒
         </span>
         {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
+        <div>
+          <img src="#" alt="image"/>
+        </div>
       </div>
     </div>
   );

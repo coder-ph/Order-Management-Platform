@@ -1,9 +1,8 @@
 .navbar {
   display: flex;
-  justify-content: dashboard/ordersspace-between;
   align-items: center;
   padding: 20px 40px;
-  background-color: #3c4a75;
+  background-color: #1F2A40;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: fixed;
   width:100%;
@@ -57,7 +56,7 @@
 .cart-count {
   position: absolute;
   top: -5px; /* Move the count above the cart icon */
-  right: -px; /* Adjust horizontal position */
+  right: px; /* Adjust horizontal position */
   font-size: 12px;
   font-weight: bold;
   color: white;
