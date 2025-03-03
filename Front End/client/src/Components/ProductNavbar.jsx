@@ -7,7 +7,7 @@ const Navbar = ({ cartItemCount, onSearch, onCartClick }) => {
   const totalItems = useSelector(selectCartItemCount);
 
   return (
-    <div className="navbar">
+    <div className="navbar ">
       <div className="search-bar">
         <input
           type="text"

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../Redux/Order/orderActions";
 import { selectProductById } from "../Redux/Order/orderSelectors";
@@ -9,7 +9,7 @@ import "../../src/assets/styles/ProductDetails.css";
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); 
   const product = useSelector((state) => selectProductById(state, Number(id)));
   const cart = useSelector((state) => state.order.cart);
   const [quantity, setQuantity] = useState(1);

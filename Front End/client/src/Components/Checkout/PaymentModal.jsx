@@ -19,7 +19,7 @@ const PaymentModal = ({ totalAmount, onClose, onSubmit }) => {
     setError("");
 
     try {
-      // Step 1: Initiate the STK Push
+   
       const response = await axios.post(
         "http://localhost:5555/api/initiate-payment",
         {
@@ -29,14 +29,14 @@ const PaymentModal = ({ totalAmount, onClose, onSubmit }) => {
       );
 
       if (response.status === 200 && response.data.ResponseCode === "0") {
-        // Payment initiation successful
+        
         setPaymentSuccess(true);
-        onSubmit(phoneNumber); // Notify the parent component
+        onSubmit(phoneNumber); 
 
-        // Show success message and redirect after 3 seconds
+        
         setTimeout(() => {
-          navigate("/track-order"); // Redirect to track-order page
-        }, 3000); // Wait for 3 seconds before redirecting
+          navigate("/track-order"); 
+        }, 3000); 
       } else {
         setError("Failed to initiate payment. Please try again.");
       }

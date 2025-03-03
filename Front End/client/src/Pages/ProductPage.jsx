@@ -15,6 +15,7 @@ import {
   setShowCart,
   setProducts, 
 } from "../Redux/Order/orderActions";
+import UserSidebarr from "../scenes/global/UserSidebarr";
 
 function ProductPage() {
     
@@ -75,38 +76,42 @@ function ProductPage() {
   };
 
   return (
-    <div className="product-page">
-      <Navbar
-        cartItemCount={cartItemCount}
-        onSearch={handleSearch}
-        onCartClick={toggleCart}
-      />
-      <div className="page-content">
-        <Sidebar 
-          activePage="products" 
-          userData={userData}
-          onLogout={handleLogout}
-        />
-        <div className="main-content">
-          <div className="horizontal-category-section">
-            <UserCategorySection
-              categories={mockCategories}
-              selectedCategory={selectedCategory}
-              onCategorySelect={handleCategorySelect}
+    <div className="flex bg-amber-50 ">
+      <div>
+        <UserSidebarr />
+      </div>
+      <div className="w-screen">
+        <div className="product-page">
+          <div className="pt-15 ">
+            <Navbar
+              cartItemCount={cartItemCount}
+              onSearch={handleSearch}
+              onCartClick={toggleCart}
             />
           </div>
-          <div className="prods-container">
-            <h2 className="prods-title">Products List</h2>
-            <ProductGrid
-              products={filteredProducts}
-              addToCart={(product) => dispatch(addToCart(product))}
-            />
+          <div className="page-content bg-zinc-100">
+            <div className="main-content">
+              <div className="horizontal-category-section">
+                <UserCategorySection
+                  categories={mockCategories}
+                  selectedCategory={selectedCategory}
+                  onCategorySelect={handleCategorySelect}
+                />
+              </div>
+              <div className="prods-container ">
+                <h2 className="prods-title text-amber-50">Products List</h2>
+                <ProductGrid
+                  products={filteredProducts}
+                  addToCart={(product) => dispatch(addToCart(product))}
+                />
+              </div>
+            </div>
           </div>
+          {showCart && <CartModal cart={cart} onClose={toggleCart} />}
         </div>
       </div>
-      {showCart && <CartModal cart={cart} onClose={toggleCart} />}
     </div>
-  )
+  );
 }
 
 export default ProductPage;
