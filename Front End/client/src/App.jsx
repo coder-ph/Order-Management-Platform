@@ -34,6 +34,7 @@ import ChangeAddressPage from "./Components/Checkout/ChangeAddressPage"
 import Tracking from "./Components/tracking/Tracking"
 import UserProfile from "./Components/UserProfile"
 import OrderDetails from "./scenes/ManageOrders/OrderDetails"
+import EditUserProfile from "./Components/EditProfile"
 
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
           element={<ProductDetails products={mockProducts} />}
         />
         <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/edit-profile" element={<EditUserProfile />} />
 
         {/* Role-based private routes */}
         {isAuthenticated ? (
