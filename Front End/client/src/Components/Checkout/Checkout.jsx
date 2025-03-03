@@ -16,16 +16,16 @@ const CheckoutPage = () => {
   );
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
-  const totalAmount = 1; // Example total amount
+  const totalAmount = 1; // Example total amount ndio isitest na pesa mob
 
   const handleConfirmPayment = () => {
     setShowPaymentModal(true);
   };
 
   const handlePaymentSubmit = (phoneNumber) => {
-    dispatch(confirmPayment()); // Update Redux state
+    dispatch(confirmPayment()); 
     setShowPaymentModal(false);
-    navigate("/track-order"); // Redirect to tracking page
+    navigate("/track-order");
   };
 
   const isFormValid = paymentMethod;
