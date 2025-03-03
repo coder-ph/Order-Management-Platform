@@ -1,9 +1,9 @@
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: dashboard/ordersspace-between;
   align-items: center;
   padding: 20px 40px;
-  background-color: #ffffff;
+  background-color: #3c4a75;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: fixed;
   width:100%;
@@ -14,7 +14,7 @@
 
 .search-bar {
   flex: 1;
-  margin-right: 20px;
+  margin-left: 300px;
 }
 
 .search-bar input {
@@ -44,6 +44,7 @@
   transition: background-color 0.3s ease;
   width: 40px;
   height: 40px;
+  gap: 40px;
 }
 
 
