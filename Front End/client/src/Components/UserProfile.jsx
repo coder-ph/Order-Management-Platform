@@ -11,28 +11,28 @@ const ProfilePage = () => {
     const getStatus = (status) => {
         switch(status) {
             case 'Delivered':
-                return 'status-delivered';
+                return 'status-delivered'
             case 'Canceled':
-                return 'status-canceled';
+                return 'status-canceled'
             case 'Ongoing':
-                return 'status-ongoing';
+                return 'status-ongoing'
             default:
-                return '';
+                return ''
         }
-    };
+    }
 
     const handleViewDetails = (order) => {
-        setSelectedOrder(order);
-        setShowModal(true);
-    };
+        setSelectedOrder(order)
+        setShowModal(true)
+    }
 
     const handleCancelOrder = (orderId) => {
-        alert(`Cancelling order ${orderId}.`);
-    };
+        alert(`Cancelling order ${orderId}.`)
+    }
 
     const closeModal = () => {
-        setShowModal(false);
-    };
+        setShowModal(false)
+    }
 
     return (
         <div className="profile-page">
@@ -88,9 +88,6 @@ const ProfilePage = () => {
                                         <td>{order.total}</td>
                                         <td className="detail-btn">
                                             <button className="details-btn" onClick={() => handleViewDetails(order)}>View</button>
-                                            {order.status === 'Ongoing' && (
-                                                <button className="cancel-btn" onClick={() => handleCancelOrder(order.id)}>Cancel</button>
-                                            )}
                                         </td>
                                     </tr>
                                 ))}
@@ -135,7 +132,7 @@ const ProfilePage = () => {
                 </div>
             )}
         </div>
-    );
-};
+    )
+}
 
 export default ProfilePage;
