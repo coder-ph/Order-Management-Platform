@@ -1,23 +1,15 @@
-/* General profile page styling */
 .profile-page {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
     display: flex;
-    flex-direction: column;
+    font-family: Arial, sans-serif;
 }
-
-/* Profile header styling */
 .profile-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
-
 .edit-btn {
-    background-color: #4a90e2;
+    background-color: #3b82f6;
     color: white;
     border: none;
     border-radius: 4px;
@@ -25,20 +17,17 @@
     cursor: pointer;
     font-size: 14px;
 }
-
 .edit-btn:hover {
-    background-color: #3a7bc8;
+    background-color: #2563eb;
 }
-
-/* Profile info section */
 .profile-info {
     display: flex;
     padding: 20px;
     border: 1px solid #eaeaea;
     border-radius: 8px;
     margin-bottom: 30px;
+    background-color: white;
 }
-
 .profile-image {
     width: 80px;
     height: 80px;
@@ -46,46 +35,40 @@
     object-fit: cover;
     margin-right: 30px;
 }
-
 .profile-details p {
     margin: 8px 0;
     font-size: 14px;
 }
-
-/* Order history section */
 .order-hist {
-    margin-top: 30px;
+    margin-top: 20px;
+    width: 100%;
 }
-
 .order-hist-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
 }
-
 .order-hist-header h3 {
     font-size: 18px;
     font-weight: 600;
 }
-
 .order-filter {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
 }
-
-/* Table styling */
 .tbl-cont {
     overflow-x: auto;
+    border-radius: 4px;
+    border: 1px solid #eaeaea;
 }
-
 .order-tbl {
     width: 100%;
     border-collapse: collapse;
+    background-color: white;
 }
-
 .order-tbl th {
     background-color: #f9f9f9;
     padding: 12px;
@@ -93,35 +76,36 @@
     font-weight: 600;
     border-bottom: 1px solid #eaeaea;
 }
-
 .order-tbl td {
     padding: 12px;
     border-bottom: 1px solid #eaeaea;
 }
-
-/* Status styling */
 .status-delivered {
     color: #22c55e;
     font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: rgba(34, 197, 94, 0.1);
 }
-
 .status-canceled {
     color: #ef4444;
     font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: rgba(239, 68, 68, 0.1);
 }
-
 .status-ongoing {
     color: #3b82f6;
     font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: rgba(59, 130, 246, 0.1);
 }
-
-/* Action buttons */
-.detail-buttons {
+.detail-btn {
     display: flex;
     gap: 10px;
 }
-
-.showw-btn {
+.details-btn {
     color: #3b82f6;
     background: none;
     border: none;
@@ -129,11 +113,9 @@
     text-decoration: none;
     font-size: 14px;
 }
-
-.show-btn:hover {
+.details-btn:hover {
     text-decoration: underline;
 }
-
 .cancel-btn {
     color: #ef4444;
     background: none;
@@ -141,10 +123,71 @@
     cursor: pointer;
     text-decoration: none;
     font-size: 14px;
+    margin-left: 10px;
 }
-
 .cancel-btn:hover {
     text-decoration: underline;
+}
+.order-details-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+}
+.product-list {
+    margin-top: 20px;
+}
+.product-item {
+    display: flex;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eaeaea;
+}
+.product-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+.product-details {
+    flex-grow: 1;
+}
+.product-price {
+    font-weight: bold;
+    color: #333;
+}
+.order-summary {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eaeaea;
 }
 
 /* Responsive design */
@@ -157,7 +200,7 @@
         margin-bottom: 15px;
     }
     
-    .order-tbl th, 
+    .order-tbl th,
     .order-tbl td {
         padding: 8px;
     }
