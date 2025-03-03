@@ -1,7 +1,8 @@
 .category-section.horizontal {
-  width: 100%;
+  width: screen;
 }
 .category-title {
+  width:100%;
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 1rem;

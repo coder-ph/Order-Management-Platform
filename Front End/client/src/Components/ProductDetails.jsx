@@ -14,12 +14,12 @@ const ProductDetails = () => {
   const cart = useSelector((state) => state.order.cart);
   const [quantity, setQuantity] = useState(1);
 
-  // Check if the product is in the cart
+  
   const isProductInCart = (productId) => {
     return cart.some((item) => item.id === productId);
   };
 
-  // Handle add/remove from cart
+  
   const handleCartAction = () => {
     if (isProductInCart(product.id)) {
       dispatch(removeFromCart(product.id));
@@ -28,9 +28,9 @@ const ProductDetails = () => {
     }
   };
 
-  // Handle proceeding to checkout
+  
   const handleCheckout = () => {
-    navigate("/payment"); // Redirect to payment page
+    navigate("/payment");
   };
 
   if (!product) {
@@ -52,7 +52,7 @@ const ProductDetails = () => {
         <p className="product-price">Ksh {product.price}</p>
         <p className="product-description">{product.description}</p>
 
-        {/* Quantity Input */}
+      
         <div className="quantity-control">
           <label htmlFor="quantity">Quantity:</label>
           <input
@@ -64,7 +64,7 @@ const ProductDetails = () => {
           />
         </div>
 
-        {/* Add/Remove from Cart Button */}
+       
         <button
           className={`add-to-cart-btn ${
             isProductInCart(product.id) ? "remove-from-cart" : ""
@@ -74,7 +74,7 @@ const ProductDetails = () => {
           {isProductInCart(product.id) ? "Remove from Cart" : "Add to Cart"}
         </button>
 
-        {/* Proceed to Checkout Button */}
+      
         <button className="checkout-btn" onClick={handleCheckout}>
           Proceed to Checkout
         </button>

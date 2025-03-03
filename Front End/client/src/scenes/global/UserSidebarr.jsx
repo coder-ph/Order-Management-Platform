@@ -41,7 +41,7 @@ const UserSidebarr = () => {
   const [selected, setSelected] = useState("Dashboard");
 
   return (
-    <Box sx={{ height: "100vh", display: "flex" }}>
+    <Box sx={{ height: "80vh", display: "flex" }}>
       <Sidebar collapsed={isCollapsed} style={{ height: "100vh" }}>
         <Menu iconShape="square">
           {/* Sidebar Toggle Button */}
@@ -55,10 +55,9 @@ const UserSidebarr = () => {
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
+                marginTop="80px"
               >
-                <Typography >
-                  LOGO
-                </Typography>
+                <Typography>LOGO</Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
                 </IconButton>
@@ -69,7 +68,13 @@ const UserSidebarr = () => {
           {/* User Profile */}
           {!isCollapsed && (
             <Box mb="10px">
-              <Box display="flex" justifyContent="center" alignItems="center">
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                mt="90px"
+                color="black"
+              >
                 <img
                   alt="profile-user"
                   width="100px"
@@ -82,17 +87,17 @@ const UserSidebarr = () => {
                 <Typography
                   variant="h4"
                   color={colors.primary[400]}
-                  fontWeight="semi-bold"
-                  sx={{ m: "10px 0 0 0" }}
+                  fontSize="22px"
+                  sx={{ m: "10px 0 0 0", color: "#1F2A40", paddingBottom:'30px'}}
                 >
-                  Phyl
+                  Customer
                 </Typography>
               </Box>
             </Box>
           )}
 
           {/* Sidebar Menu */}
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+          <Box paddingLeft={isCollapsed ? undefined : "10%"} marginTop="50px">
             <Item
               title="Home"
               to="/user-products"
@@ -103,19 +108,11 @@ const UserSidebarr = () => {
             <Item
               title="My Orders"
               to="/my_orders"
-              icon={< ShoppingBagOutlinedIcon/>}
+              icon={<ShoppingBagOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
 
-            <Typography
-              variant="h6"
-              color={colors.primary[400]}
-              sx={{ m: "15px 0 5px 20px" }}
-              fontWeight="bold"
-            >
-              
-            </Typography>
             <Item
               title="Wishlist"
               to="/wishlist"
@@ -138,14 +135,6 @@ const UserSidebarr = () => {
               setSelected={setSelected}
             />
 
-            <Typography
-              variant="h6"
-              color={colors.primary[400]}
-              sx={{ m: "15px 0 5px 20px" }}
-              fontWeight="bold"
-            >
-            
-            </Typography>
             <Item
               title="Payment Methods"
               to="/dashboard/form"
@@ -153,16 +142,18 @@ const UserSidebarr = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              title="Log Out"
-              icon={<LogoutIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            <Box marginTop="140px">
+              {" "}
+              <Item
+                title="Log Out"
+                icon={<LogoutIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            </Box>
           </Box>
         </Menu>
       </Sidebar>
-
     </Box>
   );
 };

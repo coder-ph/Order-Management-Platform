@@ -46,19 +46,17 @@
   height: 40px;
 }
 
-.cart-icon:hover {
-  background-color: #45a049;
-}
+
 
 .cart-icon span[role="img"] {
   font-size: 24px;
-  color: white;
+  color: rgb(104, 28, 28);
 }
 
 .cart-count {
   position: absolute;
-  top: -10px; /* Move the count above the cart icon */
-  right: -10px; /* Adjust horizontal position */
+  top: -5px; /* Move the count above the cart icon */
+  right: -px; /* Adjust horizontal position */
   font-size: 12px;
   font-weight: bold;
   color: white;
