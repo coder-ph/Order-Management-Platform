@@ -3,28 +3,25 @@ import { Box, Typography, useTheme, Select, MenuItem, Dialog, DialogTitle, Dialo
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import DasshboardHeader from "../../Components/DasshboardHeader";
+import { useNavigate } from "react-router-dom";
+import { mockDataOrders } from "./mockDataOrders";
 
-const mockDataOrders = [
-    {id: 1, orderId:"#001001", customer: "Monkey D. Luffy", items: 1, amount: 1000, status: "New Order", driver: "Available", email: "luffy@onepiece.com", phone: "(123) 456-7890", address: "Thousand Sunny, Grand Line", avatar: "https://via.placeholder.com/150"},
-    {id: 2, orderId:"#001002", customer: "Roronoa Zoro", items: 5, amount: 8543, status: "New Order", driver: "Busy", email: "zoro@onepiece.com", phone: "(987) 654-3210", address: "Kuraigana Island, East Blue", avatar: "https://via.placeholder.com/150"},
-    {id: 3, orderId:"#001003", customer: "Vinsmoke Sanji", items: 4, amount: 1571, status: "New Order", driver: "Not Available", email: "sanji@onepiece.com", phone: "(555) 789-1234", address: "Baratie, East Blue", avatar: "https://via.placeholder.com/150"},
-    {id: 4, orderId:"#001004", customer: "Portgas D. Ace", items: 2, amount: 446, status: "Processed", driver: "Available", email: "ace@onepiece.com", phone: "(342) 444-3331", address: "Goa Kingdom, East Blue", avatar: "https://via.placeholder.com/150"},
-    {id: 5, orderId:"#001005", customer: "Trafalgar D. Law", items: 3, amount: 989, status: "Processed", driver: " Not Available", email: "traffy@onepiece.com", phone: "(673) 543-2430", address: "Flevance, North Blue", avatar: "https://via.placeholder.com/150"},
-    {id: 6, orderId:"#001006", customer: "Nico Robin", items: 12, amount: 33730, status: "New Order", driver: "Busy", email: "nicorobin@onepiece.com", phone: "(896) 675-3490", address: "Ohara, West Blue", avatar: "https://via.placeholder.com/150"},
-]
 
 const Orders = () => {
+    console.log("Orders taken:", mockDataOrders)
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const navigate = useNavigate();
 
     const [orders, setOrders] = useState(mockDataOrders);
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleDriverChange = (id, newDriver) => {
+    const handleStatusChange = (id, newStatus) => {
         setOrders((prevOrders) =>
         prevOrders.map((order) => 
-            order.id === id ? { ...order, driver: newDriver } : order
+            order.id === id ? { ...order, status: newStatus } : order
         ));
     }
 
@@ -36,17 +33,74 @@ const Orders = () => {
         setIsModalOpen(false);
         setSelectedOrder(null)
     }
+    const handleCustomerClick = (customerName) => {
+        const customerData = orders.find((order) => order.customer === customerName);
+        if (customerData) {
+        navigate(`/dashboard/orders/${customerName}`, { state: { customer: customerData } });
+        }
+    }
 
 
     const columns = [
-        { field: 'orderId', headerName: 'Order ID', flex: 1 },
-        { field: 'customer', headerName: 'Customer', flex: 1 },
-        { field: 'items', headerName: 'Items', flex: 0.5 },
-        { field: 'amount', headerName: 'Amount', flex: 1 },
+        { 
+            field: 'id', 
+            headerName: 'Order ID', 
+            flex: 1 
+        },
+        { 
+            field: 'customer', 
+            headerName: 'Customer', 
+            flex: 1,
+            renderCell: ({ row }) => (
+                <Button component="span" onClick={() => handleCustomerClick(row.customer)}>{row.customer}</Button>
+            ) 
+        },
+        { 
+            field: 'order_items', 
+            headerName: 'Items', 
+            flex: 0.5, 
+            valueGetter: (params) => {
+                console.log("Row Data:", params.row);  // Debugging check
+                console.log("Order Items in DataGrid:", params.row?.order_items);
+                return params.row?.order_items?.reduce((sum, item) => sum + (item.quantity || 0), 0) || 0;
+            }
+
+        },
+        { 
+            field: 'total_amount', 
+            headerName: 'Amount', 
+            flex: 1,
+        },
         {
             field: 'status',
             headerName: 'Status',
             flex: 1,
+            renderCell: ({ row }) => (
+                <Select
+                value={row.status}
+                onChange={(e) => handleStatusChange(row.id, e.target.value)}
+                sx={{
+                    width:"100%",
+                    backgroundColor:
+                    row.status === "Processed" ? colors.greenAccent[100] : 
+                    row.status === "Pending" ? colors.blueAccent[100] :
+                    row.status === "Delivered" ? colors.blueAccent[500] :
+                    row.status === "Cancelled" ? colors.redAccent[500] :
+                    colors.grey[500],
+                    borderRadius: "5px",
+                    padding: "5px",
+                }}
+                >
+                    <MenuItem value="Processed">Processed</MenuItem>
+                    <MenuItem value="Pending">Pending</MenuItem>
+                    <MenuItem value="Delivered">Delivered</MenuItem>
+                    <MenuItem value="Cancelled">Cancelled</MenuItem>
+                </Select>
+                ),
+        },
+        {
+            field: 'invoiceStatus',
+            headerName: 'Invoice status',
             renderCell: ({ row }) => (
                 <Box
                 p="3px"
@@ -56,37 +110,16 @@ const Orders = () => {
                 margin="auto 20"
                 marginTop="15px"
                 bgcolor={
-                    row.status === "New Order"
-                    ? colors.blueAccent[700]
-                    : row.status === "Processed"
-                    ? colors.greenAccent[600]
-                    : row.status === "Cancelled"
-                    ? colors.redAccent[100]
-                    : colors.redAccent[400]
+                    row.invoices[0]?.status === "Unpaid" ? colors.redAccent[400] : 
+                    row.invoices[0]?.status === "Paid"? colors.greenAccent[600] : 
+                    colors.blueAccent[700]
                 }
                 borderRadius="5px"
                 >
-                    <Typography color="white">{row.status}</Typography>
+                    <Typography color="white">{row.invoices[0]?.status}</Typography>
                 </Box>
             ),
-        },
-        {
-            field: 'driver',
-            headerName: 'Driver Availability',
-            flex: 1,
-            renderCell: ({ row }) => (
-                <Select
-                value={row.driver}
-                variant="outlined"
-                size="small"
-                sx={{ minWidth: 120 }}
-                onChange={(e) => handleDriverChange(row.id, e.target.value)}
-                >
-                    <MenuItem value="Available">Available</MenuItem>
-                    <MenuItem value="Busy">Busy</MenuItem>
-                    <MenuItem value="Not Available">Not Available</MenuItem>
-                </Select>
-            ),
+            
         },
     ]
     return (
@@ -105,7 +138,7 @@ const Orders = () => {
                 "& .MuiDataGrid-footerContainer": { borderTop: "none", backgroundColor: colors.blueAccent[700] },
             }}
             >
-                <DataGrid rows={orders} columns={columns} onRowClick={handleRowClick}/>
+                <DataGrid rows={mockDataOrders} columns={columns} onRowClick={handleRowClick}/>
             </Box>
             {/* Order Details Modal */}
             <Dialog open={isModalOpen} onClose={handleModalClose} maxWidth='sm' fullWidth>
@@ -128,11 +161,11 @@ const Orders = () => {
                             <Typography>{selectedOrder.address}</Typography>
                         </Box>
                         {/* Order Details */}
-                        <Typography><strong>Order ID:</strong> {selectedOrder.orderId}</Typography>
-                        <Typography><strong>Items:</strong> {selectedOrder.items}</Typography>
+                        <Typography><strong>Order ID:</strong> {selectedOrder.id}</Typography>
+                        <Typography><strong>Items:</strong> {console.log(selectedOrder) || selectedOrder.order_items.reduce((sum, item) => sum + (item.quantity || 0), 0) || 0}</Typography>
                         <Typography><strong>Order Status:</strong> {selectedOrder.status}</Typography>
-                        <Typography><strong>Amount:</strong> ${selectedOrder.amount}</Typography>
-                        <Typography><strong>Driver:</strong> {selectedOrder.driver}</Typography>
+                        <Typography><strong>Amount:</strong> ${selectedOrder.total_amount}</Typography>
+                        <Typography><strong>Invoice Status:</strong> {selectedOrder.invoices?.[0]?.status || "No invoice"}</Typography>
                     </Box>
                     )}
                 </DialogContent>

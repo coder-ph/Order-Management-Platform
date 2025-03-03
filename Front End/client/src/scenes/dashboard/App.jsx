@@ -18,6 +18,7 @@ import Geog from "../Geo";
 import AdDashboard from "./AdDashboard";
 import AdminMap from "../../Pages/AdminMap";
 import Orders from "../ManageOrders/ManageOrders";
+import OrderDetails from "../ManageOrders/OrderDetails";
 
 const Ap = () => {
   const [theme, colorMode] = useMode();
@@ -42,6 +43,7 @@ const Ap = () => {
 
                 <Route path="/team" element={<Team />} />
                 <Route path="/orders" element={<Orders />} />
+                {/* <Route path="/dashboard/orders/${id}" element={<OrderDetails />} /> */}
                 <Route path="/invoices" element={<Invoices />} />
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/form" element={<AddDriver />} />
