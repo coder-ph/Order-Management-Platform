@@ -43,7 +43,7 @@ const Ap = () => {
 
                 <Route path="/team" element={<Team />} />
                 <Route path="/orders" element={<Orders />} />
-                {/* <Route path="/dashboard/orders/${id}" element={<OrderDetails />} /> */}
+                <Route path="/dashboard/orders/:orderId" element={<OrderDetails />} />
                 <Route path="/invoices" element={<Invoices />} />
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/form" element={<AddDriver />} />
