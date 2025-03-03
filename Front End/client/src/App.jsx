@@ -43,7 +43,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<OrderDetails />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard/*" element={<Ap />} />
 
         {/* Other public routes */}
