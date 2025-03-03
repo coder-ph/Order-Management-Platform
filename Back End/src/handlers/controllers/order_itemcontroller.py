@@ -2,7 +2,7 @@ from flask import jsonify,request
 from services.orderitem_service import OrderItemService
 
 class OrderItemController:
-    @staticmethods
+    @staticmethod
     def get_items_by_order(order_id):
         items = OrderItemService.get_items_by_order(order_id)
         return jsonify([{

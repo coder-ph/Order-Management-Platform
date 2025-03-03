@@ -50,6 +50,38 @@ def commit_session(model_name=None):
         return wrapper
     return decorator
 
+def bulk_commit_insert_session(model=None):
+    model_name = model.__tablename__
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            session = db.session
+
+            try:
+                data = func(*args, **kwargs)
+
+                if not data:
+                    return [] 
+                
+                session.bulk_insert_mappings(model, data)
+                session.commit()
+                
+                print("Transaction complete")
+                print(data)
+
+                return data 
+
+            except Exception as e:
+
+                session.rollback()
+                is_handled = handle_sqlalchemy_error(model_name, e, 'create')
+                if is_handled:
+                    raise DBSessionErrors(is_handled)
+            finally:
+                session.close()
+        
+        return wrapper
+    return decorator
 
 def commit_delete_session(model_name=None):
     def decorator(func):

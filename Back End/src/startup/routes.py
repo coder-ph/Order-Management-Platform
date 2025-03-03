@@ -21,4 +21,5 @@ def routerSetup(api:Api):
     userRoutes(api)
     productsRoutes(api)
     storeRoutes(api)
+    orderRoutes(api)
     

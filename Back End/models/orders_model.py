@@ -1,6 +1,7 @@
 from .client import db
+from .model_enums import OrderStatus
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, UUID, ForeignKey
+from sqlalchemy import String, UUID, ForeignKey, Enum
 import uuid
 
 class Order(db.Model):
@@ -8,13 +9,13 @@ class Order(db.Model):
     
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
     total_amount: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
-    status: Mapped[str] = mapped_column(String(15), nullable=True)
+    status: Mapped[str] = mapped_column(Enum(OrderStatus), nullable=True, default=OrderStatus.PENDING)
 
     destination_id: Mapped[uuid.UUID]= mapped_column(UUID(as_uuid=True), ForeignKey('locations.id', ondelete="SET NULL"), nullable=False)
     user_id:Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id', ondelete="SET NULL"), nullable=False)
 
     user = relationship("User", back_populates="orders")
-    order_items = relationship("OrderItem", back_populates="Order", cascade="all, delete-orphan")
+    order_items = relationship("OrderItem", back_populates="order", cascade="all, delete-orphan")
     destination = relationship("Location", back_populates="order")
     
 class OrderItem(db.Model):

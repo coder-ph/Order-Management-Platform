@@ -1,3 +1,6 @@
+# Location Artifacts
+location_arts_interface = ['location', 'location.lattitude', 'location.longitude']
+
 ### User Artifacts
 user_creation_art = ['email', 'password', 'first_name', 'last_name', 'phone_no', 'location.lattitude', 'location.longitude']
 user_login_art = ['email', 'password']
@@ -11,5 +14,9 @@ product_creation_art = ['name', 'price','description','category', 'store']
 product_updates_art = ['name', 'price','description','category']
 
 ## Store artifacts
-store_creation_art = ['name', 'description',  'location.lattitude', 'location.longitude']
+store_creation_art = ['name', 'description']+location_arts_interface
 change_store_status_art = ['id', 'status']
+
+
+# Order artifacts
+order_creation_art = ['total_amount','order_items']+location_arts_interface
