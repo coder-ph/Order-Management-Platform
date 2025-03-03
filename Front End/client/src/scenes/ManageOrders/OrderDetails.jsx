@@ -4,6 +4,7 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 
 const OrderDetails = () => {
     const { id } = useParams();
+    console.log(id)
     const navigate = useNavigate();
     const order = mockDataOrders.find(order => order.id === parseInt(id));
 

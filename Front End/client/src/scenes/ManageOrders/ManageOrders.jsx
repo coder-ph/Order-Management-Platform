@@ -26,15 +26,19 @@ const Orders = () => {
     }
 
     const handleRowClick = (params) => {
+        console.log(params.row)
         setSelectedOrder(params.row);
         setIsModalOpen(true);
+        navigate(`/dashboard/orders/${params.id}`);
     }
+    
     const handleModalClose = () => {
         setIsModalOpen(false);
         setSelectedOrder(null)
     }
     const handleIdClick = (orderId) => {
-        navigate(`/dashboard/orders/${orderId}`);
+        console.log(orderId)
+        // navigate(`/dashboard/orders/${orderId}`);
     
     }
 
@@ -45,7 +49,7 @@ const Orders = () => {
             headerName: 'Order ID', 
             flex: 1, 
             renderCell: ({ row }) => (
-                <Button component="span" onClick={() => handleIdClick(row.id)}>{row.id}</Button>
+                <Button component="span"  style={{ color: "white"}} onClick={() => handleIdClick(row.id)}>{row.id}</Button>
             ) 
         },
         { 
