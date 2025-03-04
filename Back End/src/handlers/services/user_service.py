@@ -44,20 +44,22 @@ class UserService():
     def verify_token(self, key,token_no):
         token = user_repository.get_token_by_key(key)
         user = user_repository.get_user_by_email(key)
-        print(user.to_dict())
         if not token: raise ObjectNotFound('token', key, 'key')
         if not str(token.token) == token_no: raise InvalidObjectValue('token validation', 'token', key)
-
         token_dict = token.to_dict()
+
         if user:
-            print("went to ehre : ", user)
             user:dict = user.to_dict()
             user['token'] = token_dict
             user_repository.drop_token(token)
 
             return user
+        
+        print("went to ehre : ", user)
         user_repository.drop_token(token)
-        return {'token',token_dict}
+        user = {}
+        user['token'] = token_dict
+        return user
         
         
     
