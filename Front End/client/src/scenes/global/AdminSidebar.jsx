@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
@@ -19,31 +19,28 @@ import AddLocationAltOutlinedIcon from "@mui/icons-material/AddLocationAltOutlin
 import LogoutIcon from "@mui/icons-material/Logout";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import user from "../../../src/assets/icons/person_57dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../Redux/Auth/authsActions";
 
-const Item = ({ title, to, icon, selected, setSelected }) => {
+const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    dispatch(logoutUser());
-    navigate("/login");
-  };
 
   return (
-    <Link to={to} style={{ textDecoration: "none", color: "inherit" }}>
-      <MenuItem
-        active={selected === title}
-        style={{ color: colors.primary[400] }}
-        onClick={() => {
-          setSelected(title);
-          if (onClick) onClick();
-        }}
-        icon={icon}
-      >
-        <Typography>{title}</Typography>
-      </MenuItem>
-    </Link>
+    <MenuItem
+      active={selected === title}
+      style={{ color: colors.primary[400] }}
+      onClick={() => {
+        setSelected(title);
+        if (onClick) onClick(); // Call the onClick handler if provided
+      }}
+      icon={icon}
+    >
+      <Typography>{title}</Typography>
+      {to ? (
+        <Link to={to} style={{ textDecoration: "none", color: "inherit" }} />
+      ) : null}
+    </MenuItem>
   );
 };
 
@@ -52,6 +49,14 @@ const AdminSidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const dispatch = useDispatch(); // Initialize the dispatch function
+  const navigate = useNavigate(); // Initialize the navigate function
+
+  // Handle logout
+  const handleLogout = () => {
+    dispatch(logoutUser()); // Dispatch the logout action
+    navigate("/login"); // Redirect to the login page
+  };
 
   return (
     <Box sx={{ height: "100vh", display: "flex" }}>
@@ -222,10 +227,7 @@ const AdminSidebar = () => {
               icon={<LogoutIcon />}
               selected={selected}
               setSelected={setSelected}
-              onClick={() => {
-                dispatch(logoutUser());
-                navigate("/login");
-              }}
+              onClick={handleLogout} // Add the onClick handler for logout
             />
           </Box>
         </Menu>
@@ -238,7 +240,9 @@ const AdminSidebar = () => {
           overflow: "auto",
           backgroundColor: "#f4f4f4",
         }}
-      ></Box>
+      >
+        {/* This is where the main dashboard content will go */}
+      </Box>
     </Box>
   );
 };
