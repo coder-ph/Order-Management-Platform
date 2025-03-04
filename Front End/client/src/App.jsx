@@ -38,7 +38,7 @@ import EditUserProfile from "./Components/EditProfile"
 
 
 const PrivateRoute = ({ role, element, fallbackPath }) => {
-  const isAuthenticated = true; // Replace with your authentication logic
+  const isAuthenticated = true; 
   if (!isAuthenticated) {
     return <Navigate to={fallbackPath} replace />;
   }
@@ -46,13 +46,13 @@ const PrivateRoute = ({ role, element, fallbackPath }) => {
 };
 
 const App = () => {
-  const isAuthenticated = true; // Replace with your authentication logic
-  const role = "user"; // Replace with dynamic role detection logic
+  const isAuthenticated = true; 
+  const role = "user"; 
 
   return (
     <Router>
       <Routes>
-        {/* Public Routes */}
+        
         <Route index element={<LandingPage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -71,10 +71,10 @@ const App = () => {
         <Route path="/edit-profile" element={<EditUserProfile />} />
         <Route path="/dashboard/orders/:id" element={<OrderDetails />} />
 
-        {/* Dashboard Route */}
+       
         <Route path="/dashboard/*" element={<Ap />} />
 
-        {/* Private Routes */}
+        
         <Route
           path="/admin/*"
           element={
@@ -106,7 +106,7 @@ const App = () => {
           }
         />
 
-        {/* Fallback Routes */}
+        
         <Route
           path="*"
           element={
