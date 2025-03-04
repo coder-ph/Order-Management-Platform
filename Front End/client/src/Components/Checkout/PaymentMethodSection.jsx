@@ -11,7 +11,7 @@ const PaymentMethodSection = ({ onPaymentMethodChange }) => {
   return (
     <div className="section">
       <h2>PAYMENT METHOD</h2>
-      <p>Pre-pay Now</p>
+      <p>Payment Options</p>
       <div className="payment-options">
         <div className="payment-option">
           <input
@@ -30,6 +30,15 @@ const PaymentMethodSection = ({ onPaymentMethodChange }) => {
             onChange={() => handleChange("mpesa")}
           />
           <label htmlFor="mpesa">Pay Now with M-Pesa</label>
+        </div>
+        <div className="payment-option">
+          <input
+            type="radio"
+            id="payondelivery"
+            name="payment"
+            onChange={() => handleChange("Payondelivery")}
+          />
+          <label htmlFor="payondelivery">Pay on Deilery</label>
         </div>
       </div>
     </div>

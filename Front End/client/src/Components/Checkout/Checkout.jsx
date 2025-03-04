@@ -21,6 +21,7 @@ const CheckoutPage = () => {
   const handleConfirmPayment = () => {
     setShowPaymentModal(true);
   };
+  
 
   const handlePaymentSubmit = (phoneNumber) => {
     dispatch(confirmPayment()); 
