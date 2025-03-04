@@ -1,18 +1,20 @@
 
 .checkout-page {
-  max-width: 800px;
+  max-width: 50rem;
   margin: 0 auto;
   padding: 20px;
+  margin-top: 6rem;
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+ box-shadow: 10px 0 10px   lightblue, -10px 0 0.3em lightblue;
 }
 
 .checkout-page h1 {
   font-size: 24px;
   margin-bottom: 20px;
   color: #333;
+  font-weight: bolder;
 }
 
 

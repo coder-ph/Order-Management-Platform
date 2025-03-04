@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
@@ -17,19 +17,28 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import AddLocationAltOutlinedIcon from "@mui/icons-material/AddLocationAltOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
-import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import user from "../../../src/assets/icons/person_57dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate("/login");
+  };
 
   return (
     <Link to={to} style={{ textDecoration: "none", color: "inherit" }}>
       <MenuItem
         active={selected === title}
         style={{ color: colors.primary[400] }}
-        onClick={() => setSelected(title)}
+        onClick={() => {
+          setSelected(title);
+          if (onClick) onClick();
+        }}
         icon={icon}
       >
         <Typography>{title}</Typography>
@@ -52,11 +61,7 @@ const AdminSidebar = () => {
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-
             style={{ margin: "10px 0 20px 0", color: colors.primary[400] }}
-
-            
-
           >
             {!isCollapsed && (
               <Box
@@ -132,11 +137,11 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
             <Item
-            title="Manage Orders"
-            to="/dashboard/orders"
-            icon={<LocalShippingOutlinedIcon />}
-            selected={selected}
-            setSelected={setSelected}
+              title="Manage Orders"
+              to="/dashboard/orders"
+              icon={<LocalShippingOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
             />
             <Item
               title="Contacts Information"
@@ -214,10 +219,13 @@ const AdminSidebar = () => {
             />
             <Item
               title="Log Out"
-
               icon={<LogoutIcon />}
               selected={selected}
               setSelected={setSelected}
+              onClick={() => {
+                dispatch(logoutUser());
+                navigate("/login");
+              }}
             />
           </Box>
         </Menu>
@@ -230,14 +238,8 @@ const AdminSidebar = () => {
           overflow: "auto",
           backgroundColor: "#f4f4f4",
         }}
-
-      >
-        {/* This is where the main dashboard content will go */}
-      </Box>
-
-      </Box>
-
-  
+      ></Box>
+    </Box>
   );
 };
 
