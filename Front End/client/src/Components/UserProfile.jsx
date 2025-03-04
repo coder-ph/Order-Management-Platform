@@ -5,6 +5,7 @@ import { MainButton } from "../Components/Buttons/Button";
 import { orderHistory, currentUser } from "../assets/OrderMockData";
 import '../assets/styles/UserProfile.css';
 import CloseIcon from '@mui/icons-material/Close';
+import UserSidebarr from "../scenes/global/UserSidebarr";
 
 const ProfilePage = () => {
     const [selectedOrder, setSelectedOrder] = useState(null);
@@ -35,10 +36,13 @@ const ProfilePage = () => {
     const closeModal = () => {
         setShowModal(false)
     }
+    // const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
     return (
         <div className="profile-page">
-            <Sidebar/>
+            <div className="sticky h-full top-0 left-0 bg-[#a3a3a3]">
+            <UserSidebarr />
+            </div>
             <div className="content-area">
                 <div className="profile-header">
                     <h2>My Profile</h2>
@@ -89,7 +93,7 @@ const ProfilePage = () => {
                                         </td>
                                         <td>{order.total}</td>
                                         <td className="detail-btn">
-                                            <button className="details-btn" onClick={() => handleViewDetails(order)}>View</button>
+                                            <MainButton onClick={() => handleViewDetails(order)} style={{ backgroundColor:" #1f2945", color:"white", padding:"8px 12px", borderRadius:"5px", cursor: "pointer", border:"none", transition:"0.3s"}}>View</MainButton>
                                         </td>
                                     </tr>
                                 ))}
