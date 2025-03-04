@@ -16,6 +16,7 @@ class GetUsersOrders(Resource):
     @auth_middleware
     @acl_middleware
     def get(self):
+        
         return get_user_orders()
     
 class GetMerchantOrders(Resource):
