@@ -48,7 +48,7 @@ const Orders = () => {
             headerName: 'Order ID', 
             flex: 1, 
             renderCell: ({ row }) => (
-                <Button component="span" onClick={() => handleIdClick(row.id)}>{row.id}</Button>
+                <Button style={{ color: "#a3a3a3" }}component="span" onClick={() => handleIdClick(row.id)}>{row.id}</Button>
             ) 
         },
         { 
@@ -82,7 +82,7 @@ const Orders = () => {
                 onChange={(e) => handleStatusChange(row.id, e.target.value)}
                 sx={{
                     width:"100%",
-                    backgroundColor:
+                    color:
                     row.status === "Processed" ? colors.greenAccent[100] : 
                     row.status === "Pending" ? colors.blueAccent[100] :
                     row.status === "Delivered" ? colors.blueAccent[500] :
@@ -104,7 +104,7 @@ const Orders = () => {
             headerName: 'Invoice status',
             renderCell: ({ row }) => (
                 <Box
-                p="3px"
+                p="5px"
                 width="50%"
                 display="flex"
                 justifyContent="center"

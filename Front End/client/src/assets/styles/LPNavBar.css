@@ -1,0 +1,30 @@
+.nav-bar-lp {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: transparent;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    right: 370px;
+    font-family: 'Alata';
+}
+.nav-list-lp {
+    display: flex;
+    list-style: none;
+    gap: 50px;
+}
+.nav-list-lp li {
+    font-size: 14px;
+    letter-spacing: 2px;
+    
+}
+.nav-list-lp li a {
+    text-decoration: none;
+    color: black;
+    color: white;
+}
+.nav-list-lp li a:hover {
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid white;
+}

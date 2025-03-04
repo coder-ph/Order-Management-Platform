@@ -9,7 +9,7 @@ import {
   selectPasswordUpdateSuccess,
   selectPasswordUpdateMessage,
 } from "../Redux/Auth/authsSelectors";
-import coverImage from "../assets/Images/delivery-man.jpg"
+import coverImage from "../assets/Images/inventory-management.jpg"
 import '../assets/styles/SetNewPassword.css'
 import { logout } from "../Redux/Auth/authsSlice";
 import { MainButton } from "../Components/Buttons/Buttons";

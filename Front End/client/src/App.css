@@ -9,34 +9,34 @@
   font-family: 'Source Sans Pro', sans-serif;
 } */
 
-/* WebKit Browsers (Chrome, Edge, Safari) */
+
 ::-webkit-scrollbar {
-  width: 10px; /* Adjust width */
+  width: 10px; 
   border-radius: 10px;
 }
 
-/* Track (background) */
+
 ::-webkit-scrollbar-track {
-  background: #e0e5f2; /* Light hazy background */
+  background: #e0e5f2; 
   border-radius: 10px;
 }
 
 /* Handle (scrollbar itself) */
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #4c5c88, #1f2945); /* Gradient */
+  background: linear-gradient(180deg, #4c5c88, #1f2945); 
   border-radius: 10px;
-  border: 2px solid #e0e5f2; /* Adds an inset effect */
+  border: 2px solid #e0e5f2; 
 }
 
-/* Handle on hover */
+
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #6576a5, #2a365c);
 }
 
-/* Firefox */
+
 * {
   scrollbar-width: thin;
-  scrollbar-color: #4c5c88 #e0e5f2; /* Thumb color | Track color */
+  scrollbar-color: #4c5c88 #e0e5f2; 
 }
 
 /* .logo {

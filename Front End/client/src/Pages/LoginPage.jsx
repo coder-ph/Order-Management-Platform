@@ -9,7 +9,7 @@ import {
   selectisAuthenticated,
   selectRole,
 } from "../Redux/Auth/authsSelectors";
-import coverImage from "../assets/Images/delivery-man.jpg";
+import coverImage from "../assets/Images/inventory-management.jpg";
 import { GoogleButton } from "../Components/Buttons/Buttons";
 import { FaGoogle } from "react-icons/fa";
 import "../assets/styles/LoginPage.css";

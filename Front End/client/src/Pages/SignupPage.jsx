@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MainButton, GoogleButton } from "../Components/Buttons/Buttons";
 import { useFormik } from "formik";
-import coverImage from "../assets/Images/delivery-man.jpg"
+import coverImage from "../assets/Images/inventory-management.jpg"
 import '../assets/styles/SignupPage.css'
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -145,7 +145,7 @@ const SignupPage = () => {
                   <input
                     id="password"
                     name="password"
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? "text" : "password"} style={{marginBottom: "7px"}}
                     placeholder="Enter password"
                     value={formik.values.password}
                     onChange={formik.handleChange}

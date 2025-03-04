@@ -1,33 +1,40 @@
 import React from "react";
-import { FaFacebookF } from "react-icons/fa";
+import { SlSocialFacebook } from "react-icons/sl";
 import { FaInstagram } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
+import { SlSocialLinkedin } from "react-icons/sl";
 import { FaXTwitter } from "react-icons/fa6";
 import '../assets/styles/Footer.css'
 
+
 function Footer() {
     return (
-        <footer>
-        <div className="footer-links">
-            <div className="footer-column">
-                <a href="#">About Us</a>
-                <a href="#">Services</a>
-                <a href="#">Join Us</a>
-            </div>
-            <div className="footer-column">
-                <a href="#">FAQs</a>
-                <a href="#">FAQs</a>
-                <a href="#">FAQs</a>
-            </div>
-            <div className="footer-column-icons">
-                <a href="#"><FaFacebookF /></a>
+        <footer className="footer">
+        <div className="footer-content">
+            <h2>Order Management System</h2>
+            <p className="footer-statement">Manage your orders with ease</p>
+            <p><strong>Customer Service</strong> +254 115816125</p>
+            <p><strong>Address</strong> Nairobi, Kenya</p>
+            <hr className="footer-divider"/>
+
+            <div className="footer-div">
+            <div className="footer-social-icons">
+                <a href="#"><SlSocialFacebook /></a>
                 <a href="#"><FaInstagram /></a>
-                <a href="#"><FaLinkedin /></a>
+                <a href="#"><SlSocialLinkedin /></a>
                 <a href="#"><FaXTwitter /></a>
             </div>
 
+            <div className="delivery-order">
+                <span>Delivery and Order Tracking</span>
+            </div>
+            </div>
+
+
         </div>
-        <p className="copyright"> 2025 &copy; All rights reserved</p>
+        <div className="footer-bottom">
+        <p className="copyright">&copy; 2025 QUANTUM LI,  All rights reserved</p>
+        <span>Terms & Conditions | Privacy Policy</span>
+        </div>
     </footer>
     )
 }
