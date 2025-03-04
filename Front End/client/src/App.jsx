@@ -37,17 +37,23 @@ import OrderDetails from "./scenes/ManageOrders/OrderDetails"
 import EditUserProfile from "./Components/EditProfile"
 
 
-function App() {
-  const isAuthenticated = useSelector(selectisAuthenticated);
-  const role = useSelector(selectRole);
+const PrivateRoute = ({ role, element, fallbackPath }) => {
+  const isAuthenticated = true; // Replace with your authentication logic
+  if (!isAuthenticated) {
+    return <Navigate to={fallbackPath} replace />;
+  }
+  return role ? element : <Navigate to="/login" replace />;
+};
+
+const App = () => {
+  const isAuthenticated = true; // Replace with your authentication logic
+  const role = "user"; // Replace with dynamic role detection logic
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/dashboard/*" element={<Ap />} />
-
-        {/* Other public routes */}
+        {/* Public Routes */}
+        <Route index element={<LandingPage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<SetNewPassword />} />
@@ -56,57 +62,72 @@ function App() {
         <Route path="/products" element={<ProductManagement />} />
         <Route path="/user-products" element={<ProductPage />} />
         <Route path="/payment" element={<PaymentPage />} />
-
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/change-address" element={<ChangeAddressPage />} />
         <Route path="/change-delivery" element={<ChangeDeliveryPage />} />
         <Route path="/track-order" element={<Tracking />} />
-        <Route
-          path="/product/:id"
-          element={<ProductDetails products={mockProducts} />}
-        />
-        
+        <Route path="/product/:id" element={<ProductDetails products={mockProducts} />} />
         <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/edit-profile" element={<EditUserProfile />} />
+        <Route path="/dashboard/orders/:id" element={<OrderDetails />} />
 
-        
-        <Route path="/dashboard/orders/:id" element={<OrderDetails />} /> 
-        {/* this is Debrah's Route!! Dont touch */}
+        {/* Dashboard Route */}
+        <Route path="/dashboard/*" element={<Ap />} />
 
-        {/* Role-based private routes */}
-        {isAuthenticated ? (
-          <>
-            {role === "Admin" && (
-              <Route path="/admin/*" element={<AdminDashboard />} />
-            )}
-            {role === "user" && (
-              <Route path="/user/*" element={<UserDashboard />} />
-            )}
-            {role === "driver" && (
-              <Route path="/driver/*" element={<DriverDashboard />} />
-            )}
-            {/* Fallback redirect based on role */}
-            <Route
-              path="*"
-              element={
-                role === "Admin" ? (
-                  <Navigate to="/admin" replace />
-                ) : role === "user" ? (
-                  <Navigate to="/user" replace />
-                ) : role === "driver" ? (
-                  <Navigate to="/driver" replace />
-                ) : (
-                  <Navigate to="/login" replace />
-                )
-              }
+        {/* Private Routes */}
+        <Route
+          path="/admin/*"
+          element={
+            <PrivateRoute
+              role={role === "Admin"}
+              element={<AdminDashboard />}
+              fallbackPath="/login"
             />
-          </>
-        ) : (
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        )}
+          }
+        />
+        <Route
+          path="/user/*"
+          element={
+            <PrivateRoute
+              role={role === "user"}
+              element={<UserDashboard />}
+              fallbackPath="/login"
+            />
+          }
+        />
+        <Route
+          path="/driver/*"
+          element={
+            <PrivateRoute
+              role={role === "driver"}
+              element={<DriverDashboard />}
+              fallbackPath="/login"
+            />
+          }
+        />
+
+        {/* Fallback Routes */}
+        <Route
+          path="*"
+          element={
+            isAuthenticated ? (
+              role === "Admin" ? (
+                <Navigate to="/admin" replace />
+              ) : role === "user" ? (
+                <Navigate to="/user" replace />
+              ) : role === "driver" ? (
+                <Navigate to="/driver" replace />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;

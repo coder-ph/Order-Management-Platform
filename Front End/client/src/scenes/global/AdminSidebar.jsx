@@ -27,22 +27,22 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
   const colors = tokens(theme.palette.mode);
 
   return (
-    <MenuItem
-      active={selected === title}
-      style={{ color: colors.primary[400] }}
-      onClick={() => {
-        setSelected(title);
-        if (onClick) onClick(); 
-      }}
-      icon={icon}
-    >
-      <Typography>{title}</Typography>
-      {to ? (
-        <Link to={to} style={{ textDecoration: "none", color: "inherit" }} />
-      ) : null}
-    </MenuItem>
+    <Link to={to} style={{ textDecoration: "none", color: "inherit" }}>
+      <MenuItem
+        active={selected === title}
+        style={{ color: colors.primary[500] }}
+        onClick={() => {
+          setSelected(title);
+          if (onClick) onClick();
+        }}
+        icon={icon}
+      >
+        <Typography>{title}</Typography>
+      </MenuItem>
+    </Link>
   );
 };
+
 
 const AdminSidebar = () => {
   const theme = useTheme();
@@ -63,7 +63,6 @@ const AdminSidebar = () => {
     <Box sx={{ height: "100vh", display: "flex" }}>
       <Sidebar collapsed={isCollapsed} style={{ height: "100vh" }}>
         <Menu iconShape="square">
-         
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
@@ -85,7 +84,6 @@ const AdminSidebar = () => {
             )}
           </MenuItem>
 
-        
           {!isCollapsed && (
             <Box mb="10px">
               <Box display="flex" justifyContent="center" alignItems="center">
@@ -222,13 +220,13 @@ const AdminSidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              title="Log Out"
+            <MenuItem
               icon={<LogoutIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              onClick={handleLogout} 
-            />
+              onClick={handleLogout}
+              style={{ color: tokens(theme.palette.mode).primary[500] }}
+            >
+              <Typography>Log Out</Typography>
+            </MenuItem>
           </Box>
         </Menu>
       </Sidebar>
@@ -240,9 +238,7 @@ const AdminSidebar = () => {
           overflow: "auto",
           backgroundColor: "#f4f4f4",
         }}
-      >
-       
-      </Box>
+      ></Box>
     </Box>
   );
 };

@@ -112,6 +112,9 @@ export const logoutUser = () => async (dispatch) => {
   try {
     await axios.post(`${API_URL}/api/logout`, {}, { withCredentials: true });
     dispatch({ type: LOGOUT });
+     localStorage.removeItem("token");
+     localStorage.removeItem("role");
+     localStorage.removeItem("tokenExpiry");
   } catch (error) {
     console.error("Logout failed:", error);
   }
