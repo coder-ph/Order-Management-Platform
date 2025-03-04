@@ -5,18 +5,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
-import ReviewsOutlinedIcon from "@mui/icons-material/ReviewsOutlined";
 import MyLocationOutlinedIcon from "@mui/icons-material/MyLocationOutlined";
 import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import AddLocationAltOutlinedIcon from "@mui/icons-material/AddLocationAltOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import user from "../../../src/assets/icons/person_57dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg";
-import { useDispatch } from "react-redux";
-import { logoutUser } from "../../Redux/Auth/authsActions";
 
 const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
   const theme = useTheme();
@@ -44,12 +39,15 @@ const UserSidebarr = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch(logoutUser()); // Dispatch the logout action
-    navigate("/login", { replace: true }); // Redirect to login page and replace history
+    // Clear token and role from localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+
+    // Redirect to login page and replace history
+    navigate("/login", { replace: true });
   };
 
   return (
