@@ -43,20 +43,17 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
   );
 };
 
-
 const AdminSidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const dispatch = useDispatch(); 
-  const navigate = useNavigate(); 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  
   const handleLogout = () => {
-    dispatch(logoutUser()); 
-    navigate("/login",{ replace: true });
-    
+    dispatch(logoutUser()); // Dispatch the logout action
+    navigate("/login", { replace: true }); // Redirect to login page and replace history
   };
 
   return (

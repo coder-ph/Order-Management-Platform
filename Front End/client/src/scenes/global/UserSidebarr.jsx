@@ -16,27 +16,26 @@ import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import user from "../../../src/assets/icons/person_57dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg";
 import { useDispatch } from "react-redux";
-import { logoutUser } from "../../Redux/Auth/authsActions"; 
+import { logoutUser } from "../../Redux/Auth/authsActions";
 
 const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   return (
-    <MenuItem
-      active={selected === title}
-      style={{ color: colors.primary[500] }}
-      onClick={() => {
-        setSelected(title);
-        if (onClick) onClick(); 
-      }}
-      icon={icon}
-    >
-      <Typography>{title}</Typography>
-      {to ? (
-        <Link to={to} style={{ textDecoration: "none", color: "inherit" }} />
-      ) : null}
-    </MenuItem>
+    <Link to={to} style={{ textDecoration: "none", color: "inherit" }}>
+      <MenuItem
+        active={selected === title}
+        style={{ color: colors.primary[500] }}
+        onClick={() => {
+          setSelected(title);
+          if (onClick) onClick();
+        }}
+        icon={icon}
+      >
+        <Typography>{title}</Typography>
+      </MenuItem>
+    </Link>
   );
 };
 
@@ -45,21 +44,18 @@ const UserSidebarr = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const dispatch = useDispatch(); 
-  const navigate = useNavigate(); 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  
   const handleLogout = () => {
-    dispatch(logoutUser()); 
-    navigate("/login", { replace: true });
-   
+    dispatch(logoutUser()); // Dispatch the logout action
+    navigate("/login", { replace: true }); // Redirect to login page and replace history
   };
 
   return (
     <Box sx={{ height: "80vh", display: "flex" }}>
       <Sidebar collapsed={isCollapsed} style={{ height: "100vh" }}>
         <Menu iconShape="square">
-         
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
@@ -80,7 +76,6 @@ const UserSidebarr = () => {
             )}
           </MenuItem>
 
-          
           {!isCollapsed && (
             <Box mb="10px">
               <Box
@@ -115,7 +110,6 @@ const UserSidebarr = () => {
             </Box>
           )}
 
-        
           <Box paddingLeft={isCollapsed ? undefined : "10%"} marginTop="50px">
             <Item
               title="Home"
@@ -160,13 +154,13 @@ const UserSidebarr = () => {
               setSelected={setSelected}
             />
             <Box marginTop="140px">
-              <Item
-                title="Log Out"
+              <MenuItem
                 icon={<LogoutIcon />}
-                selected={selected}
-                setSelected={setSelected}
-                onClick={handleLogout} 
-              />
+                onClick={handleLogout}
+                style={{ color: tokens(theme.palette.mode).primary[500] }}
+              >
+                <Typography>Log Out</Typography>
+              </MenuItem>
             </Box>
           </Box>
         </Menu>

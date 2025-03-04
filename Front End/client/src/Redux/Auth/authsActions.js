@@ -24,7 +24,7 @@ const authRequest = async (url, data, method = "POST") => {
       url: `${API_URL}${url}`,
       data,
       headers: { "Content-Type": "application/json" },
-      withCredentials: true, // Sends cookies automatically
+      withCredentials: true, 
     });
   } catch (error) {
     console.error("API request failed:", error);
@@ -32,7 +32,7 @@ const authRequest = async (url, data, method = "POST") => {
   }
 };
 
-// 🔹 Login User (Token is stored in HTTP-only cookies)
+
 export const loginUser = (credentials) => async (dispatch) => {
   
   try {
@@ -52,7 +52,7 @@ export const loginUser = (credentials) => async (dispatch) => {
   }
 };
 
-// 🔹 Check Auth Token (Handles Page Reloads & Auto Refresh)
+
 export const checkAuthToken = () => async (dispatch) => {
   try {
     const response = await axios.get(`${API_URL}/api/refresh`, { withCredentials: true });
@@ -69,7 +69,7 @@ export const checkAuthToken = () => async (dispatch) => {
   }
 };
 
-// 🔹 will handle after working on firebase thingy
+
 export const loginWithGoogle = () => async (dispatch) => {
   const provider = new GoogleAuthProvider();
   try {
@@ -91,7 +91,7 @@ export const loginWithGoogle = () => async (dispatch) => {
   }
 };
 
-// 🔹 Update Password
+
 export const updatePassword = (newPassword) => async (dispatch) => {
   try {
     dispatch(resetPasswordUpdateState());
@@ -107,7 +107,7 @@ export const updatePassword = (newPassword) => async (dispatch) => {
   }
 };
 
-// 🔹 Logout User (Revokes Refresh Token)
+
 export const logoutUser = () => async (dispatch) => {
   try {
     await axios.post(`${API_URL}/api/logout`, {}, { withCredentials: true });
@@ -120,23 +120,33 @@ export const logoutUser = () => async (dispatch) => {
   }
 };
 
-// 🔹 Axios Interceptor for Auto Token Refresh
+
 axios.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status === 401) {
-      error.config._retry = true;
+    const originalRequest = error.config;
+
+    
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
       try {
+        
         await axios.get(`${API_URL}/api/refresh`, { withCredentials: true });
-        return axios(error.config); // Retry the failed request
+
+       
+        return axios(originalRequest);
       } catch (refreshError) {
+        
         dispatch(logoutUser());
+        return Promise.reject(refreshError);
       }
     }
+
+    
     return Promise.reject(error);
   }
 );
-
 // Signup imppp
 
 export const signupUser = (userData) => async (dispatch) => {
