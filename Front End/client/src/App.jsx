@@ -18,7 +18,7 @@ import ResetPasswordPage from "./Pages/ResetPasswordPage"
 import ProductPage from "./Pages/ProductPage"
 
 import ProductManagement from "./Pages/InventoryManagementPage"
-import UserSidebar from "./Components/UserSidebar"
+// import UserSidebar from "./Components/UserSidebar"
 import LandingPage from "./Pages/LandingPage"
 import Ap from "./scenes/dashboard/App"
 import AdDashboard from "./scenes/dashboard/AdDashboard"
