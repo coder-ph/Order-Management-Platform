@@ -3,6 +3,16 @@ import TvIcon from '@mui/icons-material/Tv';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import HeadphonesIcon from '@mui/icons-material/Headphones';
+import SportsBaseballIcon from '@mui/icons-material/SportsBaseball';
+import HomeIcon from '@mui/icons-material/Home';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import LaptopIcon from '@mui/icons-material/Laptop';
+import BookIcon from '@mui/icons-material/Book';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import ToysIcon from '@mui/icons-material/Toys';
+import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
+// import GardenIcon from '@mui/icons-material/Garden';
 
 export const mockCategories = [
   {
@@ -25,7 +35,63 @@ export const mockCategories = [
     name: 'Accessories',
     icon: <HeadphonesIcon />,
   },
-]
+  {
+    id: 5,
+    name: 'Entertainment',
+    icon: <TvIcon />,
+  },
+  {
+    id: 6,
+    name: 'Sports',
+    icon: <SportsBaseballIcon />,
+  },
+  {
+    id: 7,
+    name: 'Home & Furniture',
+    icon: <HomeIcon />,
+  },
+  {
+    id: 8,
+    name: 'Cameras & Photography',
+    icon: <CameraAltIcon />,
+  },
+  {
+    id: 9,
+    name: 'Laptops & Computers',
+    icon: <LaptopIcon />,
+  },
+  {
+    id: 10,
+    name: 'Books',
+    icon: <BookIcon />,
+  },
+  {
+    id: 11,
+    name: 'Fitness & Wellness',
+    icon: <FitnessCenterIcon />,
+  },
+  {
+    id: 12,
+    name: 'Toys & Games',
+    icon: <ToysIcon />,
+  },
+  {
+    id: 13,
+    name: 'Groceries',
+    icon: <LocalGroceryStoreIcon />,
+  },
+  {
+    id: 14,
+    name: 'Restaurants & Food',
+    icon: <RestaurantIcon />,
+  },
+  {
+    id: 15,
+    name: 'Gardening',
+    // icon: <GardenIcon />,
+  },
+];
+
 
 export const mockProducts = [
   {
