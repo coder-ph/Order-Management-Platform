@@ -32,7 +32,7 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
       style={{ color: colors.primary[400] }}
       onClick={() => {
         setSelected(title);
-        if (onClick) onClick(); // Call the onClick handler if provided
+        if (onClick) onClick(); 
       }}
       icon={icon}
     >
@@ -49,20 +49,21 @@ const AdminSidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const dispatch = useDispatch(); // Initialize the dispatch function
-  const navigate = useNavigate(); // Initialize the navigate function
+  const dispatch = useDispatch(); 
+  const navigate = useNavigate(); 
 
-  // Handle logout
+  
   const handleLogout = () => {
-    dispatch(logoutUser()); // Dispatch the logout action
-    navigate("/login"); // Redirect to the login page
+    dispatch(logoutUser()); 
+    navigate("/login",{ replace: true });
+    
   };
 
   return (
     <Box sx={{ height: "100vh", display: "flex" }}>
       <Sidebar collapsed={isCollapsed} style={{ height: "100vh" }}>
         <Menu iconShape="square">
-          {/* Sidebar Toggle Button */}
+         
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
@@ -84,7 +85,7 @@ const AdminSidebar = () => {
             )}
           </MenuItem>
 
-          {/* User Profile */}
+        
           {!isCollapsed && (
             <Box mb="10px">
               <Box display="flex" justifyContent="center" alignItems="center">
@@ -227,7 +228,7 @@ const AdminSidebar = () => {
               icon={<LogoutIcon />}
               selected={selected}
               setSelected={setSelected}
-              onClick={handleLogout} // Add the onClick handler for logout
+              onClick={handleLogout} 
             />
           </Box>
         </Menu>
@@ -241,7 +242,7 @@ const AdminSidebar = () => {
           backgroundColor: "#f4f4f4",
         }}
       >
-        {/* This is where the main dashboard content will go */}
+       
       </Box>
     </Box>
   );

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -12,25 +12,31 @@ import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import AddLocationAltOutlinedIcon from "@mui/icons-material/AddLocationAltOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
-import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import user from "../../../src/assets/icons/person_57dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../Redux/Auth/authsActions"; // Adjust the import path
 
-const Item = ({ title, to, icon, selected, setSelected }) => {
+const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   return (
-    <Link to={to} style={{ textDecoration: "none", color: "inherit" }}>
-      <MenuItem
-        active={selected === title}
-        style={{ color: colors.primary[500] }}
-        onClick={() => setSelected(title)}
-        icon={icon}
-      >
-        <Typography>{title}</Typography>
-      </MenuItem>
-    </Link>
+    <MenuItem
+      active={selected === title}
+      style={{ color: colors.primary[500] }}
+      onClick={() => {
+        setSelected(title);
+        if (onClick) onClick(); // Call the onClick handler if provided
+      }}
+      icon={icon}
+    >
+      <Typography>{title}</Typography>
+      {to ? (
+        <Link to={to} style={{ textDecoration: "none", color: "inherit" }} />
+      ) : null}
+    </MenuItem>
   );
 };
 
@@ -39,6 +45,15 @@ const UserSidebarr = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const dispatch = useDispatch(); 
+  const navigate = useNavigate(); 
+
+  // Handle logout
+  const handleLogout = () => {
+    dispatch(logoutUser()); 
+    navigate("/login", { replace: true });
+   
+  };
 
   return (
     <Box sx={{ height: "80vh", display: "flex" }}>
@@ -88,7 +103,11 @@ const UserSidebarr = () => {
                   variant="h4"
                   color={colors.primary[400]}
                   fontSize="22px"
-                  sx={{ m: "10px 0 0 0", color: "#1F2A40", paddingBottom:'30px'}}
+                  sx={{
+                    m: "10px 0 0 0",
+                    color: "#1F2A40",
+                    paddingBottom: "30px",
+                  }}
                 >
                   Customer
                 </Typography>
@@ -112,7 +131,6 @@ const UserSidebarr = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
             <Item
               title="Wishlist"
               to="/wishlist"
@@ -134,7 +152,6 @@ const UserSidebarr = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
             <Item
               title="Payment Methods"
               to="/dashboard/form"
@@ -143,12 +160,12 @@ const UserSidebarr = () => {
               setSelected={setSelected}
             />
             <Box marginTop="140px">
-              {" "}
               <Item
                 title="Log Out"
                 icon={<LogoutIcon />}
                 selected={selected}
                 setSelected={setSelected}
+                onClick={handleLogout} // Add the onClick handler for logout
               />
             </Box>
           </Box>
