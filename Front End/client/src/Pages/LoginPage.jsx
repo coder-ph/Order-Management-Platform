@@ -1,48 +1,18 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { loginUser, checkAuthToken } from "../Redux/Auth/authsActions";
-import {
-  selectisAuthenticated,
-  selectRole,
-} from "../Redux/Auth/authsSelectors";
+import axios from "axios";
 import coverImage from "../assets/Images/delivery-man.jpg";
 import { GoogleButton } from "../Components/Buttons/Buttons";
 import { FaGoogle } from "react-icons/fa";
 import "../assets/styles/LoginPage.css";
-import { loginWithGoogle } from "../Redux/Auth/authsActions";
 
 const LoginForm = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isAuthenticated = useSelector(selectisAuthenticated);
-  const role = useSelector(selectRole);
+  const [loginError, setLoginError] = useState("");
+  const API_URL = import.meta.env.VITE_APP_USER_URL;
 
-  const handleGoogleSignIn = async ()=> {
-    dispatch(loginWithGoogle())
-  }
-  useEffect(() => {
-    console.log("Auth Status:", isAuthenticated);
-    console.log("User Role:", role);
-    if (isAuthenticated && role) {
-      const roleRoutes = {
-        admin: "/dashboard/map",
-        user: "/user-products",
-        driver: "/driver",
-      };
-     if (isAuthenticated && role && roleRoutes[role]) {
-       navigate(roleRoutes[role]);
-     } else {
-       navigate("/");
-     }
-    }
-  }, [isAuthenticated, role, navigate]);
-
-
-  // Formik setup
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -57,12 +27,32 @@ const LoginForm = () => {
         .required("Password is required"),
     }),
     onSubmit: async (values) => {
-      try{
-        dispatch(loginUser(values));
+      try {
+        setLoginError("");
+
+       
+        const response = await axios.post(`${API_URL}/api/login`, values, {
+          withCredentials: true, 
+        });
+
+        
+        const { role } = response.data;
+        const roleRoutes = {
+          admin: "/dashboard/main",
+          user: "/user-products",
+          driver: "/driver",
+        };
+
+        if (roleRoutes[role]) {
+          navigate(roleRoutes[role]);
+        } else {
+          navigate("/");
+        }
       } catch (error) {
-        console.error('login Failed', error)
+        setLoginError(
+          error.response?.data?.message || "Invalid email or password"
+        );
       }
-      
     },
   });
 
@@ -83,7 +73,7 @@ const LoginForm = () => {
         <div className="login-right-side">
           <h2>Welcome Back!</h2>
           <div className="google-button">
-            <GoogleButton className="google-press" onClick={handleGoogleSignIn}>
+            <GoogleButton className="google-press">
               {" "}
               <FaGoogle className="google-icon" /> Sign in with Google{" "}
             </GoogleButton>
@@ -127,6 +117,8 @@ const LoginForm = () => {
                 ) : null}
               </div>
 
+              {loginError && <div className="error-message">{loginError}</div>}
+
               <div className="forgot-password">
                 <Link to="/forgot-password">Forgot Password?</Link>
               </div>
@@ -146,4 +138,5 @@ const LoginForm = () => {
     </div>
   );
 };
+
 export default LoginForm;

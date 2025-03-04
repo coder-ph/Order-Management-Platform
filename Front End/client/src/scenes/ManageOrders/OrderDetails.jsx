@@ -1,66 +1,82 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { mockDataOrders } from './mockDataOrders';
+import { useParams, useNavigate } from "react-router-dom";
+import { mockDataOrders } from "./mockDataOrders";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import { MainButton } from "../../Components/Buttons/Button";
+import "../../assets/styles/OrderDetails.css"; 
 
 const OrderDetails = () => {
     const { id } = useParams();
-    console.log(id)
     const navigate = useNavigate();
-    const order = mockDataOrders.find(order => order.id === parseInt(id));
+    const order = mockDataOrders.find((order) => order.id === parseInt(id));
 
     if (!order) {
-        return <div className="text-red-500">Order not found</div>;
+        return <div className="error-message">Order not found</div>;
     }
-    return (
-        <div className='container mx-auto p-6 bg-white shadow-lg rounded-lg'>
-            <h1 className='text-2x1 font-bold mb-4'>Order Details</h1>
-            <div className='grid grid-cols-3 gap-4'>
-                <div className='p-4 border rounded-lg'>
-                    <h2 className='text-lg font-bold mb-2'>Order Information</h2>
-                    <p>Order ID: {order.id}</p>
-                    <p>Status: {order.status}</p>
-                    <p>Total Amount: {order.total_amount}</p>
-                    <p>Invoice status: {order.invoice_status}</p>
-                </div>
-                <div>
-                    <button>Assign Drivers</button>
-                </div>
 
-                {/* Order items  */}
-                <h2 className="text-xl font-semibold mb-4">Your Order</h2>
-                <div className="space-y-4">
-                    {order.order_items.map((item, index) => (
-                        <div key={index} className="flex items-center p-4 bg-gray-50 rounded-lg shadow-sm">
-                            <img src={item.image} alt={item.name} className="w-16 h-16 rounded-lg object-cover" />
-                            <div className="ml-4 flex-1">
-                                <h3 className="font-medium">{item.name}</h3>
-                                <p className="text-gray-500 text-sm">{item.brand}</p>
-                                <p className="text-gray-700 text-sm">{item.quantity} × ${item.price.toFixed(2)}</p>
-                            </div>
-                            <p className="font-semibold">${(item.quantity * item.price).toFixed(2)}</p>
+    return (
+        <div className="order-details-container">
+            <div className="order-details-card">
+                <div className="order-left">
+                    <h1 className="order-title">Order Details</h1>
+
+                    {/* Order Status */}
+                    <div className="order-status">
+                        <p>Order ID: <span>{order.id}</span></p>
+                        <p>Status: <span className="badge">{order.status}</span></p>
+                        <p>Total Amount: <span>{order.total_amount}</span></p>
+                        <p>Invoice status: <span>{order.invoice_status}</span></p>
+                    </div>
+                    <MainButton style={{ width: "300px", marginLeft: "210px", backgroundColor: "#1f2945", borderRadius: "0px"}}>Assign driver</MainButton>
+
+                    {/* Order Items */}
+                    <h2 className="order-items-title">Customer Orders</h2>
+                    <div className="order-items">
+                        {order.order_items.map((item, index) => (
+                            <div key={index} className="order-item">
+                                <img src={item.image} alt={item.name} className="order-item-image" />
+                                <div className="order-item-details">
+                                    <h3>{item.name}</h3>
+                                    <p className="order-item-brand">{item.brand}</p>
+                                    <p>{item.quantity} × ${item.price.toFixed(2)}</p>
+                                </div>
+                                <p className="order-item-price">${(item.quantity * item.price).toFixed(2)}</p>
                             </div>
                         ))}
-                        </div>
+                    </div>
 
-                <button onClick={() => navigate(-1)} className='mt-6 px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400'>
-                    <IoIosArrowRoundBack />Back to Orders
-                </button>
-
-                {/* Customer Details Section */}
-                <div className='p-4 border rounded-lg'>
-                    <h2 className='text-lg font-bold mb-2'>Customer Information</h2>
-                    <p>Name: {order.customer}</p>
-                    <p>Email: {order.email}</p>
-                    <p>Email: {order.phone}</p>
-                    <p>Address: {order.address}</p>
+                     {/* Back Button */}
+                     <div className="back-navigate">
+                     <MainButton onClick={() => navigate(-1)} style={{ backgroundColor: "transparent", border: "2px solid #1f2945", color: "black", cursor: "pointer", width: "100px", borderRadius: "0px", padding: "10px" }}>
+                        <IoIosArrowRoundBack style={{ fontSize: "20px", marginRight:"5px", color:"#1f2945" }} />
+                        <span>Back</span>
+                    </MainButton>
+                    </div>
                 </div>
-                <button>On Submit</button>
-                
 
+                {/* Right Sidebar - Customer Details */}
+                <div className="order-right">
+                    <h2 className="order-section-title">Customer Detail</h2>
+                    <p className="customer-label">Name</p>
+                    <p className="customer-info">{order.customer}</p>
 
+                    <p className="customer-label">Email</p>
+                    <p className="customer-info">{order.email}</p>
+
+                    <p className="customer-label">Address</p>
+                    <p className="customer-info">{order.address}</p>
+
+                    {/* Total & Process Order Button */}
+                    <div className="order-total">
+                        <div className="total-row">
+                            <span>Total</span>
+                            <span>${order.total_amount}</span>
+                        </div>
+                        <MainButton style={{ borderRadius: "0px", backgroundColor: "black", color: "white"}}>Confirm Shipping</MainButton>
+                    </div>
+                </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default OrderDetails;

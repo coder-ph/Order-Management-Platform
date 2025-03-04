@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -12,11 +12,13 @@ import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import AddLocationAltOutlinedIcon from "@mui/icons-material/AddLocationAltOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
-import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import user from "../../../src/assets/icons/person_57dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../Redux/Auth/authsActions";
 
-const Item = ({ title, to, icon, selected, setSelected }) => {
+const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -25,7 +27,10 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       <MenuItem
         active={selected === title}
         style={{ color: colors.primary[500] }}
-        onClick={() => setSelected(title)}
+        onClick={() => {
+          setSelected(title);
+          if (onClick) onClick();
+        }}
         icon={icon}
       >
         <Typography>{title}</Typography>
@@ -39,12 +44,18 @@ const UserSidebarr = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logoutUser()); // Dispatch the logout action
+    navigate("/login", { replace: true }); // Redirect to login page and replace history
+  };
 
   return (
     <Box sx={{ height: "80vh", display: "flex" }}>
       <Sidebar collapsed={isCollapsed} style={{ height: "100vh" }}>
         <Menu iconShape="square">
-          {/* Sidebar Toggle Button */}
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
@@ -65,7 +76,6 @@ const UserSidebarr = () => {
             )}
           </MenuItem>
 
-          {/* User Profile */}
           {!isCollapsed && (
             <Box mb="10px">
               <Box
@@ -88,7 +98,11 @@ const UserSidebarr = () => {
                   variant="h4"
                   color={colors.primary[400]}
                   fontSize="22px"
-                  sx={{ m: "10px 0 0 0", color: "#1F2A40", paddingBottom:'30px'}}
+                  sx={{
+                    m: "10px 0 0 0",
+                    color: "#1F2A40",
+                    paddingBottom: "30px",
+                  }}
                 >
                   Customer
                 </Typography>
@@ -96,7 +110,6 @@ const UserSidebarr = () => {
             </Box>
           )}
 
-          {/* Sidebar Menu */}
           <Box paddingLeft={isCollapsed ? undefined : "10%"} marginTop="50px">
             <Item
               title="Home"
@@ -112,7 +125,6 @@ const UserSidebarr = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
             <Item
               title="Wishlist"
               to="/wishlist"
@@ -134,7 +146,6 @@ const UserSidebarr = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
             <Item
               title="Payment Methods"
               to="/dashboard/form"
@@ -143,13 +154,13 @@ const UserSidebarr = () => {
               setSelected={setSelected}
             />
             <Box marginTop="140px">
-              {" "}
-              <Item
-                title="Log Out"
+              <MenuItem
                 icon={<LogoutIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
+                onClick={handleLogout}
+                style={{ color: tokens(theme.palette.mode).primary[500] }}
+              >
+                <Typography>Log Out</Typography>
+              </MenuItem>
             </Box>
           </Box>
         </Menu>

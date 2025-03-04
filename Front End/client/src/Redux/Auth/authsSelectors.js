@@ -7,3 +7,4 @@ export const selectPasswordUpdate = (state)=> state.auth.passwordUpdate
 export const selectPasswordUpdateLoading = (state) => state.auth.passwordUpdate.loading
 export const selectPasswordUpdateSuccess = (state) =>state.auth.passwordUpdate.success
 export const selectPasswordUpdateMessage = (state) => state.auth.passwordUpdate.message
+export const selectLoginError = (state) => state.auth.loginError;
