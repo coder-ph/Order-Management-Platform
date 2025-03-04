@@ -36,14 +36,14 @@ const ProfilePage = () => {
     const closeModal = () => {
         setShowModal(false)
     }
-    // const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
     return (
         <div className="profile-page">
-            <div className="sticky h-full top-0 left-0 bg-[#a3a3a3]">
-            <UserSidebarr />
+            <div className="fixed h-screen top-0 left-0 bg-[#a3a3a3]">
+            <UserSidebarr isCollapsed={isSidebarCollapsed} setIsCollapsed={setIsSidebarCollapsed} />
             </div>
-            <div className="content-area">
+            <div className="content-area" style={{ marginLeft: isSidebarCollapsed? "0px" : "250px", transition: "margin 0.3s ease-in-out, width 0.3s ease-in-out", width: "100%", paddingLeft:"70px"}}>
                 <div className="profile-header">
                     <h2>My Profile</h2>
                     <Link to="/edit-profile">
