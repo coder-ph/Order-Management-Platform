@@ -1,23 +1,27 @@
 import React, { useState } from "react";
 import { MainButton, GoogleButton } from "../Components/Buttons/Buttons";
 import { useFormik } from "formik";
-import coverImage from "../assets/Images/delivery-man.jpg"
-import '../assets/styles/SignupPage.css'
+import coverImage from "../assets/Images/delivery-man.jpg";
+import "../assets/styles/SignupPage.css";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { signupUser } from "../Redux/Auth/authsActions";
 
 const SignupPage = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error, signupSuccess } = useSelector((state) => state.auth);
+
+  
+  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState(""); 
+  const [signupSuccess, setSignupSuccess] = useState(false); 
+
+  
   const [showPassword, setShowPassword] = useState(false);
-  // show password
+
+  
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    setShowPassword((prev) => !prev);
   };
 
-  // Use Formik hook for form management
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -29,41 +33,60 @@ const SignupPage = () => {
     validate: (values) => {
       const errors = {};
 
-      // validation/username
+      
       if (!values.username) {
         errors.username = "Username required";
       } else if (values.username.length < 5) {
         errors.username = "Username must be at least 5 characters";
       }
 
-      // email
+      
       if (!values.email) {
         errors.email = "Email required";
       } else if (!/\S+@\S+\.\S+/.test(values.email)) {
         errors.email = "Please enter a valid email";
       }
 
-      // password
+      
       if (!values.password) {
         errors.password = "Password required";
       } else if (values.password.length < 8) {
         errors.password = "Password must be at least 8 characters";
       }
 
-      // phone (optional validation, adjust as needed)
+     
       if (values.phone && !/^\d{10}$/.test(values.phone.replace(/\D/g, ""))) {
         errors.phone = "Please enter a valid phone number";
       }
 
       return errors;
     },
-    onSubmit: (values) => {
-      dispatch(signupUser(values));
+    onSubmit: async (values) => {
+      setLoading(true); 
+      setError(""); 
+
+      try {
+        
+        await new Promise((resolve) => setTimeout(resolve, 1000)); 
+
+    
+        setSignupSuccess(true);
+        setError(""); 
+
+       
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      } catch (err) {
+       
+        setError("Failed to sign up. Please try again.");
+      } finally {
+        setLoading(false); 
+      }
     },
   });
-   if (signupSuccess) {
-     navigate("/login"); // Redirect to login after successful sign-up
-   }
+
+  
   const handleGoogleSignin = () => {
     console.log("Google Sign In Clicked");
   };
@@ -73,10 +96,10 @@ const SignupPage = () => {
       <div className="signup-container">
         <div className="signup-left-section">
           <h1>
-            The Optimal <br></br> Order <br></br> Management System
+            The Optimal <br /> Order <br /> Management System
           </h1>
           <p>Manage your orders with ease</p>
-          <img src={coverImage} alt="cover image" className="cover-image" />
+          <img src={coverImage} alt="cover" className="cover-image" />
         </div>
         <div className="signup-right-section">
           <h2>Create your Account</h2>
@@ -214,6 +237,11 @@ const SignupPage = () => {
                 </MainButton>
               </form>
               {error && <p style={{ color: "red" }}>{error}</p>}
+              {signupSuccess && (
+                <p style={{ color: "green" }}>
+                  Signup successful! Redirecting...
+                </p>
+              )}
             </div>
           </div>
         </div>

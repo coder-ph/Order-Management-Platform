@@ -19,8 +19,6 @@ import AddLocationAltOutlinedIcon from "@mui/icons-material/AddLocationAltOutlin
 import LogoutIcon from "@mui/icons-material/Logout";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import user from "../../../src/assets/icons/person_57dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg";
-import { useDispatch } from "react-redux";
-import { logoutUser } from "../../Redux/Auth/authsActions";
 
 const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
   const theme = useTheme();
@@ -48,12 +46,15 @@ const AdminSidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch(logoutUser()); // Dispatch the logout action
-    navigate("/login", { replace: true }); // Redirect to login page and replace history
+    // Clear token and role from localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+
+    // Redirect to login page and replace history
+    navigate("/login", { replace: true });
   };
 
   return (
