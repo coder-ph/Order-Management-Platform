@@ -26,18 +26,19 @@ const Orders = () => {
     }
 
     const handleRowClick = (params) => {
+          console.log(params)
+          console.log(params.id)
         setSelectedOrder(params.row);
         setIsModalOpen(true);
+        navigate(`/dashboard/orders/${params.id}`)
     }
     const handleModalClose = () => {
         setIsModalOpen(false);
         setSelectedOrder(null)
     }
-    const handleCustomerClick = (customerName) => {
-        const customerData = orders.find((order) => order.customer === customerName);
-        if (customerData) {
-        navigate(`/dashboard/orders/${customerName}`, { state: { customer: customerData } });
-        }
+    const handleIdClick = (orderId) => {
+        // navigate(`/dashboard/orders/${orderId}`);
+    
     }
 
 
@@ -45,15 +46,15 @@ const Orders = () => {
         { 
             field: 'id', 
             headerName: 'Order ID', 
-            flex: 1 
+            flex: 1, 
+            renderCell: ({ row }) => (
+                <Button component="span" onClick={() => handleIdClick(row.id)}>{row.id}</Button>
+            ) 
         },
         { 
             field: 'customer', 
             headerName: 'Customer', 
             flex: 1,
-            renderCell: ({ row }) => (
-                <Button component="span" onClick={() => handleCustomerClick(row.customer)}>{row.customer}</Button>
-            ) 
         },
         { 
             field: 'order_items', 
@@ -61,7 +62,7 @@ const Orders = () => {
             flex: 0.5, 
             valueGetter: (params) => {
                 console.log("Row Data:", params.row);  // Debugging check
-                console.log("Order Items in DataGrid:", params.row?.order_items);
+                
                 return params.row?.order_items?.reduce((sum, item) => sum + (item.quantity || 0), 0) || 0;
             }
 

@@ -1,38 +1,128 @@
 .product-page {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar should be on top and take full width */
+.navbar {
+  width: 100%;
+  z-index: 10;
+}
+
+.page-content {
+  display: flex;
+  flex-grow: 1;
+  height: calc(100vh - 60px); 
+}
+
+/* Sidebar styling */
+.sidebar-container {
+  width: 250px;
+  min-width: 250px;
+  height: 100%;
+  background-color: #1e293b;
+  color: white;
+  position: fixed;
+  top: 60px; 
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  z-index: 5;
+}
+
+/* Main content adjusted to account for sidebar */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  /* Same as sidebar width */
+  overflow-y: auto;
+  height: 100%;
+}
+
+/* Horizontal category section */
+.horizontal-category-section {
+  /* padding: 1rem 2rem; */
+  background-color: transparent;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.category-items {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+  scrollbar-width: thin;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  white-space: nowrap;
+  overflow-y: hidden;
+}
+
+.category-items::-webkit-scrollbar {
+  height: 4px;
+}
+
+.category-items::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.category-items::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.category-nav-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.category-nav-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #f3f4f6;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* Products container */
+.prods-container {
+  padding: 2rem 2rem;
+  flex-grow: 1;
+}
+
+.prods-title {
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sidebar-container {
+    width: 64px;
+    min-width: 64px;
   }
   
   .main-content {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+    margin-left: 64px;
   }
   
-  .prods-container {
-    padding: 1rem 2rem;
+  .category-nav-buttons {
+    display: none;
   }
-  
-  .prods-title {
-    margin-bottom: 3rem;
-    padding-top: 4rem;
-    font-size: 1.5rem;
-    color: #333;
-  }
-  
-  @media (min-width: 768px) {
-    .main-content {
-      flex-direction: row;
-    }
-    
-    .ctg-section {
-      min-width: 250px;
-      max-width: 300px;
-    }
-    
-    .prods-container {
-      flex-grow: 1;
-    
-    }
-  }
+}

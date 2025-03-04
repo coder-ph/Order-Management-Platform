@@ -43,6 +43,7 @@ const EditUserProfile = () => {
 
     const handleChoosePhoto = (e) => {
         e.preventDefault()
+        //photo input is hidden, so we trigger click event on it
         fileInputRef.current.click()
     }
 

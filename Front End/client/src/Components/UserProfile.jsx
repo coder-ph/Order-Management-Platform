@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../Components/UserSidebar";
+import { MainButton } from "../Components/Buttons/Button";
 import { orderHistory, currentUser } from "../assets/OrderMockData";
 import '../assets/styles/UserProfile.css';
+import CloseIcon from '@mui/icons-material/Close';
 
 const ProfilePage = () => {
     const [selectedOrder, setSelectedOrder] = useState(null);
@@ -11,28 +13,28 @@ const ProfilePage = () => {
     const getStatus = (status) => {
         switch(status) {
             case 'Delivered':
-                return 'status-delivered';
+                return 'status-delivered'
             case 'Canceled':
-                return 'status-canceled';
+                return 'status-canceled'
             case 'Ongoing':
-                return 'status-ongoing';
+                return 'status-ongoing'
             default:
-                return '';
+                return ''
         }
-    };
+    }
 
     const handleViewDetails = (order) => {
-        setSelectedOrder(order);
-        setShowModal(true);
-    };
+        setSelectedOrder(order)
+        setShowModal(true)
+    }
 
     const handleCancelOrder = (orderId) => {
-        alert(`Cancelling order ${orderId}.`);
-    };
+        alert(`Cancelling order ${orderId}.`)
+    }
 
     const closeModal = () => {
-        setShowModal(false);
-    };
+        setShowModal(false)
+    }
 
     return (
         <div className="profile-page">
@@ -41,7 +43,7 @@ const ProfilePage = () => {
                 <div className="profile-header">
                     <h2>My Profile</h2>
                     <Link to="/edit-profile">
-                        <button className="edit-btn">Edit</button>
+                        <MainButton style={{ backgroundColor:"#1f2945", color: "white", padding:"10px 15px", border:"none", borderRadius:"5px", cursor:"pointer", transition: "0.3s"}}>Edit Profile</MainButton>
                     </Link>
                 </div>
                 <div className="profile-info">
@@ -88,9 +90,6 @@ const ProfilePage = () => {
                                         <td>{order.total}</td>
                                         <td className="detail-btn">
                                             <button className="details-btn" onClick={() => handleViewDetails(order)}>View</button>
-                                            {order.status === 'Ongoing' && (
-                                                <button className="cancel-btn" onClick={() => handleCancelOrder(order.id)}>Cancel</button>
-                                            )}
                                         </td>
                                     </tr>
                                 ))}
@@ -106,7 +105,7 @@ const ProfilePage = () => {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h3>Order Details - {selectedOrder.orderNumber}</h3>
-                            <button className="close-btn" onClick={closeModal}>×</button>
+                            <MainButton onClick={closeModal} style={{ background: "none", color: "black", border: "none", fontSize: "18px", cursor: "pointer"}}><CloseIcon style={{ color: "black", fontSize:"14px", marginLeft:"200px"}} /></MainButton>
                         </div>
                         
                         <p><strong>Date:</strong> {selectedOrder.date}</p>
@@ -135,7 +134,7 @@ const ProfilePage = () => {
                 </div>
             )}
         </div>
-    );
-};
+    )
+}
 
 export default ProfilePage;

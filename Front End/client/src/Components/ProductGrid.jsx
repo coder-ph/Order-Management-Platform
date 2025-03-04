@@ -23,9 +23,17 @@ const ProductGrid = ({ products }) => {
               alt={product.name}
               className="product-image"
             />
-            <div className="product-details">
-              <h3 className="product-name">{product.name}</h3>
-              <p className="product-price">ksh {product.price}</p>
+            <div className="product-detailss">
+              <div className="price-product">
+                <div>
+                  <h5 className="product-namess">{product.name}</h5>
+                </div>
+                <div>
+                  <p className="product-prices">ksh {product.price}</p>
+                </div>
+              </div>
+              <div></div>
+
               <p className="product-description">
                 {product.description.length > 50
                   ? `${product.description.substring(0, 50)}...`

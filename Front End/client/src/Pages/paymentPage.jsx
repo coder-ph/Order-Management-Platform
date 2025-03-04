@@ -110,7 +110,7 @@ const PaymentPage = () => {
         </div>
 
         <button className="checkout-btn" onClick={handleCheckout}>
-          Proceed to Checkout
+          Proceed to Payment
         </button>
 
         <div className="payment-methods">

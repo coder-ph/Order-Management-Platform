@@ -1,12 +1,11 @@
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
-  background-color: #ffffff;
+  background-color: #1F2A40;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: fixed;
-  width: 100%;
+  width:100%;
   top: 0;
   z-index: 1000;
   font-family: 'Alata', sans-serif;
@@ -14,7 +13,7 @@
 
 .search-bar {
   flex: 1;
-  margin-right: 20px;
+  margin-left: 300px;
 }
 
 .search-bar input {
@@ -39,25 +38,25 @@
   position: relative;
   cursor: pointer;
   padding: 10px;
+  padding-right: 20%;
   border-radius: 50%;
   transition: background-color 0.3s ease;
   width: 40px;
   height: 40px;
+  gap: 40px;
 }
 
-.cart-icon:hover {
-  background-color: #45a049;
-}
+
 
 .cart-icon span[role="img"] {
   font-size: 24px;
-  color: white;
+  color: rgb(104, 28, 28);
 }
 
 .cart-count {
   position: absolute;
-  top: -10px; /* Move the count above the cart icon */
-  right: -10px; /* Adjust horizontal position */
+  top: -5px; /* Move the count above the cart icon */
+  right: px; /* Adjust horizontal position */
   font-size: 12px;
   font-weight: bold;
   color: white;
