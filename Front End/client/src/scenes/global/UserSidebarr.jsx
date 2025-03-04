@@ -140,7 +140,7 @@ const UserSidebarr = () => {
             />
             <Item
               title="Personal Info"
-              to="/personal_info"
+              to="/user-profile"
               icon={<PersonOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
