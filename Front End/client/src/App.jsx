@@ -47,7 +47,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard/*" element={<Ap />} />
 
-        {/* Other public routes */}
+       
         <Route path="/login" element={<LoginForm />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<SetNewPassword />} />
@@ -71,9 +71,9 @@ function App() {
 
         
         <Route path="/dashboard/orders/:id" element={<OrderDetails />} /> 
-        {/* this is Debrah's Route!! Dont touch */}
+    
 
-        {/* Role-based private routes */}
+       
         {isAuthenticated ? (
           <>
             {role === "Admin" && (

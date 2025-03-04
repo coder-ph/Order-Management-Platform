@@ -16,7 +16,7 @@ import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import user from "../../../src/assets/icons/person_57dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg";
 import { useDispatch } from "react-redux";
-import { logoutUser } from "../../Redux/Auth/authsActions"; // Adjust the import path
+import { logoutUser } from "../../Redux/Auth/authsActions"; 
 
 const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
   const theme = useTheme();
@@ -28,7 +28,7 @@ const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
       style={{ color: colors.primary[500] }}
       onClick={() => {
         setSelected(title);
-        if (onClick) onClick(); // Call the onClick handler if provided
+        if (onClick) onClick(); 
       }}
       icon={icon}
     >
@@ -48,7 +48,7 @@ const UserSidebarr = () => {
   const dispatch = useDispatch(); 
   const navigate = useNavigate(); 
 
-  // Handle logout
+  
   const handleLogout = () => {
     dispatch(logoutUser()); 
     navigate("/login", { replace: true });
@@ -59,7 +59,7 @@ const UserSidebarr = () => {
     <Box sx={{ height: "80vh", display: "flex" }}>
       <Sidebar collapsed={isCollapsed} style={{ height: "100vh" }}>
         <Menu iconShape="square">
-          {/* Sidebar Toggle Button */}
+         
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
@@ -80,7 +80,7 @@ const UserSidebarr = () => {
             )}
           </MenuItem>
 
-          {/* User Profile */}
+          
           {!isCollapsed && (
             <Box mb="10px">
               <Box
@@ -115,7 +115,7 @@ const UserSidebarr = () => {
             </Box>
           )}
 
-          {/* Sidebar Menu */}
+        
           <Box paddingLeft={isCollapsed ? undefined : "10%"} marginTop="50px">
             <Item
               title="Home"
@@ -165,7 +165,7 @@ const UserSidebarr = () => {
                 icon={<LogoutIcon />}
                 selected={selected}
                 setSelected={setSelected}
-                onClick={handleLogout} // Add the onClick handler for logout
+                onClick={handleLogout} 
               />
             </Box>
           </Box>

@@ -110,7 +110,6 @@ const AdminSidebar = () => {
             </Box>
           )}
 
-          {/* Sidebar Menu */}
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Map"
