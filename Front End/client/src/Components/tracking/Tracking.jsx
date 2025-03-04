@@ -95,9 +95,9 @@ export default function DeliveryTracker() {
   };
 
   return (
-    <div className="tracker bg-[#e1e3e9] min-h-screen p-6 items-center justify-center">
+    <div className="tracker bg-[#f5f5f5] min-h-screen p-6 items-center justify-center">
       <button
-        className="absolute top-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-md shadow-xl hover:bg-blue-700 transition-colors"
+        className="font-bold p-6  absolute top-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-md shadow-xl hover:bg-blue-700 transition-colors"
         onClick={handleBackToProducts}
       >
         Back to Product List
@@ -117,7 +117,7 @@ export default function DeliveryTracker() {
                 onChange={(e) => setTrackingNumber(e.target.value)}
               />
               <button
-                className="w-full mt-4 bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition-colors"
+                className="w-full mt-4 bg-blue-600 text-white font-bold p-2 rounded-md hover:bg-blue-700 transition-colors"
                 onClick={handleTrack}
               >
                 Track
@@ -143,7 +143,7 @@ export default function DeliveryTracker() {
                           step.completed === "out"
                             ? "border-blue-600"
                             : step.completed
-                            ? "border-green-600"
+                            ? "border-yellow-600"
                             : "border-gray-400"
                         } bg-white`}
                       ></div>
@@ -164,7 +164,7 @@ export default function DeliveryTracker() {
                   </p>
                 </div>
                 <button
-                  className="w-full mt-4 bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition-colors"
+                  className="font-bold  w-full mt-4 bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition-colors"
                   onClick={() => setTrackingData(null)}
                 >
                   Track Another
