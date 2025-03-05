@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { MainButton } from "../Components/Buttons/Button";
 import { Bell } from "lucide-react"
 import { IoMdSearch } from "react-icons/io";
@@ -7,6 +7,8 @@ import CategorySection from "./CategorySection";
 import FilterPopup from "./InventoryFilter";
 
 const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen, setDialogOpen }) => {
+
+    const [selectedCategory, setSelectedCategory] = useState(null);
     return (
         <>
             <div className="header">
@@ -46,7 +48,7 @@ const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen,
                         </MainButton>
                     </div>
                     <div className="category-section">
-                            <CategorySection />
+                            <CategorySection setSelectedCategory={setSelectedCategory}/>
                     </div>
                 </div>
             </div>
