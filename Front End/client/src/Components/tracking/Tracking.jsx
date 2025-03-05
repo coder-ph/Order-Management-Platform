@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const mockData = [
   {
@@ -81,23 +81,46 @@ const mockData = [
 export default function DeliveryTracker() {
   const [trackingNumber, setTrackingNumber] = useState("");
   const [trackingData, setTrackingData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleTrack = () => {
-    const data = mockData.find(
-      (item) => item.trackingNumber === trackingNumber
-    );
-    setTrackingData(data || null);
+  const handleTrack = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Fetch data from the API
+      const response = await fetch(`/api/track/${trackingNumber}`);
+      if (response.ok) {
+        const data = await response.json();
+        setTrackingData(data);
+      } else {
+        // If the API returns no data, fall back to mockData
+        const mockDataItem = mockData.find(
+          (item) => item.trackingNumber === trackingNumber
+        );
+        if (mockDataItem) {
+          setTrackingData(mockDataItem);
+        } else {
+          setError("No tracking information found.");
+        }
+      }
+    } catch (error) {
+      setError("Failed to fetch tracking information.");
+      console.error("Error fetching tracking data:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleBackToProducts = () => {
-    
     window.location.href = "/user-products";
   };
 
   return (
     <div className="tracker bg-[#f5f5f5] min-h-screen p-6 items-center justify-center">
       <button
-        className="font-bold p-6  absolute top-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-md shadow-xl hover:bg-blue-700 transition-colors"
+        className="font-bold p-6 absolute top-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-md shadow-xl hover:bg-blue-700 transition-colors"
         onClick={handleBackToProducts}
       >
         Back to Product List
@@ -119,9 +142,11 @@ export default function DeliveryTracker() {
               <button
                 className="w-full mt-4 bg-blue-600 text-white font-bold p-2 rounded-md hover:bg-blue-700 transition-colors"
                 onClick={handleTrack}
+                disabled={loading}
               >
-                Track
+                {loading ? "Tracking..." : "Track"}
               </button>
+              {error && <p className="text-red-500 mt-2">{error}</p>}
             </div>
 
             {trackingData && (
@@ -164,7 +189,7 @@ export default function DeliveryTracker() {
                   </p>
                 </div>
                 <button
-                  className="font-bold  w-full mt-4 bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition-colors"
+                  className="font-bold w-full mt-4 bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition-colors"
                   onClick={() => setTrackingData(null)}
                 >
                   Track Another

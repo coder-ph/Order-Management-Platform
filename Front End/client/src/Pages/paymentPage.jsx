@@ -47,9 +47,9 @@ const PaymentPage = () => {
     navigate(-1);
   };
 
-  const handleCheckout = () => {
-    navigate("/checkout");
-  };
+const handleCheckout = () => {
+  navigate("/checkout", { state: { cart, totalPrice: subtotal } });
+};
 
   return (
     <div className="payment-page">

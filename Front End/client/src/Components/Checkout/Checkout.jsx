@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { confirmPayment } from "../../Redux/Payment/paymentSlice";
+import { v4 as uuidv4 } from "uuid"; 
 import AddressSection from "./AddressSection";
 import PaymentMethodSection from "./PaymentMethodSection";
 import OrderSummarySection from "./OrderSummary";
@@ -9,24 +10,63 @@ import PaymentModal from "./PaymentModal";
 import "./checkout.css";
 
 const CheckoutPage = () => {
+  const ORDER_API = import.meta.env.VITE_APP_USER_ORDER
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const { cart, totalPrice } = location.state || { cart: [], totalPrice: 0 }; 
   const isPaymentConfirmed = useSelector(
     (state) => state.payment.isPaymentConfirmed
   );
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
-  const totalAmount = 1; // Example total amount ndio isitest na pesa mob
+  const totalAmount = totalPrice; 
 
   const handleConfirmPayment = () => {
     setShowPaymentModal(true);
   };
-  
 
-  const handlePaymentSubmit = (phoneNumber) => {
-    dispatch(confirmPayment()); 
-    setShowPaymentModal(false);
-    navigate("/track-order");
+  const handlePaymentSubmit = async (phoneNumber) => {
+    
+    const orderId = uuidv4();
+
+    
+    const orderDate = new Date().toISOString(); 
+
+   
+    const orderData = {
+      orderId,
+      order_date: orderDate, 
+      total_amount: totalAmount, 
+      status: "pending", 
+      cart, 
+      paymentMethod, 
+      phoneNumber
+     
+    };
+
+    try {
+     
+      const response = await fetch("ORDER_API", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (response.ok) {
+        // If the backend successfully processes the order
+        dispatch(confirmPayment()); // Update Redux state
+        setShowPaymentModal(false);
+        navigate("/track-order", { state: { orderId } }); // Pass the orderId to the tracking page
+      } else {
+        // Handle errors
+        console.error("Failed to submit order");
+      }
+    } catch (error) {
+      console.error("Error submitting order:", error);
+    }
   };
 
   const isFormValid = paymentMethod;
@@ -39,7 +79,7 @@ const CheckoutPage = () => {
 
       <PaymentMethodSection onPaymentMethodChange={setPaymentMethod} />
 
-      <OrderSummarySection totalAmount={totalAmount} />
+      <OrderSummarySection totalAmount={totalAmount} cart={cart} />
 
       <div className="confirm-payment">
         <button

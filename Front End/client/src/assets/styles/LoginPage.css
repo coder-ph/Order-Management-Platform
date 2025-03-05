@@ -9,10 +9,11 @@
     align-items: center;
     height: 100vh; 
     background-color: #fcf7f8;
-    background-image: url('./src/assets/Images/blue-geometry.png');
+    background-image: url('./src/assets/Images/artistic-blurry-colorful-wallpaper-background.jpg');
     background-size: cover;
     font-family: 'Alata';
 } 
+
 
  /* container */
 .login-container {

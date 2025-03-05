@@ -11,7 +11,7 @@ import "../assets/styles/LoginPage.css";
 const LoginForm = () => {
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState("");
-  const API_URL = import.meta.env.VITE_APP_USER_URL;
+  const API_URL = import.meta.env.VITE_APP_USER_URL; // VITE_APP_USER_SERVER /{end point -}/api/vi/user
 
   const formik = useFormik({
     initialValues: {
@@ -30,12 +30,10 @@ const LoginForm = () => {
       try {
         setLoginError("");
 
-       
         const response = await axios.post(`${API_URL}/api/login`, values, {
-          withCredentials: true, 
+          withCredentials: true,
         });
 
-        
         const { role } = response.data;
         const roleRoutes = {
           admin: "/dashboard/main",

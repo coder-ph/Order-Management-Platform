@@ -38,7 +38,7 @@ const PaymentMethodSection = ({ onPaymentMethodChange }) => {
             name="payment"
             onChange={() => handleChange("Payondelivery")}
           />
-          <label htmlFor="payondelivery">Pay on Deilery</label>
+          <label htmlFor="payondelivery">Pay on Delivery</label>
         </div>
       </div>
     </div>
