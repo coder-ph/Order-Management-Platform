@@ -3,7 +3,7 @@ import { MainButton } from "../Components/Buttons/Button";
 import { FaRegEdit } from "react-icons/fa";
 
 const ProductList = ({ products, handleStatusChange }) => {
-    const getStatusColor = (status) => {
+    const getStatusColor = (status) => { 
         const statusStr = String(status)
 
         switch (statusStr) {

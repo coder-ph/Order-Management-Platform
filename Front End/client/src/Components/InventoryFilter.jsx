@@ -4,7 +4,7 @@ import { MainButton } from "../Components/Buttons/Button";
 const FilterPopup = ({ filters, setFilters, categories }) => {
     const orderStatus = ['pending', 'accepted','rejected', 'canceled', 'assigned', 'delivered']
 
-    return (
+    return ( 
         <div className="filter-pop">
             <div className="filter-content">
                 <div className="filter-grp">
