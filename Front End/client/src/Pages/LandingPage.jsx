@@ -12,7 +12,7 @@ import User from "./User/User";
 
 function LandingPage () {
    return (
-    <div className="landing-page">
+    <div id="home" className="landing-page">
         <Navbar />
         <div className="button-container">
             <MainButton style={{padding:"12px 24px", border:"1px solid white", borderRadius:"25px", fontSize:"14px", letterSpacing:"1px", backgroundColor:"transparent", color:"#fff"}}>
@@ -36,21 +36,26 @@ function LandingPage () {
         </div>
 
         {/*The About section */}
-        <div className="section-wrapper">
+        <div id= "about" className="section-wrapper">
         <About />
         </div>
         {/*The Services section */}
-        <div className="section-wrapper">
+        <div id="services" className="section-wrapper">
             <Services />
         </div>
         {/*The Contact section */}
-        <div className="section-wrapper">
+        <div id="contact" className="section-wrapper">
             <Contact />
         </div>
         {/* The Footer section */}
+    
         <div className="section-wrapper">
             <User/>
-        <Footer />
+    
+        </div>
+
+        <div className="section-wrapper">
+            <Footer />
         </div>
     </div>
    )

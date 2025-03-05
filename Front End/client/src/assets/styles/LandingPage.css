@@ -9,6 +9,7 @@
    color: white;
    font-family: 'Alata', sans-serif;
    overflow-y: auto;
+   overflow-x: hidden;
 }
 
 .landing-page-content {
@@ -17,12 +18,13 @@
    justify-content: space-between;
    width: 80%;
    max-width: 1200px;
-   margin: 100px 0;
+   margin: 120px 0;
 }
 .text-content {
    max-width: 500px;
    color: white;
    text-align: left;
+   justify-content: left;
 }
 .text-content h1 {
    font-size: 36px;
@@ -59,4 +61,10 @@
    justify-content: center;
    margin-top: 80px;
    /* height: 10px; */
+}
+.footer-section-wrapper {
+   display: flex;
+   width: 100%;
+   justify-content: center;
+   max-width: 1400px;
 }

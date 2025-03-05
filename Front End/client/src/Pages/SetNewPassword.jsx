@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import coverImage from "../assets/Images/delivery-man.jpg";
+import coverImage from "../assets/Images/inventory-management.jpg";
 import "../assets/styles/SetNewPassword.css";
 import { MainButton } from "../Components/Buttons/Buttons";
 

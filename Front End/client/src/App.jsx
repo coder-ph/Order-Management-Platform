@@ -37,6 +37,7 @@ import OrderDetails from "./scenes/ManageOrders/OrderDetails"
 import EditUserProfile from "./Components/EditProfile"
 
 
+
 const PrivateRoute = ({ role, element, fallbackPath }) => {
   const isAuthenticated = true; 
   if (!isAuthenticated) {
@@ -70,8 +71,7 @@ const App = () => {
         <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/edit-profile" element={<EditUserProfile />} />
         <Route path="/dashboard/orders/:id" element={<OrderDetails />} />
-
-       
+        
         <Route path="/dashboard/*" element={<Ap />} />
 
         

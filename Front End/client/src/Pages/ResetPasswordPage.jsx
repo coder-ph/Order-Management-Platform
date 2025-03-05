@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { MainButton } from "../Components/Buttons/Buttons";
-import coverImage from "../assets/Images/delivery-man.jpg";
+import coverImage from "../assets/Images/inventory-management.jpg";
 import "../assets/styles/ResetPasswordPage.css";
 import axios from "axios"; // Import axios for API calls
 

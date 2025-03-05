@@ -26,7 +26,7 @@ const OrderDetails = () => {
                         <p>Total Amount: <span>{order.total_amount}</span></p>
                         <p>Invoice status: <span>{order.invoice_status}</span></p>
                     </div>
-                    <MainButton style={{ width: "300px", marginLeft: "210px", backgroundColor: "#1f2945", borderRadius: "0px"}}>Assign driver</MainButton>
+                    {/* <MainButton style={{ width: "300px", marginLeft: "210px", backgroundColor: "#1f2945", borderRadius: "0px"}}>Assign driver</MainButton> */}
 
                     {/* Order Items */}
                     <h2 className="order-items-title">Customer Orders</h2>
@@ -71,7 +71,7 @@ const OrderDetails = () => {
                             <span>Total</span>
                             <span>${order.total_amount}</span>
                         </div>
-                        <MainButton style={{ borderRadius: "0px", backgroundColor: "black", color: "white"}}>Confirm Shipping</MainButton>
+                        <MainButton style={{ borderRadius: "5px", backgroundColor: "black", color: "white", width: "200px",marginLeft: "100px"}}>Assign Driver</MainButton>
                     </div>
                 </div>
             </div>

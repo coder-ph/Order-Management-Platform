@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
-import coverImage from "../assets/Images/delivery-man.jpg"
+import coverImage from "../assets/Images/inventory-management.jpg"
 import { MainButton } from "../Components/Buttons/Buttons"
 import '../assets/styles/ForgotPassword.css'
 

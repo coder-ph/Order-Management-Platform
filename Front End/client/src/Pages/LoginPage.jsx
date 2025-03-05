@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import coverImage from "../assets/Images/delivery-man.jpg";
+import coverImage from "../assets/Images/inventory-management.jpg";
 import { GoogleButton } from "../Components/Buttons/Buttons";
 import { FaGoogle } from "react-icons/fa";
 import "../assets/styles/LoginPage.css";

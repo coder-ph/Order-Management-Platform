@@ -1,14 +1,14 @@
 import React from "react";
-import '../assets/styles/NavBar.css'
+import '../assets/styles/LPNavBar.css'
 
 function Navbar() {
     return (
-        <nav className="nav-bar">
-            <ul className="nav-list">
-                <li><a href="">HOME</a></li>
-                <li><a href="">ABOUT</a></li>
-                <li><a href="">SERVICES</a></li>
-                <li><a href="">CONTACT</a></li>
+        <nav className="nav-bar-lp">
+            <ul className="nav-list-lp">
+                <li><a href="#home">HOME</a></li>
+                <li><a href="#about">ABOUT</a></li>
+                <li><a href="#services">SERVICES</a></li>
+                <li><a href="#contact">CONTACT</a></li>
             </ul>
         </nav>
     )
