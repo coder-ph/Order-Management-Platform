@@ -1,103 +1,52 @@
 import React, { useState } from "react";
 
-const mockData = [
-  {
-    trackingNumber: "3596458923",
-    estimatedDelivery: "Sep 30, 2021",
-    status: [
-      {
-        text: "Schedule for pick-up",
-        date: "September 26, 2021 - 12:12",
-        completed: true,
-      },
-      {
-        text: "Picked up by courier",
-        date: "September 26, 2021 - 20:12",
-        completed: true,
-      },
-      {
-        text: "Departed to Shipping Facility",
-        date: "September 27, 2021 - 10:57",
-        completed: true,
-      },
-      {
-        text: "Arrived to Shipping Facility",
-        date: "September 26, 2021 - 20:12",
-        completed: true,
-      },
-      {
-        text: "Out for Delivery",
-        date: "September 26, 2021 - 20:12",
-        completed: "out",
-      },
-    ],
-    recipient: {
-      address: "365, Indira Nagar, Bangalore, India",
-      phone: "+91 3612548926",
-    },
-  },
-  {
-    trackingNumber: "7854123698",
-    estimatedDelivery: "Oct 5, 2021",
-    status: [
-      {
-        text: "Schedule for pick-up",
-        date: "October 1, 2021 - 08:30",
-        completed: true,
-      },
-      {
-        text: "Picked up by courier",
-        date: "October 1, 2021 - 14:20",
-        completed: false,
-      },
-      {
-        text: "Departed to Shipping Facility",
-        date: "October 2, 2021 - 09:15",
-        completed: false,
-      },
-    ],
-    recipient: {
-      address: "512, MG Road, Mumbai, India",
-      phone: "+91 9876543210",
-    },
-  },
-  {
-    trackingNumber: "6549873210",
-    estimatedDelivery: "Oct 12, 2021",
-    status: [
-      {
-        text: "Schedule for pick-up",
-        date: "October 6, 2021 - 10:10",
-        completed: true,
-      },
-    ],
-    recipient: {
-      address: "123, Park Street, Kolkata, India",
-      phone: "+91 1234567890",
-    },
-  },
-];
-
 export default function DeliveryTracker() {
   const [trackingNumber, setTrackingNumber] = useState("");
   const [trackingData, setTrackingData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleTrack = () => {
-    const data = mockData.find(
-      (item) => item.trackingNumber === trackingNumber
-    );
-    setTrackingData(data || null);
+  const handleTrack = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        throw new Error("User not authenticated.");
+      }
+
+      
+      const response = await fetch(`/api/track/${trackingNumber}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setTrackingData(data);
+      } else {
+        setError("No tracking information found.");
+      }
+    } catch (error) {
+      setError(error.message || "Failed to fetch tracking information.");
+      console.error("Error fetching tracking data:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleBackToProducts = () => {
-    
     window.location.href = "/user-products";
   };
 
   return (
     <div className="tracker bg-[#f5f5f5] min-h-screen p-6 items-center justify-center">
       <button
-        className="font-bold p-6  absolute top-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-md shadow-xl hover:bg-blue-700 transition-colors"
+        className="font-bold p-6 absolute top-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-md shadow-xl hover:bg-blue-700 transition-colors"
         onClick={handleBackToProducts}
       >
         Back to Product List
@@ -119,9 +68,11 @@ export default function DeliveryTracker() {
               <button
                 className="w-full mt-4 bg-blue-600 text-white font-bold p-2 rounded-md hover:bg-blue-700 transition-colors"
                 onClick={handleTrack}
+                disabled={loading}
               >
-                Track
+                {loading ? "Tracking..." : "Track"}
               </button>
+              {error && <p className="text-red-500 mt-2">{error}</p>}
             </div>
 
             {trackingData && (
@@ -164,7 +115,7 @@ export default function DeliveryTracker() {
                   </p>
                 </div>
                 <button
-                  className="font-bold  w-full mt-4 bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition-colors"
+                  className="font-bold w-full mt-4 bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition-colors"
                   onClick={() => setTrackingData(null)}
                 >
                   Track Another
