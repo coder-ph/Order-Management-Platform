@@ -9,7 +9,7 @@ import "../assets/styles/ProductManagement.css";
 
 // import CategorySection from "../Components/CategorySection";
 import AdminSidebar from "../scenes/global/AdminSidebar";
-import Topbar from "../scenes/global/TopBar";
+// import Topbar from "../scenes/global/TopBar";
 
 
 const ProductManagement = () => {
@@ -85,11 +85,9 @@ const ProductManagement = () => {
         <div className="sticky h-full top-0 left-0">
             <AdminSidebar isCollapsed={isSidebarCollapsed} setIsCollapsed={setIsSidebarCollapsed}/>
         </div>
-        {/* <div className="category-section">
-            <CategorySection />
-            </div>  */}
+        
 
-        <div className="content" style={{ flex:"1", marginLeft: isSidebarCollapsed ? '80px' : '80px', transition:"margin 0.3s ease-in-out, width 0.3s ease-in-out", padding:"50px", paddingLeft:"0px", width:"100%", minHeight: "100vh"}}>
+        <div className="content" style={{ flex:"1", marginLeft: isSidebarCollapsed ? '0px' : '100px', transition:"margin 0.3s ease-in-out, width 0.3s ease-in-out", padding:"50px", paddingLeft:"0px", width:"100%", minHeight: "100vh"}}>
            
           <ProductHeader
             searchQuery={searchQuery}

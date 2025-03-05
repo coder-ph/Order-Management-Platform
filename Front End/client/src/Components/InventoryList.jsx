@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { MainButton } from "../Components/Buttons/Button";
 import { FaRegEdit } from "react-icons/fa";
+import { IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack } from "react-icons/io";
 
 const ProductList = ({ products, handleStatusChange }) => {
     const getStatusColor = (status) => {
@@ -24,8 +26,30 @@ const ProductList = ({ products, handleStatusChange }) => {
         }
     }
     const [activeDropdown, setActiveDropdown] = useState(null);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [page, setPage] = useState(1);
 
+    const totalPages = Math.ceil(products.length / rowsPerPage);
 
+    const startIndex = (page - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    const currentProducts = products.slice(startIndex, endIndex);
+
+    const handleRowsChange = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(1);
+    }
+
+    const goToNextPage = () => {
+        if (page < totalPages) {
+            setPage(page + 1);
+        }
+    }
+    const goToPrevPage = () => {
+        if (page > 1) {
+            setPage(page - 1);
+        }
+    }
 
     const toggleDropdown = (productId) => {
         if (activeDropdown === productId) {
@@ -40,13 +64,15 @@ const ProductList = ({ products, handleStatusChange }) => {
         setActiveDropdown(null);
     };
 
+
+
     // const filteredProducts = products.filter(product => {
     //     if (!filters || !filters.status) {
     //         return true
     //     }
     //     return product.status === filters.status
     //})
-
+    
     return (
         <div className="card" onClick={handleClickOutside}>
             <div className="card-content">
@@ -62,7 +88,7 @@ const ProductList = ({ products, handleStatusChange }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map((product) => (
+                        {currentProducts.map((product) => (
                             <tr key={product.id}>
                                 <td>
                                     <div className="product-info">
@@ -71,7 +97,7 @@ const ProductList = ({ products, handleStatusChange }) => {
                                             alt={product.name}
                                         />
                                         <div>
-                                            <div className="product-name">{product.name}</div>
+                                            <div className="product-name-inventory-list">{product.name}</div>
                                             <div className="product-category">{product.category}</div>
                                         </div>
                                     </div>
@@ -169,7 +195,25 @@ const ProductList = ({ products, handleStatusChange }) => {
                             </tr>
                         ))}
                     </tbody>
+                   
                 </table>
+                </div>
+                 <hr className="table-end-line"/>
+                <div className="table-footer">
+                    <div>
+                        Rows per page:
+                        <select value={rowsPerPage} onChange={handleRowsChange} style={{ padding:'5px', border:'1px solid white', backgroundColor:'transparent', color:'white', marginLeft: "2px"}}>
+                            <option className="option-inventory-list" value="5">5</option>
+                            <option className="option-inventory-list" value="10">10</option>
+                            <option className="option-inventory-list" value="20">20</option>
+                            <option className="option-inventory-list" value="50">50</option>
+                        </select>
+                    </div>
+                    <div className="table-footer-right">
+                        <MainButton onClick={goToPrevPage} disabled={page ===1} style={{backgroundColor: "transparent", border:"none", cursor: "pointer", padding: "4px 8px", fontSize:"16px"}}><IoIosArrowBack /></MainButton>
+                        <span className="active">{page}</span>
+                        <MainButton onClick={goToNextPage} disabled={page === totalPages} style={{backgroundColor: "transparent", border:"none", cursor: "pointer", padding: "4px 8px", fontSize:"16px"}}><IoIosArrowForward /> </MainButton>
+                    </div>
                 </div>
             </div>
         </div>
