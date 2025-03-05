@@ -1,82 +1,4 @@
-import React, { useState, useEffect } from "react";
-
-const mockData = [
-  {
-    trackingNumber: "3596458923",
-    estimatedDelivery: "Sep 30, 2021",
-    status: [
-      {
-        text: "Schedule for pick-up",
-        date: "September 26, 2021 - 12:12",
-        completed: true,
-      },
-      {
-        text: "Picked up by courier",
-        date: "September 26, 2021 - 20:12",
-        completed: true,
-      },
-      {
-        text: "Departed to Shipping Facility",
-        date: "September 27, 2021 - 10:57",
-        completed: true,
-      },
-      {
-        text: "Arrived to Shipping Facility",
-        date: "September 26, 2021 - 20:12",
-        completed: true,
-      },
-      {
-        text: "Out for Delivery",
-        date: "September 26, 2021 - 20:12",
-        completed: "out",
-      },
-    ],
-    recipient: {
-      address: "365, Indira Nagar, Bangalore, India",
-      phone: "+91 3612548926",
-    },
-  },
-  {
-    trackingNumber: "7854123698",
-    estimatedDelivery: "Oct 5, 2021",
-    status: [
-      {
-        text: "Schedule for pick-up",
-        date: "October 1, 2021 - 08:30",
-        completed: true,
-      },
-      {
-        text: "Picked up by courier",
-        date: "October 1, 2021 - 14:20",
-        completed: false,
-      },
-      {
-        text: "Departed to Shipping Facility",
-        date: "October 2, 2021 - 09:15",
-        completed: false,
-      },
-    ],
-    recipient: {
-      address: "512, MG Road, Mumbai, India",
-      phone: "+91 9876543210",
-    },
-  },
-  {
-    trackingNumber: "6549873210",
-    estimatedDelivery: "Oct 12, 2021",
-    status: [
-      {
-        text: "Schedule for pick-up",
-        date: "October 6, 2021 - 10:10",
-        completed: true,
-      },
-    ],
-    recipient: {
-      address: "123, Park Street, Kolkata, India",
-      phone: "+91 1234567890",
-    },
-  },
-];
+import React, { useState } from "react";
 
 export default function DeliveryTracker() {
   const [trackingNumber, setTrackingNumber] = useState("");
@@ -89,24 +11,28 @@ export default function DeliveryTracker() {
     setError(null);
 
     try {
-      // Fetch data from the API
-      const response = await fetch(`/api/track/${trackingNumber}`);
+      
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        throw new Error("User not authenticated.");
+      }
+
+      
+      const response = await fetch(`/api/track/${trackingNumber}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
+
       if (response.ok) {
         const data = await response.json();
         setTrackingData(data);
       } else {
-        // If the API returns no data, fall back to mockData
-        const mockDataItem = mockData.find(
-          (item) => item.trackingNumber === trackingNumber
-        );
-        if (mockDataItem) {
-          setTrackingData(mockDataItem);
-        } else {
-          setError("No tracking information found.");
-        }
+        setError("No tracking information found.");
       }
     } catch (error) {
-      setError("Failed to fetch tracking information.");
+      setError(error.message || "Failed to fetch tracking information.");
       console.error("Error fetching tracking data:", error);
     } finally {
       setLoading(false);
