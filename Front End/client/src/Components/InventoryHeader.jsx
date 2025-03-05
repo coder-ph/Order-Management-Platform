@@ -1,14 +1,25 @@
 import React, {useState} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { MainButton } from "../Components/Buttons/Button";
 import { Bell } from "lucide-react"
 import { IoMdSearch } from "react-icons/io";
 import { CiFilter } from "react-icons/ci";
 import CategorySection from "./CategorySection";
-import FilterPopup from "./InventoryFilter";
+// import FilterPopup from "./InventoryFilter";
+import UserCategorySection from "./UCategorySection";
+import { mockCategories } from "../assets/UserMockData";
+import { setSelectedCategory } from "../Redux/Order/orderActions";
 
 const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen, setDialogOpen }) => {
 
     const [selectedCategory, setSelectedCategory] = useState(null);
+    // const dispatch = useDispatch();
+    // const selectedCategory = useSelector((state) => state.order.selectedCategory);
+
+    // const handleCategorySelect = (categoryName) => {
+    //     dispatch(setSelectedCategory(categoryName === selectedCategory ? null : categoryName));
+    // };
+    
     return (
         <>
             <div className="header">
@@ -47,8 +58,8 @@ const ProductHeader = ({ searchQuery, setSearchQuery, setFilterOpen, filterOpen,
                             Add Product
                         </MainButton>
                     </div>
-                    <div className="category-section">
-                            <CategorySection setSelectedCategory={setSelectedCategory}/>
+                    <div className="category-wrapper">
+                        <CategorySection setSelectedCategory={setSelectedCategory}/>
                     </div>
                 </div>
             </div>

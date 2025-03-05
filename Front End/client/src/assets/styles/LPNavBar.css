@@ -28,3 +28,52 @@
     padding-bottom: 0.3rem;
     border-bottom: 2px solid white;
 }
+
+/* Media queries  */
+/* Default styles remain unchanged */
+
+/* For laptops & medium screens (992px and below) */
+@media (max-width: 992px) {
+    .nav-bar-lp {
+       right: 0; /* Adjust alignment */
+       justify-content: space-between;
+       padding: 15px 40px;
+    }
+ 
+    .nav-list-lp {
+       gap: 30px; /* Reduce spacing between items */
+    }
+ 
+    .nav-list-lp li {
+       font-size: 13px; /* Slightly smaller font */
+    }
+ }
+ 
+ /* For tablets (768px and below) */
+ @media (max-width: 768px) {
+    .nav-bar-lp {
+       flex-direction: row;
+       align-items: center;
+       padding: 15px;
+    }
+ 
+    .nav-list-lp {
+        margin-top: 20px;
+       flex-direction: row; /* Stack navigation items */
+       align-items: center;
+       gap: 20px;
+    }
+ 
+    .nav-list-lp li {
+       font-size: 14px;
+    }
+ }
+ 
+ /* For mobile screens (576px and below) */
+ @media (max-width: 576px) {
+    .nav-bar-lp {
+       position: fixed; /* Make navbar fixed for better UX */
+       top: 0;
+       width: 100%
+    }
+ }

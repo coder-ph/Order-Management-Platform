@@ -68,3 +68,91 @@
    justify-content: center;
    max-width: 1400px;
 }
+
+/* Media queries */
+/* Default styles remain unchanged */
+
+/* For laptops & medium screens (992px and below) */
+@media (max-width: 992px) {
+   .landing-page-content {
+      flex-direction: column; /* Stack text and image */
+      align-items: center;
+      text-align: center;
+   }
+
+   .text-content {
+      max-width: 100%;
+      text-align: center; /* Center text */
+   }
+
+   .button-container {
+      left: 80%; /* Adjust button position */
+      gap: 10px;
+   }
+}
+
+/* For tablets (768px and below) */
+@media (max-width: 768px) {
+   .landing-page {
+      padding: 20px;
+   }
+
+   .text-content h1 {
+      font-size: 28px; /* Reduce heading size */
+   }
+
+   .text-content p {
+      font-size: 14px;
+   }
+
+   .button-container {
+      left: 75%;
+      top: 10px;
+   }
+
+   .landing-image {
+      max-width: 80%;
+   }
+
+   .section-wrapper {
+      margin-top: 50px;
+   }
+}
+
+/* For mobile screens (576px and below) */
+@media (max-width: 576px) {
+   .landing-page {
+      justify-content: center; /* Center everything */
+      padding: 10px;
+   }
+
+   .landing-page-content {
+      width: 100%;
+      margin: 60px 0;
+   }
+
+   .text-content h1 {
+      font-size: 24px;
+   }
+
+   .text-content p {
+      font-size: 14px;
+      margin-bottom: 20px;
+   }
+
+   .button-container {
+      position: static; /* Remove absolute positioning */
+      transform: none;
+      flex-direction: column; /* Stack buttons */
+      align-items: center;
+   }
+
+   .landing-image {
+      max-width: 100%;
+   }
+
+   .footer-section-wrapper {
+      flex-direction: column;
+      align-items: center;
+   }
+}

@@ -47,7 +47,7 @@ function ProductPage() {
       return matchesSearch && matchesCategory
     })
   }, [products, searchTerm, selectedCategory])
-
+  
   const handleCategorySelect = (categoryName) => {
     dispatch(
       setSelectedCategory(
@@ -77,7 +77,7 @@ function ProductPage() {
 
   return (
     <div className="flex bg-amber-50 ">
-      <div>
+      <div className="sticky left-0 top-0 w-[250px] h-[calc(100vh-60px)] z-100">
         <UserSidebarr />
       </div>
       <div className="w-screen">
