@@ -61,8 +61,6 @@ class UserService():
         user['token'] = token_dict
         return user
         
-        
-    
     def request_token(self, key):
         ex_token = user_repository.get_token_by_key(key)
         if ex_token:

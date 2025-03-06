@@ -125,6 +125,11 @@ def verify_token(payload):
     except Exception as e:
        
         return compile_error(e)
-    
-# def seed_data():
+
+# @request_has_json
+# def change_user_role(payload):
+#     payload_is_valid, missing = validate_object(user_token_verification_art, payload)
+#     if not payload_is_valid :return {"error":"payload missing objects", "data":f"missing params: {missing}"}, 400
+#     key_is_valid = validate_email(payload['key'])
+#     if not key_is_valid: return {"error":"key provided is invalid"}, 400
     

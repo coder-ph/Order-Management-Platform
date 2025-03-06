@@ -37,9 +37,12 @@ class UserRepository():
         return token
     def get_token_by_key(self, key):
         return Token.query.filter_by(key=key).first()
-
+    
+    @update_session('user')
+    def update_user_role(self, user:User, role):
+        user.role = role
+        return user
+        
     @commit_delete_session('token')
     def drop_token(self, product):
         return product
-        
-    

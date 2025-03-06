@@ -1,6 +1,6 @@
 from src.config.config_map import appConfig
 from flask_restful import Resource, Api
-from src.handlers.controllers.index import get_invoicess, create_invoice, create_order, get_all_orders, get_merchant_orders, get_user_orders
+from src.handlers.controllers.index import change_order_status, get_invoicess, create_invoice, create_order, get_all_orders, get_merchant_orders, get_user_orders
 from src.handlers.middlewares.index import acl_middleware, auth_middleware
 
 from src.services_layer.daraja.index import daraja
@@ -43,6 +43,11 @@ class Invoices(Resource):
     def get(self):
         return get_invoicess()
     
+class OrderStatus(Resource):
+    @auth_middleware
+    @acl_middleware
+    def post(self):
+        return change_order_status()
 def orderRoutes(api:Api):
     base = f"{appConfig.app.BASE_URL}/orders"
     api.add_resource(CreateOrder, f'{base}')

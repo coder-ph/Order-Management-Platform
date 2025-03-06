@@ -52,7 +52,21 @@ class OrderService():
         invoice.pop('amount')
         invoice = self.order_repo.create_invoice(invoice)
         return invoice
+
     def get_invoices(self):
         return self.order_repo.get_invoices()
+    
+    def update_order_status(self, order_id, status, user_id):
+        order = self.order_repo.get_order_by_id(order_id)
+        if not order: raise ObjectNotFound("order", 'id', order_id)
+        if not user_id == str(order.user_id): raise AccessLevelError("order update",'order')
+        return self.order_repo.update_order_status(order, status)
+
     def confirm_transaction(self, req_id, status, rec_no, stk_callback):
-        pass
+        something = {
+            "req_id":req_id,
+            "status":status,
+            "rec_no":rec_no,
+            "stk_callback":stk_callback
+        }
+        return self.order_repo.create_log(something)

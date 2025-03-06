@@ -3,6 +3,7 @@ from src.handlers.repository.index import UserRepository, LocationRepository, St
 from src.error.index import ObjectNotFound, AccessLevelError
 from models.client import commit_session
 import uuid
+
 class StoreService():
     def __init__(self, store_repository:StoreRepository,  user_repository:UserRepository, location_repository:LocationRepository):
         self.user_repo = user_repository
@@ -15,6 +16,7 @@ class StoreService():
         if not owner: raise ObjectNotFound('user', owner_id, 'id')
         location = self.location_repo.create_location(location)
         newStore = self.store_repo.create_store(store, location)
+        self.user_repo.update_user_role(owner, 'admin')
         return newStore
     
     def get_stores(self):
@@ -26,7 +28,6 @@ class StoreService():
         if not user_id == str(store.owner.id): raise AccessLevelError('status update', 'store')
         store = self.store_repo.change_store_status(store, payload['status'])
         return store
-
 
         
         
