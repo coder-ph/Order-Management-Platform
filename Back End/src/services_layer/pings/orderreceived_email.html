@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Confirmation</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f5f7fa; 
+            padding: 20px; 
+            margin: 0; 
+            color: #333;
+        }
+        .container { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 12px; 
+            max-width: 600px; 
+            margin: 20px auto; 
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08); 
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #3182ce;
+        }
+        .header { 
+            color: #2d3748; 
+            margin-bottom: 25px; 
+            font-weight: 600;
+            border-bottom: 1px solid #edf2f7;
+            padding-bottom: 15px;
+        }
+        .content { 
+            line-height: 1.8; 
+            color: #4a5568; 
+            font-size: 16px;
+        }
+        .order-summary {
+            background-color: #ebf8ff;
+            border: 1px solid #bee3f8;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .order-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: #3182ce;
+            margin: 10px 0;
+        }
+        .shipping-info {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f7fafc;
+            border-radius: 8px;
+        }
+        .items-table {
+            margin: 20px 0;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .items-table th, .items-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .items-table th {
+            background-color: #f7fafc;
+            font-weight: 600;
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #f7fafc;
+        }
+        .btn { 
+            background: #3182ce; 
+            color: white; 
+            padding: 14px 28px; 
+            text-decoration: none; 
+            border-radius: 6px; 
+            display: inline-block; 
+            margin-top: 25px; 
+            font-weight: bold;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+        .btn:hover {
+            background: #2c5282;
+        }
+        .tracking {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #f7fafc;
+            border-radius: 8px;
+        }
+        .footer { 
+            margin-top: 40px; 
+            color: #718096; 
+            font-size: 14px;
+            border-top: 1px solid #edf2f7;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="logo-text">COMPANY</div>
+        </div>
+        <h2 class="header">Thank You for Your Order!</h2>
+        <div class="content">
+            <p>Dear Maina,</p>
+            <p>We've received your order and are processing it now. Here's a summary of what you ordered:</p>
+            
+            <div class="order-summary">
+                <div class="order-number">Order #007</div>
+                <p><strong>Order Date:</strong> 10th jan 2024</p>
+                <p><strong>Payment Method:</strong> Mpesa</p>
+                <p><strong>Expected Delivery:</strong> 11thjan 2025</p>
+            </div>
+            
+            <div class="shipping-info">
+                <h3>Shipping Address</h3>
+                <p>
+                    Ken<br>
+                    kikuyu<br>
+                    Thogoto<br>
+                    Nairobi, Kenya 10207-25<br>
+                    Kenya
+                </p>
+            </div>
+            
+            <h3>Order Items</h3>
+            <table class="items-table">
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+                <tr>
+                    <td>    Grocery</td>
+                    <td>1kg</td>
+                    <td>300</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Subtotal</td>
+                    <td>$2000</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Shipping</td>
+                    <td>$70</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Tax</td>
+                    <td>$300</td>
+                </tr>
+                <tr class="total-row">
+                    <td colspan="2">Total</td>
+                    <td>$2370</td>
+                </tr>
+            </table>
+            
+            <div class="tracking">
+                <p>We'll send you another email with tracking information once your order ships.</p>
+            </div>
+            
+            <a href="https://company.com/order-status" class="btn">Track Your Order</a>
+        </div>
+        <div class="footer">
+            <p>Thank you for shopping with us,<br>The Customer Service Team</p>
+            <p>Questions about your order? Contact us at <a href="mailto:support@company.com">support@company.com</a></p>
+            <p>© 2025 Company, Inc. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
