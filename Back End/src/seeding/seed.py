@@ -1,6 +1,7 @@
 from faker import Faker
 from sqlalchemy.orm import sessionmaker
-from models.client import db
+from ...models.client import db
+from models.index import User,Token
 from models.users_model import User,Token
 from models.location_model import Location
 
@@ -13,7 +14,8 @@ Session = sessionmaker(bind=db.engine)
 session = Session()
 
 # Create sample locations
-locations = [Location(id=uuid.uuid4(), name=fake.city()) for _ in range(5)]
+##add longitude and latitude
+locations = [Location(longitude=fake.longitude(),lattitude=fake.latitude()) for _ in range(10)]
 session.add_all(locations)
 session.commit()
 
@@ -35,9 +37,12 @@ session.add_all(users)
 session.commit()
 
 # Create sample tokens
-tokens = [Token(key=str(uuid.uuid4()), token=str(fake.random_number(digits=5))) for _ in range(5)]
-session.add_all(tokens)
-session.commit()
+# seeding orders
+# seeding products
+3
+#category 
 
 print("Database seeded successfully!")
 session.close()
+if __name__ == '__main__':
+    main()
