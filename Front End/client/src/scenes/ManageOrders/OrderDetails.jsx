@@ -2,12 +2,40 @@ import { useParams, useNavigate } from "react-router-dom";
 import { mockDataOrders } from "./mockDataOrders";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { MainButton } from "../../Components/Buttons/Button";
-import "../../assets/styles/OrderDetails.css"; 
+import "../../assets/styles/OrderDetails.css";
+import axios from "axios"; 
+import { useEffect } from "react";
 
 const OrderDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const order = mockDataOrders.find((order) => order.id === parseInt(id));
+    const [order, setOrder] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const getOrder = async () => {
+            try {
+                const resp = await axios.get(`https://order-management-platform.onrender.com/api/v1/orders/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${user?.token}`,
+                    },
+                });
+                setOrder(resp.data);
+            } catch (err) {
+                setError("Order not found or an error occurred.");
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (user?.token) {
+            fetchOrder();
+        }
+    }, [id, user?.token]);
+
+    if (loading) return <div className="loading-message">Loading...</div>;
 
     if (!order) {
         return <div className="error-message">Order not found</div>;
@@ -24,7 +52,7 @@ const OrderDetails = () => {
                         <p>Order ID: <span>{order.id}</span></p>
                         <p>Status: <span className="badge">{order.status}</span></p>
                         <p>Total Amount: <span>{order.total_amount}</span></p>
-                        <p>Invoice status: <span>{order.invoice_status}</span></p>
+                       
                     </div>
                     {/* <MainButton style={{ width: "300px", marginLeft: "210px", backgroundColor: "#1f2945", borderRadius: "0px"}}>Assign driver</MainButton> */}
 

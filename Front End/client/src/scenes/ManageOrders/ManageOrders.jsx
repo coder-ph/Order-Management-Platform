@@ -1,22 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, useTheme, Select, MenuItem, Dialog, DialogTitle, DialogContent, DialogActions, Button, Avatar} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import DasshboardHeader from "../../Components/DasshboardHeader";
 import { useNavigate } from "react-router-dom";
-import { mockDataOrders } from "./mockDataOrders";
+import axios from "axios";
 
 
-const Orders = () => {
-    console.log("Orders taken:", mockDataOrders)
+
+const Orders = ({ user }) => {
+    
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
 
-    const [orders, setOrders] = useState(mockDataOrders);
+    const [orders, setOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const storeId = user?.storeId
+    const isAdmin = user?.role === "admin"
+
+    useEffect (() => {
+        const fetchOrders = async () => {
+            try {
+                let url = isAdmin
+                ? `https://order-management-platform.onrender.com/api/v1/orders/my-store/${storeId}`
+                : `https://order-management-platform.onrender.com/api/v1/orders`
+
+                const resp = await axios.get(url, {
+                    headers: {
+                        Authorization: `Bearer ${user?.token}`,
+                        },
+                })
+
+                console.log("Fetched orders", resp.data)
+
+        
+
+                if (resp.data?.data) {
+                    const formattedOrders = resp.data.data.map(order => ({
+                        id: order.id,
+                        customer: order.user_id,
+                        order_items: order.order_items,
+                        total_amount: order.total_amount,
+                        status: order.status,
+                        destination: order.destination
+                    }))
+                    setOrders(formattedOrders)
+                }
+            } catch (error) {
+                console.error("Error fetching orders", error)
+            }
+        }
+        if(user?.token) {
+        fetchOrders()
+        }
+    }, [isAdmin, storeId, user?.token])
 
     const handleStatusChange = (id, newStatus) => {
         setOrders((prevOrders) =>
@@ -36,10 +76,7 @@ const Orders = () => {
         setIsModalOpen(false);
         setSelectedOrder(null)
     }
-    const handleIdClick = (orderId) => {
-        // navigate(`/dashboard/orders/${orderId}`);
-    
-    }
+   
 
 
     const columns = [
@@ -63,7 +100,7 @@ const Orders = () => {
             valueGetter: (params) => {
                 console.log("Row Data:", params.row);  // Debugging check
                 
-                return params.row?.order_items?.reduce((sum, item) => sum + (item.quantity || 0), 0) || 0;
+                return params.row?.order_items? params.row.order_items.length : 0
             }
 
         },
@@ -98,34 +135,14 @@ const Orders = () => {
                     <MenuItem value="Cancelled">Cancelled</MenuItem>
                 </Select>
                 ),
-        },
-        {
-            field: 'invoiceStatus',
-            headerName: 'Invoice status',
-            renderCell: ({ row }) => (
-                <Box
-                p="5px"
-                width="50%"
-                display="flex"
-                justifyContent="center"
-                margin="auto 20"
-                marginTop="15px"
-                bgcolor={
-                    row.invoices[0]?.status === "Unpaid" ? colors.redAccent[400] : 
-                    row.invoices[0]?.status === "Paid"? colors.greenAccent[600] : 
-                    colors.blueAccent[700]
-                }
-                borderRadius="5px"
-                >
-                    <Typography color="white">{row.invoices[0]?.status}</Typography>
-                </Box>
-            ),
-            
-        },
+        }
     ]
     return (
         <Box m="20px">
-            <DasshboardHeader title="ORDERS" subtitle="Managing Orders & Assigning Drivers " />
+            <DasshboardHeader 
+            title={isAdmin ? "MY STORE ORDERS" : "ALL ORDERS"}
+            subtitle={isAdmin ? "Manage Your Store's Orders" : "View All Orders"}
+             />
             <Box
             m="40px 0 0 0"
             height="75vh"
@@ -139,7 +156,7 @@ const Orders = () => {
                 "& .MuiDataGrid-footerContainer": { borderTop: "none", backgroundColor: colors.blueAccent[700] },
             }}
             >
-                <DataGrid rows={mockDataOrders} columns={columns} onRowClick={handleRowClick}/>
+                <DataGrid rows={orders} columns={columns} onRowClick={handleRowClick}/>
             </Box>
             {/* Order Details Modal */}
             <Dialog open={isModalOpen} onClose={handleModalClose} maxWidth='sm' fullWidth>
@@ -166,7 +183,6 @@ const Orders = () => {
                         <Typography><strong>Items:</strong> {console.log(selectedOrder) || selectedOrder.order_items.reduce((sum, item) => sum + (item.quantity || 0), 0) || 0}</Typography>
                         <Typography><strong>Order Status:</strong> {selectedOrder.status}</Typography>
                         <Typography><strong>Amount:</strong> ${selectedOrder.total_amount}</Typography>
-                        <Typography><strong>Invoice Status:</strong> {selectedOrder.invoices?.[0]?.status || "No invoice"}</Typography>
                     </Box>
                     )}
                 </DialogContent>
