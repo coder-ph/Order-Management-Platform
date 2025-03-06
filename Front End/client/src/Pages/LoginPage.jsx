@@ -12,7 +12,7 @@ import { jwtDecode } from "jwt-decode";
 const LoginForm = () => {
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState("");
-  const API_URL = import.meta.env.VITE_APP_USER_SERVER; // VITE_APP_USER_SERVER /{end point -}/api/vi/user
+  const API_URL = "https://order-management-platform.onrender.com"; // VITE_APP_USER_SERVER /{end point -}/api/vi/user
 
   const formik = useFormik({
     initialValues: {

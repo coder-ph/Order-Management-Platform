@@ -8,7 +8,7 @@ import '../assets/styles/ForgotPassword.css';
 
 function ForgotPassword() {
     const [message, setMessage] = useState(null)
-    const [key, setKey] = useState(null)
+    const [key, setKey] = useState("")
 
     const handlePasswordReset = async (values, setSubmitting, setErrors) => {
         try {

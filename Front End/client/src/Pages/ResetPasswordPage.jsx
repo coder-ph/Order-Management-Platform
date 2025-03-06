@@ -17,8 +17,9 @@ const ResetPasswordPage = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const userEmail =
-      location.state?.email || localStorage.getItem("resetEmail")
+    const userEmail = location.state?.email || localStorage.getItem("resetEmail")
+    
+    
     if (userEmail) {
       setEmail(userEmail)
     }
@@ -96,10 +97,12 @@ const ResetPasswordPage = () => {
 
     try {
       const verificationCode = code.join("")
+      console.log("Verifying with:", { key, token: verificationCode });
+      const key = location.state?.key
 
       // Send the verification code to the backend for validation
-      const response = await axios.post(`https:'//order-management-platform.onrender.com/api/v1/users/otp/verify?key=${email}&token=${verificationCode} `, {
-        email,
+      const response = await axios.post(`https://order-management-platform.onrender.com/api/v1/users/otp/verify?key=${email}&token=${verificationCode} `, {
+        key: key,
         code: verificationCode,
       })
 
