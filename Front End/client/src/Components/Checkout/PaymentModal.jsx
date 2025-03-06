@@ -10,6 +10,7 @@ const PaymentModal = ({ totalAmount, onClose, onSubmit }) => {
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   const handleSubmit = async () => {
+    const API_URL = import.meta.env.VITE_APP_USER_URL;
     if (!phoneNumber) {
       setError("Please enter your phone number.");
       return;
@@ -20,13 +21,10 @@ const PaymentModal = ({ totalAmount, onClose, onSubmit }) => {
 
     try {
    
-      const response = await axios.post(
-        "http://localhost:5555/api/initiate-payment",
-        {
-          phoneNumber,
-          amount: totalAmount,
-        }
-      );
+      const response = await axios.post(`${API_URL}/api/v1/orders/checkout`, {
+        phoneNumber,
+        amount: totalAmount,
+      });
 
       if (response.status === 200 && response.data.ResponseCode === "0") {
         
