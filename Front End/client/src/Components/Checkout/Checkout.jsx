@@ -10,7 +10,7 @@ import PaymentModal from "./PaymentModal";
 import "./checkout.css";
 
 const CheckoutPage = () => {
-  const ORDER_API = import.meta.env.VITE_APP_USER_ORDER
+  const ORDER_API = import.meta.env.VITE_APP_USER_ORDER;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -22,32 +22,29 @@ const CheckoutPage = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
   const totalAmount = totalPrice; 
 
+  
+  const orderId = uuidv4();
+
   const handleConfirmPayment = () => {
     setShowPaymentModal(true);
   };
 
   const handlePaymentSubmit = async (phoneNumber) => {
     
-    const orderId = uuidv4();
-
-    
     const orderDate = new Date().toISOString(); 
 
-   
     const orderData = {
-      orderId,
+      orderId, 
       order_date: orderDate, 
       total_amount: totalAmount, 
-      status: "pending", 
       cart, 
       paymentMethod, 
-      phoneNumber
-     
+      phoneNumber, 
     };
 
     try {
-     
-      const response = await fetch("ORDER_API", {
+    
+      const response = await fetch(ORDER_API, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,12 +53,12 @@ const CheckoutPage = () => {
       });
 
       if (response.ok) {
-        // If the backend successfully processes the order
-        dispatch(confirmPayment()); // Update Redux state
+        
+        dispatch(confirmPayment());
         setShowPaymentModal(false);
-        navigate("/track-order", { state: { orderId } }); // Pass the orderId to the tracking page
+        navigate("/track-order", { state: { orderId } }); 
       } else {
-        // Handle errors
+        
         console.error("Failed to submit order");
       }
     } catch (error) {
@@ -100,6 +97,7 @@ const CheckoutPage = () => {
           totalAmount={totalAmount}
           onClose={() => setShowPaymentModal(false)}
           onSubmit={handlePaymentSubmit}
+          orderId={orderId} 
         />
       )}
     </div>
