@@ -3,144 +3,141 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import { MainButton } from "../Components/Buttons/Buttons";
 import coverImage from "../assets/Images/inventory-management.jpg";
 import "../assets/styles/ResetPasswordPage.css";
-import axios from "axios"; // Import axios for API calls
+import axios from "axios"; 
 
 const ResetPasswordPage = () => {
-  const [code, setCode] = useState(["", "", "", ""]);
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [timer, setTimer] = useState(45);
-  const [resendDisabled, setResendDisabled] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const inputs = useRef([]);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [code, setCode] = useState(["", "", "", ""])
+  const [email, setEmail] = useState("")
+  const [error, setError] = useState("")
+  const [timer, setTimer] = useState(45)
+  const [resendDisabled, setResendDisabled] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
+  const inputs = useRef([])
+  const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     const userEmail =
-      location.state?.email || localStorage.getItem("resetEmail");
+      location.state?.email || localStorage.getItem("resetEmail")
     if (userEmail) {
-      setEmail(userEmail);
+      setEmail(userEmail)
     }
 
-    startResendTimer();
-  }, []);
+    startResendTimer()
+  }, [])
 
   const startResendTimer = () => {
-    setResendDisabled(true);
-    setTimer(45);
+    setResendDisabled(true)
+    setTimer(45)
 
     const interval = setInterval(() => {
       setTimer((prevTimer) => {
         if (prevTimer <= 1) {
-          clearInterval(interval);
-          setResendDisabled(false);
-          return 0;
+          clearInterval(interval)
+          setResendDisabled(false)
+          return 0
         }
-        return prevTimer - 1;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  };
+        return prevTimer - 1
+      })
+    }, 1000)
+    return () => clearInterval(interval)
+  }
 
   const validateCode = () => {
-    const codeString = code.join("");
+    const codeString = code.join("")
     if (codeString.length !== 4) {
-      setError("Please enter 4 digits");
-      return false;
+      setError("Please enter 4 digits")
+      return false
     }
     if (!/^\d{4}$/.test(codeString)) {
-      setError("Code must contain numbers only");
-      return false;
+      setError("Code must contain numbers only")
+      return false
     }
-    return true;
-  };
+    return true
+  }
 
   const handleChange = (e, index) => {
-    const value = e.target.value;
-    if (value && !/^\d{1}$/.test(value)) return;
-    const newCode = [...code];
-    newCode[index] = value;
-    setCode(newCode);
-    setError("");
+    const value = e.target.value
+    if (value && !/^\d{1}$/.test(value)) return
+    const newCode = [...code]
+    newCode[index] = value
+    setCode(newCode)
+    setError("")
 
     if (value !== "" && index < 3) {
-      inputs.current[index + 1]?.focus();
+      inputs.current[index + 1]?.focus()
     }
-  };
+  }
 
   const handleBackspace = (e, index) => {
     if (e.key === "Backspace" && !code[index] && index > 0) {
-      inputs.current[index - 1]?.focus();
+      inputs.current[index - 1]?.focus()
     }
-  };
+  }
 
   const handlePaste = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const pasted = e.clipboardData.getData("text").slice(0, 4);
+    const pasted = e.clipboardData.getData("text").slice(0, 4)
     if (!/^\d{4}$/.test(pasted)) {
-      setError("Pasted content must contain numbers only");
-      return;
+      setError("Pasted content must contain numbers only")
+      return
     }
-    const newCode = pasted.split("").concat(Array(4).fill("")).slice(0, 4);
-    setCode(newCode);
-    setError("");
-  };
+    const newCode = pasted.split("").concat(Array(4).fill("")).slice(0, 4)
+    setCode(newCode)
+    setError("")
+  }
 
   const handleGetResetPassword = async () => {
-    if (!validateCode()) return;
+    if (!validateCode()) return
 
-    setSubmitting(true);
-    setError("");
+    setSubmitting(true)
+    setError("")
 
     try {
-      const verificationCode = code.join("");
+      const verificationCode = code.join("")
 
-      // Send the verification code to the backend for validation
       const response = await axios.post("/api/verify-reset-code", {
         email,
         code: verificationCode,
-      });
+      })
 
-      // If the code is valid, navigate to the new password page
       if (response.data.success) {
-        navigate("/reset-password/newpassword", { state: { email } });
+        navigate("/reset-password/newpassword", { state: { email } })
       } else {
-        setError("Invalid code. Please try again.");
+        setError("Invalid code. Please try again.")
       }
     } catch (error) {
-      setError("Verification failed. Please try again");
-      console.error("Verification failed:", error);
+      setError("Verification failed. Please try again")
+      console.error("Verification failed:", error)
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
     }
-  };
+  }
 
   const handleResend = async () => {
-    if (resendDisabled) return;
+    if (resendDisabled) return
 
     try {
-      setSubmitting(true);
+      setSubmitting(true)
 
-      // Send a request to resend the reset code
-      const response = await axios.post("/api/resend-reset-code", { email });
+      const response = await axios.post("/api/resend-reset-code", { email })
 
       if (response.data.success) {
-        startResendTimer();
-        setCode(["", "", "", ""]);
-        setError("");
-        inputs.current[0]?.focus();
+        startResendTimer()
+        setCode(["", "", "", ""])
+        setError("")
+        inputs.current[0]?.focus()
       } else {
-        setError("Failed to resend the code. Please try again.");
+        setError("Failed to resend the code. Please try again.")
       }
     } catch (error) {
-      setError("Failed to resend the code. Please try again.");
-      console.error("Resend failed:", error);
+      setError("Failed to resend the code. Please try again.")
+      console.error("Resend failed:", error)
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
     }
-  };
+  }
 
   return (
     <div className="reset-pass-page">
@@ -212,7 +209,7 @@ const ResetPasswordPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default ResetPasswordPage;

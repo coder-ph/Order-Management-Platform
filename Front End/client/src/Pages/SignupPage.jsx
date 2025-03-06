@@ -64,7 +64,7 @@ const SignupPage = () => {
 
       try {
         
-        const response = await fetch(`${API_URL}/vi/create_user`, {
+        const response = await fetch(`${API_URL}/v1/create_user`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
