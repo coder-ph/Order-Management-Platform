@@ -6,4 +6,5 @@ updating product - quantity - done
 invoices for admin - done
 make user admin - done
 change store status - done
-html templates
+html templates- done
+seeding - done "
