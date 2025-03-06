@@ -31,7 +31,7 @@ const Orders = ({ user }) => {
             try {
                 if (!token) {
                     console.error("User not authenticated redirecting to login.");
-                    navigate("/login");
+                    // navigate("/login");
                     return;
                 }
                 
