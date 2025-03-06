@@ -190,7 +190,9 @@ const ProductManagement = () => {
 
     return (
         <div className="flex min-h-screen">
+            <div className="sticky h-full top-0 left-0">
             <AdminSidebar isCollapsed={isSidebarCollapsed} setIsCollapsed={setIsSidebarCollapsed} />
+            </div>
             <div className="content" style={contentStyle}>
                 <ProductHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery} setFilterOpen={setFilterOpen} filterOpen={filterOpen} setDialogOpen={setDialogOpen} setSelectedCategory={setSelectedCategory} />
                 {filterOpen && (

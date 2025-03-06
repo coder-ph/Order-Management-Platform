@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
+import { MainButton } from "./Buttons/Button";
 
 const ProductDialog = ({ 
     newProduct, 
@@ -68,23 +69,24 @@ const ProductDialog = ({
                         <IoCloseSharp />
                     </button>
                 </div>
-                <form onSubmit={handleSubmit}>
+                <div className="dg-content">
+                <form className="form-group" onSubmit={handleSubmit}>
                     {[
                         { label: 'Product Name', type: 'text', name: 'product_name', value: newProduct.product_name },
                         { label: 'Price ($)', type: 'number', name: 'price', value: newProduct.price, step: '0.01', min: '0' },
                         { label: 'Quantity', type: 'number', name: 'quantity', value: newProduct.quantity, min: '0' },
                         { label: 'Description', type: 'textarea', name: 'description', value: newProduct.description, rows: '3' }
                     ].map(({ label, ...inputProps }) => (
-                        <div className="form-grp" key={inputProps.name}>
+                        <div className="form-group" key={inputProps.name}>
                             <label>{label}</label>
                             {inputProps.type === 'textarea' ? (
-                                <textarea {...inputProps} onChange={handleInputChange} />
+                                <textarea {...inputProps} onChange={handleInputChange} style={{ border: "1px solid white", borderRadius: "5px", backgroundColor: "#3c4a75", color: "white"}} />
                             ) : (
                                 <input {...inputProps} onChange={handleInputChange} required />
                             )}
                         </div>
                     ))}
-                    <div className="form-grp">
+                    <div className="form-group">
                         <label>Category</label>
                         {!showAddCategory ? (
                             <>
@@ -94,27 +96,27 @@ const ProductDialog = ({
                                     onChange={handleInputChange}
                                     required
                                 >
-                                    <option value="">Select Category</option>
+                                    <option className= "select-category-option"value="">Select Category</option>
                                     {categories.map((category) => (
                                         <option key={category.id} value={category.id}>
                                             {category.name}
                                         </option>
                                     ))}
                                 </select>
-                                <button type="button" onClick={() => setShowAddCategory(true)} style={{ marginTop: '10px', backgroundColor: '#4cceac' }}>Add New Category</button>
+                                <MainButton type="button" onClick={() => setShowAddCategory(true)} style={{ marginTop: '10px', backgroundColor: '#4cceac' }}>Add New Category</MainButton>
                             </>
                         ) : (
                             <>
                                 <input type="text" value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} placeholder="Enter new category name" required />
 
                                 <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-                                    <button type="button" onClick={handleAddCategory} style={{ backgroundColor: '#4cceac' }}>Save Category</button>
-                                    <button type="button" onClick={() => setShowAddCategory(false)} style={{ backgroundColor: '#f44336' }}>Cancel</button>
+                                    <MainButton type="button" onClick={handleAddCategory} style={{ backgroundColor: '#4cceac' }}>Save Category</MainButton>
+                                    <MainButton type="button" onClick={() => setShowAddCategory(false)} style={{ backgroundColor: 'transparent' }}>Cancel</MainButton>
                                 </div>
                             </>
                         )}
                     </div>
-                    <div className="form-grp">
+                    <div className="form-group">
                         <label>Product Image</label>
                         <input type="file"  accept="image/*" onChange={handleImageChange} />
 
@@ -128,12 +130,14 @@ const ProductDialog = ({
                             </div>
                         )}
                     </div>
+                
                     <div className="dialog-actions">
-                        <button type="submit" style={{ backgroundColor: '#4cceac' }}>{isEditing ? 'Update Product' : 'Add Product'}</button>
-                            {isEditing ? 'Update Product' : 'Add Product'}
-                        <button type="button" onClick={() => setDialogOpen(false)} style={{ backgroundColor: '#f44336' }}>Cancel</button>
+                        <MainButton type="button" onClick={() => setDialogOpen(false)} style={{ backgroundColor: "transparent"}}>Cancel</MainButton>
+                        <MainButton type="submit" style={{ backgroundColor: '#4cceac' }}>{isEditing ? 'Update Product' : 'Add Product'}</MainButton>
+                        
                     </div>
                 </form>
+                </div>
             </div>
         </div>
     )

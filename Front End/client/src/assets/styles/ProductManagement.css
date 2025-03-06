@@ -54,9 +54,9 @@
     align-items: center;
     margin-bottom: 20px;
 }
-.header h1 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+.inventory-managemnt {
+    font-size: 24px;
+    margin-bottom: 30px;
     color: white;
     font-weight: bold;
 }
@@ -210,7 +210,7 @@
     scrollbar-width: 2px;
 }
 /* InventoryDialog */
-.dg-overlay {
+.products-dialog {
     position: fixed;
     top: 0;
     left: 0;
@@ -221,8 +221,9 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    font-family: 'Alata', sans-serif;
 }
-.dialog {
+.dialog-content {
     background-color: #1f2945;
     border-radius: 8px;
     width: 100%;
@@ -254,7 +255,7 @@
     display: block;
     color: white;
     margin-bottom: 5px;
-    font-weight: 300;
+    font-weight: 500;
 }
 .form-group input {
     background-color: #3c4a75;
@@ -271,17 +272,17 @@
     background-color: #3c4a75;
     color: white;
 }
-.form-group option {
+.select-category-option {
     color: white;
 }
 .help-text {
     color: white;
 }
-.dg-actions {
+.dialog-actions {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 .loading, .error {
     padding: 20px;
