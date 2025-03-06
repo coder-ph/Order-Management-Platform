@@ -1,5 +1,5 @@
 from faker import Faker
-from models.index import db, User,Token, Location, session
+from models.index import db, User,Token, Location, session, Category
 
 import uuid
 
@@ -15,10 +15,16 @@ def seed_location():
     session.commit()
     return locations
 
+def seed_category():
+    locations = [Category(name=fake.catego ,lattitude=random_string) for _ in range(10)]
+    session.add_all(locations)
+    session.commit()
+    return locations
+
 # Create sample users
 def seed_users(locations):
     users = []
-    for loc in range(locations):
+    for loc in locations:
         print(loc)
         user = User(
             first_name=fake.first_name(),
