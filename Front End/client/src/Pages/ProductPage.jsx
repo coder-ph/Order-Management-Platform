@@ -77,7 +77,7 @@ function ProductPage() {
     })), 
     [categories]
   )
-
+  
   const handleCategorySelect = (categoryName) => {
     dispatch(setSelectedCategory(categoryName === selectedCategory ? null : categoryName))
   }

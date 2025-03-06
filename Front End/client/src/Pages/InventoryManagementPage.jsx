@@ -5,7 +5,7 @@ import ProductHeader from "../Components/InventoryHeader";
 import ProductDialog from "../Components/InventoryDialog";
 import FilterPopup from "../Components/InventoryFilter";
 import AdminSidebar from "../scenes/global/AdminSidebar";
-import Topbar from "../scenes/global/TopBar";
+// import Topbar from "../scenes/global/TopBar";
 import "../assets/styles/ProductManagement.css";
 
 const ProductManagement = () => {

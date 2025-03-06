@@ -11,6 +11,7 @@ from faker import Faker
 
 from models.client import db
 from models.product_model import Product
+
 from models.category_model import Category
 from services.utilities import generate_random_sku
 

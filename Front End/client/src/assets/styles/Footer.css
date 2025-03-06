@@ -66,3 +66,131 @@
     text-decoration: none;
     transition: color 0.3s ease;
 }
+
+/* Default styles remain unchanged */
+
+/* For laptops & medium screens (992px and below) */
+@media (max-width: 992px) {
+    .footer {
+        padding: 15px;
+        max-width: 100%;
+        background-color: transparent;
+    }
+
+    .footer-content h2 {
+        font-size: 22px;
+    }
+
+    .footer-content p {
+        font-size: 13px;
+    }
+
+    .footer-div {
+        margin: 0 -100px; /* Reduce negative margin for better alignment */
+    }
+
+    .footer-bottom {
+        width: 90%;
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center;
+        text-align: center;
+    }
+}
+
+/* For tablets (768px and below) */
+@media (max-width: 768px) {
+    .footer {
+        padding: 20px;
+    }
+
+    .footer-content h2 {
+        font-size: 20px;
+    }
+
+    .footer-content p {
+        font-size: 12px;
+    }
+
+    .footer-divider {
+        width: 90%;
+    }
+
+    .footer-div {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center;
+        text-align: center;
+        margin: 0; /* Remove negative margins */
+    }
+
+    .footer-social-icons {
+        gap: 10px; /* Reduce spacing between icons */
+    }
+
+    .delivery-order {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .delivery-order span {
+        font-size: 13px;
+    }
+
+    .footer-bottom {
+        width: 95%;
+    }
+}
+
+/* For mobile screens (576px and below) */
+@media (max-width: 576px) {
+    .footer {
+        padding: 15px;
+    }
+
+    .footer-content h2 {
+        font-size: 18px;
+    }
+
+    .footer-content p {
+        font-size: 12px;
+    }
+
+    .footer-divider {
+        width: 95%;
+    }
+
+    .footer-div {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin: 0;
+    }
+
+    .footer-social-icons {
+        gap: 8px;
+    }
+
+    .footer-social-icons a {
+        font-size: 12px;
+    }
+
+    .delivery-order {
+        gap: 5px;
+    }
+
+    .delivery-order span {
+        font-size: 12px;
+    }
+
+    .footer-bottom {
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .copyright {
+        font-size: 10px;
+    }
+}

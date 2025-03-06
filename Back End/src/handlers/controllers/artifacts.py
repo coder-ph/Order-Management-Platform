@@ -20,3 +20,4 @@ change_store_status_art = ['id', 'status']
 
 # Order artifacts
 order_creation_art = ['total_amount','order_items']+location_arts_interface
+invoice_artifacts = ['amount', "billed_phone", "order_id"]

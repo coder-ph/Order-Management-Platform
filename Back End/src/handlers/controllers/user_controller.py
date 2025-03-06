@@ -117,8 +117,6 @@ def verify_token(payload):
     
     try:
         res = userService.verify_token(payload['key'], payload['token'])
-        print('went to here : :::: ', res)
-
         token = authLayer.signToken(res)
         
         return {"message":'token verified', "data":{
@@ -127,4 +125,6 @@ def verify_token(payload):
     except Exception as e:
        
         return compile_error(e)
+    
+# def seed_data():
     
