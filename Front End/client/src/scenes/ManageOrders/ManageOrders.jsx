@@ -4,13 +4,11 @@ import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import DasshboardHeader from "../../Components/DasshboardHeader";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 
 
 
 const Orders = ({ user }) => {
-    
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
@@ -25,7 +23,8 @@ const Orders = ({ user }) => {
 
     useEffect (() => {
         const fetchOrders = async () => {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("token") || user?.token;
+            console.log(token)
             setLoading(true)
             setError(null)
             
@@ -80,7 +79,8 @@ const Orders = ({ user }) => {
         };
     
         fetchOrders();
-    }, [isAdmin, storeId, user?.token]);    
+    }, [isAdmin, storeId, user?.token]);
+    
 
     const handleStatusChange = (id, newStatus) => {
         setOrders((prevOrders) =>
@@ -162,6 +162,11 @@ const Orders = ({ user }) => {
                     <MenuItem value={order_status.REJECTED}>Rejected</MenuItem>
                 </Select>
                 ),
+        },
+        { 
+            field: 'order_destination', 
+            headerName: 'Destination', 
+            flex: 1,
         }
     ]
     return (

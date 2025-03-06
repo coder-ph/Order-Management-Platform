@@ -53,6 +53,7 @@ const LoginForm = () => {
         const decode = jwtDecode(accessToken)
         console.log(decode)
         const localtoken = localStorage.setItem("token", accessToken);
+        console.log(localtoken)
         
         const userId = decode.id
         const role = decode.role
