@@ -8,8 +8,9 @@ fake = Faker()
 # Initialize session
 # Create sample locations
 ##add longitude and latitude
+random_string = fake.pystr(min_chars=6, max_chars=6)
 def seed_location():
-    locations = [Location(longitude=fake.string ,lattitude=fake.latitude()) for _ in range(10)]
+    locations = [Location(longitude=random_string ,lattitude=random_string) for _ in range(10)]
     session.add_all(locations)
     session.commit()
     return locations
