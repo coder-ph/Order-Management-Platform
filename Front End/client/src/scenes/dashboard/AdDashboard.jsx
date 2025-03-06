@@ -22,7 +22,7 @@ const AdDashboard = () => {
 
   return (
     <Box m="20px">
-      {/* HEADER */}
+    
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <DasshboardHeader title="DASHBOARD" subtitle="Welcome to your dashboard" />
 
@@ -127,7 +127,7 @@ const AdDashboard = () => {
           />
         </Box>
 
-        {/* ROW 2 */}
+        
         <Box
           gridColumn="span 8"
           gridRow="span 2"
@@ -219,7 +219,7 @@ const AdDashboard = () => {
           ))}
         </Box>
 
-        {/* ROW 3 */}
+        
         <Box
           gridColumn="span 4"
           gridRow="span 2"

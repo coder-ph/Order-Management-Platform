@@ -10,12 +10,23 @@ const Contacts = () => {
   const [contacts, setContacts] = useState([]); 
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null); 
+  const API_URL = import.meta.env.VITE_APP_USER_URL;
 
-  
+  const token = localStorage.getItem('token')
+
+  if(!token) {
+    throw Error('User not authenticated')
+  }
+  console.log('token', token)
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch("/api/contacts");
+        const response = await fetch(`${API_URL}/api/v1/users/all`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch contacts.");

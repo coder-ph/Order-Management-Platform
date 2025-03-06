@@ -8,20 +8,17 @@ import { useNavigate } from "react-router-dom";
 const SignupPage = () => {
   const navigate = useNavigate();
 
-  
-  const [loading, setLoading] = useState(false); 
-  const [error, setError] = useState(""); 
-  const [signupSuccess, setSignupSuccess] = useState(false); 
-
-  
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [signupSuccess, setSignupSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const API_URL = import.meta.env.VITE_APP_USER_URL;
 
-  
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
-
+  
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -54,7 +51,7 @@ const SignupPage = () => {
         errors.password = "Password must be at least 8 characters";
       }
 
-     
+    
       if (values.phone && !/^\d{10}$/.test(values.phone.replace(/\D/g, ""))) {
         errors.phone = "Please enter a valid phone number";
       }
@@ -62,26 +59,39 @@ const SignupPage = () => {
       return errors;
     },
     onSubmit: async (values) => {
-      setLoading(true); 
-      setError(""); 
+      setLoading(true);
+      setError("");
 
       try {
         
-        await new Promise((resolve) => setTimeout(resolve, 1000)); 
+        const response = await fetch(`${API_URL}/vi/create_user`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        });
 
     
-        setSignupSuccess(true);
-        setError(""); 
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to sign up");
+        }
 
-       
+
+        const data = await response.json();
+        setSignupSuccess(true);
+        setError("");
+
+        
         setTimeout(() => {
           navigate("/login");
         }, 2000);
       } catch (err) {
-       
-        setError("Failed to sign up. Please try again.");
+        
+        setError(err.message || "Failed to sign up. Please try again.");
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     },
   });
@@ -117,6 +127,7 @@ const SignupPage = () => {
           <div className="signup-form-container">
             <div className="form-wrapper">
               <form onSubmit={formik.handleSubmit}>
+              
                 <div className="form-field">
                   <label htmlFor="username">Username</label>
                   <input
@@ -141,6 +152,7 @@ const SignupPage = () => {
                   )}
                 </div>
 
+               
                 <div className="form-field">
                   <label htmlFor="email">Email Address</label>
                   <input
@@ -168,7 +180,7 @@ const SignupPage = () => {
                   <input
                     id="password"
                     name="password"
-                    type={showPassword ? "text" : "password"} style={{marginBottom: "7px"}}
+                    type={showPassword ? "text" : "password"}
                     placeholder="Enter password"
                     value={formik.values.password}
                     onChange={formik.handleChange}
@@ -198,6 +210,7 @@ const SignupPage = () => {
                   </div>
                 </div>
 
+               
                 <div className="form-field">
                   <label htmlFor="phone">Phone Number</label>
                   <input
@@ -219,6 +232,7 @@ const SignupPage = () => {
                   )}
                 </div>
 
+              
                 <div className="form-field">
                   <label htmlFor="address">Address</label>
                   <textarea
@@ -232,10 +246,13 @@ const SignupPage = () => {
                   />
                 </div>
 
+               
                 <MainButton type="submit" disabled={loading}>
                   {loading ? "Signing Up..." : "Sign up"}
                 </MainButton>
               </form>
+
+
               {error && <p style={{ color: "red" }}>{error}</p>}
               {signupSuccess && (
                 <p style={{ color: "green" }}>
