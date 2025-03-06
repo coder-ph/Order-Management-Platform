@@ -24,7 +24,7 @@ const ProductGrid = ({ products }) => {
               className="product-image"
             />
             <div className="product-detailss">
-              <div className="price-product">
+              <div className="price-product" style={{ gap: "10px" }}>
                 <div>
                   <h5 className="product-namess">{product.name}</h5>
                 </div>

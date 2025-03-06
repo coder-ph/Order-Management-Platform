@@ -13,12 +13,8 @@ class UserRepository():
     @list_getter
     def get_all_users(self):
         raw_users = User.query.filter_by()
-
-        letp = User.check_password('pdasasdfdfadddsswdord_hash')
-
-        print(letp)
-
         return raw_users
+    
     def get_user_by_email(self, email):
         user = User.query.filter_by(email=email).first()
         return user

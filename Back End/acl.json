@@ -15,7 +15,7 @@
     },
     
     "user":{
-        "GET":["orders", "orders/my-orders", "orders/my-store","products/categories"],
+        "GET":["orders", "orders/my-orders", "orders/my-store","products/categories", "orders/invoices"],
         "POST":["products", "users", "store", "orders", "products/categories", "orders/checkout"],
         "PUT":["store/status", "products", "users/update-password"],
         "DELETE":["products"],

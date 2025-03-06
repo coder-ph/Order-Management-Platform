@@ -62,3 +62,10 @@ def create_invoice(payload):
         return {"message":"invoice created, and order billed. Please enter your mpesa pin","data":invoice}
     except Exception as e:
         return compile_error(e)
+
+def get_invoicess():
+    try:
+        invoices = ordersService.get_invoices()
+        return {"message":"invoices","data":invoices}
+    except Exception as e:
+        return compile_error(e)

@@ -33,6 +33,9 @@ class OrdersRepository():
     def create_invoice(self, invoice):
         new_invoice = Invoice(invoice_no=invoice['invoice_no'], billed_phone=invoice['billed_phone'], order_id=uuid.UUID(invoice['order_id']))
         return new_invoice
+    @list_getter
+    def get_invoices(self):
+        return Invoice.query.all()
 
 class OrderItemsRepository():
     def __init__(self):
