@@ -3,7 +3,7 @@
     padding: 50px;
     max-width: 900px;
     margin: auto;
-  }
+}
   
 .services-container h2 {
     font-size: 32px;
@@ -53,4 +53,117 @@
     color: #666;
     margin-top: 10px;
 }
-  
+
+/* Default styles remain unchanged */
+
+/* For laptops & medium screens (992px and below) */
+@media (max-width: 992px) {
+    .service-container {
+        padding: 40px;
+        max-width: 750px;
+    }
+
+    .services-container h2 {
+        font-size: 28px; /* Reduce heading size slightly */
+    }
+
+    .services-container p {
+        font-size: 14px;
+    }
+
+    .service-cards {
+        gap: 15px; /* Reduce spacing between cards */
+        padding: 40px;
+    }
+
+    .service-card {
+        padding: 20px;
+    }
+
+    .service-card h3 {
+        font-size: 16px;
+    }
+
+    .service-card p {
+        font-size: 13px;
+    }
+}
+
+/* For tablets (768px and below) */
+@media (max-width: 768px) {
+    .service-container {
+        padding: 30px;
+        max-width: 600px;
+    }
+
+    .services-container h2 {
+        font-size: 24px;
+    }
+
+    .services-container p {
+        font-size: 14px;
+    }
+
+    .service-cards {
+        flex-direction: column; /* Stack cards vertically */
+        align-items: center;
+        padding: 30px;
+    }
+
+    .service-card {
+        width: 100%;
+        max-width: 400px;
+        padding: 20px;
+    }
+
+    .service-card img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .service-card h3 {
+        font-size: 16px;
+    }
+
+    .service-card p {
+        font-size: 13px;
+    }
+}
+
+/* For mobile screens (576px and below) */
+@media (max-width: 576px) {
+    .service-container {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .services-container h2 {
+        font-size: 20px;
+    }
+
+    .services-container p {
+        font-size: 12px;
+    }
+
+    .service-cards {
+        padding: 20px;
+    }
+
+    .service-card {
+        padding: 15px;
+        max-width: 100%;
+    }
+
+    .service-card img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .service-card h3 {
+        font-size: 14px;
+    }
+
+    .service-card p {
+        font-size: 12px;
+    }
+}

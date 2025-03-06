@@ -3,18 +3,112 @@
 <head>
     <title>Welcome Email</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }
-        .container { background: white; padding: 20px; border-radius: 8px; }
-        .btn { background: blue; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f5f7fa; 
+            padding: 20px; 
+            margin: 0; 
+            color: #333;
+        }
+        .container { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 12px; 
+            max-width: 600px; 
+            margin: 20px auto; 
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08); 
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #6b46c1;
+        }
+        .header { 
+            color: #2d3748; 
+            margin-bottom: 25px; 
+            font-weight: 600;
+        }
+        .content { 
+            line-height: 1.8; 
+            color: #4a5568; 
+            font-size: 16px;
+        }
+        .highlight {
+            background-color: #f0f4fe;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #6b46c1;
+            margin: 20px 0;
+        }
+        .btn { 
+            background: #6b46c1; 
+            color: white; 
+            padding: 14px 28px; 
+            text-decoration: none; 
+            border-radius: 6px; 
+            display: inline-block; 
+            margin-top: 25px; 
+            font-weight: bold;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+        .btn:hover {
+            background: #553c9a;
+        }
+        .footer { 
+            margin-top: 40px; 
+            color: #718096; 
+            font-size: 14px;
+            border-top: 1px solid #edf2f7;
+            padding-top: 20px;
+        }
+        .next-steps {
+            margin-top: 25px;
+        }
+        .next-steps h3 {
+            color: #4a5568;
+        }
+        .next-steps ol {
+            padding-left: 20px;
+        }
+        .next-steps li {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Good, {{ username }}!</h2>
-        <p>Welcome to the quantum project, where you get to meet new users</p>
-        <p>to get started reply this mail with you name</p>
-        <p>Regards</p>
-        <a href="https://winter.com" class="btn">Get Started</a>
+        <div class="logo">
+            <div class="logo-text">QUANTUM</div>
+        </div>
+        <h2 class="header">Hello, Ken!</h2>
+        <div class="content">
+            <p>Welcome to the Quantum Project! We're excited to have you join our community where you'll get to connect with users from around the world.</p>
+            
+            <div class="highlight">
+                <p><strong>To get started:</strong> Please reply to this email with your name so we can personalize your experience.</p>
+            </div>
+            
+            <div class="next-steps">
+                <h3>What's next?</h3>
+                <ol>
+                    <li>Complete your profile to connect with like-minded individuals</li>
+                    <li>Explore our community features and ongoing projects</li>
+                    <li>Join discussions and participate in our upcoming events</li>
+                </ol>
+            </div>
+            
+            <a href="https://winter.com/dashboard" class="btn">Access Your Dashboard</a>
+        </div>
+        <div class="footer">
+            <p>Looking forward to your contribution,<br>The Quantum Team</p>
+            <p>Questions? Contact us at <a href="mailto:support@quantum-project.com">support@quantum-project.com</a></p>
+            <p>© 2025 Quantum Project. All rights reserved.</p>
+        </div>
     </div>
 </body>
 </html>
