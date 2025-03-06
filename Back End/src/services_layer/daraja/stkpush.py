@@ -1,5 +1,3 @@
-import base64
-import requests
 from src.config.config_map import appConfig
 from src.error.index import ApiErrors
 from .utils import format_phone, get_formatted_timestamp
