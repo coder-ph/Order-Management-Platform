@@ -4,6 +4,10 @@
   flex-direction: column;
   width: 100%;
 }
+.flexxx{
+  display: flex;
+  width: screen;
+}
 .navbar {
   width: 100%;
   z-index: 10;

@@ -76,7 +76,7 @@ function ProductPage() {
   };
 
   return (
-    <div className="flex bg-amber-50 ">
+    <div className="flex">
       <div>
         <UserSidebarr />
       </div>
