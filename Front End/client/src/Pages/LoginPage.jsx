@@ -7,6 +7,7 @@ import coverImage from "../assets/Images/inventory-management.jpg";
 import { GoogleButton } from "../Components/Buttons/Buttons";
 import { FaGoogle } from "react-icons/fa";
 import "../assets/styles/LoginPage.css";
+import { jwtDecode } from "jwt-decode";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -30,12 +31,14 @@ const LoginForm = () => {
       try {
         setLoginError("");
 
-        const credentials = {
-          email: "m.o.shelton@gmail.com",
-          password: "shelton",
-        };
+        // const credentials = {
+        //   email: "m.o.shelton@gmail.com",
+        //   password: "shelton",
+        // };
+
         const email = document.getElementById('email').value
         const password = document.getElementById("password").value;
+
         console.log(email, password)
 
         const response = await axios.get(`${API_URL}/api/v1/users`, {
@@ -45,11 +48,15 @@ const LoginForm = () => {
           },
         });
         console.log(response);
-        const { role, access_token } = response.data;
-        console.log(role, access_token);
-
-        localStorage.setItem("token", access_token);
-
+       
+        const accessToken = response.data.data.token
+        const decode = jwtDecode(accessToken)
+        console.log(decode)
+        const localtoken = localStorage.setItem("token", accessToken);
+        
+        const userId = decode.id
+        const role = decode.role
+        console.log(userId, role)
         const roleRoutes = {
           admin: "/dashboard/main",
           user: "/user-products",
