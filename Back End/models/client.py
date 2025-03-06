@@ -41,7 +41,7 @@ def commit_session(model_name=None):
                 print("Transaction complete")
                 return result.to_dict()
             except Exception as e:
-                print(e)
+                # print(e)
                 session.rollback() 
                 is_handled = handle_sqlalchemy_error(model_name,e, 'create')
                 if is_handled:
@@ -118,7 +118,7 @@ def update_session(model_name=None):
                 if isinstance(result, db.Model):  
                     session.refresh(result) 
                 
-                logger.info("Transaction complete")
+                logger.info("Transaction complete 2")
                 return result.to_dict()
             except Exception as e:
                 session.rollback() 

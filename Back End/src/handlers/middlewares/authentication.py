@@ -20,9 +20,9 @@ def auth_middleware(f):
                     g.user_role = user['role']
                     g.user = user
                 except Exception as e:
-                    return {"error":errorEnums['403']}
+                    return {"error":errorEnums['403']}, 403
             else:
-                return {"error":errorEnums['403']}
+                return {"error":errorEnums['403']}, 403
         else:
             
             g.user_role = 'guest'

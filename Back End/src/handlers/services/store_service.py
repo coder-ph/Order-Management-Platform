@@ -14,9 +14,10 @@ class StoreService():
         owner_id = store['owner']
         owner = self.user_repo.get_user_by_id(owner_id)
         if not owner: raise ObjectNotFound('user', owner_id, 'id')
-        location = self.location_repo.create_location(location)
-        newStore = self.store_repo.create_store(store, location)
         self.user_repo.update_user_role(owner, 'admin')
+        location = self.location_repo.create_location(location)
+        # print('here si the owner : : : : ',owner)
+        newStore = self.store_repo.create_store(store, location)
         return newStore
     
     def get_stores(self):
