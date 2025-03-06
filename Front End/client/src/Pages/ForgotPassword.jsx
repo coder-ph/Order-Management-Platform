@@ -33,7 +33,6 @@ function ForgotPassword() {
             const url = new URL('https://order-management-platform.onrender.com/api/v1/users/otp')
             url.searchParams.append('email', values.email)
             url.searchParams.append('key', emailData.data.key)
-            console.log('Request URL:', url)
 
             const otpResponse = await fetch(url, { method: 'GET' })
 
