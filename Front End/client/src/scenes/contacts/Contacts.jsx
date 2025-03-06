@@ -1,17 +1,42 @@
-import React from "react";
-import { Box, useTheme } from "@mui/material";
-import { DataGrid , GridToolbar} from "@mui/x-data-grid";
+import React, { useState, useEffect } from "react";
+import { Box, useTheme, Typography } from "@mui/material";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataContacts } from "../../data/mockData";
 import DasshboardHeader from "../../Components/DasshboardHeader";
-
 
 const Contacts = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [contacts, setContacts] = useState([]); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+
+  
+  useEffect(() => {
+    const fetchContacts = async () => {
+      try {
+        const response = await fetch("/api/contacts");
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch contacts.");
+        }
+
+        const data = await response.json();
+        setContacts(data); 
+      } catch (error) {
+        console.error("Error fetching contacts:", error);
+        setError(error.message); 
+      } finally {
+        setLoading(false); 
+      }
+    };
+
+    fetchContacts();
+  }, []);
+
+  
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "registrarId", headerName: "Registered ID" },
     {
       field: "name",
       headerName: "Name",
@@ -19,27 +44,29 @@ const Contacts = () => {
       cellClassName: "name-column--cell",
     },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
+      field: "email",
+      headerName: "Email",
+      type: "string",
       headerAlign: "left",
       align: "left",
     },
     {
-      field: "phone",
-      headerName: "Phone Number",
+      field: "role",
+      headerName: "Role",
       flex: 1,
     },
     {
-      field: "email",
-      headerName: "Email",
+      field: "phone_no",
+      headerName: "Phone No",
       flex: 1,
     },
-    { field: "address", headerName: "Adress", flex: 1 },
-    { field: "city", headerName: "City", flex: 1 },
-    { field: "zipCode", headerName: "ZipCode", flex: 1 },
-
+    {
+      field: "address",
+      headerName: "Address",
+      flex: 1,
+    },
   ];
+
   return (
     <Box m="20px">
       <DasshboardHeader title="CONTACTS" subtitle="List of Contacts" />
@@ -65,20 +92,29 @@ const Contacts = () => {
             borderTop: "none",
             backgroundColor: colors.blueAccent[700],
           },
-          "& .& .MuiDataGrid-toolbarContainer' .MuiButton-text": {
+          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
             color: `${colors.grey[100]} !important`,
           },
-        //   "& .MuiDataGrid-toolbarContainer": {
-        //     "& .MuiButton-text": {
-        //       color: `colors.grey[100] !important`,
-        //     },
-        //   },
         }}
       >
-        <DataGrid rows={mockDataContacts} columns={columns} components= {{toolbar: GridToolbar}} />
+        {loading ? (
+          <Typography variant="h6" color={colors.greenAccent[500]}>
+            Loading...
+          </Typography>
+        ) : error ? (
+          <Typography variant="h6" color={colors.redAccent[500]}>
+            Error: {error}
+          </Typography>
+        ) : (
+          <DataGrid
+            rows={contacts}
+            columns={columns}
+            components={{ Toolbar: GridToolbar }}
+          />
+        )}
       </Box>
     </Box>
   );
-  DasshboardHeader;
 };
+
 export default Contacts;

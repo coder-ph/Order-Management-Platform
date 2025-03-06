@@ -11,7 +11,7 @@ import "../assets/styles/LoginPage.css";
 const LoginForm = () => {
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState("");
-  const API_URL = import.meta.env.VITE_APP_USER_URL; // VITE_APP_USER_SERVER /{end point -}/api/vi/user
+  const API_URL = import.meta.env.VITE_APP_USER_SERVER; // VITE_APP_USER_SERVER /{end point -}/api/vi/user
 
   const formik = useFormik({
     initialValues: {
@@ -30,21 +30,25 @@ const LoginForm = () => {
       try {
         setLoginError("");
 
-        const response = await axios.post(`${API_URL}/api/login`, values, {
-          withCredentials: true,
-        });
+        const response = await axios.post(`${API_URL}/vi/sign-in`, values);
 
-        const { role } = response.data;
+        const { role, access_token } = response.data; 
+        console.log(role, access_token)
+       
+        localStorage.setItem("token", access_token);
+
+        
         const roleRoutes = {
-          admin: "/dashboard/main",
-          user: "/user-products",
+          admin: "/dashboard/main", 
+          user: "/user-products", 
           driver: "/driver",
         };
 
+        
         if (roleRoutes[role]) {
-          navigate(roleRoutes[role]);
+          navigate(roleRoutes[role]); 
         } else {
-          navigate("/");
+          navigate("/"); 
         }
       } catch (error) {
         setLoginError(

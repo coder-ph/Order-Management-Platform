@@ -1,6 +1,7 @@
 .category-section.horizontal {
-  width: 100%;
+  width: 80%;
   padding: 1rem 0;
+  padding-left: 45px;
   border-bottom: 1px solid #e5e7eb;
   position: relative; 
   overflow: hidden; 

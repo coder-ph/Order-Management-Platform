@@ -1,34 +1,51 @@
-import React from 'react';
+import React from "react";
 import { Box, Button, TextField } from "@mui/material";
 import { Formik } from "formik";
-import * as yup from 'yup';
+import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import DasshboardHeader from "../../Components/DasshboardHeader";
+import axios from "axios"; 
 
 const initialValues = {
-  firstName: "",
-  lastName: "",
+  name: "",
+  defaultPassword: "",
   email: "",
   contact: "",
-  address1: "",
-  address2: "",
+  address: "",
+  rore: "driver",
 };
 
 const phonRegex = /^(?:\+254|254|0)?7\d{8}$/;
 
 const userSchema = yup.object().shape({
-  firstName: yup.string().required("required"),
-  lastName: yup.string().required("required"),
+  name: yup.string().required("required"),
+  defaultPassword: yup.string().required("required"),
   email: yup.string().email("Invalid email address").required("required"),
-  contact: yup.string().matches(phonRegex, "phone number is not valid!").required("required"),
-  address1: yup.string().required("required"),
-  address2: yup.string().required("required"),
+  contact: yup
+    .string()
+    .matches(phonRegex, "phone number is not valid!")
+    .required("required"),
+  address: yup.string().required("required"),
+  
 });
 
 const AddDriver = () => {
-  const isNonMobile = useMediaQuery("(min-width:600px)"); // Corrected media query
-  const handleFormSubmit = (values) => {
-    console.log(values);
+  const isNonMobile = useMediaQuery("(min-width:600px)");
+
+  const handleFormSubmit = async (values) => {
+    try {
+      
+      const response = await axios.post(
+        "api/drivers",
+        values
+      );
+
+      
+      console.log("Driver created successfully:", response.data);
+    } catch (error) {
+      
+      console.error("Error creating driver:", error);
+    }
   };
 
   return (
@@ -50,7 +67,7 @@ const AddDriver = () => {
           handleChange,
           handleSubmit,
         }) => (
-          <form onSubmit={handleSubmit}> {/* Fixed onSubmit attribute */}
+          <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
@@ -61,28 +78,28 @@ const AddDriver = () => {
             >
               <TextField
                 fullWidth
-                variant="filled"  
+                variant="filled"
                 type="text"
                 label="First Name"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.firstName}
-                name="firstName"   
-                error={!!touched.firstName && !!errors.firstName}
-                helperText={touched.firstName && errors.firstName}
+                name="name"
+                error={!!touched.name && !!errors.name}
+                helperText={touched.name && errors.name}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Last Name"
+                label="Default Password"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.lastName}   
-                name="lastName"           
-                error={!!touched.lastName && !!errors.lastName}
-                helperText={touched.lastName && errors.lastName}
+                value={values.defaultPassword}
+                name="defaultPassword"
+                error={!!touched.defaultPassword && !!errors.defaultPassword}
+                helperText={touched.defaultPassword && errors.defaultPassword}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
@@ -115,29 +132,23 @@ const AddDriver = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Address 1"
+                label="Address"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.address1}
-                name="address1"
-                error={!!touched.address1 && !!errors.address1}
-                helperText={touched.address1 && errors.address1}
+                value={values.address}
+                name="address"
+                error={!!touched.address && !!errors.address}
+                helperText={touched.address && errors.address}
                 sx={{ gridColumn: "span 4" }}
               />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 2"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address2}
-                name="address2"
-                error={!!touched.address2 && !!errors.address2}
-                helperText={touched.address2 && errors.address2}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <Box gridColumn="span 4" display="flex" justifyContent="end" mt="20px">
+
+              <Box
+                gridColumn="span 4"
+                display="flex"
+                justifyContent="end"
+                mt="20px"
+                paddingRight="20px"
+              >
                 <Button type="submit" color="secondary" variant="contained">
                   Create new Driver
                 </Button>
