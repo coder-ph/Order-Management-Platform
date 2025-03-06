@@ -7,11 +7,11 @@ from src.handlers.services.index import ordersService
 logger = Logger("webhook controller")
 
 @request_has_json([])
-def confirm_transaction(paylaod):
+def confirm_transaction(payload):
     try:
-        stk_callback = paylaod.get('stkCallback', {})
+        stk_callback = payload.get('stkCallback', {})
         item_list = stk_callback.get("CallbackMetadata", {}).get("Item", [])
-        status =  InvoiceStatus.COMPLETE if stk_callback.get("ResultCode") == 0  else InvoiceStatus.FAILED
+        status =  str(InvoiceStatus.COMPLETE) if stk_callback.get("ResultCode") == 0  else str(InvoiceStatus.FAILED)
         rec_no = next((item["Value"] for item in item_list if item["Name"] == "MpesaReceiptNumber"), None)
         req_id = stk_callback.get("MerchantRequestID")
 
