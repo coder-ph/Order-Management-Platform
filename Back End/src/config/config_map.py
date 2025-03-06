@@ -20,8 +20,19 @@ class mail:
     MAIL_SERVER = config("MAIL_SERVER")
     MAIL_PORT = config("MAIL_PORT")
     
+class daraja:
+    BASE_API_ENDPOINT = config("DARAJA_BASE_API_ENDPOINT")
+    CLIENTKEY = config('DARAJA_CLIENTKEY')
+    CLIENTSECRET = config("DARAJA_CLIENTSECRET")
+    DARAJA_WORKING_TEST_TOKEN = config("DARAJA_WORKING_TEST_TOKEN")
+    SHORT_CODE = config("DARAJA_SHORT_CODE")
+    PASSKEY = config("DARAJA_PASSKEY")
+    TRANSACTION_TYPE = config("DARAJA_TRANSACTION_TYPE")
+    BASE_AUTH_ENDPOINT = config("DARAJA_BASE_AUTH_ENDPOINT")
+    
 class appConfig: 
     app = appEnvs
     daraja = daraja
     jwt = jwt
     mail = mail
+    daraja = daraja

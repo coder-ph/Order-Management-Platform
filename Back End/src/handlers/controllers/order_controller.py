@@ -1,5 +1,5 @@
 from src.services_layer.validators.index import request_has_json, validate_object, validate_ids
-from .artifacts import order_creation_art
+from .artifacts import order_creation_art, invoice_artifacts
 from src.error.index import compile_error
 from src.handlers.services.index import ordersService
 from flask import g
@@ -49,5 +49,17 @@ def get_user_orders():
         
         orders = ordersService.get_user_orders(user['id'])
         return {"message":"user orders","data":orders}
+    except Exception as e:
+        return compile_error(e)
+
+@request_has_json(invoice_artifacts)
+def create_invoice(payload):
+    payload_is_valid, missing = validate_object(invoice_artifacts, payload)
+    if not payload_is_valid: return {"error":"payload missing objects", "data":f"missing params : {missing}"}, 400
+    ids_are_valid, invalid_ids = validate_ids([payload['order_id']])
+    if not ids_are_valid :return {"error":"one or more ids provided invalid", "data":f"invalid ids: {invalid_ids}"}, 400
+    try:
+        invoice = ordersService.create_invoice(payload)
+        return {"message":"invoice created, and order billed. Please enter your mpesa pin","data":invoice}
     except Exception as e:
         return compile_error(e)

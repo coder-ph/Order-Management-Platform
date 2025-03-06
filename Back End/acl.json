@@ -16,7 +16,7 @@
     
     "user":{
         "GET":["orders", "orders/my-orders", "orders/my-store","products/categories"],
-        "POST":["products", "users", "store", "orders", "products/categories"],
+        "POST":["products", "users", "store", "orders", "products/categories", "orders/checkout"],
         "PUT":["store/status", "products", "users/update-password"],
         "DELETE":["products"],
         "inherit":["guest"]

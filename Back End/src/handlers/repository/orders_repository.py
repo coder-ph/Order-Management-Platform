@@ -1,4 +1,4 @@
-from models.index import list_getter,commit_session, Order,User,Store, OrderItem, bulk_commit_insert_session, session
+from models.index import list_getter,commit_session, Order,User,Store,Invoice, OrderItem, bulk_commit_insert_session, session
 from .location_repository import LocationRepository
 import uuid
 class OrdersRepository():
@@ -28,6 +28,11 @@ class OrdersRepository():
     def create_order(self, order):
         new_order = Order(total_amount=order['total_amount'], user_id=uuid.UUID(order['user_id']), destination_id=uuid.UUID(order['destination_id']))
         return new_order
+    
+    @commit_session("invoice")
+    def create_invoice(self, invoice):
+        new_invoice = Invoice(invoice_no=invoice['invoice_no'], billed_phone=invoice['billed_phone'], order_id=uuid.UUID(invoice['order_id']))
+        return new_invoice
 
 class OrderItemsRepository():
     def __init__(self):
