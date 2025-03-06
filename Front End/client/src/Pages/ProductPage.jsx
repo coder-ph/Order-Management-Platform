@@ -85,7 +85,7 @@ function ProductPage() {
   const renderContent = () => {
     if (isLoading) {
       return (
-        <div className="flex justify-center items-center h-64">
+        <div>
           <p className="text-lg">Loading products...</p>
         </div>
       )
@@ -93,7 +93,7 @@ function ProductPage() {
 
     if (error) {
       return (
-        <div className="flex justify-center items-center h-64">
+        <div>
           <p className="text-lg text-red-500">Error: {error}</p>
         </div>
       )
@@ -101,12 +101,11 @@ function ProductPage() {
 
     if (filteredProducts.length === 0) {
       return (
-        <div className="flex flex-col justify-center items-center h-64">
+        <div>
           <p className="text-lg mb-2">No products found</p>
           {searchTerm && <p>Try clearing your search or selecting a different category</p>}
           {selectedCategory && (
             <button 
-              className="mt-4 px-4 py-2 bg-amber-500 text-white rounded hover:bg-amber-600"
               onClick={() => dispatch(setSelectedCategory(null))}
             >
               Clear category filter

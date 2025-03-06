@@ -2,9 +2,7 @@
   width: 100%;
   overflow-x: hidden;
 }
-.flex {
-  background-color: #333;
-}
+
 .product-page {
   min-height: 100vh;
   display: flex;
@@ -22,12 +20,12 @@
   flex-grow: 1;
   height: calc(100vh - 60px);
   max-width: 1200px;
-  margin: 0 auto;
+  /* margin: ; */
   overflow-x: hidden;
 }
 
 
-.sidebar-container {
+/* .sidebar-container {
   width: 250px;
   min-width: 250px;
   height: 100%;
@@ -39,14 +37,13 @@
   bottom: 0;
   overflow-y: auto;
   z-index: 5;
-}
+} */
 .main-content {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  /* Same as sidebar width */
   overflow-y: auto;
-  height: 100%;
+  width: 100%; 
 }
 .horizontal-category-section {
   /* padding: 1rem 2rem; */
