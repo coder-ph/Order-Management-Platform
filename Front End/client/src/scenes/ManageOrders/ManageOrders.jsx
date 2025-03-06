@@ -20,43 +20,67 @@ const Orders = ({ user }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const storeId = user?.storeId
     const isAdmin = user?.role === "admin"
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
 
     useEffect (() => {
         const fetchOrders = async () => {
+            const token = localStorage.getItem("token");
+            setLoading(true)
+            setError(null)
+            
             try {
+                if (!token) {
+                    console.error("User not authenticated redirecting to login.");
+                    navigate("/login");
+                    return;
+                }
+                
+                console.log("Token:", token);
+                
                 let url = isAdmin
                 ? `https://order-management-platform.onrender.com/api/v1/orders/my-store/${storeId}`
-                : `https://order-management-platform.onrender.com/api/v1/orders`
-
-                const resp = await axios.get(url, {
+                : `https://order-management-platform.onrender.com/api/v1/orders`;
+                
+                console.log("Fetching orders from:", url);
+    
+                const response = await fetch(url, {
                     headers: {
-                        Authorization: `Bearer ${user?.token}`,
-                        },
-                })
-
-                console.log("Fetched orders", resp.data)
-
-        
-
-                if (resp.data?.data) {
-                    const formattedOrders = resp.data.data.map(order => ({
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                });
+    
+                console.log("Response status:", response.status);
+    
+                if (!response.ok) {
+                    throw new Error("Failed to fetch orders.");
+                }
+    
+                const data = await response.json();
+                console.log("Orders data:", data);
+    
+                if (data?.data) {
+                    const formattedOrders = data.data.map(order => ({
                         id: order.id,
                         customer: order.user_id,
                         order_items: order.order_items,
                         total_amount: order.total_amount,
                         status: order.status,
                         destination: order.destination
-                    }))
-                    setOrders(formattedOrders)
+                    }));
+                    setOrders(formattedOrders);
                 }
             } catch (error) {
-                console.error("Error fetching orders", error)
+                console.error("Error fetching orders:", error);
+                setError(error.message);
+            } finally {
+                setLoading(false);
             }
-        }
-        if(user?.token) {
-        fetchOrders()
-        }
-    }, [isAdmin, storeId, user?.token])
+        };
+    
+        fetchOrders();
+    }, [isAdmin, storeId, user?.token]);    
 
     const handleStatusChange = (id, newStatus) => {
         setOrders((prevOrders) =>
@@ -76,7 +100,8 @@ const Orders = ({ user }) => {
         setIsModalOpen(false);
         setSelectedOrder(null)
     }
-   
+
+    
 
 
     const columns = [
@@ -85,7 +110,7 @@ const Orders = ({ user }) => {
             headerName: 'Order ID', 
             flex: 1, 
             renderCell: ({ row }) => (
-                <Button style={{ color: "#a3a3a3" }}component="span" onClick={() => handleIdClick(row.id)}>{row.id}</Button>
+                <Button style={{ color: "#a3a3a3" }}component="span" onClick={() => handleRowClick(row.id)}>{row.id}</Button>
             ) 
         },
         { 
@@ -120,19 +145,21 @@ const Orders = ({ user }) => {
                 sx={{
                     width:"100%",
                     color:
-                    row.status === "Processed" ? colors.greenAccent[100] : 
-                    row.status === "Pending" ? colors.blueAccent[100] :
-                    row.status === "Delivered" ? colors.blueAccent[500] :
-                    row.status === "Cancelled" ? colors.redAccent[500] :
+                    row.status === "COMPLETED" ? colors.greenAccent[100] : 
+                    row.status === "PENDING" ? colors.blueAccent[100] :
+                    row.status === "IN PROGRESS" ? colors.blueAccent[500] :
+                    row.status === "CANCELLED" ? colors.redAccent[500] :
+                    row.status === "REJECTED" ? colors.greenAccent[500] : 
                     colors.grey[500],
                     borderRadius: "5px",
                     padding: "5px",
                 }}
                 >
-                    <MenuItem value="Processed">Processed</MenuItem>
-                    <MenuItem value="Pending">Pending</MenuItem>
-                    <MenuItem value="Delivered">Delivered</MenuItem>
-                    <MenuItem value="Cancelled">Cancelled</MenuItem>
+                    <MenuItem value={order_status.COMPLETE}>Processed</MenuItem>
+                    <MenuItem value={order_status.PENDING}>Pending</MenuItem>
+                    <MenuItem value={order_status.IN_PROGRESS}>In progress</MenuItem>
+                    <MenuItem value={order_status.CANCELLED}>Cancelled</MenuItem>
+                    <MenuItem value={order_status.REJECTED}>Rejected</MenuItem>
                 </Select>
                 ),
         }
