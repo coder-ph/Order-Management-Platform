@@ -13,3 +13,4 @@ SQLAlchemy
 gunicorn
 psycopg2
 requests
+faker
