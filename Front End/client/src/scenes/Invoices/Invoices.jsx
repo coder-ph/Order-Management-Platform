@@ -26,7 +26,7 @@ const Invoices = () => {
 
 
 
-const response = await fetch(`${API_URL}/v1/invoices`, {
+const response = await fetch(`${API_URL}/api/v1/orders/invoices`, {
   headers: {
     Authorization: `Bearer ${token}`,
     "Content-Type": "application/json",

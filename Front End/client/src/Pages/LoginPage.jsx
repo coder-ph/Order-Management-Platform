@@ -23,32 +23,43 @@ const LoginForm = () => {
         .email("Invalid email address")
         .required("Email is required"),
       password: Yup.string()
-        .min(8, "Password must be at least 8 characters")
+        .min(4, "Password must be at least 8 characters")
         .required("Password is required"),
     }),
     onSubmit: async (values) => {
       try {
         setLoginError("");
 
-        const response = await axios.post(`${API_URL}/vi/sign-in`, values);
+        const credentials = {
+          email: "m.o.shelton@gmail.com",
+          password: "shelton",
+        };
+        const email = document.getElementById('email').value
+        const password = document.getElementById("password").value;
+        console.log(email, password)
 
-        const { role, access_token } = response.data; 
-        console.log(role, access_token)
-       
+        const response = await axios.get(`${API_URL}/api/v1/users`, {
+          params: {
+            email: email,
+            password: password,
+          },
+        });
+        console.log(response);
+        const { role, access_token } = response.data;
+        console.log(role, access_token);
+
         localStorage.setItem("token", access_token);
 
-        
         const roleRoutes = {
-          admin: "/dashboard/main", 
-          user: "/user-products", 
+          admin: "/dashboard/main",
+          user: "/user-products",
           driver: "/driver",
         };
 
-        
         if (roleRoutes[role]) {
-          navigate(roleRoutes[role]); 
+          navigate(roleRoutes[role]);
         } else {
-          navigate("/"); 
+          navigate("/");
         }
       } catch (error) {
         setLoginError(
