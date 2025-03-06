@@ -18,15 +18,15 @@ def seed_location():
 # Create sample users
 def seed_users(locations):
     users = []
-    for _ in range(10):
+    for loc in range(locations):
         user = User(
             first_name=fake.first_name(),
             last_name=fake.last_name(),
-            phone_no=fake.phone_number(),
+            phone_no=random_string,
             email=fake.email(),
             role='user',  # Adjust as needed
             password='password123',  # Ensure hashing is handled in the model
-            location_id=fake.random_element(elements=[loc.id for loc in locations])
+            location_id= loc.id
         )
         users.append(user)
 

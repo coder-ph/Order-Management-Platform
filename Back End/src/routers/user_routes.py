@@ -55,6 +55,6 @@ def userRoutes(api):
     api.add_resource(RequestOTP, f"{base}/otp")
     api.add_resource(VerifyOTP, f"{base}/otp/verify")
     
-    api.add_resource(GetAllUsers, f'{base}/users/all')
+    api.add_resource(GetAllUsers, f'{base}/all')
     
     
