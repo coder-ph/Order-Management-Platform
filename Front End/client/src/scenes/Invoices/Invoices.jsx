@@ -32,6 +32,7 @@ const response = await fetch(`${API_URL}/api/v1/orders/invoices`, {
     "Content-Type": "application/json",
   },
 });
+  console.log(response)
 
         console.log("Response status:", response.status); 
 

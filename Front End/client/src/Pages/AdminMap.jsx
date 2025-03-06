@@ -8,7 +8,6 @@ import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import carShipping from "../assets/icons/local_shipping_20dp_EA3323_FILL0_wght400_GRAD0_opsz20.svg";
 import io from "socket.io-client";
 
-
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x,
@@ -26,15 +25,14 @@ const vehicleIcon = new L.Icon({
 
 const AdminMap = () => {
   const [userLocation, setUserLocation] = useState(null);
-  const [vehicles, setVehicles] = useState([]); 
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
+  const [vehicles, setVehicles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
- 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setUserLocation([position.coords.latitude, position.coords.longitude]);
+        setUserLocation([position.coords.lattitude, position.coords.longitude]);
       },
       (error) => {
         console.error("Error fetching user location:", error);
@@ -42,29 +40,25 @@ const AdminMap = () => {
     );
   }, []);
 
-  
   useEffect(() => {
-    const socket = io("https://your-websocket-server.com"); 
+    const socket = io("https://your-websocket-server.com");
 
-    
     socket.on("vehicleLocationUpdate", (data) => {
-      setVehicles(data); 
+      setVehicles(data);
       setLoading(false);
     });
 
-    
     socket.on("error", (err) => {
       setError(err.message);
       setLoading(false);
     });
 
-    
     return () => {
       socket.disconnect();
     };
   }, []);
 
-  const center = userLocation || [1.2921, 36.8219]; 
+  const center = userLocation || [1.2921, 36.8219];
   return (
     <div className="flex h-screen w-screen">
       <div className="h-screen w-screen">
@@ -77,13 +71,13 @@ const AdminMap = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-         
+
           {userLocation && (
             <Marker position={userLocation}>
               <Popup>You are here</Popup>
             </Marker>
           )}
-         
+
           {loading ? (
             <p>Loading vehicle data...</p>
           ) : error ? (

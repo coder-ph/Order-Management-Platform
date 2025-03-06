@@ -12,7 +12,28 @@ import { jwtDecode } from "jwt-decode";
 const LoginForm = () => {
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState("");
-  const API_URL = import.meta.env.VITE_APP_USER_SERVER; // VITE_APP_USER_SERVER /{end point -}/api/vi/user
+  const API_URL = import.meta.env.VITE_APP_USER_SERVER; 
+
+  
+  const getUserLocation = () => {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            resolve({ lattitude, longitude });
+          },
+          (error) => {
+            reject(
+              "Unable to retrieve your location. Please enable location access."
+            );
+          }
+        );
+      } else {
+        reject("Geolocation is not supported by your browser.");
+      }
+    });
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -31,16 +52,20 @@ const LoginForm = () => {
       try {
         setLoginError("");
 
-        // const credentials = {
-        //   email: "m.o.shelton@gmail.com",
-        //   password: "shelton",
-        // };
+        
+        const location = await getUserLocation();
+        console.log("User location:", location);
 
-        const email = document.getElementById('email').value
+       
+        localStorage.setItem("userLocation", JSON.stringify(location));
+
+       
+        const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
-        console.log(email, password)
+        console.log(email, password);
 
+        
         const response = await axios.get(`${API_URL}/api/v1/users`, {
           params: {
             email: email,
@@ -48,21 +73,28 @@ const LoginForm = () => {
           },
         });
         console.log(response);
-       
-        const accessToken = response.data.data.token
-        const decode = jwtDecode(accessToken)
-        console.log(decode)
-        const localtoken = localStorage.setItem("token", accessToken);
+
         
-        const userId = decode.id
-        const role = decode.role
-        console.log(userId, role)
+        const accessToken = response.data.data.token;
+        const decode = jwtDecode(accessToken);
+        console.log(decode);
+
+        
+        localStorage.setItem("token", accessToken);
+
+        
+        const userId = decode.id;
+        const role = decode.role;
+        console.log(userId, role);
+
+        
         const roleRoutes = {
           admin: "/dashboard/main",
           user: "/user-products",
           driver: "/driver",
         };
 
+        
         if (roleRoutes[role]) {
           navigate(roleRoutes[role]);
         } else {

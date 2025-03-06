@@ -1,18 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const PaymentModal = ({ totalAmount, onClose, onSubmit, orderId }) => {
+const PaymentModal = ({ totalAmount, onClose, onSubmit }) => {
   const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [isPaymentMade, setIsPaymentMade] = useState(false);
+
+  
+  useEffect(() => {
+    const paymentMade = localStorage.getItem(
+      `payment_made_${localStorage.getItem("order_id")}`
+    );
+    if (paymentMade === "true") {
+      setIsPaymentMade(true);
+    }
+  }, []);
 
   const handleSubmit = async () => {
     const API_URL = import.meta.env.VITE_APP_USER_URL;
 
-    // Validate phone number
+    
     if (!phoneNumber || !/^\+2547\d{8}$/.test(phoneNumber)) {
       setError(
         "Please enter a valid Kenyan phone number (format: +2547XXXXXXXX)."
@@ -20,42 +31,51 @@ const PaymentModal = ({ totalAmount, onClose, onSubmit, orderId }) => {
       return;
     }
 
+    
+    if (isPaymentMade) {
+      setError("Payment has already been made for this order.");
+      return;
+    }
+
     setIsLoading(true);
     setError("");
 
     try {
-      
-      const authToken = localStorage.getItem("token"); 
-      console.log(authToken);
+   
+      const authToken = localStorage.getItem("token");
+      const orderId = localStorage.getItem("order_id");
 
-    
-      const payload = {
-        order_id: orderId, 
-        amount: totalAmount.toString(), 
-        billed_phone: phoneNumber.replace("+", ""), 
-      };
+      console.log("Auth Token:", authToken);
+      console.log("Order ID:", orderId);
 
-      console.log("Payload:", payload);
-
-      
+     
       const response = await axios.post(
         `${API_URL}/api/v1/orders/checkout`,
-        payload, 
+        {
+          billed_phone: phoneNumber,
+          amount: totalAmount,
+          order_id: orderId,
+        },
         {
           headers: {
-            Authorization: `Bearer ${authToken}`, // Include the authorization token
+            Authorization: `Bearer ${authToken}`,
           },
         }
       );
 
       console.log("Response:", response);
 
-      // Handle response
-      if (response.status === 200 && response.data.ResponseCode === "0") {
-        setPaymentSuccess(true);
-        onSubmit(phoneNumber); // Notify parent component of successful payment
+      
+      if (response.data.data.invoice_no ) {
+        
+        localStorage.setItem(`payment_made_${orderId}`, "true");
+        setIsPaymentMade(true);
 
-        // Redirect to track-order page after 3 seconds
+        
+        setPaymentSuccess(true);
+        onSubmit(phoneNumber);
+
+       
         setTimeout(() => {
           navigate("/track-order");
         }, 3000);
@@ -92,7 +112,10 @@ const PaymentModal = ({ totalAmount, onClose, onSubmit, orderId }) => {
             />
             {error && <p className="error">{error}</p>}
             <div className="modal-buttons">
-              <button onClick={handleSubmit} disabled={isLoading}>
+              <button
+                onClick={handleSubmit}
+                disabled={isLoading || isPaymentMade}
+              >
                 {isLoading ? "Processing..." : "Submit"}
               </button>
               <button onClick={onClose}>Cancel</button>

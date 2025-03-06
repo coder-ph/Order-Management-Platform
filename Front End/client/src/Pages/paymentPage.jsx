@@ -6,6 +6,7 @@ import {
   removeFromCart,
   updateCartItem,
 } from "../Redux/Order/orderActions";
+import axios from "axios";
 import "../assets/styles/payment.css";
 import { FaTrashAlt } from "react-icons/fa";
 
@@ -47,18 +48,65 @@ const PaymentPage = () => {
     navigate(-1);
   };
 
-const handleCheckout = () => {
-  navigate("/checkout", { state: { cart, totalPrice: subtotal } });
-};
+  const handleCheckout = async () => {
+    try {
+      const userLocation = JSON.parse(localStorage.getItem("userLocation"));
+      const { latitude, longitude } = userLocation || {
+        lattitude: null,
+        longitude: null,
+      };
+
+      if (!latitude || !longitude) {
+        alert("Location is required to proceed with payment.");
+      }
+
+      const orderItems = cart.map((item) => ({
+        quantity: item.quantity.toString(),
+        product_id: item.id,
+      }));
+
+      const payload = {
+        total_amount: subtotal.toFixed(2),
+        order_items: orderItems,
+        location: {
+          lattitude: latitude.toString(),
+          longitude: longitude.toString(),
+        },
+      };
+
+      console.log("Payload:", payload);
+
+      const API_URL = import.meta.env.VITE_APP_USER_SERVER;
+      const response = await axios.post(`${API_URL}/api/v1/orders`, payload, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.status === 200) {
+        console.log(response);
+        console.log(response.data.data.id)
+        localStorage.setItem('order_id',response.data.data.id)
+        
+
+        navigate("/checkout", { state: { cart, totalPrice: subtotal } });
+      } else {
+        alert("Failed to create order. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error creating order:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
 
   return (
-    <div className="payment-page">
+    <div className="payment-page pl-6">
       <div className="cart-items-container">
         <h1>Payment Page</h1>
 
         <div className="delivery-slot">
           <p>Standard Today 2 PM - 4 PM</p>
-          <p>Change this delivery slot at checkout</p>
+          <p className="font-semibold">Change this delivery slot at checkout</p>
         </div>
 
         <div className="cart-items">
