@@ -209,6 +209,7 @@
     scroll-behavior: smooth;
     scrollbar-width: 2px;
 }
+
 /* InventoryDialog */
 .products-dialog {
     position: fixed;

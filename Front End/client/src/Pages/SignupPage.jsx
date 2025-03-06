@@ -12,7 +12,8 @@ const SignupPage = () => {
   const [error, setError] = useState("");
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const API_URL = import.meta.env.VITE_APP_USER_URL;
+  const API_URL = "https://order-management-platform.onrender.com"
+  console.log("Here is the Url:", API_URL)
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -21,20 +22,26 @@ const SignupPage = () => {
   
   const formik = useFormik({
     initialValues: {
-      username: "",
+      first_name: "",
+      last_name: "",
       email: "",
       password: "",
-      phone: "",
-      address: "",
+      phone_no: "",
+      location:{ longitude: "", lattitude: "" },
     },
     validate: (values) => {
       const errors = {};
 
       
-      if (!values.username) {
-        errors.username = "Username required";
-      } else if (values.username.length < 5) {
-        errors.username = "Username must be at least 5 characters";
+      if (!values.first_name) {
+        errors.first_name = "First name is required";
+      } else if (values.first_name.length < 3) {
+        errors.first_name = "First name must be at least 3 characters";
+      }
+      if (!values.last_name) {
+        errors.last_name = "Last name is required";
+        } else if (values.last_name.length < 3) {
+          errors.last_name = "Last name must be at least 3 characters";
       }
 
       
@@ -52,8 +59,8 @@ const SignupPage = () => {
       }
 
     
-      if (values.phone && !/^\d{10}$/.test(values.phone.replace(/\D/g, ""))) {
-        errors.phone = "Please enter a valid phone number";
+      if (values.phone_no && !/^\d{10}$/.test(values.phone_no.replace(/\D/g, ""))) {
+        errors.phone_no = "Please enter a valid phone number";
       }
 
       return errors;
@@ -64,7 +71,7 @@ const SignupPage = () => {
 
       try {
         
-        const response = await fetch(`${API_URL}/v1/create_user`, {
+        const response = await fetch(`${API_URL}/api/v1/users`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -101,6 +108,17 @@ const SignupPage = () => {
     console.log("Google Sign In Clicked");
   };
 
+  // const handleLocationChange = (e) => {
+  //   const input = e.target.value;
+  //   const [lng, lat] = input.split(",").map(coord => coord.trim()); // Trim spaces
+  
+  //   // Check if values are valid numbers before updating state
+  //   if (!isNaN(lng) && !isNaN(lat) && lng !== "" && lat !== "") {
+  //     formik.setFieldValue("location", input);
+  //   }
+  // };
+  
+
   return (
     <div className="signup-page">
       <div className="signup-container">
@@ -129,25 +147,49 @@ const SignupPage = () => {
               <form onSubmit={formik.handleSubmit}>
               
                 <div className="form-field">
-                  <label htmlFor="username">Username</label>
+                  <label htmlFor="first_name">First Name</label>
                   <input
-                    id="username"
-                    name="username"
+                    id="first_name"
+                    name="first_name"
                     type="text"
-                    placeholder="Enter username"
-                    value={formik.values.username}
+                    placeholder="Enter First name"
+                    value={formik.values.first_name}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     required
                     className={
-                      formik.touched.username && formik.errors.username
+                      formik.touched.first_name && formik.errors.first_name
                         ? "input-error"
                         : ""
                     }
                   />
-                  {formik.touched.username && formik.errors.username && (
+                  {formik.touched.last_name && formik.errors.last_name && (
                     <small className="error-text">
-                      {formik.errors.username}
+                      {formik.errors.first_name}
+                    </small>
+                  )}
+                </div>
+
+                <div className="form-field">
+                  <label htmlFor="last_name">Last name</label>
+                  <input
+                    id="last_name"
+                    name="last_name"
+                    type="text"
+                    placeholder="Enter Last Name"
+                    value={formik.values.last_name}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    required
+                    className={
+                      formik.touched.last_name && formik.errors.last_name
+                        ? "input-error"
+                        : ""
+                    }
+                  />
+                  {formik.touched.last_name && formik.errors.last_name && (
+                    <small className="error-text">
+                      {formik.errors.last_name}
                     </small>
                   )}
                 </div>
@@ -212,39 +254,53 @@ const SignupPage = () => {
 
                
                 <div className="form-field">
-                  <label htmlFor="phone">Phone Number</label>
+                  <label htmlFor="phone_no">Phone Number</label>
                   <input
-                    id="phone"
-                    name="phone"
+                    id="phone_no"
+                    name="phone_no"
                     type="tel"
                     placeholder="Enter phone number"
-                    value={formik.values.phone}
+                    value={formik.values.phone_no}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     className={
-                      formik.touched.phone && formik.errors.phone
+                      formik.touched.phone_no && formik.errors.phone_no
                         ? "input-error"
                         : ""
                     }
                   />
-                  {formik.touched.phone && formik.errors.phone && (
-                    <small className="error-text">{formik.errors.phone}</small>
+                  {formik.touched.phone_no && formik.errors.phone_no && (
+                    <small className="error-text">{formik.errors.phone_no}</small>
                   )}
                 </div>
 
               
                 <div className="form-field">
-                  <label htmlFor="address">Address</label>
-                  <textarea
-                    id="address"
-                    name="address"
-                    placeholder="Enter your address"
-                    value={formik.values.address}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    rows="2"
+                  <label htmlFor="longitude">Longitude</label>
+                  <input
+                  id="longitude"
+                  name="longitude"
+                  type="text"
+                  placeholder="Enter Longitude"
+                  value={formik.values.location.longitude}
+                  onChange={(e) => formik.setFieldValue("location", {...formik.values.location, longitude: e.target.value})} 
                   />
-                </div>
+
+                  </div>
+
+                  <div className="form-field">
+                    <label htmlFor="lattitude">Latitude</label>
+                    <input
+                    id="lattitude"
+                    name="lattitude"
+                    type="text"
+                    placeholder="Enter lattitude"
+                    value={formik.values.location.lattitude}
+                    onChange={(e) => formik.setFieldValue("location", {...formik.values.location, lattitude: e.target.value})} 
+                    />
+
+                    </div>
+
 
                
                 <MainButton type="submit" disabled={loading}>

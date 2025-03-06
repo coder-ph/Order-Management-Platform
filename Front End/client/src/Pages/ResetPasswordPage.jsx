@@ -1,20 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { MainButton } from "../Components/Buttons/Buttons";
+import { MainButton } from "../Components/Buttons/Button";
 import coverImage from "../assets/Images/inventory-management.jpg";
 import "../assets/styles/ResetPasswordPage.css";
 import axios from "axios"; 
 
 const ResetPasswordPage = () => {
-  const [code, setCode] = useState(["", "", "", ""])
-  const [email, setEmail] = useState("")
-  const [error, setError] = useState("")
-  const [timer, setTimer] = useState(45)
-  const [resendDisabled, setResendDisabled] = useState(true)
-  const [submitting, setSubmitting] = useState(false)
-  const inputs = useRef([])
-  const navigate = useNavigate()
-  const location = useLocation()
+  const [code, setCode] = useState(["", "", "", "", "", ""]);
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [timer, setTimer] = useState(60);
+  const [resendDisabled, setResendDisabled] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const inputs = useRef([]);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const userEmail =
@@ -27,8 +27,8 @@ const ResetPasswordPage = () => {
   }, [])
 
   const startResendTimer = () => {
-    setResendDisabled(true)
-    setTimer(45)
+    setResendDisabled(true);
+    setTimer(60);
 
     const interval = setInterval(() => {
       setTimer((prevTimer) => {
@@ -44,14 +44,14 @@ const ResetPasswordPage = () => {
   }
 
   const validateCode = () => {
-    const codeString = code.join("")
-    if (codeString.length !== 4) {
-      setError("Please enter 4 digits")
-      return false
+    const codeString = code.join("");
+    if (codeString.length !== 6) {
+      setError("Please enter 6 digits");
+      return false;
     }
-    if (!/^\d{4}$/.test(codeString)) {
-      setError("Code must contain numbers only")
-      return false
+    if (!/^\d{6}$/.test(codeString)) {
+      setError("Code must contain numbers only");
+      return false;
     }
     return true
   }
@@ -64,8 +64,8 @@ const ResetPasswordPage = () => {
     setCode(newCode)
     setError("")
 
-    if (value !== "" && index < 3) {
-      inputs.current[index + 1]?.focus()
+    if (value !== "" && index < 5) {
+      inputs.current[index + 1]?.focus();
     }
   }
 
@@ -78,15 +78,15 @@ const ResetPasswordPage = () => {
   const handlePaste = (e) => {
     e.preventDefault()
 
-    const pasted = e.clipboardData.getData("text").slice(0, 4)
-    if (!/^\d{4}$/.test(pasted)) {
-      setError("Pasted content must contain numbers only")
-      return
+    const pasted = e.clipboardData.getData("text").slice(0, 6);
+    if (!/^\d{6}$/.test(pasted)) {
+      setError("Pasted content must contain numbers only");
+      return;
     }
-    const newCode = pasted.split("").concat(Array(4).fill("")).slice(0, 4)
-    setCode(newCode)
-    setError("")
-  }
+    const newCode = pasted.split("").concat(Array(6).fill("")).slice(0, 6);
+    setCode(newCode);
+    setError("");
+  };
 
   const handleGetResetPassword = async () => {
     if (!validateCode()) return
@@ -97,7 +97,8 @@ const ResetPasswordPage = () => {
     try {
       const verificationCode = code.join("")
 
-      const response = await axios.post("/api/verify-reset-code", {
+      // Send the verification code to the backend for validation
+      const response = await axios.post(`https:'//order-management-platform.onrender.com/api/v1/users/otp/verify?key=${email}&token=${verificationCode} `, {
         email,
         code: verificationCode,
       })
@@ -121,13 +122,14 @@ const ResetPasswordPage = () => {
     try {
       setSubmitting(true)
 
-      const response = await axios.post("/api/resend-reset-code", { email })
+      // Send a request to resend the reset code
+      const response = await axios.post("https://order-management-platform.onrender.com/api/v1/users/otp/resend", { key : email });
 
       if (response.data.success) {
-        startResendTimer()
-        setCode(["", "", "", ""])
-        setError("")
-        inputs.current[0]?.focus()
+        startResendTimer();
+        setCode(["", "", "", "", "", ""]);
+        setError("");
+        inputs.current[0]?.focus();
       } else {
         setError("Failed to resend the code. Please try again.")
       }
@@ -144,7 +146,7 @@ const ResetPasswordPage = () => {
       <div className="reset-pass-container">
         <div className="reset-pass-left">
           <h1>
-            The Optimal<br></br> Order<br></br> Management System
+            The Optimal<br /> Order<br /> Management System
           </h1>
           <p>Manage your orders with ease</p>
           <img src={coverImage} alt="cover" className="cover-image" />
@@ -181,7 +183,7 @@ const ResetPasswordPage = () => {
             onClick={handleGetResetPassword}
             disabled={submitting}
             className="reset-pass-button"
-            style={{ margin: "10px auto" }}
+            style={{ margin: "10px auto", backgroundColor:"#141b2d" }}
           >
             {submitting ? "Verifying..." : "Get Reset Password"}
           </MainButton>
@@ -194,8 +196,8 @@ const ResetPasswordPage = () => {
             }`}
             style={{
               backgroundColor: "transparent",
-              color: "#7e0404",
-              border: "1px solid #7e0404",
+              color: "#141b2d",
+              border: "1px solid #141b2d",
             }}
           >
             {resendDisabled ? `Resend code in ${timer}s` : "Resend code"}
