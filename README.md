@@ -214,10 +214,10 @@ Licensed under the [MIT License](LICENSE).
 ## 📬 Contact
 
 For inquiries, reach out to:
-**Patricia Kamanthe** - **[patriciamumbua97@gmail.com](mailto\:patriciamumbua97@gmail.com)**\
 **Debrah Navajjah Muinde** - **[debbynav645@gmail.com](mailto\:debbynav645@gmail.com)**\
 **Ken Maina** - **[mainakenken188@gmail.com](mailto\:mainakenken188@gmail.com)**\
 **Christopher Karanja Ng'ang'a** - **[karanjamikey@gmail.com](mailto\:karanjamikey@gmail.com)**\
+**Patricia Kamanthe** - **[patriciamumbua97@gmail.com](mailto\:patriciamumbua97@gmail.com)**\
 **Phelix Odhiambo** - **[phelixmbani@gmail.com](mailto\:phelixmbani@gmail.com)**\
 **MCdonald Omondi** - **[m.o.shellton@gmail.com](mailto\:m.o.shellton@gmail.com)**
 
