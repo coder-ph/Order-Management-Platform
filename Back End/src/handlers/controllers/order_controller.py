@@ -46,7 +46,6 @@ def get_merchant_orders(store_id):
 def get_user_orders():
     user = g.user
     try:
-        
         orders = ordersService.get_user_orders(user['id'])
         return {"message":"user orders","data":orders}
     except Exception as e:

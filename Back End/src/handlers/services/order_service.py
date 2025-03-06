@@ -52,4 +52,5 @@ class OrderService():
         invoice.pop('amount')
         invoice = self.order_repo.create_invoice(invoice)
         return invoice
-        
+    def confirm_transaction(self, req_id, status, rec_no, stk_callback):
+        pass
