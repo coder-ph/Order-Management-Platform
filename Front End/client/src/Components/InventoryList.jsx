@@ -4,7 +4,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 
-const ProductList = ({ products, handleStatusChange }) => {
+const ProductList = ({ products, handleStatusChange, onEdit, onDelete }) => {
     const getStatusColor = (status) => { 
         const statusStr = String(status)
 
@@ -57,21 +57,12 @@ const ProductList = ({ products, handleStatusChange }) => {
         } else {
             setActiveDropdown(productId);
         }
-    };
+    } 
 
     // Close dropdown when clicking outside
     const handleClickOutside = () => {
         setActiveDropdown(null);
     };
-
-
-
-    // const filteredProducts = products.filter(product => {
-    //     if (!filters || !filters.status) {
-    //         return true
-    //     }
-    //     return product.status === filters.status
-    //})
     
     return (
         <div className="card" onClick={handleClickOutside}>
@@ -94,16 +85,16 @@ const ProductList = ({ products, handleStatusChange }) => {
                                     <div className="product-info">
                                         <img
                                             src={product.image || '/api/placeholder/48/48'}
-                                            alt={product.name}
+                                            alt={product.product_name}
                                         />
                                         <div>
-                                            <div className="product-name-inventory-list">{product.name}</div>
-                                            <div className="product-category">{product.category}</div>
+                                            <div className="product-name-inventory-list">{product.product_name}</div>
+                                            <div className="product-category">{product.category_name}</div>
                                         </div>
                                     </div>
                                 </td>
-                                <td>${product.price.toFixed(2)}</td>
-                                <td>{product.stock}</td>
+                                <td>${parseFloat(product.price).toFixed(2)}</td>
+                                <td>{product.quantity}</td>
                                 <td>
                                 <select 
                                         value={product.status || 'pending'}
@@ -190,7 +181,6 @@ const ProductList = ({ products, handleStatusChange }) => {
                                             </div>
                                         )}
                                     </div>
-                                    {/* <MainButton onClick={() => {viewproduct}}  style={{backgroundColor:'transparent', textAlign:'center', marginRight:'5px', color:'#4cceac'}}><FaRegEdit /></MainButton> */}
                                 </td>
                             </tr>
                         ))}

@@ -3,8 +3,8 @@ import { MainButton } from "../Components/Buttons/Button";
 
 const FilterPopup = ({ filters, setFilters, categories }) => {
     const orderStatus = ['pending', 'accepted','rejected', 'canceled', 'assigned', 'delivered']
-
-    return ( 
+    
+    return (
         <div className="filter-pop">
             <div className="filter-content">
                 <div className="filter-grp">
@@ -14,7 +14,8 @@ const FilterPopup = ({ filters, setFilters, categories }) => {
                         onChange={(e) => setFilters({ ...filters, category: e.target.value })}
                     >
                         <option value=''>All Categories</option>
-                        {categories.map((category) => (
+                        
+                        {categories && categories.map((category) => (
                             <option key={category} value={category}>
                                 {category}
                             </option>
@@ -57,4 +58,4 @@ const FilterPopup = ({ filters, setFilters, categories }) => {
     )
 }
 
-export default FilterPopup
+export default FilterPopup;
