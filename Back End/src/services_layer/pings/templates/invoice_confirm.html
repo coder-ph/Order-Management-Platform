@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice Credit Notification</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f5f7fa; 
+            padding: 20px; 
+            margin: 0; 
+            color: #333;
+        }
+        .container { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 12px; 
+            max-width: 600px; 
+            margin: 20px auto; 
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08); 
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #38a169;
+        }
+        .header { 
+            color: #2d3748; 
+            margin-bottom: 25px; 
+            font-weight: 600;
+            border-bottom: 1px solid #edf2f7;
+            padding-bottom: 15px;
+        }
+        .content { 
+            line-height: 1.8; 
+            color: #4a5568; 
+            font-size: 16px;
+        }
+        .credit-details {
+            background-color: #f0fff4;
+            border: 1px solid #c6f6d5;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .credit-amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #38a169;
+            margin: 10px 0;
+        }
+        .invoice-details {
+            margin: 20px 0;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .invoice-details th, .invoice-details td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .invoice-details th {
+            background-color: #f7fafc;
+            font-weight: 600;
+        }
+        .btn { 
+            background: #38a169; 
+            color: white; 
+            padding: 14px 28px; 
+            text-decoration: none; 
+            border-radius: 6px; 
+            display: inline-block; 
+            margin-top: 25px; 
+            font-weight: bold;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+        .btn:hover {
+            background: #2f855a;
+        }
+        .footer { 
+            margin-top: 40px; 
+            color: #718096; 
+            font-size: 14px;
+            border-top: 1px solid #edf2f7;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="logo-text">COMPANY</div>
+        </div>
+        <h2 class="header">Invoice Credit Confirmation</h2>
+        <div class="content">
+            <p>Dear Ken,</p>
+            <p>We're confirming that your invoice has been credited to your account. The credit has been applied and your account has been updated accordingly.</p>
+            
+            <div class="credit-details">
+                <p><strong>Credit Note #:</strong> P4999</p>
+                <p><strong>Date:</strong> 10th feb 2028</p>
+                <p><strong>Original Invoice #:</strong> 005</p>
+                <div class="credit-amount">$ 4888/div>
+                <p><strong>Reason for Credit:</strong> grossery bought</p>
+            </div>
+            
+            <table class="invoice-details">
+                <tr>
+                    <th>Description</th>
+                    <th>Amount</th>
+                </tr>
+                <tr>
+                    <td>Mango</td>
+                    <td>kes 2000</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Credit</strong></td>
+                    <td><strong>kes 2888</strong></td>
+                </tr>
+            </table>
+            
+            <p>Your updated account balance is now <strong>$0.00</strong>.</p>
+            
+            <a href="https://company.com/account" class="btn">View Your Account</a>
+        </div>
+        <div class="footer">
+            <p>Thank you for your business,<br>The Finance Team</p>
+            <p>Questions about your invoice? Contact us at <a href="mailto:billing@company.com">billing@company.com</a></p>
+            <p>© 2025 Company, Inc. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

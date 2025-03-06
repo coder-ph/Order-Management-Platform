@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification Code</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .logo {
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        
+        p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .verification-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        
+        .verification-inputs input {
+            width: 50px;
+            height: 60px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .verification-inputs input:focus {
+            border-color: #4285f4;
+            outline: none;
+        }
+        
+        button {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        button:hover {
+            background-color: #3367d6;
+        }
+        
+        .resend {
+            color: #4285f4;
+            background: none;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
+        .timer {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .error-message {
+            color: #d93025;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="/api/placeholder/150/50" alt="Company Logo">
+        </div>
+        
+        <h1>Verification Code</h1>
+        <p>We've sent a verification code to your email. Please enter the code below to complete your registration.</p>
+        
+        <div class="error-message" id="error-message">
+            Invalid verification code. Please try again.
+        </div>
+        
+        <form id="verification-form">
+            <div class="verification-inputs">
+                <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required id="code-1">
+                <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required id="code-2">
+                <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required id="code-3">
+                <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required id="code-4">
+                <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required id="code-5">
+                <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required id="code-6">
+            </div>
+            
+            <button type="submit" id="verify-button">Verify</button>
+        </form>
+        
+        <div class="timer" id="timer">Resend code in <span id="countdown">60</span> seconds</div>
+        <button class="resend" id="resend-button" disabled>Resend Code</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.verification-inputs input');
+            const form = document.getElementById('verification-form');
+            const errorMessage = document.getElementById('error-message');
+            const resendButton = document.getElementById('resend-button');
+            const countdownSpan = document.getElementById('countdown');
+            const timerDiv = document.getElementById('timer');
+            
+          
+            inputs[0].focus();
+            
+            
+            inputs.forEach((input, index) => {
+                input.addEventListener('input', function(e) {
+                    
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                    
+                    if (this.value && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                });
+                
+                
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && !this.value && index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                });
+            });
+            
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+               
+                let code = '';
+                inputs.forEach(input => {
+                    code += input.value;
+                });
+                
+                
+                if (code.length !== 6) {
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'Please enter all 6 digits.';
+                    return;
+                }
+                
+                
+                console.log('Verifying code:', code);
+                
+                
+                if (code === '123456') { 
+                    window.location.href = '/dashboard.html'; 
+                } else {
+                    
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'Invalid verification code. Please try again.';
+                    
+                   
+                    inputs.forEach(input => {
+                        input.value = '';
+                    });
+                    inputs[0].focus();
+                }
+            });
+            
+          
+            let countdown = 60;
+            
+            function updateCountdown() {
+                countdownSpan.textContent = countdown;
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    resendButton.disabled = false;
+                    timerDiv.style.display = 'none';
+                } else {
+                    countdown--;
+                }
+            }
+            
+            let timer = setInterval(updateCountdown, 1000);
+            
+            
+            resendButton.addEventListener('click', function() {
+              
+                console.log('Resending verification code');
+                
+                
+                countdown = 60;
+                updateCountdown();
+                timer = setInterval(updateCountdown, 1000);
+                
+                
+                resendButton.disabled = true;
+                timerDiv.style.display = 'block';
+                
+               
+                inputs.forEach(input => {
+                    input.value = '';
+                });
+                inputs[0].focus();
+                
+                errorMessage.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

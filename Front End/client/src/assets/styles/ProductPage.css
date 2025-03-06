@@ -1,13 +1,18 @@
+.html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+.flex {
+  background-color: #333;
+}
 .product-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   width: 100%;
+  overflow-x: hidden;
 }
-.flexxx{
-  display: flex;
-  width: screen;
-}
+
 .navbar {
   width: 100%;
   z-index: 10;
@@ -15,8 +20,13 @@
 .page-content {
   display: flex;
   flex-grow: 1;
-  height: calc(100vh - 60px); 
+  height: calc(100vh - 60px);
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow-x: hidden;
 }
+
+
 .sidebar-container {
   width: 250px;
   min-width: 250px;
@@ -64,11 +74,11 @@
   height: 4px;
 }
 .category-items::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
   border-radius: 10px;
 }
 .category-items::-webkit-scrollbar-thumb {
-  background: #888;
+  background: transparent;
   border-radius: 10px;
 }
 .category-nav-buttons {
@@ -90,12 +100,19 @@
 .prods-container {
   padding: 2rem 2rem;
   flex-grow: 1;
+  gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200, 1fr));
+  max-width: 100%;
 }
 .prods-title {
   margin-bottom: 2rem;
   font-size: 1.5rem;
   color: #333;
 }
+
+
+
 
 @media (max-width: 768px) {
   .sidebar-container {
@@ -108,4 +125,4 @@
   .category-nav-buttons {
     display: none;
   }
-}
+} 

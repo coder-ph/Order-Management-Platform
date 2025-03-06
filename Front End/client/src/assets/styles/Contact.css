@@ -48,10 +48,87 @@ p {
     color: white;
 }
 
+
   
 .contact-form textarea {
     height: 100px;
     resize: none;
 }
   
-  
+/* Default styles remain unchanged */
+
+/* For laptops & medium screens (992px and below) */
+@media (max-width: 992px) {
+    .contact-container {
+        padding: 40px;
+    }
+
+    .contacts-section h2 {
+        font-size: 28px; /* Slightly smaller heading */
+    }
+
+    p {
+        font-size: 14px; /* Adjust font size for better readability */
+    }
+
+    .input-row {
+        gap: 10px; /* Reduce spacing */
+    }
+}
+
+/* For tablets (768px and below) */
+@media (max-width: 768px) {
+    .contacts-section {
+        padding: 40px 30px;
+    }
+
+    .contact-container {
+        padding: 30px;
+    }
+
+    .contacts-section h2 {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    .input-row {
+        flex-direction: column; /* Stack inputs */
+        gap: 15px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        width: 100%; /* Ensure inputs span full width */
+    }
+}
+
+/* For mobile screens (576px and below) */
+@media (max-width: 576px) {
+    .contacts-section {
+        padding: 30px 20px;
+    }
+
+    .contact-container {
+        padding: 20px;
+    }
+
+    .contacts-section h2 {
+        font-size: 20px;
+    }
+
+    p {
+        font-size: 12px;
+    }
+
+    .contact-form {
+        gap: 10px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        padding: 10px; /* Slightly smaller padding */
+    }
+}

@@ -1,5 +1,5 @@
 from .client import db
-from .model_enums import OrderStatus
+from .model_enums import OrderStatus, InvoiceStatus
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, UUID, ForeignKey, Enum, Float, Integer
 import uuid
@@ -17,6 +17,7 @@ class Order(db.Model):
     user = relationship("User", back_populates="orders")
     OrderItems = relationship("OrderItem", back_populates="Order", cascade="all, delete-orphan")
     destination = relationship("Location", back_populates="order")
+    Invoice = relationship("Invoice",back_populates="Order", uselist=False)
     
     def to_dict(self):
         order_items =[]
@@ -59,7 +60,19 @@ class Invoice(db.Model):
     __tablename__ = "invoices"
     
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
-    invoice_no: Mapped[uuid.UUID] = mapped_column(String(8), unique=True, nullable=False)
-    billed_phone: Mapped[uuid.UUID] = mapped_column(String(9), nullable=False)
+    invoice_no: Mapped[str] = mapped_column(String(20), unique=True, nullable=False)
+    billed_phone: Mapped[str] = mapped_column(String(20), nullable=False)
+    order_id:Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("orders.id", ondelete="SET NULL"), nullable=False, unique=True)
+    status: Mapped[str] = mapped_column(Enum(InvoiceStatus), default=InvoiceStatus.PENDING)
+    Order = relationship("Order", back_populates="Invoice", uselist=False)
 
-    order_id:Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("orders.id", ondelete="SET NULL"), nullable=False)
+    def to_dict(self):
+        ord = self.Order.to_dict()
+        ord.pop("order_items")
+        ord.pop("destination")
+        return {
+            'invoice_no':self.invoice_no,
+            "billed_phone":self.billed_phone,
+            "order_id":str(self.order_id),
+            "Order":ord
+        }

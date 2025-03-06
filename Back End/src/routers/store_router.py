@@ -3,6 +3,7 @@ from src.config.config_map import appConfig
 from src.handlers.controllers.index import *
 from src.startup.logging import Logger
 from src.handlers.middlewares.index import auth_middleware, acl_middleware
+from src.seeding.seed import *
 
 logger = Logger("store routes file")
 
@@ -29,10 +30,16 @@ class ChangeStoreStatus(Resource):
         except Exception as e:
             return {"error":errorEnums['500']}
 
-
+class SeedData(Resource):
+    def get(self):
+        locations = seed_location()
+        print('here are the locations', locations)
+        seed_users(locations)
+        
 def storeRoutes(api):
     base = f"{appConfig.app.BASE_URL}/store"
     api.add_resource(BaseStoreMethods, f"{base}")
     api.add_resource(ChangeStoreStatus, f"{base}/status")
+    api.add_resource(SeedData, f"{base}/seed")
 
 

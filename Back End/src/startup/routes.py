@@ -4,6 +4,7 @@ from src.services_layer.utilities.constants import errorEnums
 from src.handlers.middlewares.index import *
 from src.routers.index import *
 from src.services_layer.auth.auth import *
+# from src.seeding.seed import *
 
 
 class LiveProbe(Resource):
@@ -22,4 +23,5 @@ def routerSetup(api:Api):
     productsRoutes(api)
     storeRoutes(api)
     orderRoutes(api)
+    webhooksRoutes(api)
     

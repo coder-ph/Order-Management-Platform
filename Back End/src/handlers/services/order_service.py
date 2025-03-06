@@ -1,5 +1,7 @@
 from src.handlers.repository.index import OrdersRepository, LocationRepository, OrderItemsRepository, ProductRepository, StoreRepository
-from src.error.index import ObjectNotFound, AccessLevelError
+from src.error.index import ObjectNotFound, AccessLevelError, InvalidObjectValue
+from src.services_layer.utilities.index import generate_unique_code
+from src.services_layer.daraja.index import daraja
 import uuid
 class OrderService():
     def __init__(self, order_repository:OrdersRepository,order_items_repo:OrderItemsRepository, location_repository:LocationRepository, product_repository:ProductRepository, store_repository:StoreRepository):
@@ -38,4 +40,17 @@ class OrderService():
         if not store: raise ObjectNotFound('store', 'id', store_id)
         print(str(store.owner_id), user_id)
         if not str(store.owner_id) == user_id: raise AccessLevelError("getting orders", 'store')
-        return self.order_repo.get_merchant_orderes(store_id)    
+        return self.order_repo.get_merchant_orderes(store_id)   
+
+    def create_invoice(self,invoice):
+        order = self.order_repo.get_order_by_id(invoice['order_id'])
+        if not order: raise ObjectNotFound("order", 'id', invoice['order_id'])
+        if not int(invoice['amount']) == int(order.total_amount): raise InvalidObjectValue("invoice creation", 'order', str(order.id))
+        invoice_id = generate_unique_code()
+        daraja.stk_push(invoice['amount'], invoice['billed_phone'],invoice_id, 'system')
+        invoice['invoice_no'] = invoice_id
+        invoice.pop('amount')
+        invoice = self.order_repo.create_invoice(invoice)
+        return invoice
+    def confirm_transaction(self, req_id, status, rec_no, stk_callback):
+        pass

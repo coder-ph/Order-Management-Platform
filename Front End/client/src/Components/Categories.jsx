@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../assets/styles/CategorySection.css"
 
 function CategoryCards() {
     const [data, setData] = useState([]);
