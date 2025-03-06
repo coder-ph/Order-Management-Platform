@@ -75,6 +75,20 @@ def change_order_status(payload):
     except Exception as e:
         return compile_error(e)
 
+
+def get_logs():
+    try:
+        logs = ordersService.get_logs()
+        return {"message":"logs","data":logs}
+    except Exception as e:
+        return compile_error(e)
+
+def test_money():
+    try:
+        logs = ordersService.test_trans()
+        return {"message":"test","data":logs}
+    except Exception as e:
+        return compile_error(e)  
 def get_invoicess():
     try:
         invoices = ordersService.get_invoices()

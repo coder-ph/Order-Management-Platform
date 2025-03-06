@@ -1,4 +1,4 @@
-from models.index import list_getter,commit_session,update_session, Order,User,Store,Invoice, OrderItem, bulk_commit_insert_session, session
+from models.index import list_getter,commit_session,update_session, Order,User,Store,Invoice,Log, OrderItem, bulk_commit_insert_session, session
 from .location_repository import LocationRepository
 import uuid
 class OrdersRepository():
@@ -42,10 +42,14 @@ class OrdersRepository():
         order.status = status
         return order
     
-    @commit_session("user")
+    @commit_session("log")
     def create_log(self, log):
-        user = User(name=repr(log))
-        return user
+        log = Log(log=repr(log))
+        return log
+    @list_getter
+    def get_logs(self):
+        return Log.query.all()
+        
 
 class OrderItemsRepository():
     def __init__(self):

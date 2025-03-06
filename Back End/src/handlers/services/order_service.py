@@ -61,7 +61,11 @@ class OrderService():
         if not order: raise ObjectNotFound("order", 'id', order_id)
         if not user_id == str(order.user_id): raise AccessLevelError("order update",'order')
         return self.order_repo.update_order_status(order, status)
-
+    
+    def get_logs(self):
+        return self.order_repo.get_logs()
+    def test_trans(self):
+        return daraja.stk_push('1', "0741741381",'unique_id', "merchant_id")
     def confirm_transaction(self, req_id, status, rec_no, stk_callback):
         something = {
             "req_id":req_id,
