@@ -19,6 +19,7 @@ def seed_location():
 def seed_users(locations):
     users = []
     for loc in range(locations):
+        print(loc)
         user = User(
             first_name=fake.first_name(),
             last_name=fake.last_name(),
