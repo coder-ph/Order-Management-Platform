@@ -94,5 +94,9 @@ npm test
 Licensed under the [MIT License](LICENSE).
 
 ## 📬 Contact
-For inquiries, reach out to **Patricia Kamanthe** at **patriciamumbua97@gmail.com**.
+For inquiries, reach out to:
+**Patricia Kamanthe** - **patriciamumbua97@gmail.com**  
+**Debrah Navajjah Muinde** - **debbynav645@gmail.com**  
+**Ken Maina** - **mainakenken188@gmail.com**  
+**Christopher Karanja Ng'ang'a** - **karanjamikey@gmail.com**
 
