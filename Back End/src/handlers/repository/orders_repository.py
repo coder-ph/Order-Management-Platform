@@ -1,4 +1,4 @@
-from models.index import list_getter,commit_session, Order,User,Store,Invoice, OrderItem, bulk_commit_insert_session, session
+from models.index import list_getter,commit_session,update_session, Order,User,Store,Invoice,Log, OrderItem, bulk_commit_insert_session, session
 from .location_repository import LocationRepository
 import uuid
 class OrdersRepository():
@@ -36,6 +36,20 @@ class OrdersRepository():
     @list_getter
     def get_invoices(self):
         return Invoice.query.all()
+    
+    @update_session("order")
+    def update_order_status(self, order:Order,status):
+        order.status = status
+        return order
+    
+    @commit_session("log")
+    def create_log(self, log):
+        log = Log(log=repr(log))
+        return log
+    @list_getter
+    def get_logs(self):
+        return Log.query.all()
+        
 
 class OrderItemsRepository():
     def __init__(self):

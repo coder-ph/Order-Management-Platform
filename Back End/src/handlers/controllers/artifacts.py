@@ -8,6 +8,7 @@ user_password_update_art = [ 'password', 'new_password']
 user_token_request_art = ['key']
 user_token_verification_art = ['key', 'token']
 
+
 ## Products artifacts
 category_creation_art = ['name']
 product_creation_art = ['name', 'price','description','category', 'store']
@@ -21,3 +22,5 @@ change_store_status_art = ['id', 'status']
 # Order artifacts
 order_creation_art = ['total_amount','order_items']+location_arts_interface
 invoice_artifacts = ['amount', "billed_phone", "order_id"]
+change_order_status_arts = ['order_id', 'status']
+order_status_check = ['COMPLETE', 'PENDING', 'CANCELED', 'IN_PROGRESS', 'REJECTED']

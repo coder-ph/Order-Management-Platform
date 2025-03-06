@@ -30,7 +30,7 @@ class Daraja:
             "PartyA": format_phone(phone),
             "PartyB": int(appConfig.daraja.SHORT_CODE),
             "PhoneNumber": format_phone(phone),
-            "CallBackURL": "https://order-management-platform.onrender.com/api/v1/liveprobe",
+            "CallBackURL": "https://order-management-platform.onrender.com/api/v1/transactions/confirm",
             "AccountReference": merchant,
             "TransactionDesc": transaction_id,
         }

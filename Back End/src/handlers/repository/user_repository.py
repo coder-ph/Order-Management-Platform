@@ -1,6 +1,7 @@
 from models.client import  commit_session, update_session, commit_delete_session
-from models.index import User, Token, session, list_getter
+from models.index import User, Token, session, list_getter, UserRoles
 from .location_repository import LocationRepository
+
 import uuid
 class UserRepository():
     def __init__(self,location_repo:LocationRepository):
@@ -35,11 +36,16 @@ class UserRepository():
     def update_token(self,token:Token):
         token.token = '098765'
         return token
+    
     def get_token_by_key(self, key):
         return Token.query.filter_by(key=key).first()
-
+    
+    @update_session('user')
+    def update_user_role(self, user:User, role):
+        print("got till here ::::: users")
+        user.role = UserRoles[role]
+        return user
+        
     @commit_delete_session('token')
     def drop_token(self, product):
         return product
-        
-    
