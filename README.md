@@ -94,5 +94,5 @@ npm test
 Licensed under the [MIT License](LICENSE).
 
 ## 📬 Contact
-For inquiries, reach out to **[Your Name]** at **your.email@example.com**.
+For inquiries, reach out to **Patricia Kamanthe** at **patriciamumbua97@gmail.com**.
 
