@@ -177,6 +177,13 @@ docker-compose up --build
  GET        /api/v1/users/otp?key          request token
  GET        api/v1/users/otp/verify?key=    Verify OTP
  GET        api/v1/users?email=             SIGN IN
+
+ GET        api/v1/orders                 GET ALL ORDERS
+ GET       api/v1/orders/invoices         GET ALL INVOICES
+ POST     api/v1/orders/checkout        check out into cat
+ POST     api/v1/orders               create orders
+ GET     api/v1/orders/my-orders      get all orders
+ GET     api/v1/orders/my-store       get orders by store
  
  
 | GET    | /products                  | Get all products       |
