@@ -7,17 +7,17 @@ import DasshboardHeader from "../../Components/DasshboardHeader";
 const Contacts = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [contacts, setContacts] = useState([]); 
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
+  const [contacts, setContacts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const API_URL = import.meta.env.VITE_APP_USER_URL;
 
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
 
-  if(!token) {
-    throw Error('User not authenticated')
+  if (!token) {
+    throw Error("User not authenticated");
   }
-  console.log('token', token)
+
   useEffect(() => {
     const fetchContacts = async () => {
       try {
@@ -32,24 +32,32 @@ const Contacts = () => {
           throw new Error("Failed to fetch contacts.");
         }
 
-        const data = await response.json();
-        setContacts(data); 
+        const result = await response.json();
+        console.log(result)
+        const transformedData = result.data.map((user) => ({
+          id: user.id,
+          first_name: user.first_name,
+          email: user.email,
+          role: user.role,
+          phone_no: user.phone_no,
+          address: user.address,
+        }));
+        setContacts(transformedData);
       } catch (error) {
         console.error("Error fetching contacts:", error);
-        setError(error.message); 
+        setError(error.message);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
     fetchContacts();
-  }, []);
+  }, [API_URL, token]);
 
-  
   const columns = [
-    { field: "id", headerName: "ID", flex: 0.5 },
+    { field: "id", headerName: "ID", flex: 1.5 },
     {
-      field: "name",
+      field: "first_name",
       headerName: "Name",
       flex: 1,
       cellClassName: "name-column--cell",
@@ -60,6 +68,7 @@ const Contacts = () => {
       type: "string",
       headerAlign: "left",
       align: "left",
+      flex:1
     },
     {
       field: "role",
@@ -71,11 +80,7 @@ const Contacts = () => {
       headerName: "Phone No",
       flex: 1,
     },
-    {
-      field: "address",
-      headerName: "Address",
-      flex: 1,
-    },
+    
   ];
 
   return (

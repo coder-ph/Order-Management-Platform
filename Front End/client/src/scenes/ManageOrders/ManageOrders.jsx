@@ -37,9 +37,7 @@ const Orders = ({ user }) => {
                 
                 console.log("Token:", token);
                 
-                let url = isAdmin
-                ? `https://order-management-platform.onrender.com/api/v1/orders/my-store/${storeId}`
-                : `https://order-management-platform.onrender.com/api/v1/orders`;
+                let url = `https://order-management-platform.onrender.com/api/v1/orders`;
                 
                 console.log("Fetching orders from:", url);
     
@@ -50,9 +48,9 @@ const Orders = ({ user }) => {
                     },
                 });
     
-                console.log("Response status:", response.status);
+                console.log("Response status:", response);
     
-                if (!response.ok) {
+                if (!response) {
                     throw new Error("Failed to fetch orders.");
                 }
     
