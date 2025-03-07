@@ -11,6 +11,7 @@ const Invoices = () => {
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
     const API_URL = import.meta.env.VITE_APP_USER_URL;
 
   useEffect(() => {

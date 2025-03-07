@@ -5,22 +5,14 @@ import L from "leaflet";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
-import carShipping from "../assets/icons/local_shipping_20dp_EA3323_FILL0_wght400_GRAD0_opsz20.svg";
 import io from "socket.io-client";
+
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x,
   iconUrl: markerIcon,
   shadowUrl: markerShadow,
-});
-
-const vehicleIcon = new L.Icon({
-  iconUrl: carShipping,
-  iconRetinaUrl: carShipping,
-  iconSize: [25, 30],
-  iconAnchor: [20, 40],
-  popupAnchor: [0, -40],
 });
 
 const AdminMap = () => {
@@ -30,9 +22,22 @@ const AdminMap = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+  
+    const token = localStorage.getItem("token"); 
+
+    
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setUserLocation([position.coords.lattitude, position.coords.longitude]);
+        const location = [position.coords.latitude, position.coords.longitude];
+        setUserLocation(location);
+
+        
+        const socket = io("http://localhost:5000"); 
+        socket.emit("update_location", {
+          token: token,
+          latitude: location[0],
+          longitude: location[1],
+        });
       },
       (error) => {
         console.error("Error fetching user location:", error);
@@ -41,9 +46,10 @@ const AdminMap = () => {
   }, []);
 
   useEffect(() => {
-    const socket = io("https://your-websocket-server.com");
+    const socket = io("http://localhost:5000"); 
 
-    socket.on("vehicleLocationUpdate", (data) => {
+    
+    socket.on("userLocationUpdate", (data) => {
       setVehicles(data);
       setLoading(false);
     });
@@ -58,7 +64,8 @@ const AdminMap = () => {
     };
   }, []);
 
-  const center = userLocation || [1.2921, 36.8219];
+  const center = userLocation || [1.2921, 36.8219]; 
+
   return (
     <div className="flex h-screen w-screen">
       <div className="h-screen w-screen">
@@ -84,16 +91,12 @@ const AdminMap = () => {
             <p style={{ color: "red" }}>{error}</p>
           ) : (
             vehicles.map((vehicle) => (
-              <Marker
-                key={vehicle.id}
-                position={vehicle.position}
-                icon={vehicleIcon}
-              >
+              <Marker key={vehicle.user_id} position={vehicle.position}>
                 <Popup>
                   <div>
                     <strong>Driver Information</strong>
-                    <p>Name: {vehicle.driver.name}</p>
-                    <p>Phone: {vehicle.driver.phone}</p>
+                    <p>User ID: {vehicle.user_id}</p>
+                    <p>Last Updated: {vehicle.timestamp}</p>
                   </div>
                 </Popup>
               </Marker>

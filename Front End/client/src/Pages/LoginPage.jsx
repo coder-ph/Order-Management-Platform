@@ -21,7 +21,7 @@ const LoginForm = () => {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const { latitude, longitude } = position.coords;
-            resolve({ lattitude, longitude });
+            resolve({ latitude, longitude });
           },
           (error) => {
             reject(
