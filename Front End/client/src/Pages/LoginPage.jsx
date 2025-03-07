@@ -12,7 +12,7 @@ import { jwtDecode } from "jwt-decode";
 const LoginForm = () => {
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState("");
-  const API_URL = import.meta.env.VITE_APP_USER_SERVER; 
+  const API_URL = "https://order-management-platform.onrender.com"; 
 
   
   const getUserLocation = () => {

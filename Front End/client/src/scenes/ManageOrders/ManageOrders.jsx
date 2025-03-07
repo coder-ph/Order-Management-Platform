@@ -101,6 +101,14 @@ const Orders = ({ user }) => {
         setSelectedOrder(null)
     }
 
+    const order_status = {
+        COMPLETE: "COMPLETED",
+        PENDING: "PENDING",
+        IN_PROGRESS: "IN PROGRESS",
+        CANCELLED: "CANCELLED",
+        REJECTED: "REJECTED",
+    }
+
     
 
 
