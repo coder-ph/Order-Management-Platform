@@ -168,41 +168,39 @@ docker-compose up --build
 
 ## 🔗 API Endpoints
 
-| Method | Endpoint                   | Description            |
-| ------ | -------------------------- | ---------------------- |
- GET       api/v1/users/all                 Get all users
- POST      api/v1/users                   Create a user
- PUT        api/v1/users/update-password   Updating password
- PUT        /api/v1/users/reset-password   reset pass word
- GET        /api/v1/users/otp?key          request token
- GET        api/v1/users/otp/verify?key=    Verify OTP
- GET        api/v1/users?email=             SIGN IN
+Here’s a properly formatted API reference table with corrections for consistency and clarity:
 
- GET        api/v1/orders                 GET ALL ORDERS
- GET       api/v1/orders/invoices         GET ALL INVOICES
- POST     api/v1/orders/checkout        check out into cat
- POST     api/v1/orders               create orders
- GET     api/v1/orders/my-orders      get all orders
- GET     api/v1/orders/my-store       get orders by store
+| Method | Endpoint                                     | Description                    |
+|--------|----------------------------------------------|--------------------------------|
+| **Users** | | |
+| GET    | `api/v1/users/all`                          | Get all users                  |
+| POST   | `api/v1/users`                              | Create a user                  |
+| PUT    | `api/v1/users/update-password`             | Update password                |
+| PUT    | `api/v1/users/reset-password`              | Reset password                 |
+| GET    | `api/v1/users/otp?key=`                    | Request OTP                    |
+| GET    | `api/v1/users/otp/verify?key=`             | Verify OTP                      |
+| GET    | `api/v1/users?email=`                      | Sign in                         |
+| **Orders** | | |
+| GET    | `api/v1/orders`                            | Get all orders                 |
+| GET    | `api/v1/orders/invoices`                   | Get all invoices               |
+| POST   | `api/v1/orders/checkout`                   | Checkout order                 |
+| POST   | `api/v1/orders`                            | Create an order                |
+| GET    | `api/v1/orders/my-orders`                  | Get all my orders              |
+| GET    | `api/v1/orders/my-store`                   | Get orders by store            |
+| **Products** | | |
+| POST   | `api/v1/products/categories`               | Create a product category      |
+| POST   | `api/v1/products`                          | Create a product               |
+| PUT    | `api/v1/products/{productId}`              | Update a product               |
+| DELETE | `api/v1/products/{productId}`              | Delete a product               |
+| GET    | `api/v1/products/categories`               | Fetch product categories       |
+| GET    | `api/v1/products`                          | Fetch products                 |
+| **Store** | | |
+| POST   | `api/v1/store`                             | Create a store                 |
+| GET    | `api/v1/store/seed`                        | Fetch store seed data          |
+| PUT    | `api/v1/store/status`                      | Change store status            |
+| GET    | `api/v1/store`                             | Get all stores                 |
 
- POST   api/v1/products/categories      creates product category
- POST  api/v1/products                  create a product
- PUT api/v1/products/a24fc2e1-7e70-455b-9da6-1d0ad3e12f70    updates a product
- DELETE   /api/v1/products/578f16b3-424b-4d0a-8036-a4ddfdaa084d    deletes a product
- GET    api/v1/products/categories                Fetches product categories
- GET    api/v1/products                       fetches product
 
- POST   api/v1/store                           created store 
- GET   api/v1/store/seed
- PUT  api/v1/store/status                       Changes store status
- GET  api/v1/store                              gets all stores
- 
- 
-| GET    | /products                  | Get all products       |
-| POST   | /orders                    | Create an order        |
-| GET    | /orders/{order\_id}        | Retrieve an order      |
-| POST   | /payments/initiate         | Initiate Mpesa Payment |
-| GET    | /payments/status/{txn\_id} | Check Payment Status   |
 
 ## 🚀 Deployment
 
