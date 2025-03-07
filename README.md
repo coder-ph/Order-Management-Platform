@@ -184,6 +184,13 @@ docker-compose up --build
  POST     api/v1/orders               create orders
  GET     api/v1/orders/my-orders      get all orders
  GET     api/v1/orders/my-store       get orders by store
+
+ POST   api/v1/products/categories      creates product category
+ POST  api/v1/products                  create a product
+ PUT api/v1/products/a24fc2e1-7e70-455b-9da6-1d0ad3e12f70    updates a product
+ DELETE   /api/v1/products/578f16b3-424b-4d0a-8036-a4ddfdaa084d    deletes a product
+ GET    api/v1/products/categories                Fetches product categories
+ GET    api/v1/products                       fetches product
  
  
 | GET    | /products                  | Get all products       |
