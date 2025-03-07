@@ -191,6 +191,11 @@ docker-compose up --build
  DELETE   /api/v1/products/578f16b3-424b-4d0a-8036-a4ddfdaa084d    deletes a product
  GET    api/v1/products/categories                Fetches product categories
  GET    api/v1/products                       fetches product
+
+ POST   api/v1/store                           created store 
+ GET   api/v1/store/seed
+ PUT  api/v1/store/status                       Changes store status
+ GET  api/v1/store                              gets all stores
  
  
 | GET    | /products                  | Get all products       |
