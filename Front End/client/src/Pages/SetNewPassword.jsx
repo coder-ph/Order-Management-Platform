@@ -7,18 +7,14 @@ import "../assets/styles/SetNewPassword.css";
 import { MainButton } from "../Components/Buttons/Buttons";
 
 const SetNewPassword = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
- 
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false); 
-  const [message, setMessage] = useState(""); 
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [message, setMessage] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
- 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  
   const formik = useFormik({
     initialValues: {
       password: "",
@@ -33,38 +29,55 @@ const SetNewPassword = () => {
         .required("Confirm password is required"),
     }),
     onSubmit: async (values) => {
-      setLoading(true); 
-      setMessage(""); 
+      setLoading(true);
+      setMessage("");
 
       try {
-        
-        await new Promise((resolve) => setTimeout(resolve, 1000)); 
-        
-        setSuccess(true);
-        setMessage("Password updated successfully!");
+        const data = {
+          new_password: values.password, 
+        };
 
-        
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
+        console.log("Sending data:", data)
+
+        const response = await fetch(
+          "https://order-management-platform.onrender.com/api/v1/users/reset-password",
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          }
+        )
+        const responseBody = await response.json()
+
+        if (response.ok) {
+          setSuccess(true)
+          setMessage("Password updated successfully!")
+          setTimeout(() => {
+            navigate("/login")
+          }, 2000)
+        } else {
+          setSuccess(false);
+          setMessage(`Failed to update password: ${responseBody.error || 'Unknown error'}`)
+        }
       } catch (error) {
-      
-        setMessage("Failed to update password. Please try again.");
+        console.error("Error:", error);
+        setSuccess(false);
+        setMessage("Failed to update password. Please try again.")
       } finally {
-        setLoading(false); 
+        setLoading(false)
       }
     },
-  });
+  })
 
-  
   const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
+    setShowPassword((prev) => !prev)
+  }
 
-  
   const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword((prev) => !prev);
-  };
+    setShowConfirmPassword((prev) => !prev)
+  }
 
   return (
     <div className="set-new-password-page">
@@ -153,7 +166,7 @@ const SetNewPassword = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default SetNewPassword;
