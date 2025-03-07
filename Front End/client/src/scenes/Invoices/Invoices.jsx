@@ -5,47 +5,55 @@ import { tokens } from "../../theme";
 import DasshboardHeader from "../../Components/DasshboardHeader";
 
 const Invoices = () => {
-  
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-    const API_URL = import.meta.env.VITE_APP_USER_URL;
 
+  const API_URL = "https://order-management-platform.onrender.com"
   useEffect(() => {
     const fetchInvoices = async () => {
       const token = localStorage.getItem("token");
+
+      if (!token) {
+        setError("User not authenticated.");
+        setLoading(false);
+        return;
+      }
+
       try {
-       
-        if (!token) {
-          throw new Error("User not authenticated.");
-        }
-
-        console.log("Token:", token); 
-
-
-
-const response = await fetch(`${API_URL}/api/v1/orders/invoices`, {
-  headers: {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
-  },
-});
-  console.log(response)
-
-        console.log("Response status:", response.status); 
+        const response = await fetch(`${API_URL}/api/v1/orders/invoices`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch invoices.");
         }
 
-        const data = await response.json();
-        console.log("Invoices data:", data); 
-        setInvoices(data);
+        const data = (await response.json()).data;
+
+        if (!Array.isArray(data)) {
+          throw new Error("Invalid response format");
+        }
+
+        // Map API response to match DataGrid format
+        const formattedInvoices = data.map((invoice) => ({
+          id: invoice.order_id, // Using order_id as the unique identifier
+          invoice_no: invoice.invoice_no || "N/A",
+          billed_phone: invoice.billed_phone || "N/A",
+          order_id: invoice.Order?.id || "N/A",
+          total_amount: invoice.Order?.total_amount || 0,
+          status: invoice.Order?.status || "Pending",
+          user_id: invoice.Order?.user_id || "Unknown",
+          created_at: invoice.created_at || "N/A",
+        }));
+
+        setInvoices(formattedInvoices);
       } catch (error) {
-        console.error("Error fetching invoices:", error); 
         setError(error.message);
       } finally {
         setLoading(false);
@@ -53,37 +61,29 @@ const response = await fetch(`${API_URL}/api/v1/orders/invoices`, {
     };
 
     fetchInvoices();
-  }, []);
+  }, [API_URL]);
 
   const columns = [
-    { field: "id", headerName: "Order Id", flex: 0.5 },
-    {
-      field: "name",
-      headerName: "Name",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "payment_method",
-      headerName: "Payment Method",
-      flex: 1,
-    },
-    {
-      field: "invoice_no",
-      headerName: "Invoice No",
-      flex: 1,
-    },
-    {
-      field: "created_at",
-      headerName: "Created At",
-      flex: 1,
-    },
+    { field: "id", headerName: "Order ID", flex: 1 },
+    { field: "invoice_no", headerName: "Invoice No", flex: 1 },
+    { field: "billed_phone", headerName: "Billed Phone", flex: 1 },
+    { field: "total_amount", headerName: "Total Amount ($)", flex: 1 },
+    { field: "user_id", headerName: "User ID", flex: 1 },
+    { field: "created_at", headerName: "Created At", flex: 1 },
     {
       field: "status",
       headerName: "Status",
       flex: 1,
       renderCell: (params) => (
-        <Typography color={colors.greenAccent[500]}>
+        <Typography
+          color={
+            params.row.status === "COMPLETED"
+              ? colors.greenAccent[500]
+              : params.row.status === "PENDING"
+              ? colors.blueAccent[500]
+              : colors.redAccent[500]
+          }
+        >
           {params.row.status}
         </Typography>
       ),
@@ -100,9 +100,6 @@ const response = await fetch(`${API_URL}/api/v1/orders/invoices`, {
           "& .MuiDataGrid-root": { border: "none" },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
-          },
-          "& .name-column--cell": {
-            color: colors.greenAccent[300],
           },
           "& .MuiDataGrid-columnHeader": {
             backgroundColor: colors.blueAccent[700],
