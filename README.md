@@ -170,6 +170,15 @@ docker-compose up --build
 
 | Method | Endpoint                   | Description            |
 | ------ | -------------------------- | ---------------------- |
+ GET       api/v1/users/all                 Get all users
+ POST      api/v1/users                   Create a user
+ PUT        api/v1/users/update-password   Updating password
+ PUT        /api/v1/users/reset-password   reset pass word
+ GET        /api/v1/users/otp?key          request token
+ GET        api/v1/users/otp/verify?key=    Verify OTP
+ GET        api/v1/users?email=             SIGN IN
+ 
+ 
 | GET    | /products                  | Get all products       |
 | POST   | /orders                    | Create an order        |
 | GET    | /orders/{order\_id}        | Retrieve an order      |
