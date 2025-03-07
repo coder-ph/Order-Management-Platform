@@ -6,26 +6,24 @@ A full-stack web application designed to streamline **order processing, inventor
 
 ## ✨ Features
 
-✅ **User Authentication & Authorization**\
-✅ **Order & Inventory Management**\
-✅ **Store & Client Management**\
-✅ **Role-Based Access Control (RBAC)**\
-✅ **Mpesa Payment Integration**\
-✅ **Error Handling & Logging**\
-✅ **Database Migrations & Seeding**\
+✅ **User Authentication & Authorization**  
+✅ **Order & Inventory Management**  
+✅ **Store & Client Management**  
+✅ **Role-Based Access Control (RBAC)**  
+✅ **Mpesa Payment Integration**  
+✅ **Error Handling & Logging**  
+✅ **Database Migrations & Seeding**  
 ✅ **Docker Support for Easy Deployment**
 
 ## 🛠 Tech Stack
 
 ### **Backend:**
-
 - Flask + FastAPI (Python) | PostgreSQL | SQLAlchemy | Alembic | Docker | Mpesa API
 
 ### **Frontend:**
-
 - React.js | Redux | Tailwind CSS | Vite
 
-## 📂 Folder Structure
+## 💂️ Folder Structure
 
 ### **Backend**
 
@@ -53,10 +51,6 @@ backend/
 │   ├── handlers/        # Request handlers
 │   ├── routers/         # API routes
 │   ├── seeding/         # Database seeding scripts
-│   │   ├── categoryseed.py
-│   │   ├── productseed.py
-│   │   ├── storeseed.py
-│   │   ├── userseed.py
 │   ├── services_layer/  # Business logic
 │   ├── startup/         # Startup configurations
 │
@@ -82,41 +76,6 @@ client/
 │   ├── assets/
 │   ├── Bff/
 │   ├── Components/
-│   │   ├── bot/
-│   │   ├── Buttons/
-│   │   ├── Charts/
-│   │   ├── Checkout/
-│   │   ├── tracking/
-│   │   ├── About.jsx
-│   │   ├── AdminDashboard.jsx
-│   │   ├── AdminSidebar.jsx
-│   │   ├── CartModal.jsx
-│   │   ├── Categories.jsx
-│   │   ├── Contact.jsx
-│   │   ├── DashboardHeader.jsx
-│   │   ├── Distance.jsx
-│   │   ├── DriverDashboard.jsx
-│   │   ├── EditProfile.jsx
-│   │   ├── Footer.jsx
-│   │   ├── InventoryApi.jsx
-│   │   ├── InventoryDialog.jsx
-│   │   ├── InventoryFilter.jsx
-│   │   ├── InventoryHeader.jsx
-│   │   ├── InventoryList.jsx
-│   │   ├── NavBar.jsx
-│   │   ├── ProductDetails.jsx
-│   │   ├── ProductGrid.jsx
-│   │   ├── ProductNavbar.jsx
-│   │   ├── ProgressCircle.jsx
-│   │   ├── ProgressiveRoute.jsx
-│   │   ├── ProtectedRoute.jsx
-│   │   ├── SearchFilter.jsx
-│   │   ├── Services.jsx
-│   │   ├── StatBox.jsx
-│   │   ├── UCategorySection.jsx
-│   │   ├── UserDashboard.jsx
-│   │   ├── UserProfile.jsx
-│   │   ├── UserSidebar.jsx
 │   ├── Context/
 │   ├── data/
 │   ├── Hooks/
@@ -140,10 +99,9 @@ client/
 ├── vite.config.js
 ```
 
-## 🔧 Installation & Setup
+## 🛠 Installation & Setup
 
 ### **Backend**
-
 ```sh
 git clone https://github.com/your-repo/order-management-platform.git
 cd order-management-platform
@@ -153,7 +111,6 @@ uvicorn src.startup.index:app --reload
 ```
 
 ### **Frontend**
-
 ```sh
 cd client
 npm install
@@ -161,14 +118,11 @@ npm run dev
 ```
 
 ### **Docker Setup**
-
 ```sh
 docker-compose up --build
 ```
 
 ## 🔗 API Endpoints
-
-Here’s a properly formatted API reference table with corrections for consistency and clarity:
 
 | Method | Endpoint                                     | Description                    |
 |--------|----------------------------------------------|--------------------------------|
@@ -200,50 +154,32 @@ Here’s a properly formatted API reference table with corrections for consisten
 | PUT    | `api/v1/store/status`                      | Change store status            |
 | GET    | `api/v1/store`                             | Get all stores                 |
 
-
-
 ## 🚀 Deployment
 
 ### **Backend**: Render (Gunicorn + NGINX)
-
 ### **Frontend**: Vercel
-
 ```sh
 npm run build
 ```
 
-## 🧪 Testing
-
-### **Backend:**
-
-```sh
-flask run
-```
-
-### **Frontend:**
-
-```sh
-npm run dev
-```
-
-## 🤝 Contributing
+## 🤍 Contributing
 
 1. Fork the repository.
 2. Create a new branch (feature-branch).
 3. Commit and push your changes.
 4. Open a pull request.
 
-## 📜 License
+## 🐝 License
 
 Licensed under the [MIT License](LICENSE).
 
-## 📬 Contact
+## 💌 Contact
 
 For inquiries, reach out to:
-**Debrah Navajjah Muinde** - **[debbynav645@gmail.com](mailto\:debbynav645@gmail.com)**\
-**Ken Maina** - **[mainakenken188@gmail.com](mailto\:mainakenken188@gmail.com)**\
-**Christopher Karanja Ng'ang'a** - **[karanjamikey@gmail.com](mailto\:karanjamikey@gmail.com)**\
-**Patricia Kamanthe** - **[patriciamumbua97@gmail.com](mailto\:patriciamumbua97@gmail.com)**\
-**Phelix Odhiambo** - **[phelixmbani@gmail.com](mailto\:phelixmbani@gmail.com)**\
-**MCdonald Omondi** - **[m.o.shellton@gmail.com](mailto\:m.o.shellton@gmail.com)**
+- **Debrah Navajjah Muinde** - [debbynav645@gmail.com](mailto:debbynav645@gmail.com)
+- **Ken Maina** - [mainakenken188@gmail.com](mailto:mainakenken188@gmail.com)
+- **Christopher Karanja Ng'ang'a** - [karanjamikey@gmail.com](mailto:karanjamikey@gmail.com)
+- **Patricia Kamanthe** - [patriciamumbua97@gmail.com](mailto:patriciamumbua97@gmail.com)
+- **Phelix Odhiambo** - [phelixmbani@gmail.com](mailto:phelixmbani@gmail.com)
+- **MCdonald Omondi** - [m.o.shellton@gmail.com](mailto:m.o.shellton@gmail.com)
 
