@@ -29,8 +29,8 @@ const Invoices = () => {
             "Content-Type": "application/json",
           },
         });
-
-        if (!response.ok) {
+          console.log(response)
+        if (!response) {
           throw new Error("Failed to fetch invoices.");
         }
 
@@ -40,9 +40,9 @@ const Invoices = () => {
           throw new Error("Invalid response format");
         }
 
-        // Map API response to match DataGrid format
+        
         const formattedInvoices = data.map((invoice) => ({
-          id: invoice.order_id, // Using order_id as the unique identifier
+          id: invoice.order_id, 
           invoice_no: invoice.invoice_no || "N/A",
           billed_phone: invoice.billed_phone || "N/A",
           order_id: invoice.Order?.id || "N/A",
