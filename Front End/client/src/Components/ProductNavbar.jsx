@@ -12,7 +12,7 @@ const Navbar = ({ cartItemCount, onSearch, onCartClick }) => {
       <div className="pl-35 text-amber-50">
         Logo
       </div>
-      <div className="search-bar" style={{ marginLeft: "20px"}}>
+      <div className="search-bar" style={{ marginLeft: "300px"}}>
         <input
           type="text"
           placeholder="Search products..."

@@ -27,7 +27,7 @@ const SignupPage = () => {
       email: "",
       password: "",
       phone_no: "",
-      location:{ longitude: "", lattitude: "" },
+      location:{ longitude: 0, lattitude: 0 },
     },
     validate: (values) => {
       const errors = {};
@@ -275,7 +275,7 @@ const SignupPage = () => {
                 </div>
 
               
-                <div className="form-field">
+                {/* <div className="form-field">
                   <label htmlFor="longitude">Longitude</label>
                   <input
                   id="longitude"
@@ -284,9 +284,9 @@ const SignupPage = () => {
                   placeholder="Enter Longitude"
                   value={formik.values.location.longitude}
                   onChange={(e) => formik.setFieldValue("location", {...formik.values.location, longitude: e.target.value})} 
-                  />
+                  /> */}
 
-                  </div>
+                  {/* </div>
 
                   <div className="form-field">
                     <label htmlFor="lattitude">Latitude</label>
@@ -299,7 +299,7 @@ const SignupPage = () => {
                     onChange={(e) => formik.setFieldValue("location", {...formik.values.location, lattitude: e.target.value})} 
                     />
 
-                    </div>
+                    </div> */}
 
 
                

@@ -24,17 +24,20 @@
 p {
     font-size: 16px;
     margin-bottom: 20px;
+    
 }
   
 .contact-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    
 }
   
 .input-row {
     display: flex;
     gap: 20px;
+   
 }
   
 .input-row.input,
@@ -45,9 +48,14 @@ p {
     background: "transparent";
     border: 1px solid white;
     border-radius: 6px;
-    color: white;
+    color: #ffff;
+    
 }
-
+.input-row ::placeholder{
+    color: white;
+    font-weight: bolder;
+    font-size: medium;
+}
 
   
 .contact-form textarea {
@@ -64,7 +72,8 @@ p {
     }
 
     .contacts-section h2 {
-        font-size: 28px; /* Slightly smaller heading */
+        font-size: 28px;
+         /* Slightly smaller heading */
     }
 
     p {

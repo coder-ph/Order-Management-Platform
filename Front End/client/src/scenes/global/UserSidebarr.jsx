@@ -118,7 +118,7 @@ const UserSidebarr = () => {
             />
             <Item
               title="My Orders"
-              to="/my_orders"
+              to="/track-order"
               icon={<ShoppingBagOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

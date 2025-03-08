@@ -12,7 +12,7 @@ function Footer() {
         <div className="footer-content">
             <h2>Order Management System</h2>
             <p className="footer-statement">Manage your orders with ease</p>
-            <p><strong>Customer Service</strong> +254 115816125</p>
+            <p><strong>Customer Service</strong> +2547000000</p>
             <p><strong>Address</strong> Nairobi, Kenya</p>
             <hr className="footer-divider"/>
 
