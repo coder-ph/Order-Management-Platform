@@ -65,7 +65,7 @@ class Location(db.Model):
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     longitude = db.Column(db.String, nullable=False)
-    latitude = db.Column(db.String, nullable=False)
+    lattitude = db.Column(db.String, nullable=False)
     
     store = relationship("Store", back_populates="location", uselist=False)
 

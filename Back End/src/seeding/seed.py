@@ -7,7 +7,7 @@ fake = Faker()
 
 # Initialize session
 # Create sample locations
-##add longitude and latitude
+##add longitude and lattitude
 random_string = fake.pystr(min_chars=6, max_chars=6)
 def seed_location():
     locations = [Location(longitude=random_string ,lattitude=random_string) for _ in range(10)]
