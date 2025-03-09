@@ -3,7 +3,7 @@ import { Box, Typography, useTheme, Select, MenuItem, Dialog, DialogTitle, Dialo
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import DasshboardHeader from "../../Components/DasshboardHeader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 
 
@@ -12,6 +12,7 @@ const Orders = ({ user }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [orders, setOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState(null);
@@ -21,7 +22,9 @@ const Orders = ({ user }) => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
+
     useEffect (() => {
+        
         const fetchOrders = async () => {
             const token = localStorage.getItem("token") || user?.token;
             console.log(token)
@@ -78,6 +81,20 @@ const Orders = ({ user }) => {
     
         fetchOrders();
     }, [isAdmin, storeId, user?.token]);
+
+    
+    useEffect(() => {
+        if (location.state?.updatedOrder) {
+            setOrders((prevOrders) =>
+                prevOrders.map((order) =>
+                    order.id === location.state.updatedOrder.id
+                    ? { ...order, assignedDriver: location.state.updatedOrder.assignedDriver }
+                    : order
+                )
+            );
+        }
+    }, [location.state?.updatedOrder, setOrders]); 
+
     
 
     const handleStatusChange = (id, newStatus) => {
@@ -124,10 +141,10 @@ const Orders = ({ user }) => {
             headerName: 'Items', 
             flex: 0.5, 
             valueGetter: (params) => {
-                console.log("Row Data:", params.row);  
-                
-                return params.row?.order_items? params.row.order_items.length : 0
-            }
+                const items = params.row?.order_items;
+                if (!Array.isArray(items)) return 0; 
+                return items.reduce((sum, item) => sum + (item.quantity || 0), 0);
+            }                     
 
         },
         { 
@@ -167,7 +184,7 @@ const Orders = ({ user }) => {
         { 
             field: 'assignedDriver', 
             headerName: 'Assigned Driver', 
-            flex: 1,
+            flex: 1
         }
     ]
     return (

@@ -4,6 +4,7 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { MainButton } from "../../Components/Buttons/Button";
 import { mockDataDrivers } from "./mockDataOrders"
 import "../../assets/styles/OrderDetails.css";
+import { jsx } from "@emotion/react";
 
 
 const OrderDetails = () => {
@@ -11,32 +12,41 @@ const OrderDetails = () => {
     const location = useLocation();
     const order = location.state?.order
 
-    const [user, setUser] = useState(null)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [selectedDriver, setSelectedDriver] = useState("")
+    const [selectedDriver, setSelectedDriver] = useState(order?.assignedDriver || "")
 
     const openModal = () => setIsModalOpen(true)
     const closeModal = () => setIsModalOpen(false)
 
     const handleAssignDriver = () => {
         if (selectedDriver) {
-            setIsModalOpen(false)
-            order.assignedDriver = selectedDriver
-            // navigate('dashboard/orders')
+            setIsModalOpen(false);
+    
+            // Update the order state correctly
+            setOrders((prevOrders) =>
+                prevOrders.map((o) =>
+                    o.id === order.id ? { ...o, assignedDriver: selectedDriver } : o
+                )
+            );
+    
+            // Store in localStorage
+            localStorage.setItem(`assignedDriver_${order.id}`, JSON.stringify(selectedDriver));
+    
+            // Pass the correct state to match useEffect
+            navigate("dashboard/orders", {
+                state: { updatedOrder: { id: order.id, assignedDriver: selectedDriver } },
+            });
         }
-    }
-
-    // useEffect (() => {
-    //     console.log("Order data:", order)
-    //     if (order?.customer) {
-    //         fetchUserDetails(order.customer)
-    //         console.log("Fetching details for user ID:", order.customer)
-    //     } else {
-    //         setLoading(false)
-    //     }
-    // }, [order])
+    };
+    
+    useEffect(() => {
+        if (order) {
+        const storedDriver = localStorage.getItem(`assignedDriver_${order.id}`)
+        if (storedDriver) {
+            setSelectedDriver(JSON.parse(storedDriver))
+        }
+        }
+    }, [order])
 
    
 
@@ -62,22 +72,21 @@ const OrderDetails = () => {
 
                     {/* Order Items */}
                     <h2 className="order-items-title">Customer Orders</h2>
-                    {/* <div className="order-items">
+                    <div className="order-items">
                         {order.order_items && Array.isArray(order.order_items) && order.order_items.length > 0 ? (
                             order.order_items.map((item, index) => (
                             <div key={index} className="order-item">
                                 <img src={item.image} alt={item.name} className="order-item-image" />
                                 <div className="order-item-details">
-                                    <h3>{item.name}</h3>
-                                    <p className="order-item-brand">{item.brand}</p>
-                                    <p>{item.quantity} × ${item.price.toFixed(2)}</p>
+                                    <h3>{item.product_id}</h3>
+                                    <p>{item.quantity} × ${item.price ? item.price.toFixed(2) : "0.00"}</p>
                                     </div>
                                     </div>
                                     ))
                                 ) : (
                                 <p>No items in this order.</p>
                                 )}
-                                </div> */}
+                                </div>
 
 
                      {/* Back Button */}
@@ -147,7 +156,7 @@ const OrderDetails = () => {
                                     ))}
                                 </select>
                                 <div className="modal-buttons">
-                                    <MainButton onClick={() => setIsModalOpen(false)} style={{ backgroundColor: "transparent"}}>Cancel</MainButton>
+                                    <MainButton onClick={closeModal} style={{ backgroundColor: "transparent"}}>Cancel</MainButton>
                                     <MainButton onClick={handleAssignDriver} disabled={!selectedDriver} style={{ backgroundColor: "#4cceac"}}>Assign</MainButton>
                                 </div>
                             </div>
