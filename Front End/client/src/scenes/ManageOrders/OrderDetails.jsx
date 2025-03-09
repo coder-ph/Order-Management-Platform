@@ -21,7 +21,7 @@ const OrderDetails = () => {
       setIsModalOpen(false);
       order.assignedDriver = selectedDriver;
 
-      // Send SMS notification
+    
       await sendSMSNotification(
         selectedDriver.phone,
         order.id,

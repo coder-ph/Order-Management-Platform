@@ -6,28 +6,132 @@ export default function DeliveryTracker() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Mock data for order IDs and their corresponding tracking data
+  const mockOrders = [
+    {
+      orderId: "2684958674",
+      datePlaced: "2023-12-10",
+      trackingData: {
+        trackingNumber: "2684958674",
+        estimatedDelivery: "2023-12-15",
+        status: [
+          {
+            text: "Order Placed",
+            date: "2023-12-10",
+            completed: true,
+          },
+          {
+            text: "Order Shipped",
+            date: "2023-12-12",
+            completed: true,
+          },
+          {
+            text: "Out for Delivery",
+            date: "2023-12-14",
+            completed: "out",
+          },
+          {
+            text: "Delivered",
+            date: "2023-12-15",
+            completed: false,
+          },
+        ],
+        recipient: {
+          address: "123 Main St, Nairobi, Kenya",
+          phone: "+254 712 345 678",
+        },
+      },
+    },
+    {
+      orderId: "1234567890",
+      datePlaced: "2023-12-05",
+      trackingData: {
+        trackingNumber: "1234567890",
+        estimatedDelivery: "2023-12-10",
+        status: [
+          {
+            text: "Order Placed",
+            date: "2023-12-05",
+            completed: true,
+          },
+          {
+            text: "Order Shipped",
+            date: "2023-12-07",
+            completed: true,
+          },
+          {
+            text: "Out for Delivery",
+            date: "2023-12-09",
+            completed: "out",
+          },
+          {
+            text: "Delivered",
+            date: "2023-12-10",
+            completed: false,
+          },
+        ],
+        recipient: {
+          address: "456 Elm St, Nairobi, Kenya",
+          phone: "+254 723 456 789",
+        },
+      },
+    },
+    {
+      orderId: "9876543210",
+      datePlaced: "2023-12-01",
+      trackingData: {
+        trackingNumber: "9876543210",
+        estimatedDelivery: "2023-12-06",
+        status: [
+          {
+            text: "Order Placed",
+            date: "2023-12-01",
+            completed: true,
+          },
+          {
+            text: "Order Shipped",
+            date: "2023-12-03",
+            completed: true,
+          },
+          {
+            text: "Out for Delivery",
+            date: "2023-12-05",
+            completed: "out",
+          },
+          {
+            text: "Delivered",
+            date: "2023-12-06",
+            completed: false,
+          },
+        ],
+        recipient: {
+          address: "789 Oak St, Nairobi, Kenya",
+          phone: "+254 734 567 890",
+        },
+      },
+    },
+  ];
+
+ 
+  const sortedOrders = [...mockOrders].sort(
+    (a, b) => new Date(b.datePlaced) - new Date(a.datePlaced)
+  );
+
   const handleTrack = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      
-      const token = localStorage.getItem("token");
+      // Simulate API call delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      if (!token) {
-        throw new Error("User not authenticated.");
-      }
+    
+      const order = mockOrders.find(
+        (order) => order.orderId === trackingNumber
+      );
 
-      
-      const response = await fetch(`/api/track/${trackingNumber}`, {
-        headers: {
-          Authorization: `Bearer ${token}`, 
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setTrackingData(data);
+      if (order) {
+        setTrackingData(order.trackingData);
       } else {
         setError("No tracking information found.");
       }
@@ -37,6 +141,12 @@ export default function DeliveryTracker() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleOrderClick = (orderId) => {
+    setTrackingNumber(orderId);
+    setTrackingData(null); 
+    handleTrack(); 
   };
 
   const handleBackToProducts = () => {
@@ -73,6 +183,22 @@ export default function DeliveryTracker() {
                 {loading ? "Tracking..." : "Track"}
               </button>
               {error && <p className="text-red-500 mt-2">{error}</p>}
+
+            
+              <div className="mt-4">
+                <h3 className="text-lg font-bold text-black">Your Orders</h3>
+                <ol className="mt-2 list-decimal list-inside">
+                  {sortedOrders.map((order) => (
+                    <li
+                      key={order.orderId}
+                      className="cursor-pointer p-2 my-1 border border-black rounded-md hover:bg-gray-100 transition-colors"
+                      onClick={() => handleOrderClick(order.orderId)}
+                    >
+                      {order.orderId} - Placed on {order.datePlaced}
+                    </li>
+                  ))}
+                </ol>
+              </div>
             </div>
 
             {trackingData && (
