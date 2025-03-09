@@ -70,6 +70,11 @@
 /* Default styles remain unchanged */
 
 /* For laptops & medium screens (992px and below) */
+@media (min-width: 1800px) {
+    .footer {
+        max-width: 1600px;
+    }
+}
 @media (max-width: 992px) {
     .footer {
         padding: 15px;

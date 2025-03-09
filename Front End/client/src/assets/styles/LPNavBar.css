@@ -6,7 +6,7 @@
     position: absolute;
     width: 100%;
     top: 0;
-    
+    right: 370px;
     font-family: 'Alata';
 }
 .nav-list-lp {
@@ -33,9 +33,14 @@
 /* Default styles remain unchanged */
 
 /* For laptops & medium screens (992px and below) */
+@media (min-width: 1800px) {
+   .nav-bar-lp {
+      right: 0;
+      width: 100%;
+   }
+}
 @media (max-width: 992px) {
     .nav-bar-lp {
-       right: 0; /* Adjust alignment */
        justify-content: space-between;
        padding: 15px 40px;
     }
@@ -78,9 +83,4 @@
        
     }
  }
- @media (min-width:100px) {
-   .nav-bar-lp{
-   position: absolute;
-   right: 600px;
-   }
- }
+ 
