@@ -103,3 +103,42 @@ export const mockDataOrders = [
         ]
     }
 ];
+
+export const mockDataDrivers = [
+    {
+        id: 1,
+        name: "Milo Sanders",
+        driver_status: "Verified",
+        email:"milosanders@example.com",
+        phone:"+254 733344890",
+        vehicle: "KMDC 1234, Motorcycle, Yamaha MT-07",
+        assignedDeliveries: 2
+    },
+    {
+        id: 2,
+        name: "Luna Lee",
+        driver_status: "Disabled",
+        email:"lunalee@example.com",
+        phone:"+254 732345891",
+        vehicle: "KCR 5678, Mini van",
+        assignedDeliveries: 0
+    },
+    {
+        id: 3,
+        name: "Ethan Kim",
+        driver_status: "Pending",
+        email:"ethankim@example.com",
+        phone:"+254 727546862",
+        vehicle: "KBN 9012, Scania R series",
+        assignedDeliveries: 1
+    },
+    {
+        id: 4,
+        name: "Ava Brooks",
+        driver_status: "Verified",
+        email:"avabrooks@example.com",
+        phone:"+254 734567890",
+        vehicle: "KDD 4436, Pickup Truck",
+        assignedDeliveries: 3
+    }
+]

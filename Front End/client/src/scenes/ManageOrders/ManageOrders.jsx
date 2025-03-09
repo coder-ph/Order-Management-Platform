@@ -64,7 +64,7 @@ const Orders = ({ user }) => {
                         order_items: order.order_items,
                         total_amount: order.total_amount,
                         status: order.status,
-                        destination: order.destination
+                        assignedDriver: order.assignedDriver ? order.assignedDriver.name : "Not Assigned",
                     }));
                     setOrders(formattedOrders);
                 }
@@ -90,9 +90,9 @@ const Orders = ({ user }) => {
     const handleRowClick = (params) => {
           console.log(params)
           console.log(params.id)
-        setSelectedOrder(params.row);
+        const selectedOrder = orders.find(order => order.id === params.id);
         setIsModalOpen(true);
-        navigate(`/dashboard/orders/${params.id}`)
+        navigate(`/dashboard/orders/${params.id}`, { state: { order: selectedOrder } });
     }
     const handleModalClose = () => {
         setIsModalOpen(false);
@@ -120,16 +120,11 @@ const Orders = ({ user }) => {
             ) 
         },
         { 
-            field: 'customer', 
-            headerName: 'Customer', 
-            flex: 1,
-        },
-        { 
             field: 'order_items', 
             headerName: 'Items', 
             flex: 0.5, 
             valueGetter: (params) => {
-                console.log("Row Data:", params.row);  // Debugging check
+                console.log("Row Data:", params.row);  
                 
                 return params.row?.order_items? params.row.order_items.length : 0
             }
@@ -151,17 +146,17 @@ const Orders = ({ user }) => {
                 sx={{
                     width:"100%",
                     color:
-                    row.status === "COMPLETED" ? colors.greenAccent[100] : 
+                    row.status === "COMPLETED" ? colors.greenAccent[500] :
                     row.status === "PENDING" ? colors.blueAccent[100] :
                     row.status === "IN PROGRESS" ? colors.blueAccent[500] :
                     row.status === "CANCELLED" ? colors.redAccent[500] :
-                    row.status === "REJECTED" ? colors.greenAccent[500] : 
+                    row.status === "REJECTED" ? colors.grey[500] : 
                     colors.grey[500],
                     borderRadius: "5px",
                     padding: "5px",
                 }}
                 >
-                    <MenuItem value={order_status.COMPLETE}>Processed</MenuItem>
+                    <MenuItem value={order_status.COMPLETE}>Completed</MenuItem>
                     <MenuItem value={order_status.PENDING}>Pending</MenuItem>
                     <MenuItem value={order_status.IN_PROGRESS}>In progress</MenuItem>
                     <MenuItem value={order_status.CANCELLED}>Cancelled</MenuItem>
@@ -170,8 +165,8 @@ const Orders = ({ user }) => {
                 ),
         },
         { 
-            field: 'order_destination', 
-            headerName: 'Destination', 
+            field: 'assignedDriver', 
+            headerName: 'Assigned Driver', 
             flex: 1,
         }
     ]
