@@ -49,7 +49,7 @@ const AddDriver = () => {
   };
 
   return (
-    <Box mb="20px">
+    <Box mb="20px" p={5}>
       <DasshboardHeader
         title="Create User"
         subtitle="Create a new Driver Profile"

@@ -98,7 +98,7 @@
 }
 
 .back-navigate {
-    margin-top: 150px;
+    margin-top: 600px;
 }
 
 
@@ -119,11 +119,19 @@
     color: #3c4a75;
     font-weight: bold;
     margin-top: 10px;
+    margin-bottom: 20px;
 }
 .customer-info {
     font-size: 16px;
     font-weight: 500;
     color: white;
+}
+
+.horizontal-line {
+    /* width: 500px; */
+    justify-content: center;
+    flex-grow: 1;
+    border: 0.5px solid #3c4a75;
 }
 
 .order-total {
@@ -139,6 +147,60 @@
 }
 .total-row span {
     margin-bottom: 32px;
+}
+
+.assigned-driver-deets {
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.assigned-driver {
+    padding-top: 50px;
+}
+
+.driver-label {
+    font-size: 12px;
+    color: #3c4a75;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.driver-info {
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+}
+
+.custom-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.custom-modal {
+    background-color: #1f2945;
+    padding: 24px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: white;
+}
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
 
