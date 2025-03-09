@@ -7,7 +7,6 @@ import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import io from "socket.io-client";
 
-
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x,
@@ -20,10 +19,14 @@ const AdminMap = () => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-  
-    const token = localStorage.getItem("token"); 
+    const token = localStorage.getItem("token");
+
+    
+    const newSocket = io("https://websockets-1-0gt2.onrender.com");
+    setSocket(newSocket);
 
     
     navigator.geolocation.getCurrentPosition(
@@ -31,9 +34,7 @@ const AdminMap = () => {
         const location = [position.coords.latitude, position.coords.longitude];
         setUserLocation(location);
 
-        
-        const socket = io("https://websockets-1-0gt2.onrender.com"); 
-        socket.emit("update_location", {
+        newSocket.emit("update_location", {
           token: token,
           latitude: location[0],
           longitude: location[1],
@@ -41,14 +42,20 @@ const AdminMap = () => {
       },
       (error) => {
         console.error("Error fetching user location:", error);
+        setError("Failed to fetch user location.");
       }
     );
+
+ 
+    return () => {
+      newSocket.disconnect();
+    };
   }, []);
 
   useEffect(() => {
-    const socket = io("https://websockets-1-0gt2.onrender.com"); 
+    if (!socket) return;
 
-    
+  
     socket.on("userLocationUpdate", (data) => {
       setVehicles(data);
       setLoading(false);
@@ -59,12 +66,14 @@ const AdminMap = () => {
       setLoading(false);
     });
 
+    
     return () => {
-      socket.disconnect();
+      socket.off("userLocationUpdate");
+      socket.off("error");
     };
-  }, []);
+  }, [socket]);
 
-  const center = userLocation || [1.2921, 36.8219]; 
+  const center = userLocation || [1.2921, 36.8219];
 
   return (
     <div className="flex h-screen w-screen">
