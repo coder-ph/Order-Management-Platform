@@ -32,7 +32,7 @@ const AdminMap = () => {
         setUserLocation(location);
 
         
-        const socket = io("http://localhost:5000"); 
+        const socket = io("https://websockets-1-0gt2.onrender.com"); 
         socket.emit("update_location", {
           token: token,
           latitude: location[0],
@@ -46,7 +46,7 @@ const AdminMap = () => {
   }, []);
 
   useEffect(() => {
-    const socket = io("http://localhost:5000"); 
+    const socket = io("https://websockets-1-0gt2.onrender.com"); 
 
     
     socket.on("userLocationUpdate", (data) => {

@@ -44,6 +44,7 @@
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "tailwindcss": "^4.0.7",
+    "twilio": "^5.4.5",
     "use-places-autocomplete": "^4.0.1",
     "uuid": "^11.1.0",
     "yup": "^1.6.1"
