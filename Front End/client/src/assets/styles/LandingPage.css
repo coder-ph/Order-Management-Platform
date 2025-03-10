@@ -141,9 +141,9 @@
    }
 
    .button-container {
-      position: static; /* Remove absolute positioning */
+      position: static;
       transform: none;
-      flex-direction: column; /* Stack buttons */
+      flex-direction: column; 
       align-items: center;
    }
 

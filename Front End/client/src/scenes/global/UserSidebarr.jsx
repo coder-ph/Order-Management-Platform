@@ -123,13 +123,13 @@ const UserSidebarr = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title="Wishlist"
               to="/wishlist"
               icon={<FavoriteBorderOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             <Item
               title="Personal Info"
               to="/user-profile"
@@ -137,25 +137,19 @@ const UserSidebarr = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title="Address"
               to="/user_address"
               icon={<MyLocationOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
-            <Item
-              title="Payment Methods"
-              to="/dashboard/form"
-              icon={<CreditCardOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            /> */}
+           
             <Box marginTop="140px">
               <MenuItem
                 icon={<LogoutIcon />}
                 onClick={handleLogout}
-                style={{ color: tokens(theme.palette.mode).primary[500] }}
+                style={{ color: tokens(theme.palette.mode).primary[500], paddingTop:'80px' }}
               >
                 <Typography>Log Out</Typography>
               </MenuItem>
