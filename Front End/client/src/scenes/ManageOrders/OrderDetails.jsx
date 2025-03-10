@@ -90,6 +90,25 @@ const OrderDetails = () => {
               Total Amount: <span>{order.total_amount}</span>
             </p>
           </div>
+          {/* Order Items */}
+          <h2 className="order-items-title">Customer Orders</h2>
+          <div className="order-items">
+            {order.order_items && Array.isArray(order.order_items) && order.order_items.length > 0 ? (
+                order.order_items.map((item, index) => (
+                <div key={index} className="order-item">
+                    <div className="order-item-details">
+                        <h3>{item.product_id}</h3>
+                        <p>{item.quantity} × ${item.price ? item.price.toFixed(2) : "0.00"}</p>
+                    </div>
+                 </div>
+                 ))
+                ) : (
+                <p>No items in this order.</p>
+                 )}
+                 </div>
+
+
+          
           <div className="back-navigate">
             <MainButton
               onClick={() => navigate(-2)}
