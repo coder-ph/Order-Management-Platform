@@ -90,6 +90,7 @@ const OrderDetails = () => {
               Total Amount: <span>{order.total_amount}</span>
             </p>
           </div>
+          
           <div className="back-navigate">
             <MainButton
               onClick={() => navigate(-2)}
