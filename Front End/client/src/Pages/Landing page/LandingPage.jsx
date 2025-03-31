@@ -2,6 +2,7 @@ import React from "react";
 import { FaBehance, FaDribble } from "react-icons/fa";
 import { IoMailOutline, IoChevronForwardCircle, IoStar } from "react-icons/io5";
 import { IconContext } from "react-icons/lib";
+import Card from "../../Components/landing page/Card";
 
 function LandingPage() {
   return (
@@ -50,8 +51,12 @@ function LandingPage() {
       <div className="content_wrapper">
         <div className="left_content_wrapper">
           <h2>
-            <span>Revolutionizing Logistics</span>
-            <span>For the Digital Age</span>
+            <span>
+              Revolutionizing <span className="second">Logistics</span>{" "}
+            </span>
+            <span>
+              For the <span className="second">Digital Age</span>{" "}
+            </span>
           </h2>
           <p2>
             Quantum Leap Innovations introduces a groundbreaking logistics
@@ -104,10 +109,11 @@ function LandingPage() {
           </div>
         </div>
         <div className="right_content_wrapper"></div>
-        < img src = {PerformanceObserverEntryList.EmitWarning.PUBLIC_URL+ '/images.bg.png'} alt="bg_image"/>
+        <img src={"/images.bg.png"} alt="bg_image" />
       </div>
 
       {/*  */}
+      <Card />
     </>
   );
 }
