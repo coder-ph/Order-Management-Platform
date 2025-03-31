@@ -178,3 +178,29 @@ input::placeholder {
 .alternative-text a:hover {
     text-decoration: none;
 }
+
+@media (max-width: 1024px) {
+    .login-container {
+        flex-direction: column;
+        height: auto;
+        max-height: none;
+        width: 90%;
+        margin: 20px;
+    }
+
+    .login-left-side,
+    .login-right-side {
+        width: 100%;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .login-left-side {
+        display: none; 
+    }
+
+    .login-right-side {
+        width: 100%; 
+    }
+}

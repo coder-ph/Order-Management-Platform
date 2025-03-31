@@ -1,7 +1,8 @@
 .landing-page {
    background-image: url('../Images/grey-dark-blue.png');
    background-size: cover;
-   height: 100vh;
+   background-attachment: fixed;
+   min-height: 100vh;
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -108,6 +109,8 @@
    .button-container {
       left: 75%;
       top: 10px;
+      position: relative;
+      z-index: 10;
    }
 
    .landing-image {
@@ -122,8 +125,11 @@
 /* For mobile screens (576px and below) */
 @media (max-width: 576px) {
    .landing-page {
-      justify-content: center; /* Center everything */
+      justify-content: center; 
       padding: 10px;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
    }
 
    .landing-page-content {

@@ -1,86 +1,76 @@
+
 .nav-bar-lp {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    background-color: transparent;
-    position: absolute;
-    width: 100%;
-    top: 0;
-    right: 370px;
-    font-family: 'Alata';
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 20px;
+   background-color: transparent;
+   position: absolute;
+   width: 100%;
+   top: 0;
+   font-family: 'Alata';
 }
+
+
 .nav-list-lp {
-    display: flex;
-    list-style: none;
-    gap: 50px;
+   display: flex;
+   list-style: none;
+   gap: 50px;
 }
+
+
 .nav-list-lp li {
-    font-size: 14px;
-    letter-spacing: 2px;
-    
+   font-size: 14px;
+   letter-spacing: 2px;
 }
+
 .nav-list-lp li a {
-    text-decoration: none;
-    color: black;
-    color: white;
+   text-decoration: none;
+   color: white;
 }
+
 .nav-list-lp li a:hover {
-    padding-bottom: 0.3rem;
-    border-bottom: 2px solid white;
+   padding-bottom: 0.3rem;
+   border-bottom: 2px solid white;
 }
 
-/* Media queries  */
-/* Default styles remain unchanged */
 
-/* For laptops & medium screens (992px and below) */
-@media (min-width: 1800px) {
-   .nav-bar-lp {
-      right: 0;
-      width: 100%;
+.hamburger {
+   display: none;
+   flex-direction: column;
+   cursor: pointer;
+   font-size: 24px;
+   color: white;
+}
+
+
+@media (max-width: 768px) {
+   .hamburger {
+       display: flex;
+   }
+
+   .nav-list-lp {
+       position: absolute;
+       top: 60px;
+       right: 0;
+       background-color: rgba(20, 27, 45, 0.9);
+       width: 100%;
+       flex-direction: column;
+       text-align: center;
+       padding: 20px 0;
+       transition: 0.3s ease-in-out;
+       transform: translateY(-100%);
+       opacity: 0;
+       visibility: hidden;
+   }
+
+   .nav-list-lp.open {
+       transform: translateY(0);
+       opacity: 1;
+       visibility: visible;
+   }
+
+   .nav-list-lp li {
+       margin: 15px 0;
    }
 }
-@media (max-width: 992px) {
-    .nav-bar-lp {
-       justify-content: space-between;
-       padding: 15px 40px;
-    }
- 
-    .nav-list-lp {
-       gap: 30px; /* Reduce spacing between items */
-    }
- 
-    .nav-list-lp li {
-       font-size: 13px; /* Slightly smaller font */
-    }
- }
- 
- /* For tablets (768px and below) */
- @media (max-width: 768px) {
-    .nav-bar-lp {
-       flex-direction: row;
-       align-items: center;
-       padding: 15px;
-    }
- 
-    .nav-list-lp {
-        margin-top: 20px;
-       flex-direction: row; /* Stack navigation items */
-       align-items: center;
-       gap: 20px;
-    }
- 
-    .nav-list-lp li {
-       font-size: 14px;
-    }
- }
- 
- /* For mobile screens (576px and below) */
- @media (max-width: 576px) {
-    .nav-bar-lp {
-       position: fixed; /* Make navbar fixed for better UX */
-       top: 0;
-       width: 100%
-       
-    }
- }
- 

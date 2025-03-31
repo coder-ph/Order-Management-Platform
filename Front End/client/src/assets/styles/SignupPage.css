@@ -185,4 +185,30 @@
     font-family: 'Alata', sans-serif;
 }
 
+@media (max-width: 1024px) {
+    .signup-container {
+        flex-direction: column;
+        height: auto;
+        max-height: none;
+        width: 90%;
+        margin: 20px;
+    }
+
+    .signup-left-section,
+    .signup-right-section {
+        width: 100%;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .signup-left-section {
+        display: none;
+    }
+    
+    .signup-right-section {
+        width: 100%;
+    }
+}
+
 
