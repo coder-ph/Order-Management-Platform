@@ -35,6 +35,7 @@ import Tracking from "./Components/tracking/Tracking"
 import UserProfile from "./Components/UserProfile"
 import OrderDetails from "./scenes/ManageOrders/OrderDetails"
 import EditUserProfile from "./Components/EditProfile"
+import LandingPages from "./Pages/Landing page/LandingPage"
 
 
 
@@ -53,8 +54,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        
-        <Route index element={<LandingPage />} />
+        <Route index element={<LandingPages />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<SetNewPassword />} />
@@ -67,14 +67,16 @@ const App = () => {
         <Route path="/change-address" element={<ChangeAddressPage />} />
         <Route path="/change-delivery" element={<ChangeDeliveryPage />} />
         <Route path="/track-order" element={<Tracking />} />
-        <Route path="/product/:id" element={<ProductDetails products={mockProducts} />} />
+        <Route
+          path="/product/:id"
+          element={<ProductDetails products={mockProducts} />}
+        />
         <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/edit-profile" element={<EditUserProfile />} />
         <Route path="/dashboard/orders/:id" element={<OrderDetails />} />
-        
+
         <Route path="/dashboard/*" element={<Ap />} />
 
-        
         <Route
           path="/admin/*"
           element={
@@ -106,7 +108,6 @@ const App = () => {
           }
         />
 
-        
         <Route
           path="*"
           element={
