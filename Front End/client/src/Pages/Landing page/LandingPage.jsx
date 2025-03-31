@@ -58,11 +58,56 @@ function LandingPage() {
             solution-no extra hardware, just smart technology
           </p2>
           <div className="btn_group">
-            
+            <div className="btn btn_primary">
+              Order
+              <IconContext.Provider
+                value={{
+                  color: "#14da8f",
+                  size: "25px",
+                }}
+              >
+                <IoChevronForwardCircle />
+              </IconContext.Provider>
+            </div>
+            <div className="btn btn_secondary">Customer Support</div>
+          </div>
+          <div className="review_container">
+            <p className="total_reviews">50+ Reviews</p>
+            <IconContext.Provider
+              value={{
+                color: "#fff",
+                size: "18px",
+              }}
+            >
+              <span>
+                {" "}
+                <IoStar />
+              </span>
+              <span>
+                {" "}
+                <IoStar />
+              </span>
+              <span>
+                {" "}
+                <IoStar />
+              </span>
+              <span>
+                {" "}
+                <IoStar />
+              </span>
+              <span>
+                {" "}
+                <IoStar />
+              </span>
+            </IconContext.Provider>
+            <p>More than 500+ clients across Afrcica taking our services</p>
           </div>
         </div>
         <div className="right_content_wrapper"></div>
+        < img src = {PerformanceObserverEntryList.EmitWarning.PUBLIC_URL+ '/images.bg.png'} alt="bg_image"/>
       </div>
+
+      {/*  */}
     </>
   );
 }
