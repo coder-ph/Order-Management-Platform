@@ -109,9 +109,8 @@ function Card() {
             </IconContext.Provider>
           </motion.span>
           <h3>
-            Ui/Ux Design
-            <br />
-            For Mobile & Web
+            Real-Time Tracking
+            <br />& Visibility
           </h3>
           <a href="#">
             <span>learn more</span>
@@ -134,9 +133,9 @@ function Card() {
             </IconContext.Provider>
           </motion.span>
           <h3>
-            Web & Mobile
+            Intelligent Route
             <br />
-            App Development
+            Optimization
           </h3>
           <a href="#">
             <span>learn more</span>
@@ -158,9 +157,8 @@ function Card() {
             </IconContext.Provider>
           </motion.span>
           <h3>
-            Illustration Design
-            <br />
-            (Flat, 3d & More)
+            Automated Dispatch
+            <br />& Fleet Management
           </h3>
           <a href="#">
             <span>learn more</span>
@@ -182,9 +180,8 @@ function Card() {
             </IconContext.Provider>
           </motion.span>
           <h3>
-            Stratagy & Product
-            <br />
-            Management
+            Seamless Integration
+            <br />& Scalability
           </h3>
           <a href="#">
             <span>learn more</span>
@@ -206,9 +203,9 @@ function Card() {
             </IconContext.Provider>
           </motion.span>
           <h3>
-            Custome Wordpress
+            Data Analytics &
             <br />
-            Design & Dev.
+            Performance Insights
           </h3>
           <a href="#">
             <span>learn more</span>
@@ -230,8 +227,9 @@ function Card() {
             </IconContext.Provider>
           </motion.span>
           <h3>
-            Digital Marketing
-            <br />& Management
+            Digital Proof
+            <br />
+            of Delivery
           </h3>
           <a href="#">
             <span>learn more</span>
@@ -253,9 +251,9 @@ function Card() {
             </IconContext.Provider>
           </motion.span>
           <h3>
-            Branding Design
+            Seamless Driver
             <br />
-            (Logo & Packaging)
+            Communication
           </h3>
           <a href="#">
             <span>learn more</span>
@@ -264,31 +262,31 @@ function Card() {
             </IconContext.Provider>
           </a>
         </motion.div>
-        <motion.div className="card dark" variants={item}>
-          <img
-            // src={process.env.PUBLIC_URL + "/images/line.png"}
-            alt="line"
-            className="line"
-          />
-          <h2>
-            +4 <br />
-            More...
-          </h2>
+
+        <motion.div className="card" variants={item}>
+          <motion.span
+            className="service_icon"
+            style={{ backgroundColor: "#fffada" }}
+            variants={hoverEffect}
+            whileHover="whileHover"
+            whileTap="whileTap"
+          >
+            <IconContext.Provider value={{ color: "#f1df11", size: "22px" }}>
+              <IoCard />
+            </IconContext.Provider>
+          </motion.span>
+          <h3>
+            AI-Powered Incident Alerts
+            <br />& Safety Monitoring
+          </h3>
           <a href="#">
-            <span>View more...</span>
-            <motion.span
-              className="service_icon"
-              style={{ backgroundColor: "#14da8f" }}
-              variants={hoverEffect}
-              whileHover="whileHover"
-              whileTap="whileTap"
-            >
-              <IconContext.Provider value={{ color: "#fff", size: "18px" }}>
-                <IoChevronForward />
-              </IconContext.Provider>
-            </motion.span>
+            <span>learn more</span>
+            <IconContext.Provider value={{ color: "#14da8f", size: "18px" }}>
+              <IoChevronForward />
+            </IconContext.Provider>
           </a>
         </motion.div>
+        
       </motion.div>
     </motion.div>
   );
