@@ -141,14 +141,14 @@ function LandingPages() {
   useEffect(() => {
     let start = 1;
     const interval = setInterval(() => {
-      start += Math.floor(Math.random() * 5) + 1; // Increment randomly between 1-5
+      start += Math.floor(Math.random() * 5) + 1; 
       if (start >= 95) {
         setCount("95+");
         clearInterval(interval);
       } else {
         setCount(start);
       }
-    }, 50); // Adjust speed here
+    }, 50); 
 
     return () => clearInterval(interval);
   }, []);

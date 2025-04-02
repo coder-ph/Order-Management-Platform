@@ -82,9 +82,9 @@ function Card() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, delay: 1 }}
         >
-          Save Time Managing Social Media
+          Save Time Managing and
           <br />
-          For Your Business.
+          Tracking Your Orders.
         </motion.h2>
       </div>
 
