@@ -1,5 +1,5 @@
 import "./landingpg.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaBehance, FaDribbble } from "react-icons/fa";
 import { IoMdLogIn } from "react-icons/io";
 import { IoMailOutline, IoChevronForwardCircle, IoStar, IoApps } from "react-icons/io5";
@@ -136,6 +136,22 @@ const header = {
 
 function LandingPages() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [count, setCount] = useState(1);
+
+  useEffect(() => {
+    let start = 1;
+    const interval = setInterval(() => {
+      start += Math.floor(Math.random() * 5) + 1; // Increment randomly between 1-5
+      if (start >= 95) {
+        setCount("95+");
+        clearInterval(interval);
+      } else {
+        setCount(start);
+      }
+    }, 50); // Adjust speed here
+
+    return () => clearInterval(interval);
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -331,9 +347,10 @@ function LandingPages() {
 
           <motion.div className="review_container" variants={stagger}>
             <motion.p className="total_review" variants={star}>
-              95+ Reviews
+              {count} Reviews
             </motion.p>
             <IconContext.Provider value={{ color: "#fff", size: "18px" }}>
+
               <motion.span
                 variants={star}
                 whileHover={{
