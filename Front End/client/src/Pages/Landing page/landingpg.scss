@@ -1,3 +1,4 @@
+@use "sass:color";
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 * {
@@ -247,7 +248,6 @@ header {
     width: 85%;
     margin: 0 auto;
     display: flex;
-    margin-top: 50px;
     justify-content: space-between;
     align-items: center;
     background-color: $light_green;
@@ -715,7 +715,7 @@ header {
     transition: all 0.3s ease;
 
     &:hover {
-        background-color: darken(#14da8f, 10%);
+        background-color: color.adjust(#14da8f, $lightness: -10%);
     }
 }
 
