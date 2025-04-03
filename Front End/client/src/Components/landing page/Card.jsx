@@ -1,13 +1,8 @@
 import React from "react";
 import {
-  IoMailOutline,
   IoChevronForward,
-  IoApps,
   IoNotifications,
   IoPieChart,
-  IoNewspaper,
-  IoCard,
-  IoColorFill,
 } from "react-icons/io5";
 import { CgTrack } from "react-icons/cg";
 import { TbSettingsCheck } from "react-icons/tb";
