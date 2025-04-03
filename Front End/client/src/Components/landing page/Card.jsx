@@ -9,8 +9,11 @@ import {
   IoCard,
   IoColorFill,
 } from "react-icons/io5";
+import { CgTrack } from "react-icons/cg";
+import { MdAltRoute } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { motion } from "framer-motion";
+import { PiTruckTrailerThin } from "react-icons/pi";
 
 let easing = [0.6, -0.05, 0.01, 0.99];
 
@@ -105,7 +108,7 @@ function Card() {
             whileTap="whileTap"
           >
             <IconContext.Provider value={{ color: "#14da8f", size: "22px" }}>
-              <IoMailOutline />
+              <CgTrack />
             </IconContext.Provider>
           </motion.span>
           <h3>
@@ -129,7 +132,7 @@ function Card() {
             whileTap="whileTap"
           >
             <IconContext.Provider value={{ color: "#5700cf", size: "22px" }}>
-              <IoApps />
+              <MdAltRoute />
             </IconContext.Provider>
           </motion.span>
           <h3>
@@ -153,7 +156,7 @@ function Card() {
             whileTap="whileTap"
           >
             <IconContext.Provider value={{ color: "#ff8559", size: "22px" }}>
-              <IoColorFill />
+              <PiTruckTrailerThin />
             </IconContext.Provider>
           </motion.span>
           <h3>
@@ -276,8 +279,8 @@ function Card() {
             </IconContext.Provider>
           </motion.span>
           <h3>
-            AI-Powered Incident Alerts
-            <br />& Safety Monitoring
+            AI-Powered
+            <br />& Incident Alert
           </h3>
           <a href="#">
             <span>learn more</span>
@@ -286,7 +289,6 @@ function Card() {
             </IconContext.Provider>
           </a>
         </motion.div>
-        
       </motion.div>
     </motion.div>
   );

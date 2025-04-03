@@ -159,13 +159,23 @@ function LandingPages() {
 
   return (
     <motion.div initial="initial" animate="animate">
-    
       <motion.header variants={stagger}>
-        <motion.div className="logo_wrapper" variants={header}>
-          Quantum<span>Li</span>
+     
+        <motion.div
+          className="logo_wrapper"
+          variants={header}
+          style={{ display: "flex", alignItems: "center", gap: "8px" }}
+        >
+          <img
+            src="src/assets/icons/logo2.png"
+            alt="QuantumLi Logo"
+            style={{ height: "40px" }}
+          />
+          <span style={{color: "black"}}>
+            Quantum<span>Li</span>
+          </span>
         </motion.div>
-        
-        
+
         <motion.div className="desktop-nav" variants={stagger}>
           <motion.span className="nav-item" variants={header}>
             <div className="nav-link">
@@ -201,13 +211,14 @@ function LandingPages() {
           </motion.span>
         </motion.div>
 
-        
-        <motion.div 
-          className={`mobile-menu-btn ${isMenuOpen ? 'open' : ''}`}
+        <motion.div
+          className={`mobile-menu-btn ${isMenuOpen ? "open" : ""}`}
           onClick={toggleMenu}
           variants={header}
         >
-          {isMenuOpen ? <IoMdClose size={24} /> : (
+          {isMenuOpen ? (
+            <IoMdClose size={24} />
+          ) : (
             <>
               <span></span>
               <span></span>
@@ -216,12 +227,11 @@ function LandingPages() {
           )}
         </motion.div>
 
-       
-        <motion.div 
-          className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}
-          initial={{ opacity: 0, x: '100%' }}
-          animate={{ opacity: 1, x: isMenuOpen ? 0 : '100%' }}
-          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        <motion.div
+          className={`mobile-menu ${isMenuOpen ? "open" : ""}`}
+          initial={{ opacity: 0, x: "100%" }}
+          animate={{ opacity: 1, x: isMenuOpen ? 0 : "100%" }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
           <div className="mobile-nav-item">
             <Link to="/login" onClick={toggleMenu}>
@@ -288,7 +298,6 @@ function LandingPages() {
               animate="animate"
               className="last"
             >
-            
               <motion.span variants={letter} className="second">
                 f
               </motion.span>
@@ -350,7 +359,6 @@ function LandingPages() {
               {count} Reviews
             </motion.p>
             <IconContext.Provider value={{ color: "#fff", size: "18px" }}>
-
               <motion.span
                 variants={star}
                 whileHover={{

@@ -244,9 +244,9 @@ header {
 
 
 .content_wrapper {
-    width: 80%;
+    width: 85%;
     margin: 0 auto;
-    @extend .dflex;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: $light_green;
@@ -273,23 +273,33 @@ header {
         }
 
         p {
-            font-size: 1.02vw;
+            font-size: 1rem;
+            
             color: #333;
             margin: 20px 0 30px 0;
+            line-height: 1.6;
+            word-wrap: break-word;
+            
         }
 
         .btn_group {
-            @extend .dflex;
-            width: 70%;
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
             justify-content: space-between;
+            gap: 10px;
 
             .btn {
-                @extend .dflex;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 width: 48%;
                 height: 56px;
-                font-size: 20px;
+                font-size: 16px;
                 border-radius: 8px;
                 font-weight: 600;
+                overflow: hidden;
+                text-align: center;
 
                 &.btn_primary {
                     background-color: $black;
@@ -305,6 +315,10 @@ header {
                     color: $black;
                     border: 1px solid $black;
                 }
+
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
             }
         }
 
@@ -327,7 +341,6 @@ header {
 
             span {
                 display: inline-flex;
-                @extend .dflex;
                 width: 30px;
                 height: 30px;
                 background-color: $dark_green;
@@ -342,13 +355,85 @@ header {
     }
 
     .right_content_wrapper {
-        width: 48%;
-        @extend .dflex;
-        justify-content: flex-end;
+        width: 45%;
 
+       
         img {
-            display: block;
             width: 100%;
+            height: auto;
+            max-width: 500px;
+            object-fit: cover;
+        }
+    }
+
+    /* Media Queries for Responsiveness */
+    @media (max-width: 768px) {
+        .content_wrapper {
+            flex-direction: column;
+            padding: 0%;
+        }
+
+        .left_content_wrapper {
+            width: 100%;
+
+            h2 {
+                font-size: 4rem;
+                letter-spacing: 0.01em;
+                margin-bottom: 10px;
+            }
+                        h2 span {
+                            display: inline-flex;
+                            word-break: keep-all;
+                        }
+
+            p {
+                font-size: 1rem;
+                
+                line-height: 1.6;
+                margin: 10px 0;
+            }
+
+            .btn_group {
+                flex-direction: column;
+                width: 90%;
+                gap: 15px;
+
+                .btn {
+                    width: 100%;
+                   
+                    font-size: 18px;
+                }
+            }
+        }
+
+        .right_content_wrapper {
+            width: 100%;
+            margin-top: 0px;
+
+            img {
+                max-width: 100%;
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+        .left_content_wrapper {
+            h2 {
+                font-size: 2.5rem;
+   
+            }
+
+            p {
+                font-size: 1rem;
+                
+            }
+
+            .btn_group {
+                .btn {
+                    font-size: 16px;
+               
+                }
+            }
         }
     }
 }
@@ -356,8 +441,8 @@ header {
 
 .service_container {
     display: block;
-    width: 80%;
-    margin: 80px auto 0 auto;
+    width: 90%;
+    margin: 50px auto 0 auto;
 
     .title_wrapper {
         overflow: hidden;
@@ -368,36 +453,38 @@ header {
             color: $dark_green;
             text-transform: uppercase;
             letter-spacing: 5px;
-            font-size: 1.01vw;
+            font-size: 14px;
             font-weight: 600;
             overflow: hidden;
         }
     }
 
     h2 {
-        font-size: 2.2vw;
+        font-size: 24px;
         font-weight: 600;
         color: $black;
         text-align: center;
         text-transform: capitalize;
         margin-top: 20px;
-        line-height: 1.5;
+        line-height: 1.4;
         overflow: hidden;
     }
 }
 
 .service_card {
     @extend .dflex;
-    flex-wrap: wrap;
-    grid-gap: 1vw;
-    justify-content: flex-start;
+    display: grid;
+    /* Using grid layout */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    /* Responsive grid for larger screens */
+    gap: 20px;
+    justify-content: center;
     margin: 60px 0;
 
     .card {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        width: calc(96% / 4);
         border: 1px solid #f0f0f0;
         border-radius: 8px;
         background-color: $white;
@@ -411,28 +498,6 @@ header {
             box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
             cursor: pointer;
             top: -5px;
-        }
-
-        &.dark {
-            background-color: $black;
-            color: $white;
-
-            .line {
-                position: absolute;
-                top: 0;
-                right: 3.8vw;
-                width: 4.5vw;
-            }
-
-            h2 {
-                color: $white;
-                text-align: left;
-            }
-
-            a {
-                display: flex;
-                justify-content: space-between;
-            }
         }
 
         .service_icon {
@@ -823,5 +888,65 @@ header {
                 font-size: 1rem;
             }
         }
+    }
+}
+// 
+@media (max-width: 768px) {
+    .service_title {
+        font-size: 14px !important;
+        /* Increase title font size */
+    }
+
+    h2 {
+        font-size: 24px !important;
+        /* Ensure the heading is large enough */
+    }
+
+    .service_card {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 7px;
+        justify-items: center;
+       
+        padding-right: 5px;
+        /* Make sure the padding is appropriate */
+    }
+
+    .card {
+        width: 100% !important;
+        /* Ensure the cards take up full width */
+        padding: 20px !important;
+        /* Increase padding for readability */
+        height: 200px !important;
+        /* Adjust height for flexible content */
+    }
+
+    .service_icon {
+        width: 50px !important;
+        /* Increase icon size */
+        height: 50px !important;
+        /* Increase icon size */
+    }
+
+    h3 {
+        font-size: 20px !important;
+        /* Increase font size for the service name */
+        font-weight: 600;
+        color: $black;
+        text-transform: capitalize;
+    }
+
+    a {
+        font-size: 16px !important;
+        /* Increase font size for the link text */
+        color: $dark_green;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+    }
+
+    .card .service_icon {
+        width: 50px !important;
+        height: 50px !important;
     }
 }
