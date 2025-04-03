@@ -14,6 +14,7 @@ import IntroSection from "./Intro";
 import FeaturesSection from "./Features";
 import BackToTop from "./BackToTop";
 import Footer from "./Footer";
+import logo from "../../assets/icons/log.webp";
 
 let easeing = [0.6, -0.05, 0.01, 0.99];
 
@@ -165,11 +166,7 @@ function LandingPages() {
           variants={header}
           style={{ display: "flex", alignItems: "center", gap: "8px" }}
         >
-          <img
-            src="src/assets/icons/log.webp"
-            alt=""
-            style={{ height: "40px" }}
-          />
+          <img src={logo} alt="Logo" style={{ height: "40px" }} />
           <span style={{ color: "black" }}>
             Quantum<span>Li</span>
           </span>
