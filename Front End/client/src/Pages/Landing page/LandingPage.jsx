@@ -167,7 +167,7 @@ function LandingPages() {
         >
           <img
             src="src/assets/icons/log.webp"
-            alt="QuantumLi Logo"
+            alt=""
             style={{ height: "40px" }}
           />
           <span style={{ color: "black" }}>
