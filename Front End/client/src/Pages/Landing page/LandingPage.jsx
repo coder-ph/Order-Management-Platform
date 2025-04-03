@@ -160,18 +160,17 @@ function LandingPages() {
   return (
     <motion.div initial="initial" animate="animate">
       <motion.header variants={stagger}>
-     
         <motion.div
           className="logo_wrapper"
           variants={header}
           style={{ display: "flex", alignItems: "center", gap: "8px" }}
         >
           <img
-            src="src/assets/icons/logo2.png"
+            src="src/assets/icons/log.webp"
             alt="QuantumLi Logo"
             style={{ height: "40px" }}
           />
-          <span style={{color: "black"}}>
+          <span style={{ color: "black" }}>
             Quantum<span>Li</span>
           </span>
         </motion.div>
