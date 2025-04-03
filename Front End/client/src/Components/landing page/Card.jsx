@@ -10,9 +10,13 @@ import {
   IoColorFill,
 } from "react-icons/io5";
 import { CgTrack } from "react-icons/cg";
+import { TbSettingsCheck } from "react-icons/tb";
+import { BsGraphUpArrow } from "react-icons/bs";
 import { MdAltRoute } from "react-icons/md";
 import { IconContext } from "react-icons";
+import { HiOutlineBellAlert } from "react-icons/hi2";
 import { motion } from "framer-motion";
+import { LuMessagesSquare } from "react-icons/lu";
 import { PiTruckTrailerThin } from "react-icons/pi";
 
 let easing = [0.6, -0.05, 0.01, 0.99];
@@ -179,7 +183,7 @@ function Card() {
             whileTap="whileTap"
           >
             <IconContext.Provider value={{ color: "#fa3970", size: "22px" }}>
-              <IoNotifications />
+              <TbSettingsCheck />
             </IconContext.Provider>
           </motion.span>
           <h3>
@@ -202,7 +206,7 @@ function Card() {
             whileTap="whileTap"
           >
             <IconContext.Provider value={{ color: "#56a8f4", size: "22px" }}>
-              <IoNewspaper />
+              <BsGraphUpArrow />
             </IconContext.Provider>
           </motion.span>
           <h3>
@@ -250,7 +254,7 @@ function Card() {
             whileTap="whileTap"
           >
             <IconContext.Provider value={{ color: "#f1df11", size: "22px" }}>
-              <IoCard />
+              <LuMessagesSquare />
             </IconContext.Provider>
           </motion.span>
           <h3>
@@ -275,7 +279,7 @@ function Card() {
             whileTap="whileTap"
           >
             <IconContext.Provider value={{ color: "#f1df11", size: "22px" }}>
-              <IoCard />
+              <HiOutlineBellAlert />
             </IconContext.Provider>
           </motion.span>
           <h3>
