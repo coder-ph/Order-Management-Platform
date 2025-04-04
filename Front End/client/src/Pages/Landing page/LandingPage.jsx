@@ -168,7 +168,7 @@ function LandingPages() {
         >
           <img src={logo} alt="Logo" style={{ height: "40px" }} />
           <span style={{ color: "black" }}>
-            Quantum<span>Li</span>
+            Quantum Leap  <span>Innovations</span>
           </span>
         </motion.div>
 
