@@ -346,7 +346,7 @@ function LandingPages() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Explore Features
+             Book a Demo
             </motion.div>
           </motion.div>
 
