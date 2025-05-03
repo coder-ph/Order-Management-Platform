@@ -19,6 +19,7 @@ import AdDashboard from "./AdDashboard";
 import AdminMap from "../../Pages/AdminMap";
 import Orders from "../ManageOrders/ManageOrders";
 import OrderDetails from "../ManageOrders/OrderDetails";
+import DriverAdDashboard from "../DriverManager/DriverAdDashboard";
 
 const Ap = () => {
   const [theme, colorMode] = useMode();
@@ -54,6 +55,7 @@ const Ap = () => {
                 <Route path="/line" element={<Line />} />
                 <Route path="/map" element={<AdminMap />} />
                 <Route path="/main" element={<AdDashboard />} />
+                <Route path="/driver" element={< DriverAdDashboard/>} />
               </Routes>
             </div>
           </div>

@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
+import DriveEtaIcon from "@mui/icons-material/DriveEta";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
@@ -134,6 +135,13 @@ const AdminSidebar = () => {
               title="Manage Team"
               to="/dashboard/team"
               icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Manage Drivers"
+              to="/dashboard/driver"
+              icon={<DriveEtaIcon />}
               selected={selected}
               setSelected={setSelected}
             />
