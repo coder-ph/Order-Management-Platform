@@ -1,22 +1,18 @@
 import React from "react";
+import CaroleTillen from "./CaroleTillen";
 
 const DriverAdDashboard = () => {
-
   return (
-    // Create your components in DriverManager Component
-    <>
-      <div>Compliance & Certification Analytics Section</div>
-      {/* <Angela & Julius Component /> */}
+    <div className="bg-gray-900 min-h-screen p-6">
+      {/* Optional header */}
+      <header className="text-center mb-8">
+        <h1 className="text-4xl font-bold text-white">Driver Performance Dashboard</h1>
+        <p className="text-lg text-gray-400">Track the performance and utilization of your delivery drivers</p>
+      </header>
 
-      <div>Driver Status & Availabilty Section</div>
-      {/* <Jafaar Component /> */}
-
-      <div>Performance & utilizations Section</div>
-      {/* <Carole & Tillen Component /> */}
-
-      <div>Open to any more Section</div>
-      {/* <Additional-Component /> */}
-    </>
+      {/* Main content */}
+      <CaroleTillen />
+    </div>
   );
 };
 
