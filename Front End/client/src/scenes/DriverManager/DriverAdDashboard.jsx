@@ -1,14 +1,14 @@
 import React from "react";
-import ComplianceDashboard from "./AngelaJulius";
+import DriversTable from "./AngelaJulius";
 
 const DriverAdDashboard = () => {
 
   return (
     // Create your components in DriverManager Component
     <>
-      <div>Compliance & Certification Analytics Section</div>
-      {/* <AngelaJulius Component /> */}
-      <ComplianceDashboard />
+      {/* <div>Compliance & Certification Analytics Section</div> */}
+      {/* <Angela & Julius Component /> */}
+      <DriversTable/>
 
       <div>Driver Status & Availabilty Section</div>
       {/* <Jafaar Component /> */}

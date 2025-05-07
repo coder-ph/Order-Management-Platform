@@ -1,294 +1,210 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from 'axios'
+import { Box, MenuItem, Select, FormControl, InputLabel, useTheme } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { tokens } from "../../theme";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined"
+import DasshboardHeader from "../../Components/DasshboardHeader";
 
-const ComplianceDashboard = () => {
+const DriversTable = () => {
+
   const [drivers, setDrivers] = useState([]);
-  const [filter, setFilter] = useState({
-    licenseExpiryRange: 30,
-    medicalExpiryRange: 30,
-    documentType: "all",
-    trainingStatus: "all",
-    documentStatus: "all", 
-  });
+  const [expiryFilter, setExpiryFilter] = useState("")
+  const [documentType, setDocumentType] = useState("license"); 
 
-  const [summary, setSummary] = useState({
-    compliant: 0,
-    nonCompliant: 0,
-  });
 
-  // Fetch drivers on load or when filters change
+ 
   useEffect(() => {
-    fetchDrivers();
-  }, [filter]);
-
-  const fetchDrivers = async () => {
-    try {
-      console.log("Fetching with filters:", filter); 
-      const response = await axios.get("http://localhost:5000/api/v1/drivers", {
-        params: filter,
-      });
-      let fetchedDrivers = response.data.drivers;
-
-      if (fetchedDrivers && Array.isArray(fetchedDrivers)) {
+    axios.get("http://localhost:5000/api/v1/drivers")
+      .then(response => {
+        console.log("response: ", response);
         const today = new Date();
+        const data = Array.isArray(response.data) ? response.data : response.data.drivers;
+        const updatedDrivers = data.map((driver, index) => {
+          const licenseExpiry = new Date(driver.license_expiry);
+          const medicalExpiry = new Date(driver.medical_certificate_expiry);
 
-        // Fallback compliance logic (frontend-side)
-        fetchedDrivers = fetchedDrivers.map((driver) => {
-          const licenseExpiry = driver.license_expiry ? new Date(driver.license_expiry) : null;
-          const medicalExpiry = driver.medical_certificate_expiry
-            ? new Date(driver.medical_certificate_expiry)
-            : null;
-
-          // Track expired or missing documents
-          const expiredDocuments = [];
-          const missingDocuments = [];
-
-          // Check for expired or missing license
-          if (!driver.license_expiry || licenseExpiry <= today) {
-            expiredDocuments.push('License');
-          }
-          if (!driver.license_expiry) {
-            missingDocuments.push('License');
-          }
-
-          // Check for expired or missing medical certificate
-          if (!driver.medical_certificate_expiry || medicalExpiry <= today) {
-            expiredDocuments.push('Medical Certificate');
-          }
-          if (!driver.medical_certificate_expiry) {
-            missingDocuments.push('Medical Certificate');
-          }
-
-          // Check for missing training certifications
-          if (!driver.training_certifications) {
-            missingDocuments.push('Training');
-          }
-
-          // Determine compliance
-          const isCompliant =
-            licenseExpiry && medicalExpiry &&
-            licenseExpiry > today &&
-            medicalExpiry > today &&
-            missingDocuments.length === 0;
+          const daysToLicenseExpiry = Math.ceil((licenseExpiry - today) / (1000 * 60 * 60 * 24));
+          const daysToMedicalExpiry = Math.ceil((medicalExpiry - today) / (1000 * 60 * 60 * 24));
 
           return {
             ...driver,
-            compliant: isCompliant,
-            expired_documents: expiredDocuments,
-            missing_documents: missingDocuments,
-          };
+            days_to_expiry: daysToLicenseExpiry,
+            days_to_medical_expiry: daysToMedicalExpiry,
+            driver_id: driver.driver_id || index + 1
+          }
         });
+        console.log("Fetched drivers: ", updatedDrivers);
+        setDrivers(updatedDrivers);
+      })
+      .catch(error => {
+        console.error("Error fetching drivers:", error);
+      });
+  }, []);
 
-        setDrivers(fetchedDrivers);
+  const handleFilterChange = (event) => {
+    setExpiryFilter(event.target.value);
+  }
 
-        const compliantCount = fetchedDrivers.filter((d) => d.compliant).length;
-        const nonCompliantCount = fetchedDrivers.length - compliantCount;
+  // const filteredDrivers = expiryFilter
+  //   ? drivers.filter((driver) => driver.days_to_expiry <= expiryFilter)
+  //   : drivers;
+  const filteredDrivers = drivers.filter(driver => {
+    const days =
+      documentType === "license"
+        ? driver.days_to_expiry
+        : documentType === "medical"
+        ? driver.days_to_medical_expiry
+        : Infinity; 
+  
+    return !expiryFilter || days <= expiryFilter;
+  });
 
-        setSummary({
-          compliant: compliantCount,
-          nonCompliant: nonCompliantCount,
-        });
-      } else {
-        console.error("Invalid driver data structure:", response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching driver data:", error);
-    }
+
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const baseColumns = [
+    {
+      field: "first_name",
+      headerName: "First Name",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "last_name",
+      headerName: "Last Name",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      flex: 1,
+    },
+    {
+      field: "contact_phone",
+      headerName: "Phone Number",
+      flex: 1,
+    },
+  ];
+  
+  const licenseColumns = [
+    {
+      field: "license_number",
+      headerName: "License No.",
+      flex: 1,
+    },
+    {
+      field: "license_type",
+      headerName: "License Type",
+      flex: 1,
+    },
+    {
+      field: "license_expiry",
+      headerName: "License Expiry",
+      flex: 1,
+    },
+  ];
+  
+  const medicalColumns = [
+    {
+      field: "medical_certificate_expiry",
+      headerName: "Medical Expiry",
+      flex: 1,
+    },
+  ];
+  
+  const statusColumn = {
+    field: "status",
+    headerName: "Status",
+    flex: 1,
+    renderCell: ({ row }) => {
+      const isActive = row.status === "active";
+      return (
+        <Box
+          px={1}
+          py={0.5}
+          borderRadius="4px"
+          display="inline-block"
+          color={isActive ? colors.greenAccent[100] : colors.redAccent[100]}
+          bgcolor={isActive ? colors.greenAccent[700] : colors.redAccent[700]}
+          fontWeight="bold"
+          textTransform="capitalize"
+        >
+          {isActive ? <CheckCircleOutlineIcon fontSize="small" /> : <CancelOutlinedIcon fontSize="small" />}
+          {row.status}
+        </Box>
+      );
+    },
   };
+  
+  // Select columns based on document type
+  let columns = [...baseColumns];
+  
+  if (documentType === "license") {
+    columns = [...columns, ...licenseColumns];
+  } else if (documentType === "medical") {
+    columns = [...columns, ...medicalColumns];
+  }
+  
+  columns.push(statusColumn);
+  
 
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilter((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>Compliance & Certification Dashboard</h2>
+    <Box m="20px">
+      <DasshboardHeader title="DRIVERS" subtitle="Compliance" />
+      <FormControl sx={{ minWidth: 200, mb: 2, mr: 2 }}>
+        <InputLabel>Document Type</InputLabel>
+        <Select value={documentType} onChange={(e) => setDocumentType(e.target.value)} label="Document Type">
+          <MenuItem value="license">License</MenuItem>
+          <MenuItem value="medical">Medical Certificate</MenuItem>          
+        </Select>
+      </FormControl>
 
-      {/* Filter Section */}
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "1rem",
-          marginBottom: "1.5rem",
-          justifyContent: "space-between",
+      <FormControl sx={{minWidth: 200, mb: 2}}>
+        <InputLabel>Filter By Expiry</InputLabel>
+        <Select value={expiryFilter} onChange={handleFilterChange} label="filter by expiry">
+          <MenuItem value="">All</MenuItem>
+          <MenuItem value={30}>30 Days</MenuItem>
+          <MenuItem value={60}>60 Days</MenuItem>
+          <MenuItem value={90}>90 Days</MenuItem>
+        </Select>
+      </FormControl>
+      <Box
+        m="40px 0 0 0"
+        height="75vh"
+        sx={{
+          "& .MuiDataGrid-root": { border: "none" },
+          "& .MuiDataGrid-cell": {
+            borderBottom: "none",
+          },
+          "& .name-column--cell": {
+            color: colors.greenAccent[300],
+          },
+          "& .MuiDataGrid-columnHeader": {
+            backgroundColor: colors.blueAccent[700],
+            borderBottom: "none",
+          },
+          "& .MuiDataGrid-virtualScroller": {
+            backgroundColor: colors.primary[400],
+          },
+          "& .MuiDataGrid-footerContainer": {
+            borderTop: "none", backgroundColor: colors.blueAccent[700]
+          },
         }}
       >
-        {/* License Expiry */}
-        <div style={{ flex: "1 1 200px" }}>
-          <label style={{ fontWeight: "bold", display: "block" }}>
-            License Expiry Range:
-          </label>
-          <select
-            name="licenseExpiryRange"
-            value={filter.licenseExpiryRange}
-            onChange={handleFilterChange}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-              fontSize: "1rem",
-            }}
-          >
-            <option value="7">7 Days</option>
-            <option value="30">30 Days</option>
-            <option value="60">60 Days</option>
-            <option value="90">90 Days</option>
-          </select>
-        </div>
-
-        {/* Medical Expiry */}
-        <div style={{ flex: "1 1 200px" }}>
-          <label style={{ fontWeight: "bold", display: "block" }}>
-            Medical Expiry Range:
-          </label>
-          <select
-            name="medicalExpiryRange"
-            value={filter.medicalExpiryRange}
-            onChange={handleFilterChange}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-              fontSize: "1rem",
-            }}
-          >
-            <option value="7">7 Days</option>
-            <option value="30">30 Days</option>
-            <option value="60">60 Days</option>
-            <option value="90">90 Days</option>
-          </select>
-        </div>
-
-        {/* Document Type */}
-        <div style={{ flex: "1 1 200px" }}>
-          <label style={{ fontWeight: "bold", display: "block" }}>
-            Document Type:
-          </label>
-          <select
-            name="documentType"
-            value={filter.documentType}
-            onChange={handleFilterChange}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-              fontSize: "1rem",
-            }}
-          >
-            <option value="all">All</option>
-            <option value="license">License</option>
-            <option value="medical">Medical</option>
-            <option value="training">Training</option>
-          </select>
-        </div>
-
-        {/* Training Status */}
-        <div style={{ flex: "1 1 200px" }}>
-          <label style={{ fontWeight: "bold", display: "block" }}>
-            Training Status:
-          </label>
-          <select
-            name="trainingStatus"
-            value={filter.trainingStatus}
-            onChange={handleFilterChange}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-              fontSize: "1rem",
-            }}
-          >
-            <option value="all">All</option>
-            <option value="completed">Completed</option>
-            <option value="expired">Expired</option>
-            <option value="missing">Missing</option>
-          </select>
-        </div>
-
-        {/* Document Status (Expired or Missing) */}
-        <div style={{ flex: "1 1 200px" }}>
-          <label style={{ fontWeight: "bold", display: "block" }}>
-            Document Status:
-          </label>
-          <select
-            name="documentStatus"
-            value={filter.documentStatus}
-            onChange={handleFilterChange}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-              fontSize: "1rem",
-            }}
-          >
-            <option value="all">All Documents</option>
-            <option value="expired">Expired Documents</option>
-            <option value="missing">Missing Documents</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Compliance Summary */}
-      <div style={{ marginBottom: "2rem" }}>
-        <strong>Compliant Drivers:</strong> {summary.compliant} |{" "}
-        <strong>Non-Compliant Drivers:</strong> {summary.nonCompliant}
-      </div>
-
-      {/* Driver Table */}
-      <table
-        border="1"
-        cellPadding="10"
-        style={{ width: "100%", borderCollapse: "collapse" }}
-      >
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>License Expiry</th>
-            <th>Medical Certificate Expiry</th>
-            <th>Training Certifications</th>
-            <th>Expired Documents</th>
-            <th>Missing Documents</th>
-            <th>Compliance Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {drivers.map((driver) => (
-            <tr key={driver.driver_id}>
-              <td>
-                {driver.first_name} {driver.last_name}
-              </td>
-              <td>{driver.license_expiry || "N/A"}</td>
-              <td>{driver.medical_certificate_expiry || "N/A"}</td>
-              <td>{driver.training_certifications || "None"}</td>
-              <td>
-                {driver.expired_documents.length > 0
-                  ? driver.expired_documents.join(", ")
-                  : "None"}
-              </td>
-              <td>
-                {driver.missing_documents.length > 0
-                  ? driver.missing_documents.join(", ")
-                  : "None"}
-              </td>
-              <td style={{ color: driver.compliant ? "green" : "red" }}>
-                {driver.compliant ? "Compliant" : "Non-Compliant"}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        <DataGrid 
+          rows={filteredDrivers} 
+          columns={columns} 
+          getRowId={(row) => row.driver_id}
+        />
+      </Box>
+    </Box>
   );
+   DasshboardHeader;
 };
+export default DriversTable;
 
-export default ComplianceDashboard;
