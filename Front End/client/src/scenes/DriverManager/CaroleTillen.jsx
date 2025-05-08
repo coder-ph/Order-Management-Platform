@@ -1,203 +1,165 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import {
+  Box, Typography, Select, MenuItem, TextField, CircularProgress,
+  Alert, FormControl, InputLabel, TableContainer, Paper, Table,
+  TableHead, TableRow, TableCell, TableBody
+} from '@mui/material';
+import dayjs from 'dayjs';
+
+const timePeriods = [
+  { label: 'Today', value: 'today' },
+  { label: 'Last 7 Days', value: 'last7days' },
+  { label: 'This Month', value: 'thismonth' },
+  { label: 'Custom Range', value: 'custom' },
+];
 
 const CaroleTillen = () => {
-  const [drivers, setDrivers] = useState([]);
-  const [deliveries, setDeliveries] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [timePeriod, setTimePeriod] = useState('today');
+  const [customStartDate, setCustomStartDate] = useState('');
+  const [customEndDate, setCustomEndDate] = useState('');
+  const [filters, setFilters] = useState({
+    deliveryCountMin: '',
+    deliveryCountMax: '',
+    avgDeliveryTimeMin: '',
+    avgDeliveryTimeMax: '',
+    customerRatingThreshold: '',
+    orderRejectionRateMax: '',
+  });
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [driverData, setDriverData] = useState([]);
 
-  // Filters
-  const [timePeriod, setTimePeriod] = useState("today");
-  const [deliveryThreshold, setDeliveryThreshold] = useState(0);
-  const [avgDeliveryTimeRange, setAvgDeliveryTimeRange] = useState([0, 60]); // in minutes
-  const [ratingThreshold, setRatingThreshold] = useState(4.5);
+  const getDateRange = () => {
+    const today = dayjs();
+    switch (timePeriod) {
+      case 'today':
+        return { start: today.startOf('day').toISOString(), end: today.endOf('day').toISOString() };
+      case 'last7days':
+        return { start: today.subtract(7, 'day').startOf('day').toISOString(), end: today.endOf('day').toISOString() };
+      case 'thismonth':
+        return { start: today.startOf('month').toISOString(), end: today.endOf('month').toISOString() };
+      case 'custom':
+        return {
+          start: customStartDate ? dayjs(customStartDate).toISOString() : null,
+          end: customEndDate ? dayjs(customEndDate).toISOString() : null
+        };
+      default:
+        return { start: null, end: null };
+    }
+  };
+
+  const fetchDriverData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const apiUrl = 'https://eci-jsons-myf8.vercel.app/drivers';
+      const response = await fetch(apiUrl);
+      if (!response.ok) throw new Error('Failed to fetch driver data');
+      const data = await response.json();
+      setDriverData(Array.isArray(data) ? data : []);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    // Fetch drivers
-    axios
-      .get(`${import.meta.env.VITE_APP_USER_SERVER}/api/v1/drivers`)
-      .then((response) => {
-        const data = Array.isArray(response.data) ? response.data : response.data.drivers;
-        const today = new Date();
-        const updatedDrivers = data.map((driver) => {
-          const expiryDate = new Date(driver.license_expiry);
-          const daysToExpiry = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
-          return {
-            ...driver,
-            days_to_expiry: daysToExpiry,
-          };
-        });
-        setDrivers(updatedDrivers);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError("Error fetching drivers.");
-        setLoading(false);
-        console.error(error);
-      });
-  }, []);
+    fetchDriverData();
+  }, [timePeriod, customStartDate, customEndDate]);
 
-  useEffect(() => {
-    // Fetch deliveries
-    axios
-      .get(`${import.meta.env.VITE_APP_USER_SERVER}/api/v1/deliveries`, {
-        params: { timePeriod },
-      })
-      .then((response) => {
-        setDeliveries(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching delivery data:", error);
-      });
-  }, [timePeriod]);
+  const handleFilterChange = (e) => {
+    setFilters({ ...filters, [e.target.name]: e.target.value });
+  };
 
-  if (loading) return <div className="text-white">Loading...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
-
-  // Process drivers with performance metrics
-  const processedDrivers = drivers.map((driver) => {
-    const driverDeliveries = deliveries.filter((d) => d.driver_id === driver.driver_id);
-    const totalDeliveries = driverDeliveries.length;
-    const avgDeliveryTime =
-      driverDeliveries.reduce((sum, d) => sum + d.delivery_time, 0) / totalDeliveries || 0;
-    const acceptanceRate =
-      (driverDeliveries.filter((d) => d.status === "accepted").length / totalDeliveries) * 100 || 0;
-    const rejectionRate = 100 - acceptanceRate;
-    const avgRating =
-      driverDeliveries.reduce((sum, d) => sum + d.customer_rating, 0) / totalDeliveries || 0;
-
-    return {
-      ...driver,
-      totalDeliveries,
-      avgDeliveryTime,
-      acceptanceRate,
-      rejectionRate,
-      avgRating,
-    };
+  const filteredDrivers = driverData.filter((driver) => {
+    if (filters.deliveryCountMin && driver.deliveryCount < Number(filters.deliveryCountMin)) return false;
+    if (filters.deliveryCountMax && driver.deliveryCount > Number(filters.deliveryCountMax)) return false;
+    if (filters.avgDeliveryTimeMin && driver.avgDeliveryTime < Number(filters.avgDeliveryTimeMin)) return false;
+    if (filters.avgDeliveryTimeMax && driver.avgDeliveryTime > Number(filters.avgDeliveryTimeMax)) return false;
+    if (filters.customerRatingThreshold && driver.customerRating < Number(filters.customerRatingThreshold)) return false;
+    if (filters.orderRejectionRateMax && driver.orderRejectionRate > Number(filters.orderRejectionRateMax)) return false;
+    return true;
   });
 
   return (
-    <div className="bg-gray-900 min-h-screen p-8 text-white">
-      <div className="max-w-7xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
-        <h3 className="text-3xl font-bold mb-8 text-center">Driver Performance & Utilization</h3>
+    <Box p={3}>
+      <Typography variant="h4" gutterBottom>Driver Performance</Typography>
 
-        {/* Filters */}
-        <div className="filters grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <label className="block">
-            <span className="text-sm font-medium">Time Period:</span>
-            <select
-              value={timePeriod}
-              onChange={(e) => setTimePeriod(e.target.value)}
-              className="mt-1 block w-full p-2 bg-gray-700 rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-            >
-              <option value="today">Today</option>
-              <option value="last7days">Last 7 Days</option>
-              <option value="thisMonth">This Month</option>
-              <option value="custom">Custom Range</option>
-            </select>
-          </label>
-          <label className="block">
-            <span className="text-sm font-medium">Delivery Count Threshold:</span>
-            <input
-              type="number"
-              value={deliveryThreshold}
-              onChange={(e) => setDeliveryThreshold(Number(e.target.value))}
-              className="mt-1 block w-full p-2 bg-gray-700 rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </label>
-          <label className="block">
-            <span className="text-sm font-medium">Avg Delivery Time Range (minutes):</span>
-            <div className="flex items-center space-x-2 mt-1">
-              <input
-                type="number"
-                value={avgDeliveryTimeRange[0]}
-                onChange={(e) =>
-                  setAvgDeliveryTimeRange([Number(e.target.value), avgDeliveryTimeRange[1]])
-                }
-                className="w-full p-2 bg-gray-700 rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-              <span>-</span>
-              <input
-                type="number"
-                value={avgDeliveryTimeRange[1]}
-                onChange={(e) =>
-                  setAvgDeliveryTimeRange([avgDeliveryTimeRange[0], Number(e.target.value)])
-                }
-                className="w-full p-2 bg-gray-700 rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-            </div>
-          </label>
-          <label className="block">
-            <span className="text-sm font-medium">Customer Rating Threshold:</span>
-            <input
-              type="number"
-              step="0.1"
-              value={ratingThreshold}
-              onChange={(e) => setRatingThreshold(Number(e.target.value))}
-              className="mt-1 block w-full p-2 bg-gray-700 rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </label>
-        </div>
+      <FormControl sx={{ minWidth: 200, mr: 2, mb: 2 }}>
+        <InputLabel>Time Period</InputLabel>
+        <Select
+          value={timePeriod}
+          onChange={(e) => setTimePeriod(e.target.value)}
+          label="Time Period"
+        >
+          {timePeriods.map(period => (
+            <MenuItem key={period.value} value={period.value}>
+              {period.label}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
 
-        {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full table-auto border-collapse border border-gray-700">
-            <thead className="bg-green-700">
-              <tr>
-                <th className="py-3 px-4 text-white text-left">First Name</th>
-                <th className="py-3 px-4 text-white text-left">Last Name</th>
-                <th className="py-3 px-4 text-white text-left">License Expiry</th>
-                <th className="py-3 px-4 text-white text-left">Days to Expiry</th>
-                <th className="py-3 px-4 text-white text-left">Total Deliveries</th>
-                <th className="py-3 px-4 text-white text-left">Avg Delivery Time (min)</th>
-                <th className="py-3 px-4 text-white text-left">Acceptance Rate (%)</th>
-                <th className="py-3 px-4 text-white text-left">Rejection Rate (%)</th>
-                <th className="py-3 px-4 text-white text-left">Avg Rating</th>
-              </tr>
-            </thead>
-            <tbody className="text-white">
-              {drivers.map((driver) => {
-                const driverData =
-                  processedDrivers.find((d) => d.driver_id === driver.driver_id) || {};
-                return (
-                  <tr
-                    key={driver.driver_id}
-                    className="hover:bg-gray-700 transition-colors"
-                  >
-                    <td className="py-3 px-4">{driver.first_name}</td>
-                    <td className="py-3 px-4">{driver.last_name}</td>
-                    <td className="py-3 px-4">{driver.license_expiry || "N/A"}</td>
-                    <td className="py-3 px-4">{driverData.days_to_expiry ?? "N/A"}</td>
-                    <td className="py-3 px-4">{driverData.totalDeliveries ?? "N/A"}</td>
-                    <td className="py-3 px-4">
-                      {driverData.avgDeliveryTime !== undefined
-                        ? driverData.avgDeliveryTime.toFixed(2)
-                        : "N/A"}
-                    </td>
-                    <td className="py-3 px-4">
-                      {driverData.acceptanceRate !== undefined
-                        ? driverData.acceptanceRate.toFixed(2)
-                        : "N/A"}
-                    </td>
-                    <td className="py-3 px-4">
-                      {driverData.rejectionRate !== undefined
-                        ? driverData.rejectionRate.toFixed(2)
-                        : "N/A"}
-                    </td>
-                    <td className="py-3 px-4">
-                      {driverData.avgRating !== undefined
-                        ? driverData.avgRating.toFixed(2)
-                        : "N/A"}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+      {timePeriod === 'custom' && (
+        <Box display="flex" gap={2} mb={2}>
+          <TextField
+            type="date"
+            label="Start Date"
+            InputLabelProps={{ shrink: true }}
+            value={customStartDate}
+            onChange={(e) => setCustomStartDate(e.target.value)}
+          />
+          <TextField
+            type="date"
+            label="End Date"
+            InputLabelProps={{ shrink: true }}
+            value={customEndDate}
+            onChange={(e) => setCustomEndDate(e.target.value)}
+          />
+        </Box>
+      )}
+
+      <Box display="flex" gap={2} flexWrap="wrap" mb={2}>
+        <TextField name="deliveryCountMin" label="Min Deliveries" value={filters.deliveryCountMin} onChange={handleFilterChange} />
+        <TextField name="deliveryCountMax" label="Max Deliveries" value={filters.deliveryCountMax} onChange={handleFilterChange} />
+        <TextField name="avgDeliveryTimeMin" label="Min Avg Time (min)" value={filters.avgDeliveryTimeMin} onChange={handleFilterChange} />
+        <TextField name="avgDeliveryTimeMax" label="Max Avg Time (min)" value={filters.avgDeliveryTimeMax} onChange={handleFilterChange} />
+        <TextField name="customerRatingThreshold" label="Min Rating" value={filters.customerRatingThreshold} onChange={handleFilterChange} />
+        <TextField name="orderRejectionRateMax" label="Max Rejection Rate (%)" value={filters.orderRejectionRateMax} onChange={handleFilterChange} />
+      </Box>
+
+      {loading ? (
+        <CircularProgress />
+      ) : error ? (
+        <Alert severity="error">{error}</Alert>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Deliveries</TableCell>
+                <TableCell>Avg Time (min)</TableCell>
+                <TableCell>Rating</TableCell>
+                <TableCell>Rejection Rate (%)</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredDrivers.map((driver, idx) => (
+                <TableRow key={idx}>
+                  <TableCell>{driver.name}</TableCell>
+                  <TableCell>{driver.deliveryCount}</TableCell>
+                  <TableCell>{driver.avgDeliveryTime}</TableCell>
+                  <TableCell>{driver.customerRating}</TableCell>
+                  <TableCell>{driver.orderRejectionRate}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+    </Box>
   );
 };
 
