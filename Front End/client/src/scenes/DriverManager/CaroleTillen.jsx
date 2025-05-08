@@ -52,11 +52,22 @@ const CaroleTillen = () => {
     setLoading(true);
     setError(null);
     try {
-      const apiUrl = 'https://eci-jsons-myf8.vercel.app/drivers';
+      const apiUrl = 'https://eci-jsons-myf8.vercel.app/drivers'; // Replace with your actual API URL
       const response = await fetch(apiUrl);
       if (!response.ok) throw new Error('Failed to fetch driver data');
       const data = await response.json();
-      setDriverData(Array.isArray(data) ? data : []);
+
+      // Transform the API data to match expected structure
+      const transformedData = Array.isArray(data) ? data.map(driver => ({
+        name: `${driver.first_name} ${driver.last_name}`,  // Combine first_name and last_name to get name
+        driver_id: driver.driver_id,  // Assuming you have driver_id in the data
+        deliveryCount: driver.deliveryCount || 0,  // Use fallback value of 0 if not available
+        avgDeliveryTime: driver.avgDeliveryTime || 0,  // Use fallback value of 0 if not available
+        customerRating: driver.customerRating || 0,  // Assuming avg_rating is available, fallback to 0
+        orderRejectionRate: driver.orderRejectionRate || 0,  // Assuming rejection_rate is available, fallback to 0
+      })) : [];
+
+      setDriverData(transformedData);
     } catch (err) {
       setError(err.message);
     } finally {
