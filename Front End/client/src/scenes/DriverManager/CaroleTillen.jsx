@@ -52,19 +52,30 @@ const CaroleTillen = () => {
     setLoading(true);
     setError(null);
     try {
-      const apiUrl = 'https://eci-jsons-myf8.vercel.app/drivers'; // Replace with your actual API URL
-      const response = await fetch(apiUrl);
-      if (!response.ok) throw new Error('Failed to fetch driver data');
-      const data = await response.json();
+      const driversResponse = await fetch('https://eci-jsons-myf8.vercel.app/drivers');
+      if (!driversResponse.ok) throw new Error('Failed to fetch driver data');
+      const driversData = await driversResponse.json();
 
-      // Transform the API data to match expected structure
-      const transformedData = Array.isArray(data) ? data.map(driver => ({
-        name: `${driver.first_name} ${driver.last_name}`,  // Combine first_name and last_name to get name
-        driver_id: driver.driver_id,  // Assuming you have driver_id in the data
-        deliveryCount: driver.deliveryCount || 0,  // Use fallback value of 0 if not available
-        avgDeliveryTime: driver.avgDeliveryTime || 0,  // Use fallback value of 0 if not available
-        customerRating: driver.customerRating || 0,  // Assuming avg_rating is available, fallback to 0
-        orderRejectionRate: driver.orderRejectionRate || 0,  // Assuming rejection_rate is available, fallback to 0
+      const ratingsResponse = await fetch('https://eci-jsons-myf8.vercel.app/driver_ratings');
+      if (!ratingsResponse.ok) throw new Error('Failed to fetch driver ratings');
+      const ratingsData = await ratingsResponse.json();
+
+      // Create a map of driver_id to rating for quick lookup
+      const ratingsMap = {};
+      if (Array.isArray(ratingsData)) {
+        ratingsData.forEach(rating => {
+          ratingsMap[rating.driver_id] = rating.rating;
+        });
+      }
+
+      const transformedData = Array.isArray(driversData) ? driversData.map(driver => ({
+        name: `${driver.first_name} ${driver.last_name}`,
+        driver_id: driver.driver_id,
+        deliveryCount: driver.deliveryCount || 0,
+        avgDeliveryTime: driver.avgDeliveryTime || 0,
+        // Replace customerRating with rating from ratingsMap if available
+        customerRating: ratingsMap[driver.driver_id] !== undefined ? ratingsMap[driver.driver_id] : (driver.customerRating || 0),
+        orderRejectionRate: driver.orderRejectionRate || 0,
       })) : [];
 
       setDriverData(transformedData);
