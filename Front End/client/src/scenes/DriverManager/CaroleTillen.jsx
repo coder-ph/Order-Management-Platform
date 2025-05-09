@@ -5,6 +5,19 @@ import {
   TableHead, TableRow, TableCell, TableBody
 } from '@mui/material';
 import dayjs from 'dayjs';
+import { Bar } from 'react-chartjs-2'; // Import the chart component
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
+
+// Register Chart.js components
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const timePeriods = [
   { label: 'Today', value: 'today' },
@@ -71,11 +84,11 @@ const CaroleTillen = () => {
       const transformedData = Array.isArray(driversData) ? driversData.map(driver => ({
         name: `${driver.first_name} ${driver.last_name}`,
         driver_id: driver.driver_id,
-        deliveryCount: driver.deliveryCount || 0,
-        avgDeliveryTime: driver.avgDeliveryTime || 0,
+        deliveryCount: 10,  // mock data for deliveries
+        avgDeliveryTime: 30, // mock data for average delivery time in minutes
         // Replace customerRating with rating from ratingsMap if available
         customerRating: ratingsMap[driver.driver_id] !== undefined ? ratingsMap[driver.driver_id] : (driver.customerRating || 0),
-        orderRejectionRate: driver.orderRejectionRate || 0,
+        orderRejectionRate: 5, // mock data for order rejection rate in percentage
       })) : [];
 
       setDriverData(transformedData);
@@ -103,6 +116,33 @@ const CaroleTillen = () => {
     if (filters.orderRejectionRateMax && driver.orderRejectionRate > Number(filters.orderRejectionRateMax)) return false;
     return true;
   });
+
+  // Prepare chart data
+  const chartData = {
+    labels: filteredDrivers.map(driver => driver.name),
+    datasets: [
+      {
+        label: 'Deliveries',
+        data: filteredDrivers.map(driver => driver.deliveryCount),
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+      },
+      {
+        label: 'Avg Time (min)',
+        data: filteredDrivers.map(driver => driver.avgDeliveryTime),
+        backgroundColor: 'rgba(153, 102, 255, 0.6)',
+      },
+      {
+        label: 'Rating',
+        data: filteredDrivers.map(driver => driver.customerRating),
+        backgroundColor: 'rgba(255, 159, 64, 0.6)',
+      },
+      {
+        label: 'Rejection Rate (%)',
+        data: filteredDrivers.map(driver => driver.orderRejectionRate),
+        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+      }
+    ]
+  };
 
   return (
     <Box p={3}>
@@ -156,30 +196,53 @@ const CaroleTillen = () => {
       ) : error ? (
         <Alert severity="error">{error}</Alert>
       ) : (
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Deliveries</TableCell>
-                <TableCell>Avg Time (min)</TableCell>
-                <TableCell>Rating</TableCell>
-                <TableCell>Rejection Rate (%)</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredDrivers.map((driver, idx) => (
-                <TableRow key={idx}>
-                  <TableCell>{driver.name}</TableCell>
-                  <TableCell>{driver.deliveryCount}</TableCell>
-                  <TableCell>{driver.avgDeliveryTime}</TableCell>
-                  <TableCell>{driver.customerRating}</TableCell>
-                  <TableCell>{driver.orderRejectionRate}</TableCell>
+        <>
+          {/* Add the Chart.js Bar Chart */}
+          <Bar data={chartData} options={{
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Driver Performance Metrics'
+              },
+              legend: {
+                position: 'top',
+              },
+            },
+            scales: {
+              x: {
+                beginAtZero: true,
+              },
+              y: {
+                beginAtZero: true,
+              }
+            }
+          }} />
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Deliveries</TableCell>
+                  <TableCell>Avg Time (min)</TableCell>
+                  <TableCell>Rating</TableCell>
+                  <TableCell>Rejection Rate (%)</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {filteredDrivers.map((driver, idx) => (
+                  <TableRow key={idx}>
+                    <TableCell>{driver.name}</TableCell>
+                    <TableCell>{driver.deliveryCount}</TableCell>
+                    <TableCell>{driver.avgDeliveryTime}</TableCell>
+                    <TableCell>{driver.customerRating}</TableCell>
+                    <TableCell>{driver.orderRejectionRate}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
       )}
     </Box>
   );
