@@ -81,14 +81,19 @@ const CaroleTillen = () => {
         });
       }
 
+      // Helper function to generate random integer between min and max inclusive
+      const getRandomInt = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      };
+
       const transformedData = Array.isArray(driversData) ? driversData.map(driver => ({
         name: `${driver.first_name} ${driver.last_name}`,
         driver_id: driver.driver_id,
-        deliveryCount: 10,  // mock data for deliveries
-        avgDeliveryTime: 30, // mock data for average delivery time in minutes
+        deliveryCount: getRandomInt(5, 20),  // varied mock da
+        avgDeliveryTime: getRandomInt(20, 60), // varied mock data for average delivery time in minutes
         // Replace customerRating with rating from ratingsMap if available
         customerRating: ratingsMap[driver.driver_id] !== undefined ? ratingsMap[driver.driver_id] : (driver.customerRating || 0),
-        orderRejectionRate: 5, // mock data for order rejection rate in percentage
+        orderRejectionRate: getRandomInt(1, 10), // varied mock data for order rejection rate in percentage
       })) : [];
 
       setDriverData(transformedData);
