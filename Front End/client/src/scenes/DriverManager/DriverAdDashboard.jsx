@@ -1,6 +1,7 @@
 import React from "react";
 import DriversTable from "./AngelaJulius";
 import CaroleTillen from "./CaroleTillen";
+import ProfitRevenueRates from "./ProfitRevenueRates";
 
 const DriverAdDashboard = () => {
   return (
@@ -10,6 +11,7 @@ const DriverAdDashboard = () => {
       {/* <Angela & Julius Component /> */}
       <DriversTable/>
       <CaroleTillen/>
+      <ProfitRevenueRates/>
 
      
     </>
@@ -17,3 +19,4 @@ const DriverAdDashboard = () => {
 };
 
 export default DriverAdDashboard;
+ 
