@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Box, Typography, Select, MenuItem, TextField, CircularProgress,
   Alert, FormControl, InputLabel, TableContainer, Paper, Table,
@@ -24,22 +25,10 @@ const timePeriods = [
   { label: 'Custom Range', value: 'custom' },
 ];
 
-const mockDrivers = [
-  { name: 'Alice Johnson', deliveryCount: 15, avgDeliveryTime: 32, customerRating: 4.5, orderRejectionRate: 3 },
-  { name: 'Bob Smith', deliveryCount: 12, avgDeliveryTime: 28, customerRating: 4.0, orderRejectionRate: 5 },
-  { name: 'Carla Lopez', deliveryCount: 18, avgDeliveryTime: 35, customerRating: 4.8, orderRejectionRate: 2 },
-  { name: 'David Kim', deliveryCount: 9, avgDeliveryTime: 25, customerRating: 3.9, orderRejectionRate: 4 },
-  { name: 'Ella Wong', deliveryCount: 20, avgDeliveryTime: 40, customerRating: 4.6, orderRejectionRate: 6 },
-  { name: 'Frank Lewis', deliveryCount: 11, avgDeliveryTime: 30, customerRating: 4.1, orderRejectionRate: 7 },
-  { name: 'Grace Moore', deliveryCount: 16, avgDeliveryTime: 27, customerRating: 4.7, orderRejectionRate: 3 },
-  { name: 'Henry Oduor', deliveryCount: 14, avgDeliveryTime: 33, customerRating: 4.2, orderRejectionRate: 5 },
-  { name: 'Ivy Patel', deliveryCount: 17, avgDeliveryTime: 29, customerRating: 4.9, orderRejectionRate: 2 },
-  { name: 'Jake Turner', deliveryCount: 10, avgDeliveryTime: 36, customerRating: 3.8, orderRejectionRate: 6 },
-];
-
 const CaroleTillen = () => {
   const [timePeriod, setTimePeriod] = useState('today');
   const [filters, setFilters] = useState({
+    timePeriod: 'today',
     deliveryCountMin: '',
     deliveryCountMax: '',
     avgDeliveryTimeMin: '',
@@ -47,20 +36,48 @@ const CaroleTillen = () => {
     customerRatingThreshold: '',
     orderRejectionRateMax: '',
   });
+  const [drivers, setDrivers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleFilterChange = (e) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
+  // Helper function to filter drivers based on current filters
+  const applyFilters = (driversList) => {
+    return driversList.filter(driver => {
+      if (filters.deliveryCountMin && driver.deliveryCount < Number(filters.deliveryCountMin)) return false;
+      if (filters.deliveryCountMax && driver.deliveryCount > Number(filters.deliveryCountMax)) return false;
+      if (filters.avgDeliveryTimeMin && driver.avgDeliveryTime < Number(filters.avgDeliveryTimeMin)) return false;
+      if (filters.avgDeliveryTimeMax && driver.avgDeliveryTime > Number(filters.avgDeliveryTimeMax)) return false;
+      if (filters.customerRatingThreshold && driver.customerRating < Number(filters.customerRatingThreshold)) return false;
+      if (filters.orderRejectionRateMax && driver.orderRejectionRate > Number(filters.orderRejectionRateMax)) return false;
+      // TODO: Implement timePeriod filtering logic based on driver data timestamps if available
+      return true;
+    });
   };
 
-  const filteredDrivers = mockDrivers.filter((driver) => {
-    if (filters.deliveryCountMin && driver.deliveryCount < Number(filters.deliveryCountMin)) return false;
-    if (filters.deliveryCountMax && driver.deliveryCount > Number(filters.deliveryCountMax)) return false;
-    if (filters.avgDeliveryTimeMin && driver.avgDeliveryTime < Number(filters.avgDeliveryTimeMin)) return false;
-    if (filters.avgDeliveryTimeMax && driver.avgDeliveryTime > Number(filters.avgDeliveryTimeMax)) return false;
-    if (filters.customerRatingThreshold && driver.customerRating < Number(filters.customerRatingThreshold)) return false;
-    if (filters.orderRejectionRateMax && driver.orderRejectionRate > Number(filters.orderRejectionRateMax)) return false;
-    return true;
-  });
+  useEffect(() => {
+    setLoading(true);
+    axios.get('/api/driver-performance')
+      .then(response => {
+        console.log("Driver performance API response:", response.data);
+        const data = Array.isArray(response.data) ? response.data : response.data.performance;
+        // Map or transform data if needed to match expected structure
+        const mappedDrivers = data.map(driver => ({
+          name: driver.name || `${driver.first_name} ${driver.last_name}`,
+          deliveryCount: (driver.deliveries !== undefined && driver.deliveries !== null) ? driver.deliveries : 0,
+          avgDeliveryTime: driver.avgDeliveryTime || driver.avg_delivery_time || 0,
+          customerRating: driver.customerRating || driver.customer_rating || 0,
+          orderRejectionRate: driver.orderRejectionRate || driver.order_rejection_rate || 0,
+        }));
+        setDrivers(mappedDrivers);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError('Error fetching driver performance data');
+        setLoading(false);
+      });
+  }, [filters.timePeriod]);
+
+  const filteredDrivers = applyFilters(drivers);
 
   const chartData = {
     labels: filteredDrivers.map(driver => driver.name),
@@ -95,25 +112,24 @@ const CaroleTillen = () => {
       <FormControl sx={{ minWidth: 200, mr: 2, mb: 2 }}>
         <InputLabel>Time Period</InputLabel>
         <Select
-          value={timePeriod}
-          onChange={(e) => setTimePeriod(e.target.value)}
+          value={filters.timePeriod}
+          onChange={(e) => setFilters({ ...filters, timePeriod: e.target.value })}
           label="Time Period"
         >
-          {timePeriods.map(period => (
-            <MenuItem key={period.value} value={period.value}>
-              {period.label}
-            </MenuItem>
-          ))}
+          <MenuItem value="today">Today</MenuItem>
+          <MenuItem value="last7days">Last 7 Days</MenuItem>
+          <MenuItem value="thismonth">This Month</MenuItem>
+          <MenuItem value="custom">Custom Range</MenuItem>
         </Select>
       </FormControl>
 
       <Box display="flex" gap={2} flexWrap="wrap" mb={2}>
-        <TextField name="deliveryCountMin" label="Min Deliveries" value={filters.deliveryCountMin} onChange={handleFilterChange} />
-        <TextField name="deliveryCountMax" label="Max Deliveries" value={filters.deliveryCountMax} onChange={handleFilterChange} />
-        <TextField name="avgDeliveryTimeMin" label="Min Avg Time (min)" value={filters.avgDeliveryTimeMin} onChange={handleFilterChange} />
-        <TextField name="avgDeliveryTimeMax" label="Max Avg Time (min)" value={filters.avgDeliveryTimeMax} onChange={handleFilterChange} />
-        <TextField name="customerRatingThreshold" label="Min Rating" value={filters.customerRatingThreshold} onChange={handleFilterChange} />
-        <TextField name="orderRejectionRateMax" label="Max Rejection Rate (%)" value={filters.orderRejectionRateMax} onChange={handleFilterChange} />
+        <TextField name="deliveryCountMin" label="Min Deliveries" value={filters.deliveryCountMin} onChange={(e) => setFilters({ ...filters, deliveryCountMin: e.target.value })} />
+        <TextField name="deliveryCountMax" label="Max Deliveries" value={filters.deliveryCountMax} onChange={(e) => setFilters({ ...filters, deliveryCountMax: e.target.value })} />
+        <TextField name="avgDeliveryTimeMin" label="Min Avg Time (min)" value={filters.avgDeliveryTimeMin} onChange={(e) => setFilters({ ...filters, avgDeliveryTimeMin: e.target.value })} />
+        <TextField name="avgDeliveryTimeMax" label="Max Avg Time (min)" value={filters.avgDeliveryTimeMax} onChange={(e) => setFilters({ ...filters, avgDeliveryTimeMax: e.target.value })} />
+        <TextField name="customerRatingThreshold" label="Min Rating" value={filters.customerRatingThreshold} onChange={(e) => setFilters({ ...filters, customerRatingThreshold: e.target.value })} />
+        <TextField name="orderRejectionRateMax" label="Max Rejection Rate (%)" value={filters.orderRejectionRateMax} onChange={(e) => setFilters({ ...filters, orderRejectionRateMax: e.target.value })} />
       </Box>
 
       <Bar
@@ -142,8 +158,8 @@ const CaroleTillen = () => {
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>Deliveries</TableCell>
-              <TableCell>Avg Time (min)</TableCell>
               <TableCell>Rating</TableCell>
+              <TableCell>Avg Time (min)</TableCell>
               <TableCell>Rejection Rate (%)</TableCell>
             </TableRow>
           </TableHead>
@@ -152,8 +168,8 @@ const CaroleTillen = () => {
               <TableRow key={idx}>
                 <TableCell>{driver.name}</TableCell>
                 <TableCell>{driver.deliveryCount}</TableCell>
-                <TableCell>{driver.avgDeliveryTime}</TableCell>
                 <TableCell>{driver.customerRating}</TableCell>
+                <TableCell>{driver.avgDeliveryTime}</TableCell>
                 <TableCell>{driver.orderRejectionRate}</TableCell>
               </TableRow>
             ))}
