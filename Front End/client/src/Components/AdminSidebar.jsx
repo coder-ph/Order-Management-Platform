@@ -46,6 +46,7 @@ const AdminSidebar = () => {
               to="/products"
               onClick={() => setActive("Products")}
               className="flex items-center w-full"
+              tabIndex={-1}
             >
               <ShoppingCart size={20} className="mr-2" />
               {isExpanded && "Products"}
@@ -60,6 +61,7 @@ const AdminSidebar = () => {
               to="/track-orders"
               onClick={() => setActive("Track Order")}
               className="flex items-center w-full"
+              tabIndex={-1}
             >
               <MapPin size={20} className="mr-2" />
               {isExpanded && "Track Orders"}
@@ -74,6 +76,7 @@ const AdminSidebar = () => {
               to="/settings"
               onClick={() => setActive("Settings")}
               className="flex items-center w-full"
+              tabIndex={-1}
             >
               <Settings size={20} className="mr-2" />
               {isExpanded && "Settings"}
@@ -93,6 +96,7 @@ const AdminSidebar = () => {
               to="/dashboard"
               onClick={() => setActive("Dashboard")}
               className="flex items-center w-full"
+              tabIndex={-1}
             >
               <LayoutDashboard size={20} className="mr-2" />
               {isExpanded && "Dashboard"}
@@ -107,6 +111,7 @@ const AdminSidebar = () => {
               to="/help"
               onClick={() => setActive("Help")}
               className="flex items-center w-full"
+              tabIndex={-1}
             >
               <HelpCircle size={20} className="mr-2" />
               {isExpanded && "Help"}
@@ -121,6 +126,7 @@ const AdminSidebar = () => {
               to="/chat-support"
               onClick={() => setActive("Chat Support")}
               className="flex items-center w-full"
+              tabIndex={-1}
             >
               <MessageCircle size={20} className="mr-2" />
               {isExpanded && "Chat"}
