@@ -1,4 +1,5 @@
 import React from "react";
+import DriverAvailability  from "./DriverAvailability";
 
 const DriverAdDashboard = () => {
 
@@ -8,8 +9,8 @@ const DriverAdDashboard = () => {
       <div>Compliance & Certification Analytics Section</div>
       {/* <Angela & Julius Component /> */}
 
-      <div>Driver Status & Availabilty Section</div>
       {/* <Jafaar Component /> */}
+      <DriverAvailability />
 
       <div>Performance & utilizations Section</div>
       {/* <Carole & Tillen Component /> */}

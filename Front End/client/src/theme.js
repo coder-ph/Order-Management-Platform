@@ -60,6 +60,28 @@ export const tokens = (mode) => ({
           800: "#2a2d64",
           900: "#151632",
         },
+        orangeAccent: {
+          100: "#fff4e6",
+          200: "#ffe8cc",
+          300: "#ffd8a8",
+          400: "#ffc078",
+          500: "#ffa94d",
+          600: "#ff922b",
+          700: "#fd7e14",
+          800: "#f76707",
+          900: "#e8590c"
+        },
+        greyAccent: {
+          100: "#f8f9fa",
+          200: "#e9ecef",
+          300: "#dee2e6",
+          400: "#ced4da",
+          500: "#adb5bd",
+          600: "#6c757d",
+          700: "#495057",
+          800: "#343a40",
+          900: "#212529"
+        }
       }
     : {
         grey: {
@@ -117,10 +139,32 @@ export const tokens = (mode) => ({
           800: "#c3c6fd",
           900: "#e1e2fe",
         },
+        orangeAccent: {
+          100: "#e8590c",
+          200: "#f76707",
+          300: "#fd7e14",
+          400: "#ff922b",
+          500: "#ffa94d",
+          600: "#ffc078",
+          700: "#ffd8a8",
+          800: "#ffe8cc",
+          900: "#fff4e6",
+        },
+        greyAccent: {
+          100: "#212529",
+          200: "#343a40",
+          300: "#495057",
+          400: "#6c757d",
+          500: "#adb5bd",
+          600: "#ced4da",
+          700: "#dee2e6",
+          800: "#e9ecef",
+          900: "#f8f9fa"
+        }
       }),
 });
 
-
+// mui theme settings
 export const themeSettings = (mode) => {
   const colors = tokens(mode);
   return {
@@ -128,7 +172,6 @@ export const themeSettings = (mode) => {
       mode: mode,
       ...(mode === "dark"
         ? {
-            
             primary: {
               main: colors.primary[500],
             },
@@ -145,7 +188,6 @@ export const themeSettings = (mode) => {
             },
           }
         : {
-            
             primary: {
               main: colors.primary[100],
             },
@@ -192,7 +234,6 @@ export const themeSettings = (mode) => {
     },
   };
 };
-
 
 export const ColorModeContext = createContext({
   toggleColorMode: () => {},
