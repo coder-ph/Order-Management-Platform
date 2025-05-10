@@ -1,11 +1,13 @@
 // store.js
 import { configureStore } from "@reduxjs/toolkit";
 import orderReducer from "./Order/orderSlice"; 
-import paymentReducer from './Payment/paymentSlice'
+import paymentReducer from './Payment/paymentSlice';
+import driverStatusReducer from './DriverStatusAvailability/driverStatusAvailabilityReducer';
 
 const rootReducer = {
   order: orderReducer,
   payment: paymentReducer,
+  driverStatus: driverStatusReducer
 };
 
 export const store = configureStore({
