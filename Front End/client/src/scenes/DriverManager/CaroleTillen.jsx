@@ -4,8 +4,7 @@ import {
   Alert, FormControl, InputLabel, TableContainer, Paper, Table,
   TableHead, TableRow, TableCell, TableBody
 } from '@mui/material';
-import dayjs from 'dayjs';
-import { Bar } from 'react-chartjs-2'; // Import the chart component
+import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -16,7 +15,6 @@ import {
   Legend
 } from 'chart.js';
 
-// Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const timePeriods = [
@@ -26,10 +24,21 @@ const timePeriods = [
   { label: 'Custom Range', value: 'custom' },
 ];
 
+const mockDrivers = [
+  { name: 'Alice Johnson', deliveryCount: 15, avgDeliveryTime: 32, customerRating: 4.5, orderRejectionRate: 3 },
+  { name: 'Bob Smith', deliveryCount: 12, avgDeliveryTime: 28, customerRating: 4.0, orderRejectionRate: 5 },
+  { name: 'Carla Lopez', deliveryCount: 18, avgDeliveryTime: 35, customerRating: 4.8, orderRejectionRate: 2 },
+  { name: 'David Kim', deliveryCount: 9, avgDeliveryTime: 25, customerRating: 3.9, orderRejectionRate: 4 },
+  { name: 'Ella Wong', deliveryCount: 20, avgDeliveryTime: 40, customerRating: 4.6, orderRejectionRate: 6 },
+  { name: 'Frank Lewis', deliveryCount: 11, avgDeliveryTime: 30, customerRating: 4.1, orderRejectionRate: 7 },
+  { name: 'Grace Moore', deliveryCount: 16, avgDeliveryTime: 27, customerRating: 4.7, orderRejectionRate: 3 },
+  { name: 'Henry Oduor', deliveryCount: 14, avgDeliveryTime: 33, customerRating: 4.2, orderRejectionRate: 5 },
+  { name: 'Ivy Patel', deliveryCount: 17, avgDeliveryTime: 29, customerRating: 4.9, orderRejectionRate: 2 },
+  { name: 'Jake Turner', deliveryCount: 10, avgDeliveryTime: 36, customerRating: 3.8, orderRejectionRate: 6 },
+];
+
 const CaroleTillen = () => {
   const [timePeriod, setTimePeriod] = useState('today');
-  const [customStartDate, setCustomStartDate] = useState('');
-  const [customEndDate, setCustomEndDate] = useState('');
   const [filters, setFilters] = useState({
     deliveryCountMin: '',
     deliveryCountMax: '',
@@ -38,81 +47,12 @@ const CaroleTillen = () => {
     customerRatingThreshold: '',
     orderRejectionRateMax: '',
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [driverData, setDriverData] = useState([]);
-
-  const getDateRange = () => {
-    const today = dayjs();
-    switch (timePeriod) {
-      case 'today':
-        return { start: today.startOf('day').toISOString(), end: today.endOf('day').toISOString() };
-      case 'last7days':
-        return { start: today.subtract(7, 'day').startOf('day').toISOString(), end: today.endOf('day').toISOString() };
-      case 'thismonth':
-        return { start: today.startOf('month').toISOString(), end: today.endOf('month').toISOString() };
-      case 'custom':
-        return {
-          start: customStartDate ? dayjs(customStartDate).toISOString() : null,
-          end: customEndDate ? dayjs(customEndDate).toISOString() : null
-        };
-      default:
-        return { start: null, end: null };
-    }
-  };
-
-  const fetchDriverData = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const driversResponse = await fetch('https://eci-jsons-myf8.vercel.app/drivers');
-      if (!driversResponse.ok) throw new Error('Failed to fetch driver data');
-      const driversData = await driversResponse.json();
-
-      const ratingsResponse = await fetch('https://eci-jsons-myf8.vercel.app/driver_ratings');
-      if (!ratingsResponse.ok) throw new Error('Failed to fetch driver ratings');
-      const ratingsData = await ratingsResponse.json();
-
-      // Create a map of driver_id to rating for quick lookup
-      const ratingsMap = {};
-      if (Array.isArray(ratingsData)) {
-        ratingsData.forEach(rating => {
-          ratingsMap[rating.driver_id] = rating.rating;
-        });
-      }
-
-      // Helper function to generate random integer between min and max inclusive
-      const getRandomInt = (min, max) => {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-      };
-
-      const transformedData = Array.isArray(driversData) ? driversData.map(driver => ({
-        name: `${driver.first_name} ${driver.last_name}`,
-        driver_id: driver.driver_id,
-        deliveryCount: getRandomInt(5, 20),  // varied mock da
-        avgDeliveryTime: getRandomInt(20, 60), // varied mock data for average delivery time in minutes
-        // Replace customerRating with rating from ratingsMap if available
-        customerRating: ratingsMap[driver.driver_id] !== undefined ? ratingsMap[driver.driver_id] : (driver.customerRating || 0),
-        orderRejectionRate: getRandomInt(1, 10), // varied mock data for order rejection rate in percentage
-      })) : [];
-
-      setDriverData(transformedData);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchDriverData();
-  }, [timePeriod, customStartDate, customEndDate]);
 
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
-  const filteredDrivers = driverData.filter((driver) => {
+  const filteredDrivers = mockDrivers.filter((driver) => {
     if (filters.deliveryCountMin && driver.deliveryCount < Number(filters.deliveryCountMin)) return false;
     if (filters.deliveryCountMax && driver.deliveryCount > Number(filters.deliveryCountMax)) return false;
     if (filters.avgDeliveryTimeMin && driver.avgDeliveryTime < Number(filters.avgDeliveryTimeMin)) return false;
@@ -122,7 +62,6 @@ const CaroleTillen = () => {
     return true;
   });
 
-  // Prepare chart data
   const chartData = {
     labels: filteredDrivers.map(driver => driver.name),
     datasets: [
@@ -168,25 +107,6 @@ const CaroleTillen = () => {
         </Select>
       </FormControl>
 
-      {timePeriod === 'custom' && (
-        <Box display="flex" gap={2} mb={2}>
-          <TextField
-            type="date"
-            label="Start Date"
-            InputLabelProps={{ shrink: true }}
-            value={customStartDate}
-            onChange={(e) => setCustomStartDate(e.target.value)}
-          />
-          <TextField
-            type="date"
-            label="End Date"
-            InputLabelProps={{ shrink: true }}
-            value={customEndDate}
-            onChange={(e) => setCustomEndDate(e.target.value)}
-          />
-        </Box>
-      )}
-
       <Box display="flex" gap={2} flexWrap="wrap" mb={2}>
         <TextField name="deliveryCountMin" label="Min Deliveries" value={filters.deliveryCountMin} onChange={handleFilterChange} />
         <TextField name="deliveryCountMax" label="Max Deliveries" value={filters.deliveryCountMax} onChange={handleFilterChange} />
@@ -196,59 +116,50 @@ const CaroleTillen = () => {
         <TextField name="orderRejectionRateMax" label="Max Rejection Rate (%)" value={filters.orderRejectionRateMax} onChange={handleFilterChange} />
       </Box>
 
-      {loading ? (
-        <CircularProgress />
-      ) : error ? (
-        <Alert severity="error">{error}</Alert>
-      ) : (
-        <>
-          {/* Add the Chart.js Bar Chart */}
-          <Bar data={chartData} options={{
-            responsive: true,
-            plugins: {
-              title: {
-                display: true,
-                text: 'Driver Performance Metrics'
-              },
-              legend: {
-                position: 'top',
-              },
+      <Bar
+        data={chartData}
+        options={{
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Driver Performance Metrics'
             },
-            scales: {
-              x: {
-                beginAtZero: true,
-              },
-              y: {
-                beginAtZero: true,
-              }
-            }
-          }} />
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Deliveries</TableCell>
-                  <TableCell>Avg Time (min)</TableCell>
-                  <TableCell>Rating</TableCell>
-                  <TableCell>Rejection Rate (%)</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {filteredDrivers.map((driver, idx) => (
-                  <TableRow key={idx}>
-                    <TableCell>{driver.name}</TableCell>
-                    <TableCell>{driver.deliveryCount}</TableCell>
-                    <TableCell>{driver.avgDeliveryTime}</TableCell>
-                    <TableCell>{driver.customerRating}</TableCell>
-                    <TableCell>{driver.orderRejectionRate}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
-      )}
+            legend: {
+              position: 'top',
+            },
+          },
+          scales: {
+            x: { beginAtZero: true },
+            y: { beginAtZero: true }
+          }
+        }}
+      />
+
+      <TableContainer component={Paper} sx={{ mt: 3 }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Deliveries</TableCell>
+              <TableCell>Avg Time (min)</TableCell>
+              <TableCell>Rating</TableCell>
+              <TableCell>Rejection Rate (%)</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredDrivers.map((driver, idx) => (
+              <TableRow key={idx}>
+                <TableCell>{driver.name}</TableCell>
+                <TableCell>{driver.deliveryCount}</TableCell>
+                <TableCell>{driver.avgDeliveryTime}</TableCell>
+                <TableCell>{driver.customerRating}</TableCell>
+                <TableCell>{driver.orderRejectionRate}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
   );
 };
