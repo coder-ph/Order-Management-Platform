@@ -20,6 +20,7 @@ import AdminMap from "../../Pages/AdminMap";
 import Orders from "../ManageOrders/ManageOrders";
 import OrderDetails from "../ManageOrders/OrderDetails";
 import DriverAdDashboard from "../DriverManager/DriverAdDashboard";
+import CompanyAnalytics from "../CompanyAnalytics/CompanyAnalytics"
 
 const Ap = () => {
   const [theme, colorMode] = useMode();
@@ -56,6 +57,7 @@ const Ap = () => {
                 <Route path="/map" element={<AdminMap />} />
                 <Route path="/main" element={<AdDashboard />} />
                 <Route path="/driver" element={< DriverAdDashboard/>} />
+                <Route path="/company" element={< CompanyAnalytics/>} />
               </Routes>
             </div>
           </div>

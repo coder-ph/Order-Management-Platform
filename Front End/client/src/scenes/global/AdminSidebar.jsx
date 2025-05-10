@@ -146,6 +146,13 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
             <Item
+              title="Company Analytics"
+              to="/dashboard/company"
+              icon={<DriveEtaIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
               title="Manage Orders"
               to="/dashboard/orders"
               icon={<LocalShippingOutlinedIcon />}
