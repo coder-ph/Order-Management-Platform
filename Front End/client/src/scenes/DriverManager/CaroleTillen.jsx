@@ -3,7 +3,7 @@ import axios from 'axios';
 import {
   Box, Typography, Select, MenuItem, TextField, CircularProgress,
   Alert, FormControl, InputLabel, TableContainer, Paper, Table,
-  TableHead, TableRow, TableCell, TableBody
+  TableHead, TableRow, TableCell, TableBody, TablePagination
 } from '@mui/material';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -17,13 +17,6 @@ import {
 } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-const timePeriods = [
-  { label: 'Today', value: 'today' },
-  { label: 'Last 7 Days', value: 'last7days' },
-  { label: 'This Month', value: 'thismonth' },
-  { label: 'Custom Range', value: 'custom' },
-];
 
 const DriverPerformance = () => {
   const [timePeriod, setTimePeriod] = useState('today');
@@ -40,7 +33,10 @@ const DriverPerformance = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Helper function to filter drivers based on current filters
+  // Pagination state
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
   const applyFilters = (driversList) => {
     return driversList.filter(driver => {
       if (filters.deliveryCountMin && driver.deliveryCount < Number(filters.deliveryCountMin)) return false;
@@ -55,9 +51,7 @@ const DriverPerformance = () => {
 
   useEffect(() => {
     setLoading(true);
-    // Fetch driver performance data
     const fetchPerformance = axios.get('/api/driver-performance');
-    // Fetch customer ratings data
     const fetchRatings = axios.get('/api/v1/performance/customer-ratings');
 
     Promise.all([fetchPerformance, fetchRatings])
@@ -65,23 +59,20 @@ const DriverPerformance = () => {
         const performanceData = Array.isArray(performanceRes.data) ? performanceRes.data : performanceRes.data.performance;
         const ratingsData = Array.isArray(ratingsRes.data) ? ratingsRes.data : ratingsRes.data.ratings;
 
-        // Map ratings by driver name or id for quick lookup
         const ratingsMap = new Map();
         ratingsData.forEach(rating => {
           const key = rating.name || `${rating.first_name} ${rating.last_name}`;
           ratingsMap.set(key, rating.rating || 0);
         });
 
-        // Map performance data and merge with ratings
         const mappedDrivers = performanceData.map(driver => {
           const name = driver.name || `${driver.first_name} ${driver.last_name}`;
           return {
             name,
-            deliveryCount: (driver.deliveries !== undefined && driver.deliveries !== null) ? driver.deliveries : 0,
-          avgDeliveryTime: Math.floor(Math.random() * 30) + 10, 
-          customerRating: ratingsMap.get(name) || (Math.random() * 2 + 3).toFixed(1), 
-          orderRejectionRate: Math.floor(Math.random() * 20), 
-
+            deliveryCount: driver.deliveries || 0,
+            avgDeliveryTime: Math.floor(Math.random() * 30) + 10,
+            customerRating: ratingsMap.get(name) || (Math.random() * 2 + 3).toFixed(1),
+            orderRejectionRate: Math.floor(Math.random() * 20),
           };
         });
 
@@ -94,8 +85,16 @@ const DriverPerformance = () => {
       });
   }, [filters.timePeriod]);
 
-
   const filteredDrivers = applyFilters(drivers);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const chartData = {
     labels: filteredDrivers.map(driver => driver.name),
@@ -182,7 +181,7 @@ const DriverPerformance = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredDrivers.map((driver, idx) => (
+            {filteredDrivers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((driver, idx) => (
               <TableRow key={idx}>
                 <TableCell>{driver.name}</TableCell>
                 <TableCell>{driver.deliveryCount}</TableCell>
@@ -194,6 +193,15 @@ const DriverPerformance = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <TablePagination
+        component="div"
+        count={filteredDrivers.length}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </Box>
   );
 };
