@@ -19,6 +19,7 @@ import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import AddLocationAltOutlinedIcon from "@mui/icons-material/AddLocationAltOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import user from "../../../src/assets/icons/person_57dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg";
 
 const Item = ({ title, to, icon, selected, setSelected, onClick }) => {
@@ -173,7 +174,28 @@ const AdminSidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
+            <Typography
+              variant="h6"
+              color={colors.primary[400]}
+              sx={{ m: "15px 0 5px 20px" }}
+              fontWeight="bold"
+            >
+            Company Analytics
+            </Typography>
+            <Item
+              title="Driver Analytics"
+              to="/dashboard/driver"
+              icon={<DriveEtaIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Profit & Revenue"
+              to="/dashboard/team"
+              icon={<AttachMoneyIcon/>}
+              selected={selected}
+              setSelected={setSelected}
+            />
             <Typography
               variant="h6"
               color={colors.primary[400]}
