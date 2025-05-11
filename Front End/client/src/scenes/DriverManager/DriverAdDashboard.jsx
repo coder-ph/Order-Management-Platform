@@ -1,23 +1,16 @@
 import React from "react";
+import DriverAvailability  from "./DriverAvailability";
 import DriversTable from "./AngelaJulius";
-import DriverPerformance from "./CaroleTillen";
-import ShipmentsChart from "./ShipmentDeliveries";
+import CaroleTillen from "./CaroleTillen";
+import ProfitRevenueRates from "./ProfitRevenueRates";
 
 const DriverAdDashboard = () => {
   return (
-    // Create your components in DriverManager Component
     <>
-      {/* <div>Compliance & Certification Analytics Section</div> */}
-      {/* <Angela & Julius Component /> */}
+      <DriverAvailability />
       <DriversTable/>
-      <DriverPerformance/>
-      <ShipmentsChart/>
-      {/* <div>Driver Performance Analytics Section</div> */}
-      {/* <Carole & Tillen Component /> */}
-      {/* <div>Shipment Deliveries Analytics Section</div> */}
-      {/* <ShipmentDeliveries Component /> */}
-
-
+      <CaroleTillen/>
+      <ProfitRevenueRates/>
 
      
     </>
@@ -25,3 +18,4 @@ const DriverAdDashboard = () => {
 };
 
 export default DriverAdDashboard;
+ 

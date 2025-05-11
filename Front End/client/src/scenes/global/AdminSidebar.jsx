@@ -146,6 +146,13 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
             <Item
+              title="Company Analytics"
+              to="/dashboard/company"
+              icon={<DriveEtaIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
               title="Manage Orders"
               to="/dashboard/orders"
               icon={<LocalShippingOutlinedIcon />}
@@ -250,3 +257,26 @@ const AdminSidebar = () => {
 };
 
 export default AdminSidebar;
+
+
+{ /*
+  To scrum master
+  Error occurring at line due to nested double anchor tags nested together
+  return (
+    <MenuItem
+      active={selected === title}
+      style={{ color: colors.primary[500] }}
+      onClick={() => {
+        setSelected(title);
+        if (onClick) onClick();
+      }}
+      icon={icon}
+      component={<Link to={to} />}
+    >
+      <Typography>{title}</Typography>
+    </MenuItem>
+  );
+};
+
+  
+  */}
