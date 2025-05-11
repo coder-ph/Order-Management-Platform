@@ -100,6 +100,20 @@ const AdminSidebar = () => {
           </li>
           <li
             className={`p-2 flex items-center ${
+              active === "Company Analytics" ? "bg-gray-600" : ""
+            }`}
+          >
+            <Link
+              to="/analytics"
+              onClick={() => setActive("Company Analytics")}
+              className="flex items-center w-full"
+            >
+              <Settings size={20} className="mr-2" />
+              {isExpanded && "Company Analytics"}
+            </Link>
+          </li>
+          <li
+            className={`p-2 flex items-center ${
               active === "Help" ? "bg-gray-600" : ""
             }`}
           >

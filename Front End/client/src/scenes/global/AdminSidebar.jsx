@@ -50,11 +50,8 @@ const AdminSidebar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Clear token and role from localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-
-    // Redirect to login page and replace history
     navigate("/login", { replace: true });
   };
 
@@ -68,11 +65,7 @@ const AdminSidebar = () => {
             style={{ margin: "10px 0 20px 0", color: colors.primary[400] }}
           >
             {!isCollapsed && (
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-              >
+              <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Typography variant="h4" color={colors.primary[400]}>
                   LOGO
                 </Typography>
@@ -108,6 +101,15 @@ const AdminSidebar = () => {
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            
+            <Item
+              title="Company Analytics"
+              to="/dashboard/companyAnalytics"
+              icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
             <Item
               title="Map"
               to="/dashboard/map"
@@ -116,7 +118,7 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="Dashboard"
+              title="Dashboard Overview"
               to="/dashboard/main"
               icon={<HomeOutlinedIcon />}
               selected={selected}
@@ -226,6 +228,7 @@ const AdminSidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+
             <MenuItem
               icon={<LogoutIcon />}
               onClick={handleLogout}
@@ -237,6 +240,7 @@ const AdminSidebar = () => {
         </Menu>
       </Sidebar>
 
+      {/* Placeholder right-side content */}
       <Box
         sx={{
           flexGrow: 1,
