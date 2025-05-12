@@ -139,9 +139,39 @@ const AdminSidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title="Drivers Analytics"
               to="/dashboard/driver"
+              icon={<DriveEtaIcon />}
+              style={{color:colors.primary[400]}}
+              onClick={() => {
+                navigate("/dashboard/driver")
+                setSelected("Manage Drivers")
+              }}
+            />
+            <Item 
+              title="Add Driver"
+              to="/dashboard/driver/add-driver"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item 
+              title="Compliance"
+              to="/dashboard/driver/compliance"
+              icon={<ReceiptOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            /> */}
+            {/* <Item 
+              title="Driver Analytics"
+              to="/dashboard/driver/analytics"
+              icon={<BarChartOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            /> */}
+             <SubMenu
+              label = "Driver Analytics"
               icon={<DriveEtaIcon />}
               style={{color:colors.primary[400]}}
               onClick={() => {
@@ -166,6 +196,13 @@ const AdminSidebar = () => {
             <Item 
               title="Driver Analytics"
               to="/dashboard/driver/analytics"
+              icon={<BarChartOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item 
+              title="Driver Availability"
+              to="/dashboard/driver/driver_availability"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

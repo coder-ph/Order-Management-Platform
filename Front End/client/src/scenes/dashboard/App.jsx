@@ -22,6 +22,8 @@ import OrderDetails from "../ManageOrders/OrderDetails";
 import DriverAdDashboard from "../DriverManager/DriverAdDashboard";
 import Compliance from "../DriverManager/Compliance";
 import CompanyAnalytics from "../CompanyAnalytics/CompanyAnalytics"
+import CaroleTillen from "../DriverManager/CaroleTillen"
+import DriverAvailability from "../DriverManager/DriverAvailability";
 
 const Ap = () => {
   const [theme, colorMode] = useMode();
@@ -61,7 +63,8 @@ const Ap = () => {
                   <Route index element = {<Compliance />}/>
                   <Route path="add-driver" element={<AddDriver />}/>
                   <Route path="compliance" element={<Compliance />}/>
-                  <Route path="analytics" element={<Compliance />}/>
+                  <Route path="analytics" element={<CaroleTillen />}/>
+                  <Route path="driver_availability" element={<DriverAvailability/>}/>
                 </Route>
                 <Route path="/company" element={< CompanyAnalytics/>} />
               </Routes>
