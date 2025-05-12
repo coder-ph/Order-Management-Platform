@@ -20,6 +20,7 @@ import AdminMap from "../../Pages/AdminMap";
 import Orders from "../ManageOrders/ManageOrders";
 import OrderDetails from "../ManageOrders/OrderDetails";
 import DriverAdDashboard from "../DriverManager/DriverAdDashboard";
+import Compliance from "../DriverManager/Compliance";
 import CompanyAnalytics from "../CompanyAnalytics/CompanyAnalytics"
 
 const Ap = () => {
@@ -56,7 +57,12 @@ const Ap = () => {
                 <Route path="/line" element={<Line />} />
                 <Route path="/map" element={<AdminMap />} />
                 <Route path="/main" element={<AdDashboard />} />
-                <Route path="/driver" element={< DriverAdDashboard/>} />
+                <Route path="/driver" element={< DriverAdDashboard/>} >
+                  <Route index element = {<Compliance />}/>
+                  <Route path="add-driver" element={<AddDriver />}/>
+                  <Route path="compliance" element={<Compliance />}/>
+                  <Route path="analytics" element={<Compliance />}/>
+                </Route>
                 <Route path="/company" element={< CompanyAnalytics/>} />
               </Routes>
             </div>

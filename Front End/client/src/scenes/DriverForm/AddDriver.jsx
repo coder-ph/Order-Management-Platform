@@ -12,7 +12,7 @@ const initialValues = {
   email: "",
   contact: "",
   address: "",
-  rore: "driver",
+  role: "driver",
 };
 
 const phonRegex = /^(?:\+254|254|0)?7\d{8}$/;

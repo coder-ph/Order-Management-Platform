@@ -1,6 +1,6 @@
 import React from "react";
 import DriverAvailability  from "./DriverAvailability";
-import DriversTable from "./AngelaJulius";
+import { Outlet } from "react-router-dom";
 import CaroleTillen from "./CaroleTillen";
 import ProfitRevenueRates from "./ProfitRevenueRates";
 
@@ -13,6 +13,7 @@ const DriverAdDashboard = () => {
       <ProfitRevenueRates/>
 
      
+    <Outlet/>
     </>
   );
 };
