@@ -24,7 +24,7 @@ import Compliance from "../DriverManager/Compliance";
 import CompanyAnalytics from "../CompanyAnalytics/CompanyAnalytics"
 import CaroleTillen from "../DriverManager/CaroleTillen"
 import DriverAvailability from "../DriverManager/DriverAvailability";
-import CompanyAnalytics from "../CompanyAnalytics/companyAnalytics"; 
+// import CompanyAnalytics from "../CompanyAnalytics/companyAnalytics"; 
 
 import { Navigate, Route, Routes } from "react-router-dom";
 
@@ -60,14 +60,15 @@ const Ap = () => {
                 <Route path="pie" element={<Pie />} />
                 <Route path="line" element={<Line />} />
                 <Route path="map" element={<AdminMap />} />
-                <Route path="driver" element={<DriverAdDashboard />} />
-                <Route path="companyAnalytics" element={<CompanyAnalytics />} >
+                <Route path="driver" element={<DriverAdDashboard />} >
+                {/* <Route path="/companyAnalytics" element={<CompanyAnalytics />} > */}
                   <Route index element = {<Compliance />}/>
                   <Route path="add-driver" element={<AddDriver />}/>
                   <Route path="compliance" element={<Compliance />}/>
                   <Route path="analytics" element={<CaroleTillen />}/>
                   <Route path="driver_availability" element={<DriverAvailability/>}/>
-                </Route>
+              </Route>
+               
                 <Route path="/company" element={< CompanyAnalytics/>} />
               </Routes>
             </div>

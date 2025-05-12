@@ -26,7 +26,7 @@ const DriverPerformance = () => {
     deliveryCountMax: '',
     avgDeliveryTimeMin: '',
     avgDeliveryTimeMax: '',
-    customerRatingThreshold: '',
+    // customerRatingThreshold: '',
     orderRejectionRateMax: '',
   });
   const [drivers, setDrivers] = useState([]);

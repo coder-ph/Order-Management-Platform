@@ -105,7 +105,7 @@ const AdminSidebar = () => {
             
             <Item
               title="Company Analytics"
-              to="/dashboard/companyAnalytics"
+              to="/dashboard/company"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -210,13 +210,13 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
             </SubMenu>
-            <Item
+            {/* <Item
               title="Company Analytics"
               to="/dashboard/company"
               icon={<DriveEtaIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             <Item
               title="Manage Orders"
               to="/dashboard/orders"
