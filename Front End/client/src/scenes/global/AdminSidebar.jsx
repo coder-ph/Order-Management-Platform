@@ -139,7 +139,7 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="Manage Drivers"
+              title="Drivers Analytics"
               to="/dashboard/driver"
               icon={<DriveEtaIcon />}
               selected={selected}
