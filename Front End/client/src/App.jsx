@@ -39,6 +39,7 @@ import LandingPages from "./Pages/Landing page/LandingPage"
 
 
 
+
 const PrivateRoute = ({ role, element, fallbackPath }) => {
   const isAuthenticated = true; 
   if (!isAuthenticated) {
@@ -87,6 +88,7 @@ const App = () => {
             />
           }
         />
+        
         <Route
           path="/user/*"
           element={

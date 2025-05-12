@@ -77,13 +77,17 @@ const Compliance = () => {
     return !expiryFilter || days <= expiryFilter;
   });
 
+  // ✅ Updated to reflect compliance for selected document only
   const getComplianceChartData = () => {
-    const compliantDrivers = drivers.filter(driver => {
-      const isLicenseCompliant = driver.days_to_expiry > 0;
-      const isMedicalCompliant = driver.days_to_medical_expiry > 0;
-      const isTrainingCompliant = driver.days_to_training_expiry > 0;
-      return isLicenseCompliant && isMedicalCompliant && isTrainingCompliant;
-    });
+    let compliantDrivers = [];
+
+    if (documentType === "license") {
+      compliantDrivers = drivers.filter(driver => driver.days_to_expiry > 0);
+    } else if (documentType === "medical") {
+      compliantDrivers = drivers.filter(driver => driver.days_to_medical_expiry > 0);
+    } else if (documentType === "training") {
+      compliantDrivers = drivers.filter(driver => driver.days_to_training_expiry > 0);
+    }
 
     const nonCompliantDrivers = drivers.length - compliantDrivers.length;
 
@@ -213,15 +217,14 @@ const Compliance = () => {
         {/* Chart + Compliance Text */}
         {/* <Box flex="1" minWidth="300px">
           <Box mb={2}>
-            <h3>Compliance Percentage</h3>
+            <h3>{documentType.charAt(0).toUpperCase() + documentType.slice(1)} Compliance</h3>
             <p>
               {drivers.length > 0
                 ? ((compliantCount / drivers.length) * 100).toFixed(2)
-                : 0}% of drivers are fully compliant with all documents.
+                : 0}% of drivers are compliant with their {documentType} requirements.
             </p>
           </Box>
           <Box>
-            <h3>Driver Compliance Chart</h3>
             <Pie data={chartData} />
           </Box>
         </Box> */}
