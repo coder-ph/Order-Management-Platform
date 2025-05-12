@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
@@ -47,6 +47,7 @@ const AdminSidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [openDriverMenu, setOpenDriverMenu] = useState(false)
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -138,13 +139,37 @@ const AdminSidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              title="Manage Drivers"
-              to="/dashboard/driver"
+            <SubMenu
+              label = "Manage Drivers"
               icon={<DriveEtaIcon />}
+              style={{color:colors.primary[400]}}
+              onClick={() => {
+                navigate("/dashboard/driver")
+                setSelected("Manage Drivers")
+              }}
+            >
+            <Item 
+              title="Add Driver"
+              to="/dashboard/driver/add-driver"
+              icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
+            <Item 
+              title="Compliance"
+              to="/dashboard/driver/compliance"
+              icon={<ReceiptOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item 
+              title="Driver Analytics"
+              to="/dashboard/driver/analytics"
+              icon={<BarChartOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            </SubMenu>
             <Item
               title="Manage Orders"
               to="/dashboard/orders"

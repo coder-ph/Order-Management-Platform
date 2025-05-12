@@ -23,7 +23,7 @@ import {
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DriversTable = () => {
+const Compliance = () => {
   const [drivers, setDrivers] = useState([]);
   const [expiryFilter, setExpiryFilter] = useState("");
   const [documentType, setDocumentType] = useState("license");
@@ -88,6 +88,7 @@ const DriversTable = () => {
     const nonCompliantDrivers = drivers.length - compliantDrivers.length;
 
     return {
+      // <
       compliantCount: compliantDrivers.length,
       nonCompliantCount: nonCompliantDrivers,
       chartData: {
@@ -136,17 +137,27 @@ const DriversTable = () => {
       const isActive = row.status === "active";
       return (
         <Box
+          width="100%"
+          height="40px"
+          // m="auto"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
           px={1}
           py={0.5}
           borderRadius="4px"
-          display="inline-block"
           color={isActive ? colors.greenAccent[100] : colors.redAccent[100]}
           bgcolor={isActive ? colors.greenAccent[700] : colors.redAccent[700]}
           fontWeight="bold"
           textTransform="capitalize"
         >
-          {isActive ? <CheckCircleOutlineIcon fontSize="small" /> : <CancelOutlinedIcon fontSize="small" />}
-          {row.status}
+          {isActive ? 
+            (
+            <CheckCircleOutlineIcon fontSize="small"  style={{marginRight: 4}}/>
+            ) : (
+            <CancelOutlinedIcon fontSize="small" style={{marginRight: 4}}/>
+            )}
+            {row.status}
         </Box>
       );
     },
@@ -183,7 +194,7 @@ const DriversTable = () => {
       </FormControl>
 
       {/* Expiry Filter */}
-      <FormControl sx={{ minWidth: 200, mb: 2 }}>
+      <FormControl sx={{ minWidth: 200, mb: 2, mr: 2}}>
         <InputLabel id="expiry-label">Filter By Expiry</InputLabel>
         <Select
           labelId="expiry-label"
@@ -200,7 +211,7 @@ const DriversTable = () => {
 
       <Box display="flex" gap={4} mt={4} flexWrap="wrap">
         {/* Chart + Compliance Text */}
-        <Box flex="1" minWidth="300px">
+        {/* <Box flex="1" minWidth="300px">
           <Box mb={2}>
             <h3>Compliance Percentage</h3>
             <p>
@@ -213,7 +224,7 @@ const DriversTable = () => {
             <h3>Driver Compliance Chart</h3>
             <Pie data={chartData} />
           </Box>
-        </Box>
+        </Box> */}
 
         {/* DataGrid Table */}
         <Box flex="3" minWidth="600px" height="75vh"
@@ -245,4 +256,4 @@ const DriversTable = () => {
   );
 };
 
-export default DriversTable;
+export default Compliance;
