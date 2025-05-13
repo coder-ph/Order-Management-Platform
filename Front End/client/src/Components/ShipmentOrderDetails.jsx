@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Typography, List, ListItem, useTheme, CircularProgress, Divider } from "@mui/material";
+import { 
+  Box, Typography, useTheme, CircularProgress,
+  Table, TableBody, TableCell, TableContainer,
+  TableHead, TableRow, Paper
+} from "@mui/material";
 import { tokens } from "../theme";
 import { fetchShipments, selectAllShipments, selectShipmentsStatus, selectShipmentsError } from '../Redux/Shipments/shipmentsSlice';
 
@@ -48,10 +52,11 @@ const ShipmentOrderDetails = () => {
       )}
 
       {status === 'succeeded' && shipments.length > 0 && (
-        <List 
+        <TableContainer 
+          component={Paper}
           sx={{ 
-            maxHeight: "270px", 
-            overflowY: "auto",
+            maxHeight: "800px",
+            bgcolor: colors.primary[400],
             '&::-webkit-scrollbar': {
               width: '8px',
             },
@@ -64,85 +69,73 @@ const ShipmentOrderDetails = () => {
             },
           }}
         >
-          {shipments.map((shipment, index) => (
-            <React.Fragment key={shipment.shipment_order_id}>
-              <ListItem 
-                sx={{
-                  py: 1,
-                  flexDirection: "column",
-                  alignItems: "flex-start"
-                }}
-              >
-                <Box 
-                  display="grid" 
-                  gridTemplateColumns="repeat(2, 1fr)" 
-                  width="100%"
-                  gap={1}
-                >
-                  <ShipmentDetail 
-                    label="Shipment Order ID" 
-                    value={shipment.shipment_order_id} 
-                    colors={colors} 
-                    highlight
-                  />
-                  <ShipmentDetail 
-                    label="Shipment ID" 
-                    value={shipment.shipment_id} 
-                    colors={colors} 
-                  />
-                  <ShipmentDetail 
-                    label="Order ID" 
-                    value={shipment.order_id} 
-                    colors={colors} 
-                  />
-                  <ShipmentDetail 
-                    label="Loading Sequence" 
-                    value={shipment.loading_sequence} 
-                    colors={colors} 
-                  />
-                  <ShipmentDetail 
-                    label="Unloading Sequence" 
-                    value={shipment.unloading_sequence} 
-                    colors={colors} 
-                  />
-                </Box>
-              </ListItem>
-              {index < shipments.length - 1 && (
-                <Divider 
-                  sx={{ 
-                    borderColor: colors.primary[300],
-                    width: "100%",
-                    my: 0.5
-                  }} 
-                />
-              )}
-            </React.Fragment>
-          ))}
-        </List>
+          <Table size="medium" stickyHeader>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ 
+                  backgroundColor: colors.primary[500], 
+                  color: colors.blueAccent[400],
+                  fontWeight: "bold"
+                }}>
+                  Shipment Order ID
+                </TableCell>
+                <TableCell sx={{ 
+                  backgroundColor: colors.primary[500], 
+                  color: colors.blueAccent[400],
+                  fontWeight: "bold"
+                }}>
+                  Shipment ID
+                </TableCell>
+                <TableCell sx={{ 
+                  backgroundColor: colors.primary[500], 
+                  color: colors.blueAccent[400],
+                  fontWeight: "bold"
+                }}>
+                  Order ID
+                </TableCell>
+                <TableCell sx={{ 
+                  backgroundColor: colors.primary[500], 
+                  color: colors.blueAccent[400],
+                  fontWeight: "bold"
+                }}>
+                  Loading Sequence
+                </TableCell>
+                <TableCell sx={{ 
+                  backgroundColor: colors.primary[500], 
+                  color: colors.blueAccent[400],
+                  fontWeight: "bold"
+                }}>
+                  Unloading Sequence
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {shipments.map((shipment) => (
+                <TableRow key={shipment.shipment_order_id}>
+                  <TableCell sx={{ 
+                    color: colors.orangeAccent[500],
+                    fontWeight: "600"
+                  }}>
+                    {shipment.shipment_order_id}
+                  </TableCell>
+                  <TableCell sx={{ color: colors.grey[100] }}>
+                    {shipment.shipment_id}
+                  </TableCell>
+                  <TableCell sx={{ color: colors.grey[100] }}>
+                    {shipment.order_id}
+                  </TableCell>
+                  <TableCell sx={{ color: colors.grey[100] }}>
+                    {shipment.loading_sequence}
+                  </TableCell>
+                  <TableCell sx={{ color: colors.grey[100] }}>
+                    {shipment.unloading_sequence}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       )}
-    </Box>
-  );
-};
-
-const ShipmentDetail = ({ label, value, colors, highlight = false }) => {
-  return (
-    <Box>
-      <Typography 
-        variant="body2" 
-        fontWeight="bold"
-        color={colors.blueAccent[400]}
-        display="inline"
-      >
-        {label}:
-      </Typography>{" "}
-      <Typography 
-        variant="body2" 
-        fontWeight={highlight ? "600" : "400"}
-        color={highlight ? colors.orangeAccent[500] : colors.grey[100]}
-        display="inline"
-      >
-        {value}
-      </Typography>
     </Box>
   );
 };

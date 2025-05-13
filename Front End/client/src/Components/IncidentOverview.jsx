@@ -1,20 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Typography, List, ListItem, useTheme, CircularProgress, Divider } from "@mui/material";
+import { 
+  Box, Typography, useTheme, CircularProgress, 
+  Table, TableBody, TableCell, TableContainer,
+  TableHead, TableRow, Paper, Chip,
+  Tabs, Tab, IconButton, Tooltip
+} from "@mui/material";
 import { tokens } from "../theme";
 import { fetchIncidents, selectAllIncidents, selectIncidentsStatus, selectIncidentsError } from '../Redux/Incidents/incidentsSlice';
-import { Bar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+import { Refresh, WarningAmber, PriorityHigh } from '@mui/icons-material';
 
 const IncidentOverview = () => {
   const theme = useTheme();
@@ -23,307 +17,185 @@ const IncidentOverview = () => {
   const incidents = useSelector(selectAllIncidents);
   const status = useSelector(selectIncidentsStatus);
   const error = useSelector(selectIncidentsError);
+  const [tabValue, setTabValue] = useState(0);
+
+  // Filter incidents based on tab selection
+  const filteredIncidents = useMemo(() => {
+    if (!incidents.length) return [];
+    
+    switch (tabValue) {
+      case 1: // Active
+        return incidents.filter(incident => 
+          !['Resolved', 'Closed', 'Completed'].includes(incident.resolution_status));
+      case 2: // Critical
+        return incidents.filter(incident => 
+          ['critical', 'high'].includes(incident.severity.toLowerCase()));
+      default: // All
+        return incidents;
+    }
+  }, [incidents, tabValue]);
+
+  // Critical incidents count
+  const criticalCount = useMemo(() => 
+    incidents.filter(i => ['critical', 'high'].includes(i.severity.toLowerCase())).length,
+    [incidents]
+  );
 
   useEffect(() => {
-    if (status === 'idle') {
-      dispatch(fetchIncidents());
-    }
+    if (status === 'idle') dispatch(fetchIncidents());
   }, [status, dispatch]);
 
-  // Prepare data for chart: count incidents by severity
-  const severityCounts = incidents.reduce((acc, incident) => {
-    acc[incident.severity] = (acc[incident.severity] || 0) + 1;
-    return acc;
-  }, {});
+  const handleRefresh = () => dispatch(fetchIncidents());
+  const handleTabChange = (_, newValue) => setTabValue(newValue);
 
-  // Get colors for different severity levels
-  const getSeverityColors = () => {
-    const severities = Object.keys(severityCounts);
-    const backgroundColors = [];
-    const borderColors = [];
-
-    severities.forEach(severity => {
-      const severityLower = severity.toLowerCase();
-      if (severityLower.includes('critical') || severityLower.includes('high')) {
-        backgroundColors.push(colors.redAccent[500]);
-        borderColors.push(colors.redAccent[400]);
-      } else if (severityLower.includes('medium') || severityLower.includes('moderate')) {
-        backgroundColors.push(colors.orangeAccent[500]);
-        borderColors.push(colors.orangeAccent[400]);
-      } else if (severityLower.includes('low') || severityLower.includes('minor')) {
-        backgroundColors.push(colors.blueAccent[500]);
-        borderColors.push(colors.blueAccent[400]);
-      } else {
-        backgroundColors.push(colors.greenAccent[500]);
-        borderColors.push(colors.greenAccent[400]);
-      }
-    });
-
-    return { backgroundColors, borderColors };
-  };
-
-  const { backgroundColors, borderColors } = getSeverityColors();
-
-  const data = {
-    labels: Object.keys(severityCounts),
-    datasets: [
-      {
-        label: 'Incidents by Severity',
-        data: Object.values(severityCounts),
-        backgroundColor: backgroundColors,
-        borderColor: borderColors,
-        borderWidth: 1
-      },
-    ],
-  };
-
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'top',
-        labels: {
-          color: colors.grey[100],
-          font: {
-            family: "'Source Sans Pro', sans-serif",
-            size: 12
-          },
-          padding: 15
-        }
-      },
-      tooltip: {
-        backgroundColor: colors.primary[700],
-        titleColor: colors.grey[100],
-        bodyColor: colors.grey[100],
-        bodyFont: {
-          family: "'Source Sans Pro', sans-serif"
-        },
-        titleFont: {
-          family: "'Source Sans Pro', sans-serif",
-          weight: 'bold'
-        },
-        padding: 10,
-        borderColor: colors.primary[500],
-        borderWidth: 1
-      },
-      title: {
-        display: false
-      }
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: colors.grey[100],
-          font: {
-            family: "'Source Sans Pro', sans-serif"
-          }
-        },
-        grid: {
-          display: false,
-          drawBorder: true,
-          color: colors.grey[700]
-        }
-      },
-      y: {
-        ticks: {
-          color: colors.grey[100],
-          font: {
-            family: "'Source Sans Pro', sans-serif"
-          }
-        },
-        grid: {
-          color: colors.grey[700],
-          drawBorder: true
-        },
-        beginAtZero: true
-      }
-    }
-  };
-
-  // Function to get color based on severity
+  // Helper functions
   const getSeverityColor = (severity) => {
-    const severityLower = severity.toLowerCase();
-    if (severityLower.includes('critical') || severityLower.includes('high')) {
-      return colors.redAccent[500];
-    } else if (severityLower.includes('medium') || severityLower.includes('moderate')) {
-      return colors.orangeAccent[500];
-    } else if (severityLower.includes('low') || severityLower.includes('minor')) {
-      return colors.blueAccent[500];
-    }
+    const s = severity.toLowerCase();
+    if (s.includes('critical') || s.includes('high')) return colors.redAccent[500];
+    if (s.includes('medium')) return colors.orangeAccent[500];
+    if (s.includes('low')) return colors.blueAccent[500];
     return colors.greenAccent[500];
   };
 
-  // Function to get color based on status
   const getStatusColor = (status) => {
-    const statusLower = status.toLowerCase();
-    if (statusLower.includes('resolved') || statusLower.includes('complete')) {
-      return colors.greenAccent[500];
-    } else if (statusLower.includes('in progress') || statusLower.includes('investigating')) {
-      return colors.blueAccent[400];
-    } else if (statusLower.includes('pending') || statusLower.includes('open')) {
-      return colors.orangeAccent[500];
-    } else if (statusLower.includes('escalated') || statusLower.includes('critical')) {
-      return colors.redAccent[500];
-    }
+    const s = status.toLowerCase();
+    if (s.includes('resolved') || s.includes('complete')) return colors.greenAccent[500];
+    if (s.includes('in progress')) return colors.blueAccent[400];
+    if (s.includes('pending') || s.includes('open')) return colors.orangeAccent[500];
+    if (s.includes('escalated')) return colors.redAccent[500];
     return colors.grey[100];
   };
 
-  return (
-    <Box>
-      <Typography
-        variant="h5"
-        fontWeight="600"
-        color={colors.grey[100]}
-        mb={2}
-      >
-        Incident Overview
-      </Typography>
-
-      {status === 'loading' && (
-        <Box display="flex" justifyContent="center" alignItems="center" height="200px">
-          <CircularProgress size={24} color="secondary" />
-        </Box>
-      )}
-
-      {status === 'failed' && (
-        <Typography color={colors.redAccent[500]} variant="body2">
-          Error: {error}
-        </Typography>
-      )}
-
-      {status === 'succeeded' && incidents.length === 0 && (
-        <Typography color={colors.grey[300]} variant="body2">
-          No incidents found.
-        </Typography>
-      )}
-
-      {status === 'succeeded' && incidents.length > 0 && (
-        <>
-          <Box 
-            height="180px"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            mb={2}
-          >
-            <Bar data={data} options={chartOptions} />
-          </Box>
-          
-          <List 
-            sx={{ 
-              maxHeight: "160px", 
-              overflowY: "auto",
-              mt: 2,
-              '&::-webkit-scrollbar': {
-                width: '8px',
-              },
-              '&::-webkit-scrollbar-track': {
-                background: colors.primary[400],
-              },
-              '&::-webkit-scrollbar-thumb': {
-                backgroundColor: colors.grey[700],
-                borderRadius: '8px',
-              },
-            }}
-          >
-            {incidents.map((incident, index) => (
-              <React.Fragment key={incident.incident_id}>
-                <ListItem 
-                  sx={{
-                    py: 1,
-                    flexDirection: "column",
-                    alignItems: "flex-start"
-                  }}
-                >
-                  <Box 
-                    display="grid" 
-                    gridTemplateColumns="repeat(12, 1fr)" 
-                    width="100%"
-                    gap={1}
-                  >
-                    <Box gridColumn="span 4">
-                      <DetailItem 
-                        label="Type" 
-                        value={incident.incident_type} 
-                        colors={colors} 
-                      />
-                    </Box>
-                    <Box gridColumn="span 4">
-                      <DetailItem 
-                        label="Severity" 
-                        value={incident.severity} 
-                        colors={colors}
-                        valueColor={getSeverityColor(incident.severity)}
-                      />
-                    </Box>
-                    <Box gridColumn="span 4">
-                      <DetailItem 
-                        label="Status" 
-                        value={incident.resolution_status} 
-                        colors={colors}
-                        valueColor={getStatusColor(incident.resolution_status)}
-                      />
-                    </Box>
-                    <Box gridColumn="span 6">
-                      <DetailItem 
-                        label="Reported By" 
-                        value={incident.reported_by} 
-                        colors={colors}
-                      />
-                    </Box>
-                    <Box gridColumn="span 12">
-                      <DetailItem 
-                        label="Description" 
-                        value={incident.description} 
-                        colors={colors}
-                      />
-                    </Box>
-                  </Box>
-                </ListItem>
-                {index < incidents.length - 1 && (
-                  <Divider 
-                    sx={{ 
-                      borderColor: colors.primary[300],
-                      width: "100%",
-                      my: 0.5
-                    }} 
-                  />
-                )}
-              </React.Fragment>
-            ))}
-          </List>
-        </>
-      )}
+  if (status === 'loading') return (
+    <Box display="flex" justifyContent="center" alignItems="center" height="280px">
+      <CircularProgress size={32} color="secondary" />
     </Box>
   );
-};
 
-// Helper component for incident details
-const DetailItem = ({ label, value, colors, valueColor = null }) => {
+  if (status === 'failed') return (
+    <Typography color={colors.redAccent[500]} variant="body2">
+      Error: {error}
+    </Typography>
+  );
+
+  if (status === 'succeeded' && !incidents.length) return (
+    <Typography color={colors.grey[300]} variant="body2">
+      No incidents found.
+    </Typography>
+  );
+
   return (
     <Box>
-      <Typography 
-        variant="body2" 
-        fontWeight="bold"
-        color={colors.greenAccent[500]}
-        display="inline"
-      >
-        {label}:
-      </Typography>{" "}
-      <Typography 
-        variant="body2" 
-        fontWeight={valueColor ? "600" : "400"}
-        color={valueColor || colors.grey[100]}
-        display="inline"
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+        <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>
+          Incident Overview
+          {criticalCount > 0 && (
+            <Chip 
+              size="small"
+              label={`${criticalCount} Critical`}
+              sx={{ ml: 1, bgcolor: colors.redAccent[500], color: colors.grey[100], fontWeight: "bold" }}
+              icon={<PriorityHigh style={{ color: colors.grey[100] }} />}
+            />
+          )}
+        </Typography>
+        <Tooltip title="Refresh incidents">
+          <IconButton size="small" onClick={handleRefresh} sx={{ color: colors.grey[100] }}>
+            <Refresh />
+          </IconButton>
+        </Tooltip>
+      </Box>
+      
+      <Tabs 
+        value={tabValue} 
+        onChange={handleTabChange}
+        indicatorColor="secondary"
+        textColor="inherit"
+        variant="fullWidth"
         sx={{
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          maxWidth: "100%"
+          '& .MuiTab-root': {
+            color: colors.grey[300],
+            minHeight: 40,
+            fontSize: '0.8rem',
+            '&.Mui-selected': { color: colors.greenAccent[400] }
+          },
+          mb: 2,
+          borderBottom: 1,
+          borderColor: colors.grey[700]
         }}
       >
-        {value}
-      </Typography>
+        <Tab label={`All (${incidents.length})`} />
+        <Tab label="Active" />
+        <Tab label="Critical" />
+      </Tabs>
+
+      <TableContainer 
+        component={Paper} 
+        sx={{ 
+          maxHeight: "440px",
+          bgcolor: colors.primary[400],
+          '&::-webkit-scrollbar': { width: '8px' },
+          '&::-webkit-scrollbar-track': { background: colors.primary[400] },
+          '&::-webkit-scrollbar-thumb': { backgroundColor: colors.grey[700], borderRadius: '8px' }
+        }}
+      >
+        <Table size="small" stickyHeader>
+          <TableHead>
+            <TableRow>
+              {['Type', 'Severity', 'Status', 'Reporter'].map((header) => (
+                <TableCell key={header} sx={{ 
+                  backgroundColor: colors.primary[500], 
+                  color: colors.greenAccent[500],
+                  fontWeight: "bold"
+                }}>
+                  {header}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredIncidents.map((incident) => (
+              <TableRow key={incident.incident_id}>
+                <TableCell sx={{ color: colors.grey[100] }}>
+                  <Tooltip title={incident.description}>
+                    <Typography variant="body2" sx={{ textOverflow: "ellipsis", overflow: "hidden", maxWidth: "120px" }}>
+                      {incident.incident_type}
+                    </Typography>
+                  </Tooltip>
+                </TableCell>
+                <TableCell>
+                  <Chip
+                    icon={incident.severity.toLowerCase().includes('critical') ? <PriorityHigh /> : <WarningAmber />}
+                    label={incident.severity}
+                    size="small"
+                    sx={{
+                      bgcolor: `${getSeverityColor(incident.severity)}20`,
+                      color: getSeverityColor(incident.severity),
+                      border: `1px solid ${getSeverityColor(incident.severity)}`,
+                      fontWeight: "bold",
+                      '& .MuiChip-icon': { color: getSeverityColor(incident.severity) }
+                    }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Chip
+                    label={incident.resolution_status}
+                    size="small"
+                    sx={{
+                      bgcolor: `${getStatusColor(incident.resolution_status)}20`,
+                      color: getStatusColor(incident.resolution_status),
+                      border: `1px solid ${getStatusColor(incident.resolution_status)}`,
+                      fontWeight: "bold"
+                    }}
+                  />
+                </TableCell>
+                <TableCell sx={{ color: colors.grey[100] }}>
+                  {incident.reported_by}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
   );
 };

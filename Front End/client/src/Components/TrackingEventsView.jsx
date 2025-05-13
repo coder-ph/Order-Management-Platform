@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Typography, List, ListItem, useTheme, CircularProgress } from "@mui/material";
+import { 
+  Box, Typography, useTheme, CircularProgress,
+  Table, TableBody, TableCell, TableContainer,
+  TableHead, TableRow, Paper
+} from "@mui/material";
 import { tokens } from "../theme";
 import { fetchTrackingEvents, selectAllTrackingEvents, selectTrackingEventsStatus, selectTrackingEventsError } from '../Redux/TrackingEvents/trackingEventsSlice';
 
@@ -48,10 +52,11 @@ const TrackingEventsView = () => {
       )}
 
       {status === 'succeeded' && trackingEvents.length > 0 && (
-        <List 
+        <TableContainer 
+          component={Paper}
           sx={{ 
-            maxHeight: "270px", 
-            overflowY: "auto",
+            maxHeight: "800px",
+            bgcolor: colors.primary[400],
             '&::-webkit-scrollbar': {
               width: '8px',
             },
@@ -64,57 +69,80 @@ const TrackingEventsView = () => {
             },
           }}
         >
-          {trackingEvents.map((event) => (
-            <ListItem 
-              key={event.tracking_event_id}
-              sx={{
-                borderBottom: `1px solid ${colors.primary[300]}`,
-                py: 1,
-                flexDirection: "column",
-                alignItems: "flex-start"
-              }}
-            >
-              <Box 
-                display="grid" 
-                gridTemplateColumns="repeat(2, 1fr)" 
-                width="100%"
-                gap={1}
-              >
-                <EventDetail label="Event Type" value={event.event_type} colors={colors} />
-                <EventDetail label="Event Time" value={event.event_time} colors={colors} />
-                <EventDetail label="Location ID" value={event.location_id} colors={colors} />
-                <EventDetail label="GPS Coordinates" value={event.gps_coordinates} colors={colors} />
-                <Box gridColumn="span 2">
-                  <EventDetail label="Description" value={event.event_description} colors={colors} />
-                </Box>
-                <EventDetail label="Recorded By" value={event.recorded_by} colors={colors} />
-              </Box>
-            </ListItem>
-          ))}
-        </List>
+          <Table size="medium" stickyHeader>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ 
+                  backgroundColor: colors.primary[500], 
+                  color: colors.greenAccent[500],
+                  fontWeight: "bold"
+                }}>
+                  Event Type
+                </TableCell>
+                <TableCell sx={{ 
+                  backgroundColor: colors.primary[500], 
+                  color: colors.greenAccent[500],
+                  fontWeight: "bold"
+                }}>
+                  Event Time
+                </TableCell>
+                <TableCell sx={{ 
+                  backgroundColor: colors.primary[500], 
+                  color: colors.greenAccent[500],
+                  fontWeight: "bold"
+                }}>
+                  Location
+                </TableCell>
+                <TableCell sx={{ 
+                  backgroundColor: colors.primary[500], 
+                  color: colors.greenAccent[500],
+                  fontWeight: "bold"
+                }}>
+                  GPS Coordinates
+                </TableCell>
+                <TableCell sx={{ 
+                  backgroundColor: colors.primary[500], 
+                  color: colors.greenAccent[500],
+                  fontWeight: "bold"
+                }}>
+                  Description
+                </TableCell>
+                <TableCell sx={{ 
+                  backgroundColor: colors.primary[500], 
+                  color: colors.greenAccent[500],
+                  fontWeight: "bold"
+                }}>
+                  Recorded By
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {trackingEvents.map((event) => (
+                <TableRow key={event.tracking_event_id}>
+                  <TableCell sx={{ color: colors.grey[100] }}>
+                    {event.event_type}
+                  </TableCell>
+                  <TableCell sx={{ color: colors.grey[100] }}>
+                    {event.event_time}
+                  </TableCell>
+                  <TableCell sx={{ color: colors.grey[100] }}>
+                    {event.location_id}
+                  </TableCell>
+                  <TableCell sx={{ color: colors.grey[100] }}>
+                    {event.gps_coordinates}
+                  </TableCell>
+                  <TableCell sx={{ color: colors.grey[100] }}>
+                    {event.event_description}
+                  </TableCell>
+                  <TableCell sx={{ color: colors.grey[100] }}>
+                    {event.recorded_by}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       )}
-    </Box>
-  );
-};
-
-const EventDetail = ({ label, value, colors }) => {
-  return (
-    <Box>
-      <Typography 
-        variant="body2" 
-        fontWeight="bold"
-        color={colors.greenAccent[500]}
-        display="inline"
-      >
-        {label}:
-      </Typography>{" "}
-      <Typography 
-        variant="body2" 
-        color={colors.grey[100]}
-        display="inline"
-      >
-        {value}
-      </Typography>
     </Box>
   );
 };
