@@ -38,7 +38,7 @@ const CompanyAnalytics = () => {
       const token = localStorage.getItem("token");
       try {
         const response = await axios.get(
-          "https://eci-jsons-myf8.vercel.app//orders ",
+          "https://eci-jsons-myf8.vercel.app/orders ",
           {
             headers: {
               Authorization: `Bearer ${token}`,
