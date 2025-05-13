@@ -8,43 +8,50 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+// Register core Chart.js components and plugin
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ChartDataLabels
+);
 
 const ProfitRevenueRates = () => {
   const [profitData, setProfitData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
 
   useEffect(() => {
     const mockData = [
-      { name: "John Doe", profit: Math.floor(Math.random() * 10000) + 5000, revenue: Math.floor(Math.random() * 20000) + 10000, rates: Math.floor(Math.random() * 10) + 5 },
-      { name: "Jane Smith", profit: Math.floor(Math.random() * 10000) + 5000, revenue: Math.floor(Math.random() * 20000) + 10000, rates: Math.floor(Math.random() * 10) + 5 },
-      { name: "Michael Johnson", profit: Math.floor(Math.random() * 10000) + 5000, revenue: Math.floor(Math.random() * 20000) + 10000, rates: Math.floor(Math.random() * 10) + 5 },
-      { name: "Emily Davis", profit: Math.floor(Math.random() * 10000) + 5000, revenue: Math.floor(Math.random() * 20000) + 10000, rates: Math.floor(Math.random() * 10) + 5 },
-      { name: "Sarah Brown", profit: Math.floor(Math.random() * 10000) + 5000, revenue: Math.floor(Math.random() * 20000) + 10000, rates: Math.floor(Math.random() * 10) + 5 },
-      { name: "David Lee", profit: Math.floor(Math.random() * 10000) + 5000, revenue: Math.floor(Math.random() * 20000) + 10000, rates: Math.floor(Math.random() * 10) + 5 },
-      { name: "Sophia Wilson", profit: Math.floor(Math.random() * 10000) + 5000, revenue: Math.floor(Math.random() * 20000) + 10000, rates: Math.floor(Math.random() * 10) + 5 },
-      { name: "James Garcia", profit: Math.floor(Math.random() * 10000) + 5000, revenue: Math.floor(Math.random() * 20000) + 10000, rates: Math.floor(Math.random() * 10) + 5 },
-      { name: "Olivia Martinez", profit: Math.floor(Math.random() * 10000) + 5000, revenue: Math.floor(Math.random() * 20000) + 10000, rates: Math.floor(Math.random() * 10) + 5 },
-      { name: "William Rodriguez", profit: Math.floor(Math.random() * 10000) + 5000, revenue: Math.floor(Math.random() * 20000) + 10000, rates: Math.floor(Math.random() * 10) + 5 },
+      { name: "John Doe", profit: getRandom(5000, 15000), revenue: getRandom(10000, 30000), rates: getRandom(5, 15) },
+      { name: "Jane Smith", profit: getRandom(5000, 15000), revenue: getRandom(10000, 30000), rates: getRandom(5, 15) },
+      { name: "Michael Johnson", profit: getRandom(5000, 15000), revenue: getRandom(10000, 30000), rates: getRandom(5, 15) },
+      { name: "Emily Davis", profit: getRandom(5000, 15000), revenue: getRandom(10000, 30000), rates: getRandom(5, 15) },
+      { name: "Sarah Brown", profit: getRandom(5000, 15000), revenue: getRandom(10000, 30000), rates: getRandom(5, 15) },
+      { name: "David Lee", profit: getRandom(5000, 15000), revenue: getRandom(10000, 30000), rates: getRandom(5, 15) },
+      { name: "Sophia Wilson", profit: getRandom(5000, 15000), revenue: getRandom(10000, 30000), rates: getRandom(5, 15) },
+      { name: "James Garcia", profit: getRandom(5000, 15000), revenue: getRandom(10000, 30000), rates: getRandom(5, 15) },
+      { name: "Olivia Martinez", profit: getRandom(5000, 15000), revenue: getRandom(10000, 30000), rates: getRandom(5, 15) },
+      { name: "William Rodriguez", profit: getRandom(5000, 15000), revenue: getRandom(10000, 30000), rates: getRandom(5, 15) },
     ];
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setProfitData(mockData);
       setLoading(false);
     }, 1000);
+
+    return () => clearTimeout(timer);
   }, []);
 
-  if (loading) {
-    return <CircularProgress />;
-  }
-
-  if (error) {
-    return <Typography variant="h6" color="error">{error}</Typography>;
-  }
+  if (loading) return <CircularProgress />;
+  if (error) return <Typography color="error">{error}</Typography>;
 
   const chartData = {
     labels: profitData.map(item => item.name),
@@ -65,7 +72,7 @@ const ProfitRevenueRates = () => {
       },
       {
         label: 'Rates (%)',
-        data: profitData.map(item => item.rates),
+        data: profitData.map(item => item.rates * 1000), // scaled up for same y-axis
         backgroundColor: 'rgba(255, 159, 64, 0.6)',
         borderColor: 'rgba(255, 159, 64, 1)',
         borderWidth: 1,
@@ -75,7 +82,18 @@ const ProfitRevenueRates = () => {
 
   const chartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
+      datalabels: {
+        display: (context) => context.dataset.data[context.dataIndex] > 0,
+        color: '#fff',
+        anchor: 'end',
+        align: 'top',
+        formatter: (value) => value.toLocaleString(),
+        font: {
+          weight: 'bold',
+        },
+      },
       title: {
         display: true,
         text: 'Profit, Revenue, and Rates Over 10 Drivers',
@@ -86,10 +104,17 @@ const ProfitRevenueRates = () => {
     },
     scales: {
       x: {
-        beginAtZero: true,
+        ticks: {
+          maxRotation: 90,
+          minRotation: 45,
+        },
       },
       y: {
         beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Value (Profit/Revenue in $ | Rates x1000)',
+        },
       },
     },
   };
@@ -100,11 +125,13 @@ const ProfitRevenueRates = () => {
         Profit, Revenue, and Rates
       </Typography>
 
-      <Box mt={4}>
+      <Box height={500} mt={4}>
         <Bar data={chartData} options={chartOptions} />
       </Box>
     </Box>
   );
 };
+
+const getRandom = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 export default ProfitRevenueRates;
