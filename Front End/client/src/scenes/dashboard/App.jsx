@@ -21,6 +21,7 @@ import Orders from "../ManageOrders/ManageOrders";
 import OrderDetails from "../ManageOrders/OrderDetails";
 import DriverAdDashboard from "../DriverManager/DriverAdDashboard";
 import Compliance from "../DriverManager/Compliance";
+import InventoryAnalyticsDashboard from "../ManageOrders/InventoryAnalyticsDashboard";
 
 const Ap = () => {
   const [theme, colorMode] = useMode();
@@ -61,6 +62,7 @@ const Ap = () => {
                   <Route path="add-driver" element={<AddDriver />}/>
                   <Route path="compliance" element={<Compliance />}/>
                   <Route path="analytics" element={<Compliance />}/>
+                  <Route path="inventory-movements" element={<InventoryAnalyticsDashboard />}/>
                 </Route>
               </Routes>
             </div>

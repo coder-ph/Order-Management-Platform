@@ -21,6 +21,7 @@ import {
   Legend
 } from "chart.js";
 
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Compliance = () => {
@@ -225,6 +226,9 @@ const Compliance = () => {
             <Pie data={chartData} />
           </Box>
         </Box> */}
+        {/* <InventoryAnalyticsDashboard/> */}
+        {/* <Dashboard /> */}
+        {/* <InventoryAnalyticsDashboard /> */}
 
         {/* DataGrid Table */}
         <Box flex="3" minWidth="600px" height="75vh"

@@ -169,6 +169,13 @@ const AdminSidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            <Item 
+              title="Inventory Analytics"
+              to="/dashboard/driver/inventory-movements"
+              icon={<BarChartOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
             </SubMenu>
             <Item
               title="Manage Orders"
