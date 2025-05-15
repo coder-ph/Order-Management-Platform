@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { Box, Typography, useTheme } from "@mui/material";
+import { tokens } from "../../theme";
 import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
 
 const OrderStatusMetrics = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [statusData, setStatusData] = useState([]);
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
+
+  const COLORS = [
+    colors.greenAccent[500],
+    colors.blueAccent[400],
+    colors.redAccent[500]
+  ];
 
   useEffect(() => {
     fetchOrderStatusData();
@@ -30,26 +39,47 @@ const OrderStatusMetrics = () => {
   };
 
   return (
-    <div className="order-status">
-      <h2>Order Status Distribution</h2>
-      <PieChart width={400} height={300}>
-        <Pie
-          data={statusData}
-          cx={200}
-          cy={150}
-          labelLine={false}
-          outerRadius={80}
-          fill="#8884d8"
-          dataKey="value"
-        >
-          {statusData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        <Tooltip />
-        <Legend />
-      </PieChart>
-    </div>
+    <Box height="100%">
+      <Typography
+        variant="h5"
+        fontWeight="600"
+        color={colors.grey[100]}
+        mb={2}
+      >
+        Order Status Distribution
+      </Typography>
+      <Box height="250px" display="flex" justifyContent="center">
+        <PieChart width={300} height={250}>
+          <Pie
+            data={statusData}
+            cx={150}
+            cy={120}
+            innerRadius={60}
+            outerRadius={80}
+            paddingAngle={5}
+            dataKey="value"
+          >
+            {statusData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip
+            contentStyle={{
+              backgroundColor: colors.primary[400],
+              borderColor: colors.grey[100],
+              color: colors.grey[100]
+            }}
+          />
+          <Legend
+            verticalAlign="bottom"
+            height={36}
+            formatter={(value) => (
+              <span style={{ color: colors.grey[100] }}>{value}</span>
+            )}
+          />
+        </PieChart>
+      </Box>
+    </Box>
   );
 };
 
