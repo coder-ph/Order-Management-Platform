@@ -21,7 +21,7 @@ import Orders from "../ManageOrders/ManageOrders";
 import OrderDetails from "../ManageOrders/OrderDetails";
 import DriverAdDashboard from "../DriverManager/DriverAdDashboard";
 import Compliance from "../DriverManager/Compliance";
-import CompanyAnalytics from "../CompanyAnalytics/CompanyAnalytics"
+import CompanyAnalytics from "../CompanyAnalytics/CompanyAnalyticsDashboard"
 import CaroleTillen from "../DriverManager/CaroleTillen"
 import DriverAvailability from "../DriverManager/DriverAvailability";
 // import CompanyAnalytics from "../CompanyAnalytics/companyAnalytics"; 
