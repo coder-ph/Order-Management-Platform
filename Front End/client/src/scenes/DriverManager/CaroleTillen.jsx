@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import {
   Box, Typography, Select, MenuItem, TextField, CircularProgress,
   Alert, FormControl, InputLabel, TableContainer, Paper, Table,
@@ -19,7 +18,6 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const DriverPerformance = () => {
-  const [timePeriod, setTimePeriod] = useState('today');
   const [filters, setFilters] = useState({
     timePeriod: 'today',
     deliveryCountMin: '',
@@ -30,7 +28,7 @@ const DriverPerformance = () => {
     orderRejectionRateMax: '',
   });
   const [drivers, setDrivers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   // Pagination state
@@ -50,39 +48,69 @@ const DriverPerformance = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
-    const fetchPerformance = axios.get('/api/driver-performance');
-    const fetchRatings = axios.get('/api/v1/performance/customer-ratings');
+    // Mock data for driver performance (20 drivers)
+    const mockPerformanceData = [
+      { name: "John Doe", deliveries: 50, avgDeliveryTime: 20, orderRejectionRate: 5 },
+      { name: "Jane Smith", deliveries: 40, avgDeliveryTime: 25, orderRejectionRate: 3 },
+      { name: "Michael Johnson", deliveries: 60, avgDeliveryTime: 18, orderRejectionRate: 2 },
+      { name: "Emily Davis", deliveries: 55, avgDeliveryTime: 22, orderRejectionRate: 4 },
+      { name: "Sarah Brown", deliveries: 45, avgDeliveryTime: 24, orderRejectionRate: 6 },
+      { name: "David Lee", deliveries: 70, avgDeliveryTime: 19, orderRejectionRate: 1 },
+      { name: "Sophia Wilson", deliveries: 65, avgDeliveryTime: 21, orderRejectionRate: 3 },
+      { name: "James Garcia", deliveries: 50, avgDeliveryTime: 23, orderRejectionRate: 5 },
+      { name: "Olivia Martinez", deliveries: 55, avgDeliveryTime: 20, orderRejectionRate: 2 },
+      { name: "William Rodriguez", deliveries: 60, avgDeliveryTime: 22, orderRejectionRate: 4 },
+      { name: "Liam Anderson", deliveries: 48, avgDeliveryTime: 21, orderRejectionRate: 3 },
+      { name: "Mia Thomas", deliveries: 52, avgDeliveryTime: 19, orderRejectionRate: 2 },
+      { name: "Noah Jackson", deliveries: 58, avgDeliveryTime: 20, orderRejectionRate: 4 },
+      { name: "Isabella White", deliveries: 47, avgDeliveryTime: 23, orderRejectionRate: 5 },
+      { name: "Lucas Harris", deliveries: 53, avgDeliveryTime: 22, orderRejectionRate: 3 },
+      { name: "Amelia Martin", deliveries: 49, avgDeliveryTime: 21, orderRejectionRate: 2 },
+      { name: "Mason Thompson", deliveries: 55, avgDeliveryTime: 20, orderRejectionRate: 4 },
+      { name: "Evelyn Garcia", deliveries: 50, avgDeliveryTime: 22, orderRejectionRate: 3 },
+      { name: "Logan Martinez", deliveries: 54, avgDeliveryTime: 19, orderRejectionRate: 2 },
+      { name: "Harper Robinson", deliveries: 51, avgDeliveryTime: 21, orderRejectionRate: 4 },
+    ];
 
-    Promise.all([fetchPerformance, fetchRatings])
-      .then(([performanceRes, ratingsRes]) => {
-        const performanceData = Array.isArray(performanceRes.data) ? performanceRes.data : performanceRes.data.performance;
-        const ratingsData = Array.isArray(ratingsRes.data) ? ratingsRes.data : ratingsRes.data.ratings;
+    // Mock data for customer ratings (20 drivers)
+    const mockRatingsData = [
+      { name: "John Doe", rating: 4.5 },
+      { name: "Jane Smith", rating: 4.2 },
+      { name: "Michael Johnson", rating: 4.8 },
+      { name: "Emily Davis", rating: 4.3 },
+      { name: "Sarah Brown", rating: 4.1 },
+      { name: "David Lee", rating: 4.7 },
+      { name: "Sophia Wilson", rating: 4.4 },
+      { name: "James Garcia", rating: 4.0 },
+      { name: "Olivia Martinez", rating: 4.6 },
+      { name: "William Rodriguez", rating: 4.3 },
+      { name: "Liam Anderson", rating: 4.5 },
+      { name: "Mia Thomas", rating: 4.2 },
+      { name: "Noah Jackson", rating: 4.8 },
+      { name: "Isabella White", rating: 4.3 },
+      { name: "Lucas Harris", rating: 4.1 },
+      { name: "Amelia Martin", rating: 4.7 },
+      { name: "Mason Thompson", rating: 4.4 },
+      { name: "Evelyn Garcia", rating: 4.0 },
+      { name: "Logan Martinez", rating: 4.6 },
+      { name: "Harper Robinson", rating: 4.3 },
+    ];
 
-        const ratingsMap = new Map();
-        ratingsData.forEach(rating => {
-          const key = rating.name || `${rating.first_name} ${rating.last_name}`;
-          ratingsMap.set(key, rating.rating || 0);
-        });
+    const ratingsMap = new Map();
+    mockRatingsData.forEach(rating => {
+      ratingsMap.set(rating.name, rating.rating);
+    });
 
-        const mappedDrivers = performanceData.map(driver => {
-          const name = driver.name || `${driver.first_name} ${driver.last_name}`;
-          return {
-            name,
-            deliveryCount: driver.deliveries || 0,
-            avgDeliveryTime: Math.floor(Math.random() * 30) + 10,
-            customerRating: ratingsMap.get(name) || (Math.random() * 2 + 3).toFixed(1),
-            orderRejectionRate: Math.floor(Math.random() * 20),
-          };
-        });
+    const mappedDrivers = mockPerformanceData.map(driver => ({
+      name: driver.name,
+      deliveryCount: driver.deliveries,
+      avgDeliveryTime: driver.avgDeliveryTime,
+      customerRating: ratingsMap.get(driver.name) || 0,
+      orderRejectionRate: driver.orderRejectionRate,
+    }));
 
-        setDrivers(mappedDrivers);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError('Error fetching driver performance or ratings data');
-        setLoading(false);
-      });
+    setDrivers(mappedDrivers);
+    setLoading(false);
   }, [filters.timePeriod]);
 
   const filteredDrivers = applyFilters(drivers);
@@ -121,6 +149,9 @@ const DriverPerformance = () => {
       }
     ]
   };
+
+  if (loading) return <CircularProgress />;
+  if (error) return <Alert severity="error">{error}</Alert>;
 
   return (
     <Box p={3}>
